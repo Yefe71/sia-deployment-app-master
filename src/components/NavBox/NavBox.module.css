@@ -1,0 +1,44 @@
+nav{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+
+
+nav h2, p{
+    margin: 0;
+    padding: 0;
+}
+nav img{
+    width: 6rem;
+}
+
+nav h2{
+    font-style: italic;
+    color:#1264d9 !important;
+    font-size: 2rem !important;
+    font-family: Poppins;
+}
+
+nav span{
+    color: #d25f0c;  
+}
+
+nav p{
+    font-family: Poppins !important;
+  font-size: 0.5rem;
+  font-weight: 400;
+  letter-spacing: 1.2px;
+  text-align: center;
+  color: rgb(214, 212, 212);
+  margin-top: 0.5rem;
+
+
+}
+
+nav p:hover{
+    color: rgb(214, 212, 212) !important;
+}

@@ -1,0 +1,63 @@
+
+
+.studentDepParent{
+    background: #111111;
+    height: 100vh;
+    display: flex;
+  
+    align-items: center;
+    justify-content: space-evenly;
+  
+}
+
+a {
+    text-decoration: none;
+    font-family: Poppins;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.leftContainer{
+height: 84vh;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+
+}
+
+.sidebarWrapper ul{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.sidebarWrapper h2{
+    color: white;
+    font-family: Poppins;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.3rem;
+    margin: 0.8rem;
+}
+
+.sidebarWrapper img{
+    width: 1.4rem;
+    margin-right: 1rem;
+}
+
+
+.sidebarWrapper li *.active{
+    color: white;
+}
+
+.sidebarWrapper div{
+
+    display: flex;
+    filter: brightness(0.7);
+    align-items: center;
+}
+.sidebarWrapper div.active{
+    filter: brightness(1);
+}
+
