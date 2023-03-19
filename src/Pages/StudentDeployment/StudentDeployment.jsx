@@ -12,7 +12,9 @@ import signout from "../../assets/signout.svg";
 import MyTable from "../../components/Table/Table";
 import NavBox from "../../components/NavBox/NavBox";
 import BlockClassesPage from "../../components/BlockClassessPage/BlockClassesPage";
+import ManageBlockPage from "../../components/ManageBlockPage/ManageBlockPage";
 import SchedulePage from "../../components/SchedulePage/SchedulePage";
+import { Schedule } from "../../components/Schedule/Schedule";
 const StudentDeployment = () => {
   const [year, setYear] = React.useState("");
   const [block, setBlock] = React.useState("");
@@ -50,7 +52,9 @@ const StudentDeployment = () => {
 
       <div className={studentDepCSS.rightContainer}>
         {/* <BlockClassesPage/> */}
-        <SchedulePage/>
+        {/* <SchedulePage/> */}
+        <ManageBlockPage/>
+        
       </div>
     </div>
   );

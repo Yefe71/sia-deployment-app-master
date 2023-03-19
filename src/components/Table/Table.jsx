@@ -39,8 +39,22 @@ const StyleTable = styled(Table)({
     // },
   });
   
+  const StyledTableCellLeft = styled(TableCell)({
+    fontWeight: 'bold',
+    backgroundColor: '#e0dede',
+
+    borderTopLeftRadius: '1rem'
+  });
+  
+  const StyledTableCellRight = styled(TableCell)({
+    fontWeight: 'bold',
+    backgroundColor: '#e0dede',
+
+    borderTopRightRadius: '1rem'
+  });
   const StyledTableCell = styled(TableCell)({
     fontWeight: 'bold',
+    backgroundColor: '#e0dede',
   });
   
   const StyledTableRow = styled(TableRow)({
@@ -53,16 +67,16 @@ const StyleTable = styled(Table)({
 const MyTable = () => {
   return (
     <StyleTable>
-    <Table>
+    <Table  stickyHeader>
       <TableHead>
         <StyledTableRow>
-          <StyledTableCell>#</StyledTableCell>
+          <StyledTableCellLeft>#</StyledTableCellLeft>
           <StyledTableCell>Last Name</StyledTableCell>
           <StyledTableCell>Given Name</StyledTableCell>
           <StyledTableCell>Middle Name</StyledTableCell>
           <StyledTableCell>Suffix</StyledTableCell>
           <StyledTableCell>ID Number</StyledTableCell>
-          <StyledTableCell>Status</StyledTableCell>
+          <StyledTableCellRight>Status</StyledTableCellRight>
         </StyledTableRow>
       </TableHead>
       <TableBody>

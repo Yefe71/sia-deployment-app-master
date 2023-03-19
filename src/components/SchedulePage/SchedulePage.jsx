@@ -7,7 +7,9 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import ScheduleCSS from "./SchedulePage.module.css";
 import MyTable from "../Table/Table";
-const Schedule = () => {
+import { Schedule } from '../Schedule/Schedule';
+
+const SchedulePage = () => {
     const [year, setYear] = React.useState("");
     const [block, setBlock] = React.useState("");
       
@@ -68,10 +70,11 @@ const Schedule = () => {
       </div>
     </div>
     <div className={ScheduleCSS.tableWrapper}>
-      
+      {/* <Table/> */}
+<Schedule/>
     </div>
    </>
   )
 }
 
-export default Schedule
+export default SchedulePage
