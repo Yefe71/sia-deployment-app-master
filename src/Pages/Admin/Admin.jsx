@@ -12,11 +12,11 @@ import { Pagination, Navigation, Autoplay } from "swiper";
 import adminCSS from "./Admin.module.css";
 import NavBox from "../../components/NavBox/NavBox";
 
-const Admin = ({setAccess}) => {
+const Admin = ({setAccess, access}) => {
   return (
     <div className={adminCSS.adminParent}>
       <div className={adminCSS.leftContainer}>
-        <NavBox/>
+        <NavBox access = {access}/>
         <div className={adminCSS.authWrapper}>
           <h2>ADMIN LOGIN</h2>
           <input

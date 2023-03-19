@@ -6,20 +6,18 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import navbarCSS from "./NavBox.module.css";
 import logo from "../../assets/logo.png"
-const NavBox = () => {
+const NavBox = ({access}) => {
   const [page, setPage] = React.useState("");
-
-  
-
-
-
   const handleChangePage = (event) => {
     setPage(event.target.value);
   };
 
+useEffect(() => {
+  console.log(access)
+}, [])
 
   return (
-  
+      
       <nav className={navbarCSS.navParent}>
 
       <img src={logo} alt="" />
@@ -28,7 +26,8 @@ const NavBox = () => {
 
 
 
-        <FormControl sx={{ mr: 0.8, mt: 3, mb: 5,minWidth: 200}}>
+{  access === true   ?    
+      <FormControl sx={{ mr: 0.8, mt: 3, mb: 5,minWidth: 200}}>
           <Select
             value={page}
             onChange={handleChangePage}
@@ -47,8 +46,8 @@ const NavBox = () => {
             <MenuItem value={10}>Faculty Department</MenuItem>
             <MenuItem value={20}>User Management</MenuItem>
           </Select>
-        </FormControl>
-
+        </FormControl> : ''
+}
       </nav>
 
 

@@ -13,7 +13,7 @@ nav h2, p{
     padding: 0;
 }
 nav img{
-    width: 6rem;
+    width: 7rem;
 }
 
 nav h2{
@@ -29,7 +29,7 @@ nav span{
 
 nav p{
     font-family: Poppins !important;
-  font-size: 0.5rem;
+  font-size: 0.55rem;
   font-weight: 400;
   letter-spacing: 1.2px;
   text-align: center;

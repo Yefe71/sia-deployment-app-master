@@ -11,7 +11,7 @@ function App() {
 
   return (
     <div className="App">
-      { access ? <StudentDeployment setAccess = {setAccess}/>: <Admin setAccess = {setAccess}/>  
+      { access ? <StudentDeployment setAccess = {setAccess} access = {access}/>: <Admin setAccess = {setAccess} access = {access}/>  
     }
 
     </div>

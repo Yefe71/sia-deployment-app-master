@@ -15,15 +15,15 @@ import BlockClassesPage from "../../components/BlockClassessPage/BlockClassesPag
 import ManageBlockPage from "../../components/ManageBlockPage/ManageBlockPage";
 import SchedulePage from "../../components/SchedulePage/SchedulePage";
 import { Schedule } from "../../components/Schedule/Schedule";
-const StudentDeployment = ({setAccess}) => {
+const StudentDeployment = ({setAccess, access}) => {
 
-  const [page, setPage] = React.useState("schedule");
+  const [page, setPage] = React.useState("blockUtil");
 
 
   return (
     <div className={studentDepCSS.studentDepParent}>
       <div className={studentDepCSS.leftContainer}>
-        <NavBox/>
+        <NavBox access = {access}/>
         <div className={studentDepCSS.sidebarWrapper}>
           <div onClick={() => setPage('blockUtil')}  className={`${studentDepCSS.sideLink} ${page === 'blockUtil' ? studentDepCSS.active : ''}`}>
             <img src={blocks} alt="" />

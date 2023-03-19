@@ -47,8 +47,31 @@ const ManageBlockPage = () => {
         <h2>Manage Blocks</h2>
         <div
           className={ManageBlockCSS.topButtons}
-          style={{ marginRight: "-0.2rem" }}
+          style={{ marginRight: "-0rem" }}
         >
+
+<Stack spacing={2} direction="row">
+            <Button
+              onClick={handleOpen}
+              style={{ textTransform: "none" }}
+              sx={{
+                marginRight: "1rem",
+                backgroundColor: "#007bff",
+                color: "white",
+                borderRadius: "0.5rem",
+                fontFamily: "Poppins",
+                fontSize: "0.9rem",
+                padding: "0rem",
+                padding: "0.9rem",
+                "&:hover": {
+                  backgroundColor: "#0070e7", // Change the hover background color here
+                },
+              }}
+              variant="contained"
+            >
+              Reblock
+            </Button>
+          </Stack>
           <FormControl sx={{ mr: 1, minWidth: 120 }}>
             <Select
               value={year}
@@ -91,28 +114,6 @@ const ManageBlockPage = () => {
             </Select>
           </FormControl>
 
-          <Stack spacing={2} direction="row">
-            <Button
-              onClick={handleOpen}
-              style={{ textTransform: "none" }}
-              sx={{
-                marginLeft: "1rem",
-                backgroundColor: "#007bff",
-                color: "white",
-                borderRadius: "0.5rem",
-                fontFamily: "Poppins",
-                fontSize: "0.9rem",
-                padding: "0rem",
-                padding: "0.9rem",
-                "&:hover": {
-                  backgroundColor: "#0070e7", // Change the hover background color here
-                },
-              }}
-              variant="contained"
-            >
-              Reblock
-            </Button>
-          </Stack>
         </div>
       </div>
       <div className={ManageBlockCSS.tableWrapper}>
