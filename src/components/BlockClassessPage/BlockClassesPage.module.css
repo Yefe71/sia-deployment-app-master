@@ -17,7 +17,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 1rem;
+    margin-right: 0rem;
     margin-bottom: 0.5rem;
 }
 .topTable{
@@ -55,4 +55,9 @@ padding: 0.5rem;
    overflow-y: scroll;
 
 
+}
+
+
+.topButtons{
+    margin-top: -1rem;
 }

@@ -15,35 +15,29 @@ import BlockClassesPage from "../../components/BlockClassessPage/BlockClassesPag
 import ManageBlockPage from "../../components/ManageBlockPage/ManageBlockPage";
 import SchedulePage from "../../components/SchedulePage/SchedulePage";
 import { Schedule } from "../../components/Schedule/Schedule";
-const StudentDeployment = () => {
-  const [year, setYear] = React.useState("");
-  const [block, setBlock] = React.useState("");
-  
+const StudentDeployment = ({setAccess}) => {
 
-  const handleChangeYear = (event) => {
-    setYear(event.target.value);
-  };
-  const handleChangeBlock = (event) => {
-    setBlock(event.target.value);
-  };
+  const [page, setPage] = React.useState("schedule");
+
+
   return (
     <div className={studentDepCSS.studentDepParent}>
       <div className={studentDepCSS.leftContainer}>
         <NavBox/>
         <div className={studentDepCSS.sidebarWrapper}>
-          <div className={`${studentDepCSS.sideLink} ${studentDepCSS.active}`}>
+          <div onClick={() => setPage('blockUtil')}  className={`${studentDepCSS.sideLink} ${page === 'blockUtil' ? studentDepCSS.active : ''}`}>
             <img src={blocks} alt="" />
             <h2>Blocklasses Utility</h2>
           </div>
-          <div className={`${studentDepCSS.sideLink}`}>
+          <div onClick={() => setPage('schedule')} className={`${studentDepCSS.sideLink} ${page === 'schedule' ? studentDepCSS.active : ''}`}>
             <img src={schedule} alt="" />
             <h2>Schedule</h2>
           </div>
-          <div className={`${studentDepCSS.sideLink}`}>
+          <div onClick={() => setPage('manage')} className={`${studentDepCSS.sideLink} ${page === 'manage' ? studentDepCSS.active : ''}`}>
             <img src={edit} alt="" />
             <h2>Manage Blocks</h2>
           </div>
-          <div className={`${studentDepCSS.sideLink}`}>
+          <div onClick={() => setAccess(false)} className={`${studentDepCSS.sideLink} ${page === 'out' ? studentDepCSS.active : ''}`}>
             <img src={signout} alt="" />
             <h2>Signout</h2>
           </div>
@@ -51,9 +45,9 @@ const StudentDeployment = () => {
       </div>
 
       <div className={studentDepCSS.rightContainer}>
-        {/* <BlockClassesPage/> */}
-        {/* <SchedulePage/> */}
-        <ManageBlockPage/>
+        {page === "blockUtil" && <BlockClassesPage />}
+        {page === "schedule" && <SchedulePage />}
+        {page === "manage" && <ManageBlockPage />}
         
       </div>
     </div>

@@ -167,7 +167,7 @@ const ManageBlockPage = () => {
               }}
               variant="contained"
             >
-              Reblock
+              Confirm
             </Button>
           </Stack>
           </form>

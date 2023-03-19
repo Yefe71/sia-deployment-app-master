@@ -24,7 +24,7 @@ const SchedulePage = () => {
     <div className={ScheduleCSS.topTable}>
       <h2>Schedule</h2>
       <div className={ScheduleCSS.topButtons}>
-        <FormControl sx={{ mr: 0.8, minWidth: 120 }}>
+        <FormControl sx={{ mr: 1, minWidth: 120 }}>
           <Select
             value={year}
             onChange={handleChangeYear}

@@ -13,6 +13,10 @@
  
     
 }
+
+.topButtons{
+    margin-top: -1rem;
+}
 .topButtons{
     display: flex;
     justify-content: center;

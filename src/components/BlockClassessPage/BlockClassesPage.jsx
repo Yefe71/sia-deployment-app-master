@@ -23,7 +23,7 @@ const BlockClasses = () => {
     <div className={BlockClassessCSS.topTable}>
       <h2>Blockclasses Utility</h2>
       <div className={BlockClassessCSS.topButtons}>
-        <FormControl sx={{ mr: 0.8, minWidth: 120 }}>
+        <FormControl sx={{ mr: 1, minWidth: 120 }}>
           <Select
             value={year}
             onChange={handleChangeYear}

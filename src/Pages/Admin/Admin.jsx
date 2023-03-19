@@ -12,7 +12,7 @@ import { Pagination, Navigation, Autoplay } from "swiper";
 import adminCSS from "./Admin.module.css";
 import NavBox from "../../components/NavBox/NavBox";
 
-const Admin = () => {
+const Admin = ({setAccess}) => {
   return (
     <div className={adminCSS.adminParent}>
       <div className={adminCSS.leftContainer}>
@@ -30,7 +30,7 @@ const Admin = () => {
             placeholder="Password"
           />
           <p>Forgot Password?</p>
-          <button className={adminCSS.loginBtn}>LOGIN</button>
+          <button className={adminCSS.loginBtn} onClick={() => setAccess(true)}>LOGIN</button>
         </div>
       </div>
       <div className={adminCSS.rightContainer}>

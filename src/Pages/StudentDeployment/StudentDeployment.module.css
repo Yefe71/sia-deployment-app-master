@@ -33,12 +33,13 @@ flex-direction: column;
 
 
 .sidebarWrapper h2{
+ 
     color: white;
     font-family: Poppins;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
-    font-size: 1.3rem;
-    margin: 0.8rem;
+    font-size: 1.5rem;
+    margin: 1.3rem;
 }
 
 .sidebarWrapper img{
