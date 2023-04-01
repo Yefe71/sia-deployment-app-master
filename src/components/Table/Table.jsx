@@ -58,17 +58,20 @@ const StyleTable = styled(Table)({
   });
   
   const StyledTableRow = styled(TableRow)({
-    '&:nth-of-type(odd)': {
-      backgroundColor: '#f2f2f2',
-    },
+    backgroundColor: '#f2f2f2',
   });
   
+  const StyledTableHead = styled(TableHead)({
+    position: 'sticky',
+    top: 0,
+    zIndex: 1,
+  });
 
 const MyTable = () => {
   return (
     <StyleTable>
-    <Table  stickyHeader>
-      <TableHead>
+    <Table>
+      <StyledTableHead>
         <StyledTableRow>
           <StyledTableCellLeft>#</StyledTableCellLeft>
           <StyledTableCell>Last Name</StyledTableCell>
@@ -78,7 +81,7 @@ const MyTable = () => {
           <StyledTableCell>ID Number</StyledTableCell>
           <StyledTableCellRight>Status</StyledTableCellRight>
         </StyledTableRow>
-      </TableHead>
+      </StyledTableHead>
       <TableBody>
         {data.map((row) => (
           <StyledTableRow key={row.id}>

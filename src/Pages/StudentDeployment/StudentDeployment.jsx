@@ -12,17 +12,15 @@ import signout from "../../assets/signout.svg";
 import MyTable from "../../components/Table/Table";
 import NavBox from "../../components/NavBox/NavBox";
 import BlockClassesPage from "../../components/BlockClassessPage/BlockClassesPage";
-import ManageBlockPage from "../../components/ManageBlockPage/ManageBlockPage";
-import SchedulePage from "../../components/SchedulePage/SchedulePage";
-import { Schedule } from "../../components/Schedule/Schedule";
+import BlockManagePage from "../../components/BlockManagePage/BlockManagePage";
 const StudentDeployment = ({setAccess, access}) => {
 
-  const [page, setPage] = React.useState("blockUtil");
+  const [page, setPage] = React.useState("students");
 
 
   return (
     <div className={studentDepCSS.studentDepParent}>
-      <div className={studentDepCSS.leftContainer}>
+      {/* <div className={studentDepCSS.leftContainer}>
         <NavBox access = {access}/>
         <div className={studentDepCSS.sidebarWrapper}>
           <div onClick={() => setPage('blockUtil')}  className={`${studentDepCSS.sideLink} ${page === 'blockUtil' ? studentDepCSS.active : ''}`}>
@@ -42,13 +40,12 @@ const StudentDeployment = ({setAccess, access}) => {
             <h2>Signout</h2>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className={studentDepCSS.rightContainer}>
         {page === "blockUtil" && <BlockClassesPage />}
-        {page === "schedule" && <SchedulePage />}
-        {page === "manage" && <ManageBlockPage />}
-        
+        {page === "students" && <BlockManagePage />}
+        {page === "manage" && <BlockManagePage />}
       </div>
     </div>
   );

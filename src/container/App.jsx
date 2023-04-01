@@ -4,6 +4,7 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import StudentDeployment from "../Pages/StudentDeployment/StudentDeployment";
 import Admin from "../Pages/Admin/Admin";
+import Navbar from "../components/Navbar/Navbar";
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
 
   return (
     <div className="App">
+      <Navbar/>
       { access ? <StudentDeployment setAccess = {setAccess} access = {access}/>: <Admin setAccess = {setAccess} access = {access}/>  
     }
 

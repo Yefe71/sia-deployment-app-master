@@ -1,42 +1,29 @@
 
 
 
-.rightContainer{
-    width: 75vw;
-    height: 100vh;
-    background: #111111;
+.topButtons{
     display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-   
  
-    
-}
-
-.topButtons{
-    margin-top: -1rem;
-}
-.topButtons{
-    display: flex;
-    justify-content: center;
     align-items: center;
-    margin-right: 1rem;
+    margin-right: 0rem;
     margin-bottom: 0.5rem;
 }
+
 .topTable{
+    
     display: flex;
     justify-content: space-between;
     width: 75vw;
     margin: 0;
     padding: 0;
     align-items: center;
+    margin-top: 4rem;
 }
 
 .topTable h2{
-    color: white;
+    color: rgb(62, 61, 61);
     font-family: Poppins;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 600;
     margin: 0;
     padding: 0;
@@ -46,8 +33,9 @@
 }
 
 .tableWrapper{
+    
     width: 75vw;
-    height: 80vh;
+    height: 66vh;
     background: #f1f1f1;
     border-radius: 1rem  ;
   
@@ -55,8 +43,18 @@
 
 
 .tableWrapper{
-padding: 0.5rem;
+
+
    overflow-y: scroll;
+   background: #efeeee;
+   box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 15px;
+    outline: 1px solid #d9d8d8;
+
+}
+
+
+.topButtons{
+    margin-top: -1rem;
 }
 
 
@@ -120,4 +118,19 @@ form{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.bottomButtons{
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 0rem;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+}
+
+
+.left{
+    visibility: hidden;
 }

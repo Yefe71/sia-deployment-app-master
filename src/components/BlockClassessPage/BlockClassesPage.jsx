@@ -21,7 +21,7 @@ const BlockClasses = () => {
   return (
    <>
     <div className={BlockClassessCSS.topTable}>
-      <h2>Blockclasses Utility</h2>
+      <h2>Class List</h2>
       <div className={BlockClassessCSS.topButtons}>
         <FormControl sx={{ mr: 1, minWidth: 120 }}>
           <Select
@@ -71,6 +71,7 @@ const BlockClasses = () => {
     <div className={BlockClassessCSS.tableWrapper}>
       <MyTable />
     </div>
+
    </>
   )
 }

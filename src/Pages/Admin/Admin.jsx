@@ -11,30 +11,46 @@ import { Pagination, Navigation, Autoplay } from "swiper";
 
 import adminCSS from "./Admin.module.css";
 import NavBox from "../../components/NavBox/NavBox";
-
-const Admin = ({setAccess, access}) => {
+import plm from "../../assets/plm.png";
+const Admin = ({ setAccess, access }) => {
   return (
-    <div className={adminCSS.adminParent}>
-      <div className={adminCSS.leftContainer}>
-        <NavBox access = {access}/>
-        <div className={adminCSS.authWrapper}>
-          <h2>ADMIN LOGIN</h2>
-          <input
-            className={adminCSS.username}
-            type="text"
-            placeholder="Username"
-          />
-          <input
-            className={adminCSS.password}
-            type="text"
-            placeholder="Password"
-          />
-          <p>Forgot Password?</p>
-          <button className={adminCSS.loginBtn} onClick={() => setAccess(true)}>LOGIN</button>
+    <>
+      <div className={adminCSS.adminParent}>
+        <div className={adminCSS.adminWrapper}>
+          <img src={plm} alt="" />
+
+          <div className={adminCSS.rightAdmin}>
+
+            <div className={adminCSS.authTitle}>
+              <h2>ADMIN LOGIN</h2>
+            </div>
+            
+
+            <div className={adminCSS.authWrapper}>
+              <input
+                className={adminCSS.username}
+                type="email"
+                placeholder="Username"
+              />
+              <input
+                className={adminCSS.password}
+                type="password"
+                placeholder="Password"
+              />
+              <button
+                className={adminCSS.loginBtn}
+                onClick={() => setAccess(true)}
+              >
+                LOGIN
+              </button>
+            </div>
+
+          </div>
+
+          
         </div>
-      </div>
-      <div className={adminCSS.rightContainer}>
-        <Swiper
+
+        {/* <Swiper
           autoplay={{ delay: 10000 }}
           modules={[Pagination, Autoplay, Navigation]}
           className={adminCSS.swiper}
@@ -44,9 +60,9 @@ const Admin = ({setAccess, access}) => {
           <SwiperSlide className={`${adminCSS.swiperSlide}`}><img src="https://www.mdsi.edu.ph/uploads/Gallery/Facilities/facility_computer_laboratory.JPG" alt="Placeholder Image 1"/></SwiperSlide>
           <SwiperSlide className={`${adminCSS.swiperSlide}`}><img src="https://www.mdsi.edu.ph/uploads/Gallery/Facilities/facility_computer_laboratory.JPG" alt="Placeholder Image 1"/></SwiperSlide>
           <SwiperSlide className={`${adminCSS.swiperSlide}`}><img src="https://www.mdsi.edu.ph/uploads/Gallery/Facilities/facility_computer_laboratory.JPG" alt="Placeholder Image 1"/></SwiperSlide>
-        </Swiper>
+        </Swiper> */}
       </div>
-    </div>
+    </>
   );
 };
 
