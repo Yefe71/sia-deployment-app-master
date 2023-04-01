@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import NavbarCSS from "./Navbar.module.css";
 import logo from "../../assets/logo.png";
-const Navbar = ({ access }) => {
+const Navbar = ({ access, setPage }) => {
   return (
     <>
       <div className={NavbarCSS.navParent}>
@@ -24,9 +24,9 @@ const Navbar = ({ access }) => {
       <div className={NavbarCSS.subNav}>
         {access == true && (
           <div className={NavbarCSS.subNavWrapper}>
-            <h3>Blockclasses Utility</h3>
-            <h3>Student List</h3>
-            <h3>Block Management</h3>
+            <h3 onClick={() => setPage("blockUtil")}>Blockclasses Utility</h3>
+            <h3 onClick={() => setPage("students")}>Student List</h3>
+            <h3 onClick={() => setPage("manage")}>Block Management</h3>
           </div>
         )}
       </div>

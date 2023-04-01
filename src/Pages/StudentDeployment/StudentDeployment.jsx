@@ -14,9 +14,9 @@ import Navbar from "../../components/Navbar/Navbar";
 import BlockClassesPage from "../../components/BlockClassessPage/BlockClassesPage";
 import BlockManagePage from "../../components/BlockManagePage/BlockManagePage";
 import StudentsPage from "../../components/StudentsPage/StudentsPage";
-const StudentDeployment = ({setAccess, access}) => {
+const StudentDeployment = ({setAccess, acces, pageSent}) => {
 
-  const [page, setPage] = React.useState("blockUtil");
+  const page = pageSent ;
 
 
   return (

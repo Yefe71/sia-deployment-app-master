@@ -9,11 +9,12 @@ import Navbar from "../components/Navbar/Navbar";
 function App() {
 
   const [access, setAccess] = useState(false);
+  const [page, setPage] = useState('blockUtil');
 
   return (
     <div className="App">
-       <Navbar access = {access}/>
-      { access ? <StudentDeployment setAccess = {setAccess} access = {access}/>: <Admin setAccess = {setAccess} access = {access}/>  
+       <Navbar access = {access} setPage = {setPage}/>
+      { access ? <StudentDeployment pageSent = {page} setAccess = {setAccess} access = {access}/>: <Admin setAccess = {setAccess} access = {access}/>  
     }
 
     </div>

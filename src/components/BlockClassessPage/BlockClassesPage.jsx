@@ -8,6 +8,10 @@ import BlockClassessCSS from "./BlockClassesPage.module.css";
 import MyTable from "../Table/Table";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import Scheduler from '../Scheduler/Scheduler';
+
+
+
 const BlockClasses = () => {
     const [year, setYear] = React.useState("");
     const [block, setBlock] = React.useState("");
@@ -70,7 +74,7 @@ const BlockClasses = () => {
       </div>
     </div>
     <div className={BlockClassessCSS.tableWrapper}>
-      <MyTable />
+            <Scheduler/>
     </div>
     <div className={BlockClassessCSS.topTable}>
       <h2>Class List</h2>
