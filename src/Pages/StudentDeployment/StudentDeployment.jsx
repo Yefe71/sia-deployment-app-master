@@ -10,15 +10,19 @@ import blocks from "../../assets/blocks.svg";
 import schedule from "../../assets/schedule.svg";
 import signout from "../../assets/signout.svg";
 import MyTable from "../../components/Table/Table";
-import NavBox from "../../components/NavBox/NavBox";
+import Navbar from "../../components/Navbar/Navbar";
 import BlockClassesPage from "../../components/BlockClassessPage/BlockClassesPage";
 import BlockManagePage from "../../components/BlockManagePage/BlockManagePage";
+import StudentsPage from "../../components/StudentsPage/StudentsPage";
 const StudentDeployment = ({setAccess, access}) => {
 
-  const [page, setPage] = React.useState("students");
+  const [page, setPage] = React.useState("blockUtil");
 
 
   return (
+    
+<>
+
     <div className={studentDepCSS.studentDepParent}>
       {/* <div className={studentDepCSS.leftContainer}>
         <NavBox access = {access}/>
@@ -44,10 +48,10 @@ const StudentDeployment = ({setAccess, access}) => {
 
       <div className={studentDepCSS.rightContainer}>
         {page === "blockUtil" && <BlockClassesPage />}
-        {page === "students" && <BlockManagePage />}
+        {page === "students" && <StudentsPage/>}
         {page === "manage" && <BlockManagePage />}
       </div>
-    </div>
+    </div></>
   );
 };
 

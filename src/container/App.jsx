@@ -12,7 +12,7 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar/>
+       <Navbar access = {access}/>
       { access ? <StudentDeployment setAccess = {setAccess} access = {access}/>: <Admin setAccess = {setAccess} access = {access}/>  
     }
 

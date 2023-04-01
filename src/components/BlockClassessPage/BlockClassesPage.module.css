@@ -36,7 +36,7 @@
     width: 75vw;
     height: 66vh;
     background: #f1f1f1;
-    border-radius: 1rem  ;
+    border-radius: 1rem;
   
 }
 
@@ -50,8 +50,44 @@
     outline: 1px solid #d9d8d8;
 
 }
+.tableWrapper2{
+    
+    width: 75vw;
+    height: 66vh;
+    background: #f1f1f1;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+  
+}
+
+
+.tableWrapper2{
+
+
+   overflow-y: scroll;
+   background: #efeeee;
+   box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 15px;
+    outline: 1px solid #d9d8d8;
+
+}
 
 
 .topButtons{
     margin-top: -1rem;
+}.bottomButtons{
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 0rem;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+}
+
+
+.left{
+    visibility: hidden;
+}
+.right{
+    visibility: hidden;
 }

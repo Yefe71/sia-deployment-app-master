@@ -8,13 +8,13 @@ import "swiper/css/bundle";
 
 // import required modules
 import { Pagination, Navigation, Autoplay } from "swiper";
-
+import Navbar from "../../components/Navbar/Navbar";
 import adminCSS from "./Admin.module.css";
-import NavBox from "../../components/NavBox/NavBox";
 import plm from "../../assets/plm.png";
 const Admin = ({ setAccess, access }) => {
   return (
     <>
+    
       <div className={adminCSS.adminParent}>
         <div className={adminCSS.adminWrapper}>
           <img src={plm} alt="" />
