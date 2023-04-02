@@ -49,15 +49,18 @@ const StyledWeekViewDayScaleCell = styled(WeekView.DayScaleCell)(({ theme }) => 
   },
 }));
 
+
 const TimeTableCell = (props) => {
   const { startDate } = props;
   const date = new Date(startDate);
+  const cellStyle = { width: '100px' }; // set the width to 100px
+
 
   if (date.getDate() === new Date().getDate()) {
-    return <StyledWeekViewTimeTableCell {...props} className={classes.todayCell} />;
+    return <StyledWeekViewTimeTableCell {...props}  sx={cellStyle} className={classes.todayCell} />;
   } if (date.getDay() === 0 || date.getDay() === 6) {
-    return <StyledWeekViewTimeTableCell {...props} className={classes.weekendCell} />;
-  } return <StyledWeekViewTimeTableCell {...props} />;
+    return <StyledWeekViewTimeTableCell {...props}  sx={cellStyle} className={classes.weekendCell} />;
+  } return <StyledWeekViewTimeTableCell {...props}  sx={cellStyle} />;
 };
 
 const DayScaleCell = (props) => {
@@ -71,10 +74,11 @@ const DayScaleCell = (props) => {
 };
 
 export default () => (
-  <Paper>
+  <Paper  sx={{ overflowX: 'auto' }}>
     <Scheduler
       data={appointments}
       height={660}
+      sx={{ width: 1200 }}
     >
       <ViewState />
       <WeekView
@@ -82,6 +86,7 @@ export default () => (
         endDayHour={19}
         timeTableCellComponent={TimeTableCell}
         dayScaleCellComponent={DayScaleCell}
+        cellAutoWidth={false} // disable auto-resizing of the columns
       />
       <Appointments />
     </Scheduler>

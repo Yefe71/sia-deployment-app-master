@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -8,169 +8,163 @@ import BlockClassessCSS from "./BlockClassesPage.module.css";
 import MyTable from "../Table/Table";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import Scheduler from '../Scheduler/Scheduler';
-
-
+import Scheduler from "../Scheduler/Scheduler";
+import { useMediaQuery } from "@mui/material";
 
 const BlockClasses = () => {
-    const [year, setYear] = React.useState("");
-    const [block, setBlock] = React.useState("");
-    
-  
-    const handleChangeYear = (event) => {
-      setYear(event.target.value);
-    };
-    const handleChangeBlock = (event) => {
-      setBlock(event.target.value);
-    };
+  const [year, setYear] = React.useState("");
+  const [block, setBlock] = React.useState("");
+
+  const isSmallScreen = useMediaQuery("(max-width: 500px)");
+  const handleChangeYear = (event) => {
+    setYear(event.target.value);
+  };
+  const handleChangeBlock = (event) => {
+    setBlock(event.target.value);
+  };
   return (
-   <>
-    <div className={BlockClassessCSS.topTable}>
-      <h2>Schedule</h2>
-      <div className={BlockClassessCSS.topButtons}>
-        <FormControl sx={{ mr: 1, minWidth: 120 }}>
-          <Select
-            value={year}
-            onChange={handleChangeYear}
-            displayEmpty
-            inputProps={{ "aria-label": "Without label" }}
-            sx={{
-              backgroundColor: "white",
-              borderRadius: "0.5rem",
-              fontFamily: "Poppins",
-              fontSize: "0.9rem",
-              padding: "0rem",
-              fontWeight: "600"
-            }}
-          >
-     
-            <MenuItem value="">1st Year</MenuItem>
-            <MenuItem value={10}>2nd Year</MenuItem>
-            <MenuItem value={20}>3rd Year</MenuItem>
-          </Select>
-        </FormControl>
+    <>
+      <div className={BlockClassessCSS.topTableWrapper}>
+        <div className={BlockClassessCSS.topTable}>
+          <h2>Schedule</h2>
+          <div className={BlockClassessCSS.topButtons}>
+            <FormControl
+              sx={{
+                mr: 1,
+                minWidth: 10,
+              }}
+            >
+              <Select
+                value={year}
+                onChange={handleChangeYear}
+                displayEmpty
+                inputProps={{ "aria-label": "Without label" }}
+                sx={{
+                  backgroundColor: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.5rem" : "0.9rem",
+                  padding: "0rem",
+                  fontWeight: "600",
+                }}
+              >
+                <MenuItem value="">1st Year</MenuItem>
+                <MenuItem value={10}>2nd Year</MenuItem>
+                <MenuItem value={20}>3rd Year</MenuItem>
+              </Select>
+            </FormControl>
 
-        <FormControl sx={{  minWidth: 120 }}>
-          <Select
-            value={block}
-            onChange={handleChangeBlock}
-            displayEmpty
-            inputProps={{ "aria-label": "Without label" }}
-            sx={{
-              backgroundColor: "white",
-              borderRadius: "0.5rem",
-              fontFamily: "Poppins",
-              fontSize: "0.9rem",
-              padding: "0rem",
-              fontWeight: "600"
-            }}
-          >
-  
-            <MenuItem value="">Block 1</MenuItem>
-            <MenuItem value={10}>Block 2</MenuItem>
-            <MenuItem value={20}>Block 3</MenuItem>
-          </Select>
-        </FormControl>
+            <FormControl sx={{}}>
+              <Select
+                value={block}
+                onChange={handleChangeBlock}
+                displayEmpty
+                inputProps={{ "aria-label": "Without label" }}
+                sx={{
+                  backgroundColor: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.5rem" : "0.9rem",
+                  padding: "0rem",
+                  fontWeight: "600",
+                }}
+              >
+                <MenuItem value="">Block 1</MenuItem>
+                <MenuItem value={10}>Block 2</MenuItem>
+                <MenuItem value={20}>Block 3</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+        </div>
+
+        <div className={BlockClassessCSS.tableWrapper}>
+          <Scheduler />
+        </div>
       </div>
-    </div>
-    <div className={BlockClassessCSS.tableWrapper}>
-            <Scheduler/>
-    </div>
-    <div className={BlockClassessCSS.topTable}>
-      <h2>Class List</h2>
 
-    </div>
-    <div className={BlockClassessCSS.tableWrapper}>
-      <MyTable />
-    </div>
-    <div className={BlockClassessCSS.bottomButtons}>
+      <div className={BlockClassessCSS.topTableWrapper}>
+        <div className={BlockClassessCSS.topTable}>
+          <h2>Class List</h2>
+        </div>
+        <div className={BlockClassessCSS.tableWrapper}>
+          <MyTable />
+        </div>
+      </div>
+      <div className={BlockClassessCSS.bottomButtons}>
+        <div class={BlockClassessCSS.left}>
+          <Stack spacing={2} direction="row">
+            <Button
+              style={{ textTransform: "none" }}
+              sx={{
+                marginRight: "1rem",
+                backgroundColor: "#007bff",
+                color: "white",
+                borderRadius: "0.5rem",
+                fontFamily: "Poppins",
+                fontSize: "0.9rem",
+                padding: "0rem",
+                padding: "0.9rem",
+                "&:hover": {
+                  backgroundColor: "#0070e7", // Change the hover background color here
+                },
+              }}
+              variant="contained"
+            >
+              Reblock
+            </Button>
+          </Stack>
+        </div>
+        <div class={BlockClassessCSS.middle}>
+          <Stack spacing={2} direction="row">
+            <Button
+              style={{ textTransform: "none" }}
+              sx={{
+                marginRight: "1rem",
+                backgroundColor: "#424242",
 
-    <div class={BlockClassessCSS.left}>
-    <Stack spacing={2} direction="row">
-        <Button
-     
-          style={{ textTransform: "none" }}
-          sx={{ 
+                color: "white",
+                borderRadius: "0.5rem",
+                fontFamily: "Poppins",
+                fontSize: "0.9rem",
+                padding: "0rem",
+                padding: "0.9rem",
+                "&:hover": {
+                  backgroundColor: "#313131",
+                  // Change the hover background color here
+                },
+              }}
+              variant="contained"
+            >
+              Print Blockclassess
+            </Button>
+          </Stack>
+        </div>
+        <div class={BlockClassessCSS.right}>
+          <Stack spacing={2} direction="row">
+            <Button
+              style={{ textTransform: "none" }}
+              sx={{
+                marginRight: "1rem",
+                backgroundColor: "#007bff",
+                color: "white",
+                borderRadius: "0.5rem",
+                fontFamily: "Poppins",
+                fontSize: "0.9rem",
+                padding: "0rem",
+                padding: "0.9rem",
+                "&:hover": {
+                  backgroundColor: "#0070e7", // Change the hover background color here
+                },
+              }}
+              variant="contained"
+            >
+              Reblock
+            </Button>
+          </Stack>
+        </div>
+      </div>
+    </>
+  );
+};
 
-            marginRight: "1rem",
-            backgroundColor: "#007bff",
-            color: "white",
-            borderRadius: "0.5rem",
-            fontFamily: "Poppins",
-            fontSize: "0.9rem",
-            padding: "0rem",
-            padding: "0.9rem",
-            "&:hover": {
-              backgroundColor: "#0070e7", // Change the hover background color here
-            },
-          }}
-          variant="contained"
-        >
-          Reblock
-        </Button>
-      </Stack>
-    </div>
-    <div class={BlockClassessCSS.middle}>
-    <Stack spacing={2} direction="row">
-        <Button
-          style={{ textTransform: "none" }}
-          sx={{ 
-
-            marginRight: "1rem",
-            backgroundColor: "#e2e2e2",
-          
-            color: "black",
-            borderRadius: "0.5rem",
-            fontFamily: "Poppins",
-            fontSize: "0.9rem",
-            padding: "0rem",
-            padding: "0.9rem",
-            "&:hover": {
-              backgroundColor: "#d6d4d4",
-               // Change the hover background color here
-            },
-          }}
-          variant="contained"
-        >
-          Print Blockclassess
-        </Button>
-      </Stack>
-    </div>
-    <div class={BlockClassessCSS.right}>
-      
-      
-      <Stack spacing={2} direction="row">
-        <Button
-         
-          style={{ textTransform: "none" }}
-          sx={{ 
-
-            marginRight: "1rem",
-            backgroundColor: "#007bff",
-            color: "white",
-            borderRadius: "0.5rem",
-            fontFamily: "Poppins",
-            fontSize: "0.9rem",
-            padding: "0rem",
-            padding: "0.9rem",
-            "&:hover": {
-              backgroundColor: "#0070e7", // Change the hover background color here
-            },
-          }}
-          variant="contained"
-        >
-          Reblock
-        </Button>
-      </Stack>
-    </div>
-      
-
-
-
-    </div>
-
-   </>
-  )
-}
-
-export default BlockClasses
+export default BlockClasses;

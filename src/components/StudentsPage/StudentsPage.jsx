@@ -47,6 +47,7 @@ const StudentsPage = () => {
     }
   return (
    <>
+     <div className={StudentsPageCSS.topTableWrapper}>
     <div className={StudentsPageCSS.topTable}>
       <h2>Student List</h2>
       <div className={StudentsPageCSS.topButtons}>
@@ -77,6 +78,9 @@ const StudentsPage = () => {
     <div className={StudentsPageCSS.tableWrapper}>
       <MyTable />
     </div>
+            </div>
+
+    
     <div className={StudentsPageCSS.bottomButtons}>
 
     <div class={StudentsPageCSS.left}>
@@ -111,16 +115,16 @@ const StudentsPage = () => {
           sx={{ 
 
             marginRight: "1rem",
-            backgroundColor: "#e2e2e2",
-          
-            color: "black",
+            backgroundColor: "#424242",
+
+            color: "white",
             borderRadius: "0.5rem",
             fontFamily: "Poppins",
             fontSize: "0.9rem",
             padding: "0rem",
             padding: "0.9rem",
             "&:hover": {
-              backgroundColor: "#d6d4d4",
+              backgroundColor: "#313131",
                // Change the hover background color here
             },
           }}

@@ -1,66 +1,83 @@
 import React, { useRef, useEffect, useState, createRef } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/autoplay";
-import "swiper/css/bundle";
-
-// import required modules
-import { Pagination, Navigation, Autoplay } from "swiper";
-import Navbar from "../../components/Navbar/Navbar";
+import { useMediaQuery } from '@mui/material'
+import { TextField, Button } from '@mui/material';
 import adminCSS from "./Admin.module.css";
 import plm from "../../assets/plm.png";
-const Admin = ({ setAccess, access }) => {
+import logo from "../../assets/logo.png"
+const Admin = ({ setAccess, setPage }) => {
+
+  const isSmallScreen = useMediaQuery('(max-width: 600px)')
+  
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Add logic to handle form submission
+  };
   return (
     <>
-    
+      <img className={adminCSS.logo} src={logo} alt="" />
+
       <div className={adminCSS.adminParent}>
         <div className={adminCSS.adminWrapper}>
+          <div className={adminCSS.leftAdmin}>
+     
           <img src={plm} alt="" />
+          </div>
 
           <div className={adminCSS.rightAdmin}>
-
-            <div className={adminCSS.authTitle}>
-              <h2>ADMIN LOGIN</h2>
-            </div>
-            
-
-            <div className={adminCSS.authWrapper}>
-              <input
-                className={adminCSS.username}
-                type="email"
-                placeholder="Username"
-              />
-              <input
-                className={adminCSS.password}
-                type="password"
-                placeholder="Password"
-              />
-              <button
-                className={adminCSS.loginBtn}
-                onClick={() => setAccess(true)}
-              >
-                LOGIN
-              </button>
-            </div>
-
+          <div className={adminCSS.authTitleWrapper}>
+            <h2>ADMIN LOGIN</h2>      
           </div>
+          
+          <div className={adminCSS.authWrapper}>
+          <form onSubmit={handleSubmit}>
+              <TextField
+                label="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                fullWidth
+                defaultValue="Small"
+                size="small"
+                margin="normal"
+              />
+              <TextField
+                label="Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                fullWidth
+                defaultValue="Small"
+                size="small"
+                margin="normal"
+              />
+              <Button 
+                onClick={() => {
+                  setAccess(true)
+                  setPage('blockUtil')
+                }}
+                variant="contained" 
+             
+                sx = {{
+                  fontSize: isSmallScreen ? "1rem" : "1.3rem",
+                  fontFamily: "Lato",
+                  fontWeight: "700",
+                  borderRadius: "6px",
+                  marginTop: "1rem"
+                }}
+              >
+                Login
+              </Button>
+            </form>
+          </div>
+          
+          </div>
+
 
           
         </div>
 
-        {/* <Swiper
-          autoplay={{ delay: 10000 }}
-          modules={[Pagination, Autoplay, Navigation]}
-          className={adminCSS.swiper}
-          pagination={true}
-        >
-          <SwiperSlide className={`${adminCSS.swiperSlide}`}><img src="https://www.mdsi.edu.ph/uploads/Gallery/Facilities/facility_computer_laboratory.JPG" alt="Placeholder Image 1"/></SwiperSlide>
-          <SwiperSlide className={`${adminCSS.swiperSlide}`}><img src="https://www.mdsi.edu.ph/uploads/Gallery/Facilities/facility_computer_laboratory.JPG" alt="Placeholder Image 1"/></SwiperSlide>
-          <SwiperSlide className={`${adminCSS.swiperSlide}`}><img src="https://www.mdsi.edu.ph/uploads/Gallery/Facilities/facility_computer_laboratory.JPG" alt="Placeholder Image 1"/></SwiperSlide>
-          <SwiperSlide className={`${adminCSS.swiperSlide}`}><img src="https://www.mdsi.edu.ph/uploads/Gallery/Facilities/facility_computer_laboratory.JPG" alt="Placeholder Image 1"/></SwiperSlide>
-        </Swiper> */}
       </div>
     </>
   );

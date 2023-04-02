@@ -47,8 +47,10 @@ const BlockManagePage = () => {
     }
   return (
    <>
+    <div className={ManageBlockCSS.topTableWrapper}>
     <div className={ManageBlockCSS.topTable}>
       <h2>Manage Blocks</h2>
+      
       <div className={ManageBlockCSS.topButtons}>
         <FormControl sx={{ mr: 1, minWidth: 120 }}>
           <Select
@@ -111,16 +113,16 @@ const BlockManagePage = () => {
           sx={{ 
 
             marginRight: "1rem",
-            backgroundColor: "#e2e2e2",
-          
-            color: "black",
+            backgroundColor: "#424242",
+
+            color: "white",
             borderRadius: "0.5rem",
             fontFamily: "Poppins",
             fontSize: "0.9rem",
             padding: "0rem",
             padding: "0.9rem",
             "&:hover": {
-              backgroundColor: "#d6d4d4",
+              backgroundColor: "#313131",
                // Change the hover background color here
             },
           }}
@@ -162,6 +164,7 @@ const BlockManagePage = () => {
 
 
     </div>
+    </div>
 
 
     
@@ -182,7 +185,7 @@ const BlockManagePage = () => {
           <TextField
             id="outlined-number"
             type="number"
-            sx={{ width: "5vw" }}
+            sx={{ width: "6rem" }}
           />
         </div>
         <div className={ManageBlockCSS.noBlocks}>
@@ -190,7 +193,7 @@ const BlockManagePage = () => {
           <TextField
             id="outlined-number"
             type="number"
-            sx={{ width: "5vw" }}
+            sx={{ width: "6rem" }}
           />
         </div>
          

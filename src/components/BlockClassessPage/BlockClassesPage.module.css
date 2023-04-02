@@ -37,7 +37,7 @@
     height: 66vh;
     background: #f1f1f1;
     border-radius: 1rem;
-  
+    z-index: 2;
 }
 
 
@@ -57,7 +57,7 @@
     background: #f1f1f1;
     border-radius: 1rem;
     margin-bottom: 2rem;
-  
+    z-index: 2;
 }
 
 
@@ -90,4 +90,12 @@
 }
 .right{
     visibility: hidden;
+}
+
+.topTableWrapper{
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

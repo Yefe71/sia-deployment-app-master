@@ -49,9 +49,16 @@
    background: #efeeee;
    box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 15px;
     outline: 1px solid #d9d8d8;
-
+    z-index: 2;
 }
 
+.topTableWrapper{
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
 .topButtons{
     margin-top: -1rem;
@@ -128,9 +135,14 @@ form{
     margin-right: 0rem;
     margin-bottom: 2rem;
     margin-top: 2rem;
+    width: 75vw;
 }
 
 
 .left{
+    visibility: hidden;
+}
+
+.topButtons{
     visibility: hidden;
 }

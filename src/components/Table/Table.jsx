@@ -41,24 +41,24 @@ const StyleTable = styled(Table)({
   
   const StyledTableCellLeft = styled(TableCell)({
     fontWeight: 'bold',
-    backgroundColor: '#e0dede',
+    backgroundColor: '#f7f4f4',
 
     borderTopLeftRadius: '1rem'
   });
   
   const StyledTableCellRight = styled(TableCell)({
     fontWeight: 'bold',
-    backgroundColor: '#e0dede',
+    backgroundColor: '#f7f4f4',
 
     borderTopRightRadius: '1rem'
   });
   const StyledTableCell = styled(TableCell)({
     fontWeight: 'bold',
-    backgroundColor: '#e0dede',
+    backgroundColor: '#f7f4f4',
   });
   
   const StyledTableRow = styled(TableRow)({
-    backgroundColor: '#f2f2f2',
+    backgroundColor: '#ffffff',
   });
   
   const StyledTableHead = styled(TableHead)({
