@@ -77,7 +77,7 @@ const BlockClasses = () => {
           </div>
         </div>
 
-        <div className={BlockClassessCSS.tableWrapper}>
+        <div className={`${BlockClassessCSS.tableWrapper} ${BlockClassessCSS.sched}`}>
           <Scheduler />
         </div>
       </div>
