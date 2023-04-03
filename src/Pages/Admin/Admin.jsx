@@ -23,10 +23,11 @@ const Admin = ({ setAccess, setPage }) => {
         <div className={adminCSS.adminWrapper}>
           <div className={adminCSS.leftAdmin}>
      
-          <img src={plm} alt="" />
+          
           </div>
 
           <div className={adminCSS.rightAdmin}>
+            <div className={adminCSS.rightAdminWrapper}>
           <div className={adminCSS.authTitleWrapper}>
             <h2>ADMIN LOGIN</h2>      
           </div>
@@ -38,8 +39,8 @@ const Admin = ({ setAccess, setPage }) => {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 fullWidth
-                defaultValue="Small"
-                size="small"
+                defaultValue= {isSmallScreen ? "Small" : "Large"}
+                size={isSmallScreen ? "small" : "large"}
                 margin="normal"
               />
               <TextField
@@ -48,8 +49,8 @@ const Admin = ({ setAccess, setPage }) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 fullWidth
-                defaultValue="Small"
-                size="small"
+                defaultValue= {isSmallScreen ? "Small" : "Large"}
+                size={isSmallScreen ? "small" : "large"}
                 margin="normal"
               />
               <Button 
@@ -60,7 +61,7 @@ const Admin = ({ setAccess, setPage }) => {
                 variant="contained" 
              
                 sx = {{
-                  fontSize: isSmallScreen ? "1rem" : "1.3rem",
+                  fontSize: isSmallScreen ? "0.8rem" : "1.3rem",
                   fontFamily: "Lato",
                   fontWeight: "700",
                   borderRadius: "6px",
@@ -71,6 +72,8 @@ const Admin = ({ setAccess, setPage }) => {
               </Button>
             </form>
           </div>
+              
+            </div>
           
           </div>
 

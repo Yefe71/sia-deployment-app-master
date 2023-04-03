@@ -125,8 +125,7 @@ const BlockClasses = () => {
                 color: "white",
                 borderRadius: "0.5rem",
                 fontFamily: "Poppins",
-                fontSize: "0.9rem",
-                padding: "0rem",
+                fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
                 padding: "0.9rem",
                 "&:hover": {
                   backgroundColor: "#313131",

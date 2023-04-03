@@ -45,6 +45,8 @@ const Navbar = ({ access, setPage, setAccess, page}) => {
 
   return (
     <>
+
+    
       <div className={NavbarCSS.navParent}>
         <div className={NavbarCSS.leftNav}>
           <div className={NavbarCSS.imgWrapper}>
@@ -65,13 +67,28 @@ const Navbar = ({ access, setPage, setAccess, page}) => {
       </div>
       <div className={NavbarCSS.subNav}>
         {access === true && (
-          <div className={NavbarCSS.subNavWrapper}>
-            <h3 className = {`${page === "blockUtil" && NavbarCSS.active}`} onClick={() => setPage("blockUtil")}>Blockclasses Utility</h3>
-            <h3 className = {`${page === "students" && NavbarCSS.active}`} onClick={() => setPage("students")}>Student List</h3>
-            <h3 className = {`${page === "manage" && NavbarCSS.active}`} onClick={() => setPage("manage")}>Block Management</h3>
+          <>
+
+            <div className={NavbarCSS.left}>
             <h3 className={NavbarCSS.logout} onClick={() => {
               setAccess(false)}}>Sign Out</h3>
-          </div>
+            </div>
+
+            <div className={NavbarCSS.subNavWrapper}>
+            <h3 className = {`${page === "blockUtil" && NavbarCSS.active}`} onClick={() => setPage("blockUtil")}>Blockclasses Utility</h3>
+              <h3 className = {`${page === "students" && NavbarCSS.active}`} onClick={() => setPage("students")}>Student List</h3>
+              <h3 className = {`${page === "manage" && NavbarCSS.active}`} onClick={() => setPage("manage")}>Block Management</h3>
+              <h3 className={NavbarCSS.logout} onClick={() => {
+              setAccess(false)}}>Sign Out</h3>
+            </div>
+
+            <div className={NavbarCSS.right}>
+            <h3 className={NavbarCSS.logout} onClick={() => {
+              setAccess(false)}}>Sign Out</h3>
+            </div>
+
+        </>
+
           
         )}
       </div>

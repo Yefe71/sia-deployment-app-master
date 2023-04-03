@@ -146,3 +146,21 @@ form{
 .topButtons{
     visibility: hidden;
 }
+
+@media screen and (max-width: 500px) {
+    .topTable h2{
+        color: rgb(62, 61, 61);
+        font-family: Poppins;
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 0;
+        padding: 0;
+        margin-bottom: 0.8rem;
+        margin-left: 0.8rem;
+    
+    }    
+
+    .left{
+        display: none;
+    }
+}

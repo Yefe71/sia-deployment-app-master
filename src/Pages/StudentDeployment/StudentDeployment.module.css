@@ -2,7 +2,7 @@
 
 .studentDepParent{
     background: #f6f6f6;
-    min-height: 84svh;
+    height: 84svh;
     display: flex;
 
     justify-content: space-evenly;

@@ -11,10 +11,12 @@ import Button from "@mui/material/Button";
 import { TextField } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import { useMediaQuery } from "@mui/material";
+
 const StudentsPage = () => {
     const [year, setYear] = React.useState("");
     const [block, setBlock] = React.useState("");
-
+    const isSmallScreen = useMediaQuery("(max-width: 500px)");
     const style = {
       position: "absolute",
       top: "50%",
@@ -51,7 +53,7 @@ const StudentsPage = () => {
     <div className={StudentsPageCSS.topTable}>
       <h2>Student List</h2>
       <div className={StudentsPageCSS.topButtons}>
-        <FormControl sx={{ mr: 1, minWidth: 120 }}>
+        <FormControl sx={{ mr: 1,}}>
           <Select
             value={year}
             onChange={handleChangeStatus}
@@ -61,7 +63,7 @@ const StudentsPage = () => {
               backgroundColor: "white",
               borderRadius: "0.5rem",
               fontFamily: "Poppins",
-              fontSize: "0.9rem",
+              fontSize: isSmallScreen ? "0.5rem" : "0.9rem",
               padding: "0rem",
               fontWeight: "600"
             }}
@@ -120,8 +122,7 @@ const StudentsPage = () => {
             color: "white",
             borderRadius: "0.5rem",
             fontFamily: "Poppins",
-            fontSize: "0.9rem",
-            padding: "0rem",
+            fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
             padding: "0.9rem",
             "&:hover": {
               backgroundColor: "#313131",

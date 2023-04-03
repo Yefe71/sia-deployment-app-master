@@ -11,10 +11,11 @@ import Button from "@mui/material/Button";
 import { TextField } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import { useMediaQuery } from "@mui/material";
 const BlockManagePage = () => {
     const [year, setYear] = React.useState("");
     const [block, setBlock] = React.useState("");
-
+    const isSmallScreen = useMediaQuery("(max-width: 500px)");
     const style = {
       position: "absolute",
       top: "50%",
@@ -62,7 +63,7 @@ const BlockManagePage = () => {
               backgroundColor: "white",
               borderRadius: "0.5rem",
               fontFamily: "Poppins",
-              fontSize: "0.9rem",
+              fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
               padding: "0rem",
               fontWeight: "600"
             }}
@@ -93,7 +94,7 @@ const BlockManagePage = () => {
             color: "white",
             borderRadius: "0.5rem",
             fontFamily: "Poppins",
-            fontSize: "0.9rem",
+            fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
             padding: "0rem",
             padding: "0.9rem",
             "&:hover": {
@@ -118,7 +119,7 @@ const BlockManagePage = () => {
             color: "white",
             borderRadius: "0.5rem",
             fontFamily: "Poppins",
-            fontSize: "0.9rem",
+            fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
             padding: "0rem",
             padding: "0.9rem",
             "&:hover": {
@@ -146,7 +147,7 @@ const BlockManagePage = () => {
             color: "white",
             borderRadius: "0.5rem",
             fontFamily: "Poppins",
-            fontSize: "0.9rem",
+            fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
             padding: "0rem",
             padding: "0.9rem",
             "&:hover": {
