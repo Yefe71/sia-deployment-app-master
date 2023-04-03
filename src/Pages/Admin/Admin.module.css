@@ -15,11 +15,13 @@
 
 .adminWrapper{
     
-    background: white;
+    background: #bbd3f6;
     height: 60vh;
     width: 60vw;
     z-index: 1;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    border-radius: 0.4rem;
+    overflow: hidden;
 }
 
 
@@ -29,7 +31,7 @@
 } 
 
 .rightAdmin{
-    background: rgb(255, 255, 255);
+   
     flex: 1;  
     height: 100%;
 }
@@ -53,6 +55,11 @@
     right: -10%;
 }
 
+.logoAuth{
+    width: 9rem;
+    margin-bottom: 1rem;
+}
+
 
 .authTitleWrapper{
     height: 15%;
@@ -60,6 +67,7 @@
     justify-content: center;
     align-items: center;
     background: #0d4daa;
+    box-shadow: 0 4px 2px -2px gray;
     
 }
 
@@ -90,7 +98,9 @@
 
 
 @media screen and (max-width: 500px) {
-
+    .logoAuth{
+        display: none;
+    }
     .adminWrapper{
         
         background: white;
@@ -125,6 +135,8 @@
   
     
     }
-
+    .shrink2{
+        height: 86svh;
+       }
 
 }

@@ -4,7 +4,7 @@ import { TextField, Button } from '@mui/material';
 import adminCSS from "./Admin.module.css";
 import plm from "../../assets/plm.png";
 import logo from "../../assets/logo.png"
-const Admin = ({ setAccess, setPage }) => {
+const Admin = ({ setAccess, setPage, access }) => {
 
   const isSmallScreen = useMediaQuery('(max-width: 600px)')
   
@@ -17,9 +17,9 @@ const Admin = ({ setAccess, setPage }) => {
   };
   return (
     <>
+      
       <img className={adminCSS.logo} src={logo} alt="" />
-
-      <div className={adminCSS.adminParent}>
+      <div className={`${adminCSS.adminParent} ${access === false ? adminCSS.shrink2 : ""}`}>
         <div className={adminCSS.adminWrapper}>
           <div className={adminCSS.leftAdmin}>
      
@@ -33,7 +33,9 @@ const Admin = ({ setAccess, setPage }) => {
           </div>
           
           <div className={adminCSS.authWrapper}>
+          
           <form onSubmit={handleSubmit}>
+          <img className={adminCSS.logoAuth} src={logo} alt="" />
               <TextField
                 label="Username"
                 value={username}
@@ -61,11 +63,12 @@ const Admin = ({ setAccess, setPage }) => {
                 variant="contained" 
              
                 sx = {{
-                  fontSize: isSmallScreen ? "0.8rem" : "1.3rem",
+                  fontSize: isSmallScreen ? "1rem" : "1.3rem",
                   fontFamily: "Lato",
                   fontWeight: "700",
                   borderRadius: "6px",
-                  marginTop: "1rem"
+                  marginTop: "2rem",
+                  background: "#0d4daa"
                 }}
               >
                 Login

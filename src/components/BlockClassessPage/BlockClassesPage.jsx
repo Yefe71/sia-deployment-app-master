@@ -30,8 +30,8 @@ const BlockClasses = () => {
           <div className={BlockClassessCSS.topButtons}>
             <FormControl
               sx={{
-                mr: 1,
-                minWidth: 10,
+                mr: 0.6,
+                minWidth: isSmallScreen ? 90 : 115,
               }}
             >
               <Select
@@ -54,7 +54,7 @@ const BlockClasses = () => {
               </Select>
             </FormControl>
 
-            <FormControl sx={{}}>
+            <FormControl sx={{minWidth: isSmallScreen ? 80 : 100}}>
               <Select
                 value={block}
                 onChange={handleChangeBlock}

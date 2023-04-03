@@ -65,7 +65,7 @@ const Navbar = ({ access, setPage, setAccess, page}) => {
         <h3> {formatDate(currentDateTime)} {formatTime(currentDateTime)}</h3>
         </div>
       </div>
-      <div className={NavbarCSS.subNav}>
+      <div className={`${NavbarCSS.subNav} ${access === false ? NavbarCSS.shrink : ""}`}>
         {access === true && (
           <>
 

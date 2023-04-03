@@ -53,7 +53,7 @@ const StudentsPage = () => {
     <div className={StudentsPageCSS.topTable}>
       <h2>Student List</h2>
       <div className={StudentsPageCSS.topButtons}>
-        <FormControl sx={{ mr: 1,}}>
+        <FormControl sx={{ mr: 1, minWidth: isSmallScreen ? 90 : 115}}>
           <Select
             value={year}
             onChange={handleChangeStatus}

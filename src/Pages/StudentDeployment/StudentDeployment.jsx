@@ -23,7 +23,7 @@ const StudentDeployment = ({setAccess, access, pageSent}) => {
 
   return (
     <>
-      <div className={studentDepCSS.studentDepParent}>
+      <div className={`${studentDepCSS.studentDepParent}`}>
         {/* <div className={studentDepCSS.leftContainer}>
         <NavBox access = {access}/>
         <div className={studentDepCSS.sidebarWrapper}>
