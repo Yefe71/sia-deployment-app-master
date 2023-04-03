@@ -89,7 +89,7 @@ const BlockManagePage = () => {
           style={{ textTransform: "none" }}
           sx={{ 
 
-            marginRight: "1rem",
+         
             backgroundColor: "#007bff",
             color: "white",
             borderRadius: "0.5rem",
@@ -142,7 +142,7 @@ const BlockManagePage = () => {
           style={{ textTransform: "none" }}
           sx={{ 
 
-            marginRight: "1rem",
+           
             backgroundColor: "#007bff",
             color: "white",
             borderRadius: "0.5rem",
