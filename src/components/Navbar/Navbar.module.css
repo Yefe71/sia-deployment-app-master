@@ -135,7 +135,7 @@
     display: none;
 }
 .logout{
-
+    margin-right: 0.5rem;
 }
 .left{
     visibility: hidden;
