@@ -44,6 +44,7 @@
 }
 .adminWrapper{
     display: flex;
+  
 }
 
 .logo{
@@ -95,7 +96,9 @@
 }
 
 
-
+form{
+    width: 80%;
+}
 
 @media screen and (max-width: 500px) {
     .logoAuth{
@@ -125,7 +128,7 @@
     .leftAdmin{
         flex: 1;
         height: 100%;
-        outline: 5px solid red;
+  
     } 
 
     .rightAdmin{
@@ -138,5 +141,18 @@
     .shrink2{
         height: 86svh;
        }
+
+}
+
+
+@media screen and (max-width: 1366px) {
+    .authTitleWrapper h2{
+        font-size: 1.5rem;
+    }
+}
+@media screen and (max-width: 900px) {
+  .adminWrapper{
+    flex-direction: column;
+  }
 
 }

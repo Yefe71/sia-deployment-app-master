@@ -91,35 +91,13 @@ const BlockClasses = () => {
         </div>
       </div>
       <div className={BlockClassessCSS.bottomButtons}>
-        <div class={BlockClassessCSS.left}>
-          <Stack spacing={2} direction="row">
-            <Button
-              style={{ textTransform: "none" }}
-              sx={{
-                marginRight: "1rem",
-                backgroundColor: "#007bff",
-                color: "white",
-                borderRadius: "0.5rem",
-                fontFamily: "Poppins",
-                fontSize: "0.9rem",
-                padding: "0rem",
-                padding: "0.9rem",
-                "&:hover": {
-                  backgroundColor: "#0070e7", // Change the hover background color here
-                },
-              }}
-              variant="contained"
-            >
-              Reblock
-            </Button>
-          </Stack>
-        </div>
+
         <div class={BlockClassessCSS.middle}>
           <Stack spacing={2} direction="row">
             <Button
               style={{ textTransform: "none" }}
               sx={{
-                marginRight: "1rem",
+                
                 backgroundColor: "#424242",
 
                 color: "white",
@@ -138,29 +116,7 @@ const BlockClasses = () => {
             </Button>
           </Stack>
         </div>
-        <div class={BlockClassessCSS.right}>
-          <Stack spacing={2} direction="row">
-            <Button
-              style={{ textTransform: "none" }}
-              sx={{
-                marginRight: "1rem",
-                backgroundColor: "#007bff",
-                color: "white",
-                borderRadius: "0.5rem",
-                fontFamily: "Poppins",
-                fontSize: "0.9rem",
-                padding: "0rem",
-                padding: "0.9rem",
-                "&:hover": {
-                  backgroundColor: "#0070e7", // Change the hover background color here
-                },
-              }}
-              variant="contained"
-            >
-              Reblock
-            </Button>
-          </Stack>
-        </div>
+   
       </div>
     </>
   );

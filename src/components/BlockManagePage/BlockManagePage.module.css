@@ -157,6 +157,7 @@ form{
         padding: 0;
         margin-bottom: 0.8rem;
         margin-left: 0.8rem;
+        white-space: nowrap;
     
     }    
 

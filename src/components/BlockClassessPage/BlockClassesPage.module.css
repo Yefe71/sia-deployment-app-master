@@ -1,6 +1,5 @@
 
 
-
 .topButtons{
     display: flex;
     justify-content: center;
@@ -62,7 +61,7 @@
 }.bottomButtons{
 
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-right: 0rem;
     margin-bottom: 2rem;

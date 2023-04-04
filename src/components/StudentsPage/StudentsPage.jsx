@@ -85,31 +85,7 @@ const StudentsPage = () => {
     
     <div className={StudentsPageCSS.bottomButtons}>
 
-    <div class={StudentsPageCSS.left}>
-    <Stack spacing={2} direction="row">
-        <Button
-          onClick={handleOpen}
-          style={{ textTransform: "none" }}
-          sx={{ 
-
-            marginRight: "1rem",
-            backgroundColor: "#007bff",
-            color: "white",
-            borderRadius: "0.5rem",
-            fontFamily: "Poppins",
-            fontSize: "0.9rem",
-            padding: "0rem",
-            padding: "0.9rem",
-            "&:hover": {
-              backgroundColor: "#0070e7", // Change the hover background color here
-            },
-          }}
-          variant="contained"
-        >
-          Reblock
-        </Button>
-      </Stack>
-    </div>
+   
     <div class={StudentsPageCSS.middle}>
     <Stack spacing={2} direction="row">
         <Button
@@ -135,33 +111,7 @@ const StudentsPage = () => {
         </Button>
       </Stack>
     </div>
-    <div class={StudentsPageCSS.right}>
-      
-      
-      <Stack spacing={2} direction="row">
-        <Button
-          onClick={handleOpen}
-          style={{ textTransform: "none" }}
-          sx={{ 
 
-            marginRight: "1rem",
-            backgroundColor: "#007bff",
-            color: "white",
-            borderRadius: "0.5rem",
-            fontFamily: "Poppins",
-            fontSize: "0.9rem",
-            padding: "0rem",
-            padding: "0.9rem",
-            "&:hover": {
-              backgroundColor: "#0070e7", // Change the hover background color here
-            },
-          }}
-          variant="contained"
-        >
-          Reblock
-        </Button>
-      </Stack>
-    </div>
       
 
 

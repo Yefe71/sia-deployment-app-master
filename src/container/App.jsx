@@ -13,8 +13,24 @@ function App() {
 
   return (
     <div className="App">
-       <Navbar access = {access} page = {page} setAccess = {setAccess} setPage = {setPage}/>
-      { access ? <StudentDeployment pageSent = {page} setAccess = {setAccess} access = {access}/>: <Admin setAccess = {setAccess} setPage = {setPage} access = {access}/>  
+       <Navbar 
+        access = {access} 
+        page = {page} 
+        setAccess = {setAccess} 
+        setPage = {setPage}
+       />
+
+      { access ? 
+      <StudentDeployment 
+        pageSent = {page} 
+        setAccess = {setAccess} 
+        access = {access}
+      />: 
+      <Admin 
+        setAccess = {setAccess} 
+        setPage = {setPage} 
+        access = {access}
+      />  
     }
 
     </div>

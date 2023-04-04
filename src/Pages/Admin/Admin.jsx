@@ -35,7 +35,7 @@ const Admin = ({ setAccess, setPage, access }) => {
           <div className={adminCSS.authWrapper}>
           
           <form onSubmit={handleSubmit}>
-          <img className={adminCSS.logoAuth} src={logo} alt="" />
+          {/* <img className={adminCSS.logoAuth} src={logo} alt="" /> */}
               <TextField
                 label="Username"
                 value={username}
@@ -68,7 +68,8 @@ const Admin = ({ setAccess, setPage, access }) => {
                   fontWeight: "700",
                   borderRadius: "6px",
                   marginTop: "2rem",
-                  background: "#0d4daa"
+                  background: "#0d4daa",
+                  width: "100%"
                 }}
               >
                 Login
