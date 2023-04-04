@@ -1,0 +1,167 @@
+
+
+
+.topButtons{
+    display: flex;
+ 
+    align-items: center;
+    margin-right: 0rem;
+    margin-bottom: 0.5rem;
+}
+
+.topTable{
+    
+    display: flex;
+    justify-content: space-between;
+    width: 75vw;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    margin-top: 4rem;
+}
+
+.topTable h2{
+    color: rgb(62, 61, 61);
+    font-family: Poppins;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 0.8rem;
+    margin-left: 1rem;
+    
+}
+
+.tableWrapper{
+    
+    width: 75vw;
+    height: 66vh;
+    background: #f1f1f1;
+    border-radius: 1rem  ;
+  
+}
+
+
+.tableWrapper{
+
+
+   overflow-y: scroll;
+   background: #efeeee;
+   box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 15px;
+    outline: 1px solid #d9d8d8;
+    z-index: 2;
+}
+
+.topTableWrapper{
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.topButtons{
+    margin-top: -1rem;
+}
+
+
+.boxWrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.noStudents{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.noStudents p{
+    color: #454545;
+    font-family: Lato;
+    font-weight: 700;
+}
+.noStudents h3{
+    color: rgb(108, 107, 107);
+    font-family: Lato;
+    font-size: 2rem;
+    margin-top: 1rem;
+}
+
+.blkCapacity{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+    
+}
+
+.noBlocks{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.blkCapacity p{
+    margin-bottom: 1rem;
+    color: #454545;
+    font-family: Lato;
+    font-weight: 700;
+}
+.noBlocks p{
+    margin-bottom: 1rem;
+    color: #454545;
+    font-family: Lato;
+    font-weight: 700;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.bottomButtons{
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 0rem;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+    width: 75vw;
+}
+
+
+.left{
+    visibility: hidden;
+}
+
+.topButtons{
+    visibility: hidden;
+}
+
+@media screen and (max-width: 500px) {
+    .topTable h2{
+        color: rgb(62, 61, 61);
+        font-family: Poppins;
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 0;
+        padding: 0;
+        margin-bottom: 0.8rem;
+        margin-left: 0.8rem;
+        white-space: nowrap;
+    
+    }    
+
+    .left{
+        display: none;
+    }
+}

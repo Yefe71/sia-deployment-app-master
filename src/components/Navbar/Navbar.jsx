@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react";
 import NavbarCSS from "./Navbar.module.css";
 import logo from "../../assets/logo.png";
-const Navbar = ({ access, setPage, setAccess, page}) => {
+const Navbar = ({ access, setPage, setAccess, page, currentApp, setCurrentApp}) => {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
   useEffect(() => {
@@ -51,7 +51,19 @@ const Navbar = ({ access, setPage, setAccess, page}) => {
         <div className={NavbarCSS.leftNav}>
           <div className={NavbarCSS.imgWrapper}>
             <img src={logo} alt="" />
-            <p>Student</p>
+            { currentApp === "student" ?
+              <p onClick={() => 
+              {
+                setCurrentApp('faculty') 
+                setPage('schedsummary')
+              }}>Student</p>
+              :
+              <p onClick={() => 
+                {
+                  setCurrentApp('student')
+                  setPage('blockUtil')
+                }}>Faculty</p>
+            }
           </div>
           <div className={NavbarCSS.leftNavText}>
             <h2>
@@ -75,11 +87,22 @@ const Navbar = ({ access, setPage, setAccess, page}) => {
             </div>
 
             <div className={NavbarCSS.subNavWrapper}>
-            <h3 className = {`${page === "blockUtil" && NavbarCSS.active}`} onClick={() => setPage("blockUtil")}>Blockclasses Utility</h3>
-              <h3 className = {`${page === "students" && NavbarCSS.active}`} onClick={() => setPage("students")}>Student List</h3>
-              <h3 className = {`${page === "manage" && NavbarCSS.active}`} onClick={() => setPage("manage")}>Block Management</h3>
-              <h3 className={NavbarCSS.logout} onClick={() => {
-              setAccess(false)}}>Sign Out</h3>
+              { currentApp === 'student' ?
+                <>
+                  <h3 className = {`${page === "blockUtil" && NavbarCSS.active}`} onClick={() => setPage("blockUtil")}>Blockclasses Utility</h3>
+                  <h3 className = {`${page === "students" && NavbarCSS.active}`} onClick={() => setPage("students")}>Student List</h3>
+                  <h3 className = {`${page === "manage" && NavbarCSS.active}`} onClick={() => setPage("manage")}>Block Management</h3>
+                  <h3 className={NavbarCSS.logout} onClick={() => {setAccess(false)}}>Sign Out</h3>
+                </>
+                :
+                <>
+                  <h3 className = {`${page === "schedsummary" && NavbarCSS.active}`} onClick={() => setPage("schedsummary")}>Schedule Summary</h3>
+                  <h3 className = {`${page === "roomplot" && NavbarCSS.active}`} onClick={() => setPage("roomplot")}>Room Plotting</h3>
+                  <h3 className = {`${page === "students" && NavbarCSS.active}`} onClick={() => setPage("students")}>Student List</h3>
+                  <h3 className={NavbarCSS.logout} onClick={() => {setAccess(false)}}>Sign Out</h3>
+                </>
+              }
+              
             </div>
 
             <div className={NavbarCSS.right}>

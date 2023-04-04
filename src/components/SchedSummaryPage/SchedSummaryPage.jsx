@@ -4,14 +4,14 @@ import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import BlockClassessCSS from "./BlockClassesPage.module.css";
+import SchedSumCSS from "./SchedSummaryPage.module.css";
 import MyTable from "../Table/Table";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Scheduler from "../Scheduler/Scheduler";
 import { useMediaQuery } from "@mui/material";
 
-const BlockClassesPage = () => {
+const SchedSummaryPage = () => {
   const [year, setYear] = React.useState("");
   const [block, setBlock] = React.useState("");
 
@@ -24,10 +24,10 @@ const BlockClassesPage = () => {
   };
   return (
     <>
-      <div className={BlockClassessCSS.topTableWrapper}>
-        <div className={BlockClassessCSS.topTable}>
-          <h2>Schedule</h2>
-          <div className={BlockClassessCSS.topButtons}>
+      <div className={SchedSumCSS.topTableWrapper}>
+        <div className={SchedSumCSS.topTable}>
+          <h2>Schedule Summary</h2>
+          <div className={SchedSumCSS.topButtons}>
             <FormControl
               sx={{
                 mr: 0.6,
@@ -77,22 +77,22 @@ const BlockClassesPage = () => {
           </div>
         </div>
 
-        <div className={`${BlockClassessCSS.tableWrapper} ${BlockClassessCSS.sched}`}>
+        <div className={`${SchedSumCSS.tableWrapper} ${SchedSumCSS.sched}`}>
           <Scheduler />
         </div>
       </div>
 
-      <div className={BlockClassessCSS.topTableWrapper}>
-        <div className={BlockClassessCSS.topTable}>
+      <div className={SchedSumCSS.topTableWrapper}>
+        <div className={SchedSumCSS.topTable}>
           <h2>Class List</h2>
         </div>
-        <div className={BlockClassessCSS.tableWrapper}>
+        <div className={SchedSumCSS.tableWrapper}>
           <MyTable />
         </div>
       </div>
-      <div className={BlockClassessCSS.bottomButtons}>
+      <div className={SchedSumCSS.bottomButtons}>
 
-        <div class={BlockClassessCSS.middle}>
+        <div class={SchedSumCSS.middle}>
           <Stack spacing={2} direction="row">
             <Button
               style={{ textTransform: "none" }}
@@ -122,4 +122,4 @@ const BlockClassesPage = () => {
   );
 };
 
-export default BlockClassesPage;
+export default SchedSummaryPage;

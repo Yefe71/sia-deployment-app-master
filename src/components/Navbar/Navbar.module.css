@@ -34,6 +34,7 @@
     font-style: italic;
     font-weight: 700;
     font-size: 0.9rem;
+    cursor: pointer;
 }
 
 .leftNavText{
@@ -255,10 +256,6 @@
         margin: 0 0.2rem 0 0.5rem;
         box-sizing: border-box;
     }
-    .logout{
-
-        
-    }
 
     .imgWrapper{
         display: flex;
@@ -277,6 +274,7 @@
         font-style: italic;
         font-weight: 700;
         font-size: 0.6rem;
+        cursor: pointer;
     }
     .subNav .logout{
         position: static;

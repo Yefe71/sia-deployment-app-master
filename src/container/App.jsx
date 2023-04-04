@@ -1,37 +1,52 @@
 import react, { useState } from "react";
-import reactLogo from "../assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import StudentDeployment from "../Pages/StudentDeployment/StudentDeployment";
 import Admin from "../Pages/Admin/Admin";
 import Navbar from "../components/Navbar/Navbar";
-
+import FacultyDeployment from "../Pages/FacultyDeployment/FacultyDeployment";
 function App() {
-
   const [access, setAccess] = useState(false);
-  const [page, setPage] = useState('blockUtil');
+  const [page, setPage] = useState("roomplot");
+  const [currentApp, setCurrentApp] = useState("student");
 
   return (
     <div className="App">
-       <Navbar 
-        access = {access} 
-        page = {page} 
-        setAccess = {setAccess} 
-        setPage = {setPage}
-       />
+      <Navbar
+        currentApp={currentApp}
+        access={access}
+        page={page}
+        setAccess={setAccess}
+        setPage={setPage}
+        setCurrentApp = {setCurrentApp}
+      />
 
-      { access ? 
-      <StudentDeployment 
-        pageSent = {page} 
-        setAccess = {setAccess} 
-        access = {access}
-      />: 
-      <Admin 
-        setAccess = {setAccess} 
-        setPage = {setPage} 
-        access = {access}
-      />  
-    }
+    {
+      currentApp === "student" ?
+
+      <>
+        {access ? (
+          <StudentDeployment
+            pageSent={page}
+            setAccess={setAccess}
+            access={access}
+          />
+        ) : (
+          <Admin currentApp = {currentApp} setAccess={setAccess} setPage={setPage} access={access} />
+        )}
+      </>
+    :
+      <>
+        {access ? (
+          <FacultyDeployment
+            pageSent={page}
+            setAccess={setAccess}
+            access={access}
+          />
+        ) : (
+          <Admin currentApp = {currentApp} setAccess={setAccess} setPage={setPage} access={access} />
+        )}
+      </>
+  }
 
     </div>
   );

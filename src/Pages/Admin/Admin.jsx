@@ -4,10 +4,9 @@ import { TextField, Button } from '@mui/material';
 import adminCSS from "./Admin.module.css";
 import plm from "../../assets/plm.png";
 import logo from "../../assets/logo.png"
-const Admin = ({ setAccess, setPage, access }) => {
+const Admin = ({ setAccess, setPage, access, currentApp }) => {
 
   const isSmallScreen = useMediaQuery('(max-width: 600px)')
-  
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -58,7 +57,10 @@ const Admin = ({ setAccess, setPage, access }) => {
               <Button 
                 onClick={() => {
                   setAccess(true)
-                  setPage('blockUtil')
+                  {
+                    currentApp === "student" ? setPage('blockUtil') : setPage('schedsummary')
+                  }
+              
                 }}
                 variant="contained" 
              
