@@ -16,8 +16,6 @@ import dayjs from 'dayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { OutlinedInput } from '@mui/material';
 
-
-//test
 const SubjectAssignPage = () => {
     const isSmallScreen = useMediaQuery("(max-width: 500px)");
     const style = {
@@ -83,7 +81,7 @@ const SubjectAssignPage = () => {
       setIsFocusedCourseName(false);
     };
     
-    //block
+    //Blocks
     const [isOpenBlock, setIsOpenBlock] = useState(false);
     const [isFocusedBlock, setIsFocusedBlock] = useState(false);
     const [block, setBlock] = React.useState('');
@@ -101,7 +99,60 @@ const SubjectAssignPage = () => {
       setIsFocusedBlock(false);
     };
 
+    //Class Type
+    const [isOpenClassType, setIsOpenClassType] = useState(false);
+    const [isFocusedClassType, setIsFocusedClassType] = useState(false);
+    const [classType, setClassType] = React.useState('');
+  
+      
+    const handleChangeClassType = (event) => {
+      setClassType(event.target.value);
+    };
+  
+    const handleFocusClassType = () => {
+      setIsFocusedClassType(true);
+    };
+  
+    const handleBlurClassType = () => {
+      setIsFocusedClassType(false);
+    };
 
+    //Room
+    const [isOpenRoom, setIsOpenRoom] = useState(false);
+    const [isFocusedRoom, setIsFocusedRoom] = useState(false);
+    const [room, setRoom] = React.useState('');
+  
+      
+    const handleChangeRoom = (event) => {
+      setRoom(event.target.value);
+    };
+  
+    const handleFocusRoom = () => {
+      setIsFocusedRoom(true);
+    };
+  
+    const handleBlurRoom = () => {
+      setIsFocusedRoom(false);
+    };
+  
+    //Day
+    const [isOpenDay, setIsOpenDay] = useState(false);
+    const [isFocusedDay, setIsFocusedDay] = useState(false);
+    const [day, setDay] = React.useState('');
+  
+      
+    const handleChangeDay = (event) => {
+      setDay(event.target.value);
+    };
+  
+    const handleFocusDay = () => {
+      setIsFocusedDay(true);
+    };
+  
+    const handleBlurDay = () => {
+      setIsFocusedDay(false);
+    };
+  
   return (
     <>
       <div className={SubjectAssignCSS.topTableWrapper}>
@@ -289,8 +340,7 @@ const SubjectAssignPage = () => {
               </Select>
             </FormControl>
 
-
-          {/* BLOCK UNITS FIELD */}
+            {/* BLOCK FIELD */}
 
             <div className={SubjectAssignCSS["block-unit-wrapper"]}>
               <FormControl sx={{ m: 1, minWidth: 100 }}>
@@ -328,7 +378,7 @@ const SubjectAssignPage = () => {
                 </Select>
               </FormControl>
 
-              {/* Block Units */}
+              {/* BLOCK UNITS FIELD */}
               <Box
                 component="form"
                 sx={{ m: 1, width: 90 }}
@@ -342,8 +392,8 @@ const SubjectAssignPage = () => {
                   variant="outlined"
                 />
               </Box>
-              
-              {/* Actual Units */}
+
+              {/* ACTUAL UNITS FIELD */}
               <Box
                 component="form"
                 sx={{ m: 1, width: 100 }}
@@ -361,83 +411,118 @@ const SubjectAssignPage = () => {
               </Box>
             </div>
 
-          {/* Class Type */}
-          
-            {/* <div className={SubjectAssignCSS["status-room-wrapper"]}>
-          
-        <FormControl sx={{ m: 1, minWidth: 152 }}>
-          <InputLabel id="demo-simple-select-helper-label">Class Type</InputLabel>
-          <Select
-            labelId="demo-simple-select-helper-label"
-            id="demo-simple-select-helper"
-            value={block}
-            label="block"
-            onChange={handleChangeBlock}
-            onFocus={handleFocusBlock}
-            onBlur={handleBlurBlock}
-            onOpen={() => {
-              setIsOpenBlock(true);
-            }}
-            onClose={() => {
-              setIsOpenBlock(false);
-            }}
-            input={
-              (isOpenBlock === true && block) ||
-              (isOpenBlock === false && block) ||
-              (isOpenBlock === true && !block) ||
-              (isFocusedBlock && !block) ? (
-                <OutlinedInput notched label="Block" />
-              ) : (
-                <OutlinedInput />
-              )
-            }
-          >
-            <MenuItem value={10}>1</MenuItem>
-            <MenuItem value={20}>2</MenuItem>
-            <MenuItem value={30}>3</MenuItem>
-          </Select>
+            {/* Class Type */}
 
-        </FormControl>
-        <FormControl sx={{ m: 1, minWidth: 152 }}>
-          <InputLabel id="demo-simple-select-helper-label">Room</InputLabel>
-          <Select
-            labelId="demo-simple-select-helper-label"
-            id="demo-simple-select-helper"
-            value={age}
-            label="Age"
-            onChange={handleChange}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
+            <div className={SubjectAssignCSS["status-room-wrapper"]}>
+              <FormControl sx={{ m: 1, minWidth: 152 }}>
+                <InputLabel id="demo-simple-select-helper-label">
+                  Class Type
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-helper-label"
+                  id="demo-simple-select-helper"
+                  value={classType}
+                  label="classType"
+                  onChange={handleChangeClassType}
+                  onFocus={handleFocusClassType}
+                  onBlur={handleBlurClassType}
+                  onOpen={() => {
+                    setIsOpenClassType(true);
+                  }}
+                  onClose={() => {
+                    setIsOpenClassType(false);
+                  }}
+                  input={
+                    (isOpenClassType === true && classType) ||
+                    (isOpenClassType === false && classType) ||
+                    (isOpenClassType === true && !classType) ||
+                    (isFocusedClassType && !classType) ? (
+                      <OutlinedInput notched label="Class Type" />
+                    ) : (
+                      <OutlinedInput />
+                    )
+                  }
+                >
+                  <MenuItem value={10}>Synch</MenuItem>
+                  <MenuItem value={20}>Asynch</MenuItem>
+                  <MenuItem value={30}>F2F</MenuItem>
+                </Select>
+              </FormControl>
 
-        </FormControl>
-        </div> */}
+            {/* Room */}
+              <FormControl sx={{ m: 1, minWidth: 152 }}>
+                <InputLabel id="demo-simple-select-helper-label">
+                  Room
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-helper-label"
+                  id="demo-simple-select-helper"
+                  value={room}
+                  label="room"
+                  onChange={handleChangeRoom}
+                  onFocus={handleFocusRoom}
+                  onBlur={handleBlurRoom}
+                  onOpen={() => {
+                    setIsOpenRoom(true);
+                  }}
+                  onClose={() => {
+                    setIsOpenRoom(false);
+                  }}
+                  input={
+                    (isOpenRoom === true && room) ||
+                    (isOpenRoom === false && room) ||
+                    (isOpenRoom === true && !room) ||
+                    (isFocusedRoom && !room) ? (
+                      <OutlinedInput notched label="Room" />
+                    ) : (
+                      <OutlinedInput />
+                    )
+                  }
+                >
+                  <MenuItem value={10}>GCA</MenuItem>
+                  <MenuItem value={20}>CGA</MenuItem>
+                  <MenuItem value={30}>FDG</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
 
-          {/* <div className={SubjectAssignCSS.timeWrapper}>
+          {/* DAY-TIME FIELDS */}
+            <div className={SubjectAssignCSS.timeWrapper}>
           <FormControl sx={{ m: 1, minWidth: 90 }}>
             <InputLabel id="demo-simple-select-helper-label">Day</InputLabel>
             <Select
               labelId="demo-simple-select-helper-label"
               id="demo-simple-select-helper"
-              value={age}
-              label="Age"
-              onChange={handleChange}
+              value={day}
+              label="day"
+              onChange={handleChangeDay}
+              onFocus={handleFocusDay}
+              onBlur={handleBlurDay}
+              onOpen={() => {
+                setIsOpenDay(true);
+              }}
+              onClose={() => {
+                setIsOpenDay(false);
+              }}
+              input={
+                (isOpenDay === true && day) ||
+                (isOpenDay === false && day) ||
+                (isOpenDay === true && !day) ||
+                (isFocusedDay && !day) ? (
+                  <OutlinedInput notched label="Day" />
+                ) : (
+                  <OutlinedInput />
+                )
+              }
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              <MenuItem value={10}>Synch</MenuItem>
+              <MenuItem value={20}>Asynch</MenuItem>
+              <MenuItem value={30}>F2F</MenuItem>
             </Select>
 
           </FormControl>
-          <FormControl components={['TimePicker', 'TimePicker']} sx={{ m: 1, width: 100 }}>
+          
+          {/* <FormControl components={['TimePicker', 'TimePicker']} sx={{ m: 1, width: 100 }}>
               
               <TimePicker
                 label="From"
@@ -452,8 +537,8 @@ const SubjectAssignPage = () => {
                 defaultValue={dayjs('2022-04-17T00:00')}
               />
           
-            </FormControl>
-          </div> */}
+            </FormControl> */}
+          </div>
 
             {/* <Stack spacing={2} direction="row">
           <Button
