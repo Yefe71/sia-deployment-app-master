@@ -30,245 +30,248 @@ const SubjectAssignPage = () => {
       p: 4,
     };
 
-    
-    const [value, setValue] = React.useState(dayjs('2022-04-17T15:30'));
-    const [age, setAge] = React.useState('');
-    const [num, setNum] = React.useState('');
-    
-    const [outline, setOutline] = useState(false);
-    const [selectState, setSelectState] = useState(false);
-
-    const handleOpenSelect = () => {
-
-     console.log(true)
-    };
-
-    const handleCloseSelect = () => {
-      console.log(false)
-    };
-    
-    const handleChange = (event) => {
-      setAge(event.target.value);
-    };
-    const handleChangeNum = (event) => {
-      setNum(event.target.value);
-    };
-
-    const [isFocused, setIsFocused] = useState(false);
-
-    const handleFocus = () => {
-      setIsFocused(true);
-    };
-
-    const handleBlur = () => {
-      setIsFocused(false);
-    };
-
+    //Modal Open-Close-Submit
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
-  
     const handleSubmit = (event) => {
       event.preventDefault();
       handleClose();
     }
-  return (
-   <>
-    <div className={SubjectAssignCSS.topTableWrapper}>
-    <div className={SubjectAssignCSS.topTable}>
-      <h2>Subject Assignment</h2>
-      
-      <div className={SubjectAssignCSS.topButtons}>
-        <FormControl sx={{ mr: 1, minWidth: 120 }}>
-          <Select
-            displayEmpty
-            inputProps={{ "aria-label": "Without label" }}
-            sx={{
-              backgroundColor: "white",
-              borderRadius: "0.5rem",
-              fontFamily: "Poppins",
-              fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
-              padding: "0rem",
-              fontWeight: "600"
-            }}
-          >
-     
-            <MenuItem value="">Regular</MenuItem>
-            
-            <MenuItem value={20}>Irregular</MenuItem>
-          </Select>
-        </FormControl>
 
-      </div>
-    </div>
-    <div className={SubjectAssignCSS.tableWrapper}>
-      <MyTable />
-    </div>
-    <div className={SubjectAssignCSS.bottomButtons}>
-
-    <div class={SubjectAssignCSS.left}>
-    <Stack spacing={2} direction="row">
-        <Button
-          onClick={handleOpen}
-          style={{ textTransform: "none" }}
-          sx={{ 
-
-         
-            backgroundColor: "#007bff",
-            color: "white",
-            borderRadius: "0.5rem",
-            fontFamily: "Poppins",
-            fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
-            padding: "0rem",
-            padding: "0.9rem",
-            "&:hover": {
-              backgroundColor: "#0070e7", // Change the hover background color here
-            },
-          }}
-          variant="contained"
-        >
-          Reblock
-        </Button>
-      </Stack>
-    </div>
-    <div class={SubjectAssignCSS.middle}>
-    <Stack spacing={2} direction="row">
-        <Button
-          style={{ textTransform: "none" }}
-          sx={{ 
-
-            marginRight: "1rem",
-            backgroundColor: "#424242",
-
-            color: "white",
-            borderRadius: "0.5rem",
-            fontFamily: "Poppins",
-            fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
-            padding: "0rem",
-            padding: "0.9rem",
-            "&:hover": {
-              backgroundColor: "#313131",
-               // Change the hover background color here
-            },
-          }}
-          variant="contained"
-        >
-          Print Reblock List
-        </Button>
-      </Stack>
-    </div>
-    <div class={SubjectAssignCSS.right}>
-
-      <Stack spacing={2} direction="row">
-        <Button
-          onClick={handleOpen}
-          style={{ textTransform: "none" }}
-          sx={{ 
-
-           
-            backgroundColor: "#007bff",
-            color: "white",
-            borderRadius: "0.5rem",
-            fontFamily: "Poppins",
-            fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
-            padding: "0rem",
-            padding: "0.9rem",
-            "&:hover": {
-              backgroundColor: "#0070e7", // Change the hover background color here
-            },
-          }}
-          variant="contained"
-        >
-          Assign
-        </Button>
-      </Stack>
-    </div>
-      
+    //Day-Time Picker
+    const [value, setValue] = React.useState(dayjs('2022-04-17T15:30'));
 
 
-
-    </div>
-    </div>
-
+    //FORM CONTENT
+    //Professor Name
+    const [isOpenProf, setIsOpenProf] = useState(false);
+    const [isFocusedProf, setIsFocusedProf] = useState(false);
+    const [nameProf, setNameProf] = React.useState('');
 
     
-    <Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-  
-     
-    >
-      <Box sx={style} className={SubjectAssignCSS.boxWrapper}>
-      <form onSubmit={handleSubmit}>
+    const handleChangeProf = (event) => {
+      setNameProf(event.target.value);
+    };
 
-      <FormControl sx={{ m: 1, minWidth: 280 }}>
-          <InputLabel id="demo-simple-select-helper-label">Professor Name</InputLabel>
-          <Select
-            labelId="demo-simple-select-helper-label"
-            id="demo-simple-select-helper"
-            value={age}
-            label="Age"
-            onChange={handleChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onOpen={() => {
-              setSelectState(true)
-              console.log(selectState)
-            }}
-            onClose={() => {
-              setSelectState(false)
-              console.log(selectState)
-            }}
-            input={(selectState === true && age) || (selectState === false && age) || (selectState === true && !age) || (isFocused && !age)? <OutlinedInput notched label="Professor Name" /> : <OutlinedInput/>}
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
+    const handleFocusProf = () => {
+      setIsFocusedProf(true);
+    };
 
-        </FormControl>
+    const handleBlurProf = () => {
+      setIsFocusedProf(false);
+    };
 
-      <FormControl sx={{ m: 1, minWidth: 280 }}>
-          <InputLabel id="demo-simple-select-helper-label">Course Code</InputLabel>
-          <Select
-            labelId="demo-simple-select-helper-label"
-            id="demo-simple-select-helper"
-            value={num}
-            label="Num"
-            onChange={handleChangeNum}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
+    //Course Name
+    const [isOpenCourseName, setIsOpenCourseName] = useState(false);
+    const [isFocusedCourseName, setIsFocusedCourseName] = useState(false);
+    const [courseName, setCourseName] = React.useState('');
 
-        </FormControl>
-{/* 
-      <FormControl sx={{ m: 1, minWidth: 280 }}>
-          <InputLabel id="demo-simple-select-helper-label">Course Title</InputLabel>
-          <Select
-            labelId="demo-simple-select-helper-label"
-            id="demo-simple-select-helper"
-            value={age}
-            label="Age"
-            onChange={handleChange}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
+    
+    const handleChangeCourseName = (event) => {
+      setCourseName(event.target.value);
+    };
 
-        </FormControl>
+    const handleFocusCourseName = () => {
+      setIsFocusedCourseName(true);
+    };
 
+    const handleBlurCourseName = () => {
+      setIsFocusedCourseName(false);
+    };
+
+
+  return (
+    <>
+      <div className={SubjectAssignCSS.topTableWrapper}>
+        <div className={SubjectAssignCSS.topTable}>
+          <h2>Subject Assignment</h2>
+
+          <div className={SubjectAssignCSS.topButtons}>
+            <FormControl sx={{ mr: 1, minWidth: 120 }}>
+              <Select
+                displayEmpty
+                inputProps={{ "aria-label": "Without label" }}
+                sx={{
+                  backgroundColor: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+                  padding: "0rem",
+                  fontWeight: "600",
+                }}
+              >
+                <MenuItem value="">Regular</MenuItem>
+
+                <MenuItem value={20}>Irregular</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+        </div>
+        <div className={SubjectAssignCSS.tableWrapper}>
+          <MyTable />
+        </div>
+        <div className={SubjectAssignCSS.bottomButtons}>
+          <div class={SubjectAssignCSS.left}>
+            <Stack spacing={2} direction="row">
+              <Button
+                onClick={handleOpen}
+                style={{ textTransform: "none" }}
+                sx={{
+                  backgroundColor: "#007bff",
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+                  padding: "0rem",
+                  padding: "0.9rem",
+                  "&:hover": {
+                    backgroundColor: "#0070e7", // Change the hover background color here
+                  },
+                }}
+                variant="contained"
+              >
+                Reblock
+              </Button>
+            </Stack>
+          </div>
+          <div class={SubjectAssignCSS.middle}>
+            <Stack spacing={2} direction="row">
+              <Button
+                style={{ textTransform: "none" }}
+                sx={{
+                  marginRight: "1rem",
+                  backgroundColor: "#424242",
+
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+                  padding: "0rem",
+                  padding: "0.9rem",
+                  "&:hover": {
+                    backgroundColor: "#313131",
+                    // Change the hover background color here
+                  },
+                }}
+                variant="contained"
+              >
+                Print Reblock List
+              </Button>
+            </Stack>
+          </div>
+          <div class={SubjectAssignCSS.right}>
+            <Stack spacing={2} direction="row">
+              <Button
+                onClick={handleOpen}
+                style={{ textTransform: "none" }}
+                sx={{
+                  backgroundColor: "#007bff",
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+                  padding: "0rem",
+                  padding: "0.9rem",
+                  "&:hover": {
+                    backgroundColor: "#0070e7", // Change the hover background color here
+                  },
+                }}
+                variant="contained"
+              >
+                Assign
+              </Button>
+            </Stack>
+          </div>
+        </div>
+      </div>
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style} className={SubjectAssignCSS.boxWrapper}>
+          <form onSubmit={handleSubmit}>
+
+            {/* PROFESSOR NAME FIELD */}
+            
+            <FormControl sx={{ m: 1, minWidth: 280 }}>
+              <InputLabel id="demo-simple-select-helper-label">
+                Professor Name
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-helper-label"
+                id="demo-simple-select-helper"
+                value={nameProf}
+                label="nameProf"
+                onChange={handleChangeProf}
+                onFocus={handleFocusProf}
+                onBlur={handleBlurProf}
+                onOpen={() => {
+                  setIsOpenProf(true);
+                }}
+                onClose={() => {
+                  setIsOpenProf(false);
+                }}
+                input={
+                  (isOpenProf === true && nameProf) ||
+                  (isOpenProf === false && nameProf) ||
+                  (isOpenProf === true && !nameProf) ||
+                  (isFocusedProf && !nameProf) ? (
+                    <OutlinedInput notched label="Professor Name" />
+                  ) : (
+                    <OutlinedInput />
+                  )
+                }
+              >
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
+            </FormControl>
+
+
+            {/* COURSE TITLE AND CODE FIELD */}
+
+            <FormControl sx={{ m: 1, minWidth: 280 }}>
+              <InputLabel id="demo-simple-select-helper-label">
+                Course Name
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-helper-label"
+                id="demo-simple-select-helper"
+                value={courseName}
+                label="courseName"
+                onChange={handleChangeCourseName}
+                onFocus={handleFocusCourseName}
+                onBlur={handleBlurCourseName}
+                onOpen={() => {
+                  setIsOpenCourseName(true);
+                }}
+                onClose={() => {
+                  setIsOpenCourseName(false);
+                }}
+                input={
+                  (isOpenCourseName === true && courseName) ||
+                  (isOpenCourseName === false && courseName) ||
+                  (isOpenCourseName === true && !courseName) ||
+                  (isFocusedCourseName && !courseName) ? (
+                    <OutlinedInput notched label="Course Name" />
+                  ) : (
+                    <OutlinedInput />
+                  )
+                }
+              >
+                <MenuItem value={10}>GCA</MenuItem>
+                <MenuItem value={20}>FGAS</MenuItem>
+                <MenuItem value={30}>ASDASD</MenuItem>
+              </Select>
+            </FormControl>
+
+            
+            {/* 
         <div className={SubjectAssignCSS["block-unit-wrapper"]}>
         <FormControl sx={{ m: 1, minWidth: 100 }}>
             <InputLabel id="demo-simple-select-helper-label">Block</InputLabel>
@@ -394,9 +397,7 @@ const SubjectAssignPage = () => {
             </FormControl>
           </div> */}
 
-
-        
-        {/* <Stack spacing={2} direction="row">
+            {/* <Stack spacing={2} direction="row">
           <Button
            type="submit"
             onClick={handleOpen}
@@ -419,11 +420,11 @@ const SubjectAssignPage = () => {
             Assign
           </Button>
         </Stack> */}
-        </form>
-      </Box>
-    </Modal>
-   </>
-  )
+          </form>
+        </Box>
+      </Modal>
+    </>
+  );
 }
 
 export default SubjectAssignPage
