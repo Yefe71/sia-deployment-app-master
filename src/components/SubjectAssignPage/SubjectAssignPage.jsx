@@ -271,7 +271,7 @@ const SubjectAssignPage = () => {
           <form onSubmit={handleSubmit}>
             {/* PROFESSOR NAME FIELD */}
 
-            <FormControl sx={{ m: 1, minWidth: 320 }}>
+            <FormControl  size = {isSmallScreen ? "small" : "large"} sx={{ m: 1, minWidth: isSmallScreen ? 260 : 320 }}>
               <InputLabel id="demo-simple-select-helper-label">
                 Professor Name
               </InputLabel>
@@ -299,7 +299,7 @@ const SubjectAssignPage = () => {
                     <OutlinedInput />
                   )
                 }
-                
+                size = {isSmallScreen ? "small" : "large"}
               >
                 <MenuItem value={10}>Ten</MenuItem>
                 <MenuItem value={20}>Twenty</MenuItem>
@@ -310,7 +310,7 @@ const SubjectAssignPage = () => {
 
             {/* COURSE TITLE AND CODE FIELD */}
           <div className={SubjectAssignCSS["course-title-field"]}>
-            <FormControl sx={{ m: 1, minWidth: 205 }}>
+            <FormControl size = {isSmallScreen ? "small" : "large"} sx={{ m: 1, minWidth: 205 }}>
               <InputLabel id="demo-simple-select-helper-label">
                 Course Name
               </InputLabel>
@@ -338,6 +338,7 @@ const SubjectAssignPage = () => {
                     <OutlinedInput />
                   )
                 }
+                size = {isSmallScreen ? "small" : "large"}
               >
                 <MenuItem value={10}>GCA</MenuItem>
                 <MenuItem value={20}>FGAS</MenuItem>
@@ -346,12 +347,15 @@ const SubjectAssignPage = () => {
             </FormControl>
 
             <Box
+            
               component="form"
               sx={{ m: 1, width: 100 }}
               noValidate
               autoComplete="off"
+              
             >
               <TextField
+                size = {isSmallScreen ? "small" : "large"}
                 id="outlined-read-only-input"
                 label="Course Code"
                 defaultValue="EE234"
@@ -365,11 +369,12 @@ const SubjectAssignPage = () => {
             {/* BLOCK FIELD */}
 
             <div className={SubjectAssignCSS["block-unit-wrapper"]}>
-              <FormControl sx={{ m: 1, minWidth: 90 }}>
+              <FormControl size = {isSmallScreen ? "small" : "large"} sx={{ m: 1, minWidth: 90 }}>
                 <InputLabel id="demo-simple-select-helper-label">
                   Block
                 </InputLabel>
                 <Select
+                  size = {isSmallScreen ? "small" : "large"}
                   labelId="demo-simple-select-helper-label"
                   id="demo-simple-select-helper"
                   value={block}
@@ -402,12 +407,15 @@ const SubjectAssignPage = () => {
 
               {/* BLOCK UNITS FIELD */}
               <Box
+              
                 component="form"
                 sx={{ m: 1, width: 100 }}
                 noValidate
                 autoComplete="off"
               >
+                
                 <TextField
+                  size = {isSmallScreen ? "small" : "large"}
                   id="outlined-basic"
                   label="Units"
                   type="number"
@@ -417,12 +425,14 @@ const SubjectAssignPage = () => {
 
               {/* ACTUAL UNITS FIELD */}
               <Box
+              
                 component="form"
                 sx={{ m: 1, width: 100 }}
                 noValidate
                 autoComplete="off"
               >
                 <TextField
+                  size = {isSmallScreen ? "small" : "large"}
                   id="outlined-read-only-input"
                   label="Actual Units"
                   defaultValue="16"
@@ -436,11 +446,12 @@ const SubjectAssignPage = () => {
             {/* Class Type */}
 
             <div className={SubjectAssignCSS["status-room-wrapper"]}>
-              <FormControl sx={{ m: 1, minWidth: 152 }}>
+              <FormControl size = {isSmallScreen ? "small" : "large"} sx={{ m: 1, minWidth: 152 }}>
                 <InputLabel id="demo-simple-select-helper-label">
                   Class Type
                 </InputLabel>
                 <Select
+                  size = {isSmallScreen ? "small" : "large"}
                   labelId="demo-simple-select-helper-label"
                   id="demo-simple-select-helper"
                   value={classType}
@@ -472,11 +483,12 @@ const SubjectAssignPage = () => {
               </FormControl>
 
             {/* Room */}
-              <FormControl sx={{ m: 1, minWidth: 152 }}>
+              <FormControl size = {isSmallScreen ? "small" : "large"} sx={{ m: 1, minWidth: 152 }}>
                 <InputLabel id="demo-simple-select-helper-label">
                   Room
                 </InputLabel>
                 <Select
+                  size = {isSmallScreen ? "small" : "large"}
                   labelId="demo-simple-select-helper-label"
                   id="demo-simple-select-helper"
                   value={room}
@@ -510,9 +522,11 @@ const SubjectAssignPage = () => {
 
           {/* DAY-TIME FIELDS */}
             <div className={SubjectAssignCSS.timeWrapper}>
-          <FormControl sx={{ m: 1, minWidth: 90 }}>
+          <FormControl size = {isSmallScreen ? "small" : "large"} sx={{ m: 1, minWidth: 90 }}>
+            
             <InputLabel id="demo-simple-select-helper-label">Day</InputLabel>
             <Select
+              size = {isSmallScreen ? "small" : "large"}
               labelId="demo-simple-select-helper-label"
               id="demo-simple-select-helper"
               value={day}
