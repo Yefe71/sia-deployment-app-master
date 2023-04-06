@@ -4,12 +4,15 @@ import StudentDeployment from "../Pages/StudentDeployment/StudentDeployment";
 import Admin from "../Pages/Admin/Admin";
 import Navbar from "../components/Navbar/Navbar";
 import FacultyDeployment from "../Pages/FacultyDeployment/FacultyDeployment";
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 function App() {
   const [access, setAccess] = useState(false);
   const [page, setPage] = useState("roomplot");
   const [currentApp, setCurrentApp] = useState("student");
 
   return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
     <div className="App">
       <Navbar
         currentApp={currentApp}
@@ -49,6 +52,7 @@ function App() {
   }
 
     </div>
+    </LocalizationProvider>
   );
 }
 

@@ -98,7 +98,7 @@ const Navbar = ({ access, setPage, setAccess, page, currentApp, setCurrentApp}) 
                 <>
                   <h3 className = {`${page === "schedsummary" && NavbarCSS.active}`} onClick={() => setPage("schedsummary")}>Schedule Summary</h3>
                   <h3 className = {`${page === "roomplot" && NavbarCSS.active}`} onClick={() => setPage("roomplot")}>Room Plotting</h3>
-                  <h3 className = {`${page === "students" && NavbarCSS.active}`} onClick={() => setPage("students")}>Student List</h3>
+                  <h3 className = {`${page === "subjassign" && NavbarCSS.active}`} onClick={() => setPage("subjassign")}>Subject Assignment</h3>
                   <h3 className={NavbarCSS.logout} onClick={() => {setAccess(false)}}>Sign Out</h3>
                 </>
               }

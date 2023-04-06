@@ -44,12 +44,12 @@
 
 .tableWrapper{
 
-    z-index: 2;
+
    overflow-y: scroll;
    background: #efeeee;
    box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 15px;
     outline: 1px solid #d9d8d8;
-
+    z-index: 2;
 }
 
 .topTableWrapper{
@@ -70,6 +70,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
 }
 
 .noStudents{
@@ -123,37 +124,36 @@
 form{
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+
 }
 
 .bottomButtons{
 
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     margin-right: 0rem;
     margin-bottom: 2rem;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
+    width: 75vw;
 }
 
+
+.middle{
+    visibility:hidden;
+}
 
 .left{
     visibility: hidden;
 }
-.right{
+
+.topButtons{
     visibility: hidden;
 }
 
-.bottomButtons{
-
+.block-unit-wrapper{
     display: flex;
-    justify-content: center; 
-    margin-right: 0rem;
-    margin-top: 1.5rem;
-    margin-top: 2rem;
 }
-
 
 @media screen and (max-width: 500px) {
     .topTable h2{
@@ -165,6 +165,15 @@ form{
         padding: 0;
         margin-bottom: 0.8rem;
         margin-left: 0.8rem;
+        white-space: nowrap;
     
     }    
+
+    .left{
+        display: none;
+    }
+}
+
+.timeWrapper{
+    display: flex;
 }

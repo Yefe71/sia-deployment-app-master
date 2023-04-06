@@ -51,8 +51,8 @@ const RoomPlotPage = () => {
     <div className={RoomPlotCSS.topTableWrapper}>
     <div className={RoomPlotCSS.topTable}>
       <h2>Room Plotting</h2>
-      
       <div className={RoomPlotCSS.topButtons}>
+      
         <FormControl sx={{ mr: 1, minWidth: 120 }}>
           <Select
             value={year}
