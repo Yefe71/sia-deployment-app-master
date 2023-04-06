@@ -38,6 +38,67 @@ const SubjectAssignPage = () => {
       event.preventDefault();
       handleClose();
     }
+
+    //Day-Time Picker
+    const [value, setValue] = React.useState(dayjs('2022-04-17T15:30'));
+
+
+    //FORM CONTENT
+    //Professor Name
+    const [isOpenProf, setIsOpenProf] = useState(false);
+    const [isFocusedProf, setIsFocusedProf] = useState(false);
+    const [nameProf, setNameProf] = React.useState('');
+
+    
+    const handleChangeProf = (event) => {
+      setNameProf(event.target.value);
+    };
+
+    const handleFocusProf = () => {
+      setIsFocusedProf(true);
+    };
+
+    const handleBlurProf = () => {
+      setIsFocusedProf(false);
+    };
+
+    //Course Name
+    const [isOpenCourseName, setIsOpenCourseName] = useState(false);
+    const [isFocusedCourseName, setIsFocusedCourseName] = useState(false);
+    const [courseName, setCourseName] = React.useState('');
+
+    
+    const handleChangeCourseName = (event) => {
+      setCourseName(event.target.value);
+    };
+
+    const handleFocusCourseName = () => {
+      setIsFocusedCourseName(true);
+    };
+
+    const handleBlurCourseName = () => {
+      setIsFocusedCourseName(false);
+    };
+    
+    //block
+    const [isOpenBlock, setIsOpenBlock] = useState(false);
+    const [isFocusedBlock, setIsFocusedBlock] = useState(false);
+    const [block, setBlock] = React.useState('');
+
+    
+    const handleChangeBlock = (event) => {
+      setBlock(event.target.value);
+    };
+
+    const handleFocusBlock = () => {
+      setIsFocusedBlock(true);
+    };
+
+    const handleBlurBlock = () => {
+      setIsFocusedBlock(false);
+    };
+
+
   return (
     <>
       <div className={SubjectAssignCSS.topTableWrapper}>
@@ -100,172 +161,202 @@ const SubjectAssignPage = () => {
                   marginRight: "1rem",
                   backgroundColor: "#424242",
 
-            color: "white",
-            borderRadius: "0.5rem",
-            fontFamily: "Poppins",
-            fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
-            padding: "0rem",
-            padding: "0.9rem",
-            "&:hover": {
-              backgroundColor: "#313131",
-               // Change the hover background color here
-            },
-          }}
-          variant="contained"
-        >
-          Print Reblock List
-        </Button>
-      </Stack>
-    </div>
-    <div class={SubjectAssignCSS.right}>
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+                  padding: "0rem",
+                  padding: "0.9rem",
+                  "&:hover": {
+                    backgroundColor: "#313131",
+                    // Change the hover background color here
+                  },
+                }}
+                variant="contained"
+              >
+                Print Reblock List
+              </Button>
+            </Stack>
+          </div>
+          <div class={SubjectAssignCSS.right}>
+            <Stack spacing={2} direction="row">
+              <Button
+                onClick={handleOpen}
+                style={{ textTransform: "none" }}
+                sx={{
+                  backgroundColor: "#007bff",
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+                  padding: "0rem",
+                  padding: "0.9rem",
+                  "&:hover": {
+                    backgroundColor: "#0070e7", // Change the hover background color here
+                  },
+                }}
+                variant="contained"
+              >
+                Assign
+              </Button>
+            </Stack>
+          </div>
+        </div>
+      </div>
 
-      <Stack spacing={2} direction="row">
-        <Button
-          onClick={handleOpen}
-          style={{ textTransform: "none" }}
-          sx={{ 
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style} className={SubjectAssignCSS.boxWrapper}>
+          <form onSubmit={handleSubmit}>
+            {/* PROFESSOR NAME FIELD */}
 
-           
-            backgroundColor: "#007bff",
-            color: "white",
-            borderRadius: "0.5rem",
-            fontFamily: "Poppins",
-            fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
-            padding: "0rem",
-            padding: "0.9rem",
-            "&:hover": {
-              backgroundColor: "#0070e7", // Change the hover background color here
-            },
-          }}
-          variant="contained"
-        >
-          Assign
-        </Button>
-      </Stack>
-    </div>
-      
+            <FormControl sx={{ m: 1, minWidth: 280 }}>
+              <InputLabel id="demo-simple-select-helper-label">
+                Professor Name
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-helper-label"
+                id="demo-simple-select-helper"
+                value={nameProf}
+                label="nameProf"
+                onChange={handleChangeProf}
+                onFocus={handleFocusProf}
+                onBlur={handleBlurProf}
+                onOpen={() => {
+                  setIsOpenProf(true);
+                }}
+                onClose={() => {
+                  setIsOpenProf(false);
+                }}
+                input={
+                  (isOpenProf === true && nameProf) ||
+                  (isOpenProf === false && nameProf) ||
+                  (isOpenProf === true && !nameProf) ||
+                  (isFocusedProf && !nameProf) ? (
+                    <OutlinedInput notched label="Professor Name" />
+                  ) : (
+                    <OutlinedInput />
+                  )
+                }
+              >
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
+            </FormControl>
+
+            {/* COURSE TITLE AND CODE FIELD */}
+
+            <FormControl sx={{ m: 1, minWidth: 280 }}>
+              <InputLabel id="demo-simple-select-helper-label">
+                Course Name
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-helper-label"
+                id="demo-simple-select-helper"
+                value={courseName}
+                label="courseName"
+                onChange={handleChangeCourseName}
+                onFocus={handleFocusCourseName}
+                onBlur={handleBlurCourseName}
+                onOpen={() => {
+                  setIsOpenCourseName(true);
+                }}
+                onClose={() => {
+                  setIsOpenCourseName(false);
+                }}
+                input={
+                  (isOpenCourseName === true && courseName) ||
+                  (isOpenCourseName === false && courseName) ||
+                  (isOpenCourseName === true && !courseName) ||
+                  (isFocusedCourseName && !courseName) ? (
+                    <OutlinedInput notched label="Course Name" />
+                  ) : (
+                    <OutlinedInput />
+                  )
+                }
+              >
+                <MenuItem value={10}>GCA</MenuItem>
+                <MenuItem value={20}>FGAS</MenuItem>
+                <MenuItem value={30}>ASDASD</MenuItem>
+              </Select>
+            </FormControl>
 
 
+          {/* BLOCK UNITS FIELD */}
 
-    </div>
-    </div>
+            <div className={SubjectAssignCSS["block-unit-wrapper"]}>
+              <FormControl sx={{ m: 1, minWidth: 100 }}>
+                <InputLabel id="demo-simple-select-helper-label">
+                  Block
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-helper-label"
+                  id="demo-simple-select-helper"
+                  value={block}
+                  label="block"
+                  onChange={handleChangeBlock}
+                  onFocus={handleFocusBlock}
+                  onBlur={handleBlurBlock}
+                  onOpen={() => {
+                    setIsOpenBlock(true);
+                  }}
+                  onClose={() => {
+                    setIsOpenBlock(false);
+                  }}
+                  input={
+                    (isOpenBlock === true && block) ||
+                    (isOpenBlock === false && block) ||
+                    (isOpenBlock === true && !block) ||
+                    (isFocusedBlock && !block) ? (
+                      <OutlinedInput notched label="Block" />
+                    ) : (
+                      <OutlinedInput />
+                    )
+                  }
+                >
+                  <MenuItem value={10}>1</MenuItem>
+                  <MenuItem value={20}>2</MenuItem>
+                  <MenuItem value={30}>3</MenuItem>
+                </Select>
+              </FormControl>
 
-
-    
-    <Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-  
-     
-    >
-      <Box sx={style} className={SubjectAssignCSS.boxWrapper}>
-      <form onSubmit={handleSubmit}>
-
-      <FormControl sx={{ m: 1, minWidth: 280 }}>
-          <InputLabel id="demo-simple-select-helper-label">Professor Name</InputLabel>
-          <Select
-            labelId="demo-simple-select-helper-label"
-            id="demo-simple-select-helper"
-            value={age}
-            label="Age"
-            onChange={handleChange}
-            input={outline ? <OutlinedInput notched label="Professor Name" /> : undefined}
-            onFocus={handleSelectFocus}
-            onBlur={handleSelectBlur}
-          >
-
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-
-        </FormControl>
-
-      <FormControl sx={{ m: 1, minWidth: 280 }}>
-          <InputLabel id="demo-simple-select-helper-label">Course Code</InputLabel>
-          <Select
-            labelId="demo-simple-select-helper-label"
-            id="demo-simple-select-helper"
-            value={num}
-            label="Num"
-            onChange={handleChangeNum}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-
-        </FormControl>
-{/* 
-      <FormControl sx={{ m: 1, minWidth: 280 }}>
-          <InputLabel id="demo-simple-select-helper-label">Course Title</InputLabel>
-          <Select
-            labelId="demo-simple-select-helper-label"
-            id="demo-simple-select-helper"
-            value={age}
-            label="Age"
-            onChange={handleChange}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-
-        </FormControl>
-
-        <div className={SubjectAssignCSS["block-unit-wrapper"]}>
-        <FormControl sx={{ m: 1, minWidth: 100 }}>
-            <InputLabel id="demo-simple-select-helper-label">Block</InputLabel>
-            <Select
-              labelId="demo-simple-select-helper-label"
-              id="demo-simple-select-helper"
-              value={age}
-              label="Age"
-              onChange={handleChange}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-
-          </FormControl>
-          <Box
-            component="form"
-            sx={{ m: 1, width: 90 }}
-            noValidate
-            autoComplete="off"
-          >
-         
-          <TextField id="outlined-basic" label="Units" type="number" variant="outlined" />
-    
-          </Box>
-          <Box
-            component="form"
-            sx={{ m: 1, width: 100 }}
-            noValidate
-            autoComplete="off"
-          >
-            <TextField
-              id="outlined-read-only-input"
-              label="Actual Units"
-              defaultValue="16"
-              InputProps={{
-                readOnly: true,
-              }}
-           
-            />
-          </Box>
+              {/* Block Units */}
+              <Box
+                component="form"
+                sx={{ m: 1, width: 90 }}
+                noValidate
+                autoComplete="off"
+              >
+                <TextField
+                  id="outlined-basic"
+                  label="Units"
+                  type="number"
+                  variant="outlined"
+                />
+              </Box>
+              
+              {/* Actual Units */}
+              <Box
+                component="form"
+                sx={{ m: 1, width: 100 }}
+                noValidate
+                autoComplete="off"
+              >
+                <TextField
+                  id="outlined-read-only-input"
+                  label="Actual Units"
+                  defaultValue="16"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Box>
+            </div>
 
           {/* Class Type */}
           
