@@ -13,6 +13,9 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { useMediaQuery } from "@mui/material";
 import dayjs from 'dayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { OutlinedInput } from '@mui/material';
 
@@ -23,8 +26,8 @@ const SubjectAssignPage = () => {
       top: "50%",
       left: "50%",
       transform: "translate(-50%, -50%)",
-      width: 700,
-      height: 450,
+      width: 320,
+      height: 440,
       bgcolor: "#eeeeee",
       borderRadius: "1rem",
       boxShadow: 24,
@@ -268,7 +271,7 @@ const SubjectAssignPage = () => {
           <form onSubmit={handleSubmit}>
             {/* PROFESSOR NAME FIELD */}
 
-            <FormControl sx={{ m: 1, minWidth: 280 }}>
+            <FormControl sx={{ m: 1, minWidth: 320 }}>
               <InputLabel id="demo-simple-select-helper-label">
                 Professor Name
               </InputLabel>
@@ -304,8 +307,8 @@ const SubjectAssignPage = () => {
             </FormControl>
 
             {/* COURSE TITLE AND CODE FIELD */}
-
-            <FormControl sx={{ m: 1, minWidth: 280 }}>
+          <div className={SubjectAssignCSS["course-title-field"]}>
+            <FormControl sx={{ m: 1, minWidth: 205 }}>
               <InputLabel id="demo-simple-select-helper-label">
                 Course Name
               </InputLabel>
@@ -340,10 +343,27 @@ const SubjectAssignPage = () => {
               </Select>
             </FormControl>
 
+            <Box
+              component="form"
+              sx={{ m: 1, width: 100 }}
+              noValidate
+              autoComplete="off"
+            >
+              <TextField
+                id="outlined-read-only-input"
+                label="Course Code"
+                defaultValue="EE234"
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Box>
+          </div>
+
             {/* BLOCK FIELD */}
 
             <div className={SubjectAssignCSS["block-unit-wrapper"]}>
-              <FormControl sx={{ m: 1, minWidth: 100 }}>
+              <FormControl sx={{ m: 1, minWidth: 90 }}>
                 <InputLabel id="demo-simple-select-helper-label">
                   Block
                 </InputLabel>
@@ -381,7 +401,7 @@ const SubjectAssignPage = () => {
               {/* BLOCK UNITS FIELD */}
               <Box
                 component="form"
-                sx={{ m: 1, width: 90 }}
+                sx={{ m: 1, width: 100 }}
                 noValidate
                 autoComplete="off"
               >
@@ -522,7 +542,7 @@ const SubjectAssignPage = () => {
 
           </FormControl>
           
-          {/* <FormControl components={['TimePicker', 'TimePicker']} sx={{ m: 1, width: 100 }}>
+          <FormControl components={['TimePicker', 'TimePicker']} sx={{ m: 1, width: 100 }}>
               
               <TimePicker
                 label="From"
@@ -537,16 +557,16 @@ const SubjectAssignPage = () => {
                 defaultValue={dayjs('2022-04-17T00:00')}
               />
           
-            </FormControl> */}
+            </FormControl>
           </div>
 
-            {/* <Stack spacing={2} direction="row">
+          <Stack spacing={2}  direction="row">
           <Button
            type="submit"
             onClick={handleOpen}
             style={{ textTransform: "none" }}
             sx={{
-              marginTop: '3rem',
+              marginTop: '1.5rem',
               backgroundColor: "#4CAF50 ",
               color: "white",
               borderRadius: "0.5rem",
@@ -554,6 +574,7 @@ const SubjectAssignPage = () => {
               fontSize: "0.9rem",
               padding: "0rem",
               padding: "0.9rem",
+              width: 320,
               "&:hover": {
                 backgroundColor: "#429645 ", // Change the hover background color here
               },
@@ -562,7 +583,7 @@ const SubjectAssignPage = () => {
           >
             Assign
           </Button>
-        </Stack> */}
+        </Stack>
           </form>
         </Box>
       </Modal>

@@ -155,6 +155,14 @@ form{
     display: flex;
 }
 
+.course-title-field{
+    display: flex;
+}
+
+.status-room-wrapper{
+    display: flex;
+}
+
 @media screen and (max-width: 500px) {
     .topTable h2{
         color: rgb(62, 61, 61);
