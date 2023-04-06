@@ -21,7 +21,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@mobiscroll/react": "https://npm.mobiscroll.com/@mobiscroll/react-trial/-/react-trial-5.22.2.tgz",
     "@mui/material": "^5.11.13",
-    "@mui/x-date-pickers": "^6.0.4",
+    "@mui/x-date-pickers": "^5.0.20",
     "dayjs": "^1.11.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

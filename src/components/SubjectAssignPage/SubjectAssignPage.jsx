@@ -13,9 +13,6 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { useMediaQuery } from "@mui/material";
 import dayjs from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { OutlinedInput } from '@mui/material';
 
@@ -558,22 +555,7 @@ const SubjectAssignPage = () => {
 
           </FormControl>
           
-          <FormControl components={['TimePicker', 'TimePicker']} sx={{ m: 1, width: 100 }}>
-              
-              <TimePicker
-                label="From"
-                defaultValue={dayjs('2022-04-17T00:00')}
-              />
-          
-            </FormControl>
-            <FormControl components={['TimePicker', 'TimePicker']} sx={{ m: 1, width: 100 }}>
-                
-              <TimePicker
-                label="To"
-                defaultValue={dayjs('2022-04-17T00:00')}
-              />
-          
-            </FormControl>
+  
           </div>
 
           <Stack spacing={2}  direction="row">
