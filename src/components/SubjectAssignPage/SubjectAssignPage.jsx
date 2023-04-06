@@ -13,7 +13,6 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { useMediaQuery } from "@mui/material";
 import dayjs from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { OutlinedInput } from '@mui/material';
 const SubjectAssignPage = () => {
@@ -37,24 +36,32 @@ const SubjectAssignPage = () => {
     const [num, setNum] = React.useState('');
     
     const [outline, setOutline] = useState(false);
+    const [selectState, setSelectState] = useState(false);
 
-    function handleSelectFocus() {
-      setOutline(true);
-      console.log('focus')
-    }
+    const handleOpenSelect = () => {
 
-    function handleSelectBlur() {
-      setOutline(false);
-      console.log('blur')
-    }
+     console.log(true)
+    };
 
-
+    const handleCloseSelect = () => {
+      console.log(false)
+    };
     
     const handleChange = (event) => {
       setAge(event.target.value);
     };
     const handleChangeNum = (event) => {
       setNum(event.target.value);
+    };
+
+    const [isFocused, setIsFocused] = useState(false);
+
+    const handleFocus = () => {
+      setIsFocused(true);
+    };
+
+    const handleBlur = () => {
+      setIsFocused(false);
     };
 
     const [open, setOpen] = useState(false);
@@ -205,11 +212,18 @@ const SubjectAssignPage = () => {
             value={age}
             label="Age"
             onChange={handleChange}
-            input={outline ? <OutlinedInput notched label="Professor Name" /> : undefined}
-            onFocus={handleSelectFocus}
-            onBlur={handleSelectBlur}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            onOpen={() => {
+              setSelectState(true)
+              console.log(selectState)
+            }}
+            onClose={() => {
+              setSelectState(false)
+              console.log(selectState)
+            }}
+            input={(selectState === true && age) || (selectState === false && age) || (selectState === true && !age) || (isFocused && !age)? <OutlinedInput notched label="Professor Name" /> : <OutlinedInput/>}
           >
-
             <MenuItem value={10}>Ten</MenuItem>
             <MenuItem value={20}>Twenty</MenuItem>
             <MenuItem value={30}>Thirty</MenuItem>
