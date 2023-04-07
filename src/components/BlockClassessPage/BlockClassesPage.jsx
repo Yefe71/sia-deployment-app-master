@@ -78,7 +78,7 @@ const BlockClassesPage = () => {
         </div>
 
         <div className={`${BlockClassessCSS.tableWrapper} ${BlockClassessCSS.sched}`}>
-          <Scheduler />
+     
         </div>
       </div>
 

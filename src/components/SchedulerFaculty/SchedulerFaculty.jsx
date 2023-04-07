@@ -1,6 +1,7 @@
 /* eslint-disable max-classes-per-file */
 /* eslint-disable react/no-unused-state */
 import * as React from 'react';
+import './SchedulerFaculty.css'
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import { ViewState, EditingState } from '@devexpress/dx-react-scheduler';
@@ -36,7 +37,7 @@ import Notes from '@mui/icons-material/Notes';
 import Close from '@mui/icons-material/Close';
 import CalendarToday from '@mui/icons-material/CalendarToday';
 import Create from '@mui/icons-material/Create';
-import SchedulerFacultyCSS from './SchedulerFaculty.module.css'
+// import SchedulerFacultyCSS from './SchedulerFaculty.module.css'
 
 import { appointments } from '../../data/appointments';
 
@@ -443,10 +444,13 @@ export default class SchedulerFaculty extends React.PureComponent {
         <Scheduler
           data={data}
           height={'100%'}
+          initialScale={0.75}
        
         >
+    
           <ViewState
             currentDate={currentDate}
+        
           />
           <EditingState
             onCommitChanges={this.commitChanges}

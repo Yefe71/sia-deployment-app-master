@@ -136,7 +136,8 @@
     display: none;
 }
 .logout{
-    margin-right: 0.5rem;
+    margin-right: 0rem;
+    white-space: nowrap;
 }
 .left{
     visibility: hidden;
@@ -148,7 +149,7 @@
         color: #0D4FAD;
         font-family: Poppins;
         font-style: italic;
-        font-size: 1.7rem;
+        font-size: 1.4rem;
     }
     .leftNavText span{
 
@@ -160,13 +161,17 @@
         font-family: Poppins;
         white-space: nowrap;
         font-size: 0.7rem;
+    }   
+
+    .imgWrapper img{
+        width: 5rem;
     }
 
 }
 
 @media screen and (max-width: 769px) {
     .subNav{
-        height: 6svh;
+        height: 4svh;
         background: #0d4daa;
         display: flex;
         justify-content: space-evenly;
@@ -176,7 +181,7 @@
         font-family: Poppins;
         font-weight: 500;
         color: white;
-        font-size: 0.6rem;
+        font-size: 0.7rem !important;
         cursor: pointer;
         text-align: center;
         padding: 0.3em 0.5em;
@@ -282,7 +287,7 @@
     }
 
     .logout{
-        width: 3rem;
+        width: 4rem;
     }
     .left{
         display: none;
@@ -301,7 +306,7 @@
         font-family: Poppins;
         font-weight: 500;
         color: white;
-        font-size: 0.6rem;
+        font-size: 0.9rem !important;
         cursor: pointer;
         text-align: center;
         padding: 0.3em 0.5em;
@@ -328,7 +333,7 @@
 
     .imgWrapper img{
         object-fit: cover;
-        width: 4rem;
+        width: 6rem;
     }
 
     .leftNavText{
@@ -344,7 +349,7 @@
         color: #0D4FAD;
         font-family: Poppins;
         font-style: italic;
-        font-size: 1.2rem;
+        font-size: 1.5rem;
     }
     .leftNavText span{
 
@@ -354,8 +359,8 @@
     .leftNavText h3{
         margin: 0;
         font-family: Poppins;
-        white-space: nowrap;
-        font-size: 0.4rem;
+   
+        font-size: 0.6rem;
     }
 
     .rightNav{
@@ -368,7 +373,7 @@
         font-weight: 600;
         margin: 0;
         padding: 0;
-        font-size: 0.4rem;
+        font-size: 0.8rem;
     }
 
 
@@ -383,7 +388,7 @@
     }
     .logout{
 
-        
+        /* white-space: nowrap; */
     }
 
     .imgWrapper{
@@ -402,7 +407,7 @@
         font-family: Poppins;
         font-style: italic;
         font-weight: 700;
-        font-size: 0.6rem;
+        font-size: 0.8rem;
     }
     .subNav .logout{
         position: static;

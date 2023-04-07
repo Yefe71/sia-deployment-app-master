@@ -86,7 +86,7 @@
 
 
 
-@media screen and (max-width: 500px) {
+/* @media screen and (max-width: 500px) {
     .topTable h2{
         color: rgb(62, 61, 61);
         font-family: Poppins;
@@ -99,3 +99,9 @@
     
     }    
 }
+@media screen and (max-width: 700px) {
+
+    .tableWrapper{
+        height: 70vh;
+    }
+} */
