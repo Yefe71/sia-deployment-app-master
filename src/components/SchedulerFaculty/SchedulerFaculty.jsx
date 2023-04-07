@@ -37,10 +37,35 @@ import Notes from '@mui/icons-material/Notes';
 import Close from '@mui/icons-material/Close';
 import CalendarToday from '@mui/icons-material/CalendarToday';
 import Create from '@mui/icons-material/Create';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
 // import SchedulerFacultyCSS from './SchedulerFaculty.module.css'
 
 import { appointments } from '../../data/appointments';
-
+const AppointmentWithProfessor = ({ children, style, ...restProps }) => (
+  <Appointment.Root {...restProps} style={style}>
+    <div>{restProps.data.professor}</div>
+    {children}
+  </Appointment.Root>
+);
+const Appointment = ({
+  children, style, ...restProps
+}) => (
+  <Appointments.Appointment
+    {...restProps}
+    
+    style={{
+      ...style,
+      backgroundColor: '#FFC107',
+      borderRadius: '8px',
+    }}
+  >
+   
+    {children}
+  </Appointments.Appointment>
+);
 const PREFIX = 'Demo';
 // #FOLD_BLOCK
 const classes = {
@@ -55,7 +80,7 @@ const classes = {
   textField: `${PREFIX}-textField`,
   addButton: `${PREFIX}-addButton`,
 };
-
+const professorNames = ['Prof. John Doe', 'Prof. Jane Smith', 'Prof. Michael Brown'];
 // #FOLD_BLOCK
 const StyledDiv = styled('div')(({ theme }) => ({
   [`& .${classes.icon}`]: {
@@ -221,11 +246,28 @@ class AppointmentFormContainerBasic extends React.PureComponent {
             </IconButton>
           </div>
           <div className={classes.content}>
-            <div className={classes.wrapper}>
+            {/* <div className={classes.wrapper}>
               <Create className={classes.icon} color="action" />
               <TextField
                 {...textEditorProps('title')}
               />
+            </div> */}
+            {/* PROFESSOR NAME FIELD */}
+            <div className={classes.wrapper}>
+              <Create className={classes.icon} color="action" />
+              <FormControl variant="outlined" className={classes.textField}>
+                <InputLabel id="professor-name-label">Professor Name</InputLabel>
+                <Select
+                  labelId="professor-name-label"
+                  {...textEditorProps('professorName')}
+                >
+                  {professorNames.map((name, index) => (
+                    <MenuItem key={index} value={name}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </div>
             <div className={classes.wrapper}>
               <CalendarToday className={classes.icon} color="action" />
@@ -464,7 +506,8 @@ export default class SchedulerFaculty extends React.PureComponent {
           <MonthView />
           <AllDayPanel />
           <EditRecurrenceMenu />
-          <Appointments />
+          <Appointments 
+          appointmentComponent={Appointment}/>
           <AppointmentTooltip
             showOpenButton
             showCloseButton
