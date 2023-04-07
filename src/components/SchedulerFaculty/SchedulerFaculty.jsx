@@ -41,31 +41,36 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
+import dayjs from 'dayjs';
 // import SchedulerFacultyCSS from './SchedulerFaculty.module.css'
 
 import { appointments } from '../../data/appointments';
-const AppointmentWithProfessor = ({ children, style, ...restProps }) => (
-  <Appointment.Root {...restProps} style={style}>
-    <div>{restProps.data.professor}</div>
-    {children}
-  </Appointment.Root>
-);
+
 const Appointment = ({
   children, style, ...restProps
-}) => (
-  <Appointments.Appointment
-    {...restProps}
-    
-    style={{
-      ...style,
-      backgroundColor: '#FFC107',
-      borderRadius: '8px',
-    }}
-  >
+}) => {
+  const { data } = restProps; // Destructure data from restProps
+
+  // Create a new style object
+  const contentStyle = {
+    color: 'white', fontWeight: 'bold', padding: '0px 10px 0px', margin: '0px' 
+  };
+
+  return (
+    <Appointments.Appointment
+      {...restProps}
+      className="Appointment-appointment Appointment-clickableAppointment"
    
-    {children}
-  </Appointments.Appointment>
-);
+    >
+    
+      <p style={{ color: 'white', fontWeight: 'bold', padding: '10px 10px 0px', margin: '0px' }}>{data.professorName}</p> {/* Display the professor's name */}
+      <p style={contentStyle} >   {dayjs(data.startDate).format('HH:mm')} - {dayjs(data.endDate).format('HH:mm')} </p> {/* Display the end time */}
+         
+     
+    </Appointments.Appointment>
+  );
+};
+
 const PREFIX = 'Demo';
 // #FOLD_BLOCK
 const classes = {
@@ -129,6 +134,8 @@ const CustomPaper = styled(Paper)({
   height: '100%',
   minWidth: '1440px', // set a fixed width
 });
+
+
 class AppointmentFormContainerBasic extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -246,12 +253,12 @@ class AppointmentFormContainerBasic extends React.PureComponent {
             </IconButton>
           </div>
           <div className={classes.content}>
-            {/* <div className={classes.wrapper}>
+            <div className={classes.wrapper}>
               <Create className={classes.icon} color="action" />
               <TextField
                 {...textEditorProps('title')}
               />
-            </div> */}
+            </div>
             {/* PROFESSOR NAME FIELD */}
             <div className={classes.wrapper}>
               <Create className={classes.icon} color="action" />
@@ -486,7 +493,7 @@ export default class SchedulerFaculty extends React.PureComponent {
         <Scheduler
           data={data}
           height={'100%'}
-          initialScale={0.75}
+   
        
         >
     
@@ -508,6 +515,7 @@ export default class SchedulerFaculty extends React.PureComponent {
           <EditRecurrenceMenu />
           <Appointments 
           appointmentComponent={Appointment}/>
+          
           <AppointmentTooltip
             showOpenButton
             showCloseButton
