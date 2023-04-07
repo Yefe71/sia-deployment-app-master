@@ -10,7 +10,9 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Scheduler from "../Scheduler/Scheduler";
 import { useMediaQuery } from "@mui/material";
-
+import SchedulerFaculty from "../SchedulerFaculty/SchedulerFaculty";
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 const SchedSummaryPage = () => {
   const [year, setYear] = React.useState("");
   const [block, setBlock] = React.useState("");
@@ -54,7 +56,7 @@ const SchedSummaryPage = () => {
               </Select>
             </FormControl>
 
-            <FormControl sx={{minWidth: isSmallScreen ? 80 : 100}}>
+            <FormControl sx={{ minWidth: isSmallScreen ? 80 : 100 }}>
               <Select
                 value={block}
                 onChange={handleChangeBlock}
@@ -78,7 +80,8 @@ const SchedSummaryPage = () => {
         </div>
 
         <div className={`${SchedSumCSS.tableWrapper} ${SchedSumCSS.sched}`}>
-          <Scheduler />
+
+        
         </div>
       </div>
 
@@ -91,13 +94,11 @@ const SchedSummaryPage = () => {
         </div>
       </div>
       <div className={SchedSumCSS.bottomButtons}>
-
         <div class={SchedSumCSS.middle}>
           <Stack spacing={2} direction="row">
             <Button
               style={{ textTransform: "none" }}
               sx={{
-                
                 backgroundColor: "#424242",
 
                 color: "white",
@@ -115,8 +116,9 @@ const SchedSummaryPage = () => {
               Print Blockclassess
             </Button>
           </Stack>
+
+
         </div>
-   
       </div>
     </>
   );

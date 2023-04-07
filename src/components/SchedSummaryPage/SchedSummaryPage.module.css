@@ -31,30 +31,21 @@
 }
 
 .tableWrapper{
-    
+    position: relative;
     width: 75vw;
     height: 66vh;
     background: #f1f1f1;
     border-radius: 1rem;
     z-index: 2;
+    overflow-y: scroll;
+    background: #efeeee;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 15px;
+     outline: 1px solid #d9d8d8;
 }
 
 
-.tableWrapper{
 
 
-   overflow-y: scroll;
-   background: #efeeee;
-   box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 15px;
-    outline: 1px solid #d9d8d8;
-
-}
-
-
-.sched{
-    overflow-y: hidden;
-    height: 66vh;
-}
 
 .topButtons{
     margin-top: -1rem;
@@ -84,7 +75,10 @@
     align-items: center;
 }
 
+.addButton{
 
+    
+}
 
 @media screen and (max-width: 500px) {
     .topTable h2{

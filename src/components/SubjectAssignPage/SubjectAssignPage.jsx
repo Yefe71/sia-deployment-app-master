@@ -15,8 +15,27 @@ import { useMediaQuery } from "@mui/material";
 import dayjs from 'dayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { OutlinedInput } from '@mui/material';
+import SchedulerFaculty from '../SchedulerFaculty/SchedulerFaculty';
 
 const SubjectAssignPage = () => {
+
+  const handleClick = () => {
+    // Call the function in the child component
+    childComponentRef.current.openModal();
+  };
+
+  const childComponentRef = React.useRef();
+
+
+
+
+
+
+
+
+
+
+  
     const isSmallScreen = useMediaQuery("(max-width: 500px)");
     const style = {
       position: "absolute",
@@ -181,7 +200,7 @@ const SubjectAssignPage = () => {
           </div>
         </div>
         <div className={SubjectAssignCSS.tableWrapper}>
-          <MyTable />
+          <SchedulerFaculty ref={childComponentRef}/>
         </div>
         <div className={SubjectAssignCSS.bottomButtons}>
           <div class={SubjectAssignCSS.left}>
@@ -235,7 +254,7 @@ const SubjectAssignPage = () => {
           <div class={SubjectAssignCSS.right}>
             <Stack spacing={2} direction="row">
               <Button
-                onClick={handleOpen}
+                onClick={handleClick}
                 style={{ textTransform: "none" }}
                 sx={{
                   backgroundColor: "#007bff",
@@ -253,338 +272,13 @@ const SubjectAssignPage = () => {
               >
                 Assign
               </Button>
+              
             </Stack>
           </div>
         </div>
       </div>
 
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style} className={SubjectAssignCSS.boxWrapper}>
-          <form onSubmit={handleSubmit}>
-            {/* PROFESSOR NAME FIELD */}
 
-            <FormControl  size = {isSmallScreen ? "small" : "large"} sx={{ m: 1, minWidth: isSmallScreen ? 260 : 320 }}>
-              <InputLabel id="demo-simple-select-helper-label">
-                Professor Name
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-helper-label"
-                id="demo-simple-select-helper"
-                value={nameProf}
-                label="nameProf"
-                onChange={handleChangeProf}
-                onFocus={handleFocusProf}
-                onBlur={handleBlurProf}
-                onOpen={() => {
-                  setIsOpenProf(true);
-                }}
-                onClose={() => {
-                  setIsOpenProf(false);
-                }}
-                input={
-                  (isOpenProf === true && nameProf) ||
-                  (isOpenProf === false && nameProf) ||
-                  (isOpenProf === true && !nameProf) ||
-                  (isFocusedProf && !nameProf) ? (
-                    <OutlinedInput notched label="Professor Name" />
-                  ) : (
-                    <OutlinedInput />
-                  )
-                }
-                size = {isSmallScreen ? "small" : "large"}
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-
-
-            {/* COURSE TITLE AND CODE FIELD */}
-          <div className={SubjectAssignCSS["course-title-field"]}>
-            <FormControl size = {isSmallScreen ? "small" : "large"} sx={{ m: 1, minWidth: 205 }}>
-              <InputLabel id="demo-simple-select-helper-label">
-                Course Name
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-helper-label"
-                id="demo-simple-select-helper"
-                value={courseName}
-                label="courseName"
-                onChange={handleChangeCourseName}
-                onFocus={handleFocusCourseName}
-                onBlur={handleBlurCourseName}
-                onOpen={() => {
-                  setIsOpenCourseName(true);
-                }}
-                onClose={() => {
-                  setIsOpenCourseName(false);
-                }}
-                input={
-                  (isOpenCourseName === true && courseName) ||
-                  (isOpenCourseName === false && courseName) ||
-                  (isOpenCourseName === true && !courseName) ||
-                  (isFocusedCourseName && !courseName) ? (
-                    <OutlinedInput notched label="Course Name" />
-                  ) : (
-                    <OutlinedInput />
-                  )
-                }
-                size = {isSmallScreen ? "small" : "large"}
-              >
-                <MenuItem value={10}>GCA</MenuItem>
-                <MenuItem value={20}>FGAS</MenuItem>
-                <MenuItem value={30}>ASDASD</MenuItem>
-              </Select>
-            </FormControl>
-
-            <Box
-            
-              component="form"
-              sx={{ m: 1, width: 100 }}
-              noValidate
-              autoComplete="off"
-              
-            >
-              <TextField
-                size = {isSmallScreen ? "small" : "large"}
-                id="outlined-read-only-input"
-                label="Course Code"
-                defaultValue="EE234"
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Box>
-          </div>
-
-            {/* BLOCK FIELD */}
-
-            <div className={SubjectAssignCSS["block-unit-wrapper"]}>
-              <FormControl size = {isSmallScreen ? "small" : "large"} sx={{ m: 1, minWidth: 90 }}>
-                <InputLabel id="demo-simple-select-helper-label">
-                  Block
-                </InputLabel>
-                <Select
-                  size = {isSmallScreen ? "small" : "large"}
-                  labelId="demo-simple-select-helper-label"
-                  id="demo-simple-select-helper"
-                  value={block}
-                  label="block"
-                  onChange={handleChangeBlock}
-                  onFocus={handleFocusBlock}
-                  onBlur={handleBlurBlock}
-                  onOpen={() => {
-                    setIsOpenBlock(true);
-                  }}
-                  onClose={() => {
-                    setIsOpenBlock(false);
-                  }}
-                  input={
-                    (isOpenBlock === true && block) ||
-                    (isOpenBlock === false && block) ||
-                    (isOpenBlock === true && !block) ||
-                    (isFocusedBlock && !block) ? (
-                      <OutlinedInput notched label="Block" />
-                    ) : (
-                      <OutlinedInput />
-                    )
-                  }
-                >
-                  <MenuItem value={10}>1</MenuItem>
-                  <MenuItem value={20}>2</MenuItem>
-                  <MenuItem value={30}>3</MenuItem>
-                </Select>
-              </FormControl>
-
-              {/* BLOCK UNITS FIELD */}
-              <Box
-              
-                component="form"
-                sx={{ m: 1, width: 100 }}
-                noValidate
-                autoComplete="off"
-              >
-                
-                <TextField
-                  size = {isSmallScreen ? "small" : "large"}
-                  id="outlined-basic"
-                  label="Units"
-                  type="number"
-                  variant="outlined"
-                />
-              </Box>
-
-              {/* ACTUAL UNITS FIELD */}
-              <Box
-              
-                component="form"
-                sx={{ m: 1, width: 100 }}
-                noValidate
-                autoComplete="off"
-              >
-                <TextField
-                  size = {isSmallScreen ? "small" : "large"}
-                  id="outlined-read-only-input"
-                  label="Actual Units"
-                  defaultValue="16"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-              </Box>
-            </div>
-
-            {/* Class Type */}
-
-            <div className={SubjectAssignCSS["status-room-wrapper"]}>
-              <FormControl size = {isSmallScreen ? "small" : "large"} sx={{ m: 1, minWidth: 152 }}>
-                <InputLabel id="demo-simple-select-helper-label">
-                  Class Type
-                </InputLabel>
-                <Select
-                  size = {isSmallScreen ? "small" : "large"}
-                  labelId="demo-simple-select-helper-label"
-                  id="demo-simple-select-helper"
-                  value={classType}
-                  label="classType"
-                  onChange={handleChangeClassType}
-                  onFocus={handleFocusClassType}
-                  onBlur={handleBlurClassType}
-                  onOpen={() => {
-                    setIsOpenClassType(true);
-                  }}
-                  onClose={() => {
-                    setIsOpenClassType(false);
-                  }}
-                  input={
-                    (isOpenClassType === true && classType) ||
-                    (isOpenClassType === false && classType) ||
-                    (isOpenClassType === true && !classType) ||
-                    (isFocusedClassType && !classType) ? (
-                      <OutlinedInput notched label="Class Type" />
-                    ) : (
-                      <OutlinedInput />
-                    )
-                  }
-                >
-                  <MenuItem value={10}>Synch</MenuItem>
-                  <MenuItem value={20}>Asynch</MenuItem>
-                  <MenuItem value={30}>F2F</MenuItem>
-                </Select>
-              </FormControl>
-
-            {/* Room */}
-              <FormControl size = {isSmallScreen ? "small" : "large"} sx={{ m: 1, minWidth: 152 }}>
-                <InputLabel id="demo-simple-select-helper-label">
-                  Room
-                </InputLabel>
-                <Select
-                  size = {isSmallScreen ? "small" : "large"}
-                  labelId="demo-simple-select-helper-label"
-                  id="demo-simple-select-helper"
-                  value={room}
-                  label="room"
-                  onChange={handleChangeRoom}
-                  onFocus={handleFocusRoom}
-                  onBlur={handleBlurRoom}
-                  onOpen={() => {
-                    setIsOpenRoom(true);
-                  }}
-                  onClose={() => {
-                    setIsOpenRoom(false);
-                  }}
-                  input={
-                    (isOpenRoom === true && room) ||
-                    (isOpenRoom === false && room) ||
-                    (isOpenRoom === true && !room) ||
-                    (isFocusedRoom && !room) ? (
-                      <OutlinedInput notched label="Room" />
-                    ) : (
-                      <OutlinedInput />
-                    )
-                  }
-                >
-                  <MenuItem value={10}>GCA</MenuItem>
-                  <MenuItem value={20}>CGA</MenuItem>
-                  <MenuItem value={30}>FDG</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-
-          {/* DAY-TIME FIELDS */}
-            <div className={SubjectAssignCSS.timeWrapper}>
-          <FormControl size = {isSmallScreen ? "small" : "large"} sx={{ m: 1, minWidth: 90 }}>
-            
-            <InputLabel id="demo-simple-select-helper-label">Day</InputLabel>
-            <Select
-              size = {isSmallScreen ? "small" : "large"}
-              labelId="demo-simple-select-helper-label"
-              id="demo-simple-select-helper"
-              value={day}
-              label="day"
-              onChange={handleChangeDay}
-              onFocus={handleFocusDay}
-              onBlur={handleBlurDay}
-              onOpen={() => {
-                setIsOpenDay(true);
-              }}
-              onClose={() => {
-                setIsOpenDay(false);
-              }}
-              input={
-                (isOpenDay === true && day) ||
-                (isOpenDay === false && day) ||
-                (isOpenDay === true && !day) ||
-                (isFocusedDay && !day) ? (
-                  <OutlinedInput notched label="Day" />
-                ) : (
-                  <OutlinedInput />
-                )
-              }
-            >
-              <MenuItem value={10}>Synch</MenuItem>
-              <MenuItem value={20}>Asynch</MenuItem>
-              <MenuItem value={30}>F2F</MenuItem>
-            </Select>
-
-          </FormControl>
-          
-  
-          </div>
-
-          <Stack spacing={2}  direction="row">
-          <Button
-           type="submit"
-            onClick={handleOpen}
-            style={{ textTransform: "none" }}
-            sx={{
-              marginTop: '1.5rem',
-              backgroundColor: "#4CAF50 ",
-              color: "white",
-              borderRadius: "0.5rem",
-              fontFamily: "Poppins",
-              fontSize: "0.9rem",
-              padding: "0rem",
-              padding: "0.9rem",
-              width: 320,
-              "&:hover": {
-                backgroundColor: "#429645 ", // Change the hover background color here
-              },
-            }}
-            variant="contained"
-          >
-            Assign
-          </Button>
-        </Stack>
-          </form>
-        </Box>
-      </Modal>
     </>
   );
 }
