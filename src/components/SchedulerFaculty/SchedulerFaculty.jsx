@@ -42,6 +42,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import dayjs from 'dayjs';
+import { TimePicker } from '@mui/lab';
 // import SchedulerFacultyCSS from './SchedulerFaculty.module.css'
 
 import { appointments } from '../../data/appointments';
@@ -253,31 +254,115 @@ class AppointmentFormContainerBasic extends React.PureComponent {
             </IconButton>
           </div>
           <div className={classes.content}>
-            <div className={classes.wrapper}>
-              <Create className={classes.icon} color="action" />
-              <TextField
-                {...textEditorProps('title')}
-              />
-            </div>
+
+
             {/* PROFESSOR NAME FIELD */}
+                <div className={classes.wrapper}>
+                  <FormControl variant="outlined" className={classes.textField}>
+                    <InputLabel id="professor-name-label">Professor Name</InputLabel>
+                    <Select
+                      labelId="professor-name-label"
+                      {...textEditorProps('professorName')}
+                    >
+                      {professorNames.map((name, index) => (
+                        <MenuItem key={index} value={name}>
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </div>
+
+            {/* COURSE NAME FIELD */}
+                <div className={classes.wrapper}>
+                  <FormControl variant="outlined" className={classes.textField}>
+                    <InputLabel id="course-name-label">Course Name</InputLabel>
+                    <Select
+                      labelId="course-name-label"
+                      {...textEditorProps('professorName')}
+                    >
+                      {professorNames.map((name, index) => (
+                        <MenuItem key={index} value={name}>
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </div>
+                {/* 1. Add a read-only text input field that says "EIT ELECTIVE 7" */}
+                <div className={classes.wrapper}>
+              
+                  <TextField
+                    label="Course"
+                    defaultValue="EIT ELECTIVE 7"
+                    className={classes.textField}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    variant="outlined"
+                  />
+                </div>
+
+                {/* 2. Add a Select field that says Block, a number input field, and a read-only text input field that says "12" */}
+                <div className={classes.wrapper}>
+                  <FormControl variant="outlined" className={classes.textField}>
+                    <InputLabel>Block</InputLabel>
+                    <Select
+                      label="Block"
+                      // Add your options here
+                    >
+                      {/* ... */}
+                    </Select>
+                  </FormControl>
+                  <TextField
+                    label="Number"
+                    type="number"
+                    className={classes.textField}
+                    variant="outlined"
+                  />
+                  <TextField
+                    label="Fixed Number"
+                    defaultValue="12"
+                    className={classes.textField}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    variant="outlined"
+                  />
+                </div>
+
+                {/* 3. Add a Select field that says Class type, and a Select field that says Room */}
+                <div className={classes.wrapper}>
+                  <FormControl variant="outlined" className={classes.textField}>
+                    <InputLabel>Class Type</InputLabel>
+                    <Select
+                      label="Class Type"
+                      // Add your options here
+                    >
+                      {/* ... */}
+                    </Select>
+                  </FormControl>
+                  <FormControl variant="outlined" className={classes.textField}>
+                    <InputLabel>Room</InputLabel>
+                    <Select
+                      label="Room"
+                      // Add your options here
+                    >
+                      {/* ... */}
+                    </Select>
+                  </FormControl>
+                </div>
+
             <div className={classes.wrapper}>
-              <Create className={classes.icon} color="action" />
-              <FormControl variant="outlined" className={classes.textField}>
-                <InputLabel id="professor-name-label">Professor Name</InputLabel>
+            <FormControl variant="outlined" className={classes.textField}>
+                <InputLabel>Block</InputLabel>
                 <Select
-                  labelId="professor-name-label"
-                  {...textEditorProps('professorName')}
+                  label="Block"
+                  // Add your options here
                 >
-                  {professorNames.map((name, index) => (
-                    <MenuItem key={index} value={name}>
-                      {name}
-                    </MenuItem>
-                  ))}
+                  {/* ... */}
                 </Select>
               </FormControl>
-            </div>
-            <div className={classes.wrapper}>
-              <CalendarToday className={classes.icon} color="action" />
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DateTimePicker
                   label="Start Date"
@@ -295,20 +380,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 />
               </LocalizationProvider>
             </div>
-            <div className={classes.wrapper}>
-              <LocationOn className={classes.icon} color="action" />
-              <TextField
-                {...textEditorProps('location')}
-              />
-            </div>
-            <div className={classes.wrapper}>
-              <Notes className={classes.icon} color="action" />
-              <TextField
-                {...textEditorProps('notes')}
-                multiline
-                rows="6"
-              />
-            </div>
+
           </div>
           <div className={classes.buttonGroup}>
             {!isNewAppointment && (
@@ -509,6 +581,7 @@ export default class SchedulerFaculty extends React.PureComponent {
           <WeekView
             startDayHour={startDayHour}
             endDayHour={endDayHour}
+    
           />
           <MonthView />
           <AllDayPanel />
