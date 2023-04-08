@@ -2,3 +2,23 @@
     display: flex;
     justify-content: center;
 }
+
+.apptParent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: white;
+    margin:  0 auto;
+    width: 35vw;
+}
+.modal-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+.modal{
+    margin: "0 auto";
+    transform: "translateY(20%)";
+}
