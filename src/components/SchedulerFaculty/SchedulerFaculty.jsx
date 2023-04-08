@@ -1,7 +1,7 @@
 /* eslint-disable max-classes-per-file */
 /* eslint-disable react/no-unused-state */
 import * as React from 'react';
-import './SchedulerFaculty.css'
+
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import { ViewState, EditingState } from '@devexpress/dx-react-scheduler';
@@ -42,11 +42,19 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import dayjs from 'dayjs';
-import { TimePicker } from '@mui/lab';
-// import SchedulerFacultyCSS from './SchedulerFaculty.module.css'
+import { TableCell } from '@mui/material';
+import { TimePicker } from '@mui/x-date-pickers';
+import SchedulerFacultyCSS from './SchedulerFaculty.module.css'
 
 import { appointments } from '../../data/appointments';
 
+const dayScaleCell = ({ startDate, endDate, today }) => (
+  <TableCell>
+    <span className={SchedulerFacultyCSS.dayName}>
+      {Intl.DateTimeFormat("en-US", { weekday: "short" }).format(startDate)}
+    </span>
+  </TableCell>
+);
 const Appointment = ({
   children, style, ...restProps
 }) => {
@@ -60,7 +68,7 @@ const Appointment = ({
   return (
     <Appointments.Appointment
       {...restProps}
-      className="Appointment-appointment Appointment-clickableAppointment"
+      className={SchedulerFacultyCSS["Appointment-appointment Appointment-clickableAppointment"]}
    
     >
     
@@ -227,9 +235,10 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         field: [field], changes: date ? date.toDate() : new Date(displayAppointmentData[field]),
       }),
       ampm: false,
-      inputFormat: 'DD/MM/YYYY HH:mm',
+      inputFormat: 'HH:mm', // Update this line to display only the time
       onError: () => null,
     });
+
     const startDatePickerProps = pickerEditorProps('startDate');
     const endDatePickerProps = pickerEditorProps('endDate');
     const cancelChanges = () => {
@@ -354,28 +363,26 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 </div>
 
             <div className={classes.wrapper}>
-            <FormControl variant="outlined" className={classes.textField}>
+            {/* <FormControl variant="outlined" className={classes.textField}>
                 <InputLabel>Block</InputLabel>
                 <Select
                   label="Block"
                   // Add your options here
                 >
-                  {/* ... */}
+             
                 </Select>
-              </FormControl>
+              </FormControl> */}
               <LocalizationProvider dateAdapter={AdapterMoment}>
-                <DateTimePicker
-                  label="Start Date"
-                  renderInput={
-                    props => <TextField className={classes.picker} {...props} />
-                  }
+                <TimePicker
+                  label="Start Time"
+                  format="HH:mm" // Add this line
+                  renderInput={props => <TextField className={classes.picker} {...props} />}
                   {...startDatePickerProps}
                 />
-                <DateTimePicker
-                  label="End Date"
-                  renderInput={
-                    props => <TextField className={classes.picker} {...props} />
-                  }
+                <TimePicker
+                  label="End Time"
+                  format="HH:mm" // Add this line
+                  renderInput={props => <TextField className={classes.picker} {...props} />}
                   {...endDatePickerProps}
                 />
               </LocalizationProvider>
@@ -471,14 +478,13 @@ export default class SchedulerFaculty extends React.PureComponent {
       };
     });
   }
-  openModal(){
+  openModal() {
     this.setState({ editingFormVisible: true });
     this.onEditingAppointmentChange(undefined);
     this.onAddedAppointmentChange({
-      startDate: new Date(currentDate).setHours(startDayHour),
-      endDate: new Date(currentDate).setHours(startDayHour + 1),
+      startDate: new Date().setHours(startDayHour, 0, 0, 0),
+      endDate: new Date().setHours(startDayHour + 1, 0, 0, 0),
     });
- 
   }
   
   componentDidUpdate() {
@@ -579,12 +585,12 @@ export default class SchedulerFaculty extends React.PureComponent {
             onAddedAppointmentChange={this.onAddedAppointmentChange}
           />
           <WeekView
-            startDayHour={startDayHour}
-            endDayHour={endDayHour}
-    
+          startDayHour={startDayHour}
+          endDayHour={endDayHour}
+           dayScaleCellComponent={dayScaleCell}
           />
-          <MonthView />
-          <AllDayPanel />
+         
+  
           <EditRecurrenceMenu />
           <Appointments 
           appointmentComponent={Appointment}/>
@@ -594,8 +600,7 @@ export default class SchedulerFaculty extends React.PureComponent {
             showCloseButton
             showDeleteButton
           />
-          <Toolbar />
-          <ViewSwitcher />
+     
           <AppointmentForm
             overlayComponent={this.appointmentForm}
             visible={editingFormVisible}
