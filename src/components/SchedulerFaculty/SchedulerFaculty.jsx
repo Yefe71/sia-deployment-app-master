@@ -46,7 +46,6 @@ import { TableCell } from "@mui/material";
 import { TimePicker } from "@mui/x-date-pickers";
 import SchedulerFacultyCSS from "./SchedulerFaculty.module.css";
 import Modal from "@mui/material/Modal";
-
 import { appointments } from "../../data/appointments";
 
 const CustomTimeTableCell = ({ ...props }) => {
@@ -64,6 +63,27 @@ const dayScaleCell = ({ startDate, endDate, today }) => (
     </span>
   </TableCell>
 );
+
+
+
+const FormOverlay = React.forwardRef(({ visible, children }, ref) => {
+  return (
+    <Modal open={visible} ref={ref}>
+      <Paper
+        sx={{
+          width: '90%',
+          padding: 3,
+          margin: '0 auto',
+          transform: 'translateY(20%)',
+          msTransform: 'translateY(20%)',
+        }}
+      >
+        {children}
+      </Paper>
+    </Modal>
+  );
+});
+
 const Appointment = ({ children, style, ...restProps }) => {
   const { data } = restProps; // Destructure data from restProps
 
@@ -126,46 +146,46 @@ const professorNames = [
   "Prof. Michael Brown",
 ];
 // #FOLD_BLOCK
-// const StyledDiv = styled("div")(({ theme }) => ({
-//   [`& .${classes.icon}`]: {
-//     margin: theme.spacing(2, 0),
-//     marginRight: theme.spacing(2),
-//   },
-//   [`& .${classes.header}`]: {
-//     overflow: "hidden",
-//     paddingTop: theme.spacing(0.5),
-//   },
-//   [`& .${classes.textField}`]: {
-//     width: "100%",
-//   },
-//   [`& .${classes.content}`]: {
-//     padding: theme.spacing(2),
-//     paddingTop: 0,
-//   },
-//   [`& .${classes.closeButton}`]: {
-//     float: "right",
-//   },
-//   [`& .${classes.picker}`]: {
-//     marginRight: theme.spacing(2),
-//     "&:last-child": {
-//       marginRight: 0,
-//     },
-//     width: "50%",
-//   },
-//   [`& .${classes.wrapper}`]: {
-//     display: "flex",
-//     justifyContent: "space-between",
-//     padding: theme.spacing(1, 0),
-//   },
-//   [`& .${classes.buttonGroup}`]: {
-//     display: "flex",
-//     justifyContent: "flex-end",
-//     padding: theme.spacing(0, 2),
-//   },
-//   [`& .${classes.button}`]: {
-//     marginLeft: theme.spacing(2),
-//   },
-// }));
+const StyledDiv = styled("div")(({ theme }) => ({
+  [`& .${classes.icon}`]: {
+    margin: theme.spacing(2, 0),
+    marginRight: theme.spacing(2),
+  },
+  [`& .${classes.header}`]: {
+    overflow: "hidden",
+    paddingTop: theme.spacing(0.5),
+  },
+  [`& .${classes.textField}`]: {
+    width: "100%",
+  },
+  [`& .${classes.content}`]: {
+    padding: theme.spacing(2),
+    paddingTop: 0,
+  },
+  [`& .${classes.closeButton}`]: {
+    float: "right",
+  },
+  [`& .${classes.picker}`]: {
+    marginRight: theme.spacing(2),
+    "&:last-child": {
+      marginRight: 0,
+    },
+    width: "50%",
+  },
+  [`& .${classes.wrapper}`]: {
+    display: "flex",
+    justifyContent: "space-between",
+    padding: theme.spacing(1, 0),
+  },
+  [`& .${classes.buttonGroup}`]: {
+    display: "flex",
+    justifyContent: "flex-end",
+    padding: theme.spacing(0, 2),
+  },
+  [`& .${classes.button}`]: {
+    marginLeft: theme.spacing(2),
+  },
+}));
 
 const CustomPaper = styled(Paper)({
   height: "100%",
@@ -175,7 +195,7 @@ const CustomPaper = styled(Paper)({
 class AppointmentFormContainerBasic extends React.PureComponent {
   constructor(props) {
     super(props);
-
+    this.overlayRef = React.createRef();
     this.state = {
       appointmentChanges: {},
     };
@@ -280,13 +300,10 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     };
 
     return (
-      <Modal className={SchedulerFacultyCSS["modal-container"]} open ={true}>
-      {/* <AppointmentForm.Overlay
-        visible={visible}
-        target={target}
-        onHide={onHide}
-      > */}
-        <div className={SchedulerFacultyCSS.apptParent}>
+      <FormOverlay visible={visible} ref={this.overlayRef}
+
+      >
+        <StyledDiv >
           <div className={classes.header}>
             <IconButton
               className={classes.closeButton}
@@ -462,9 +479,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               {isNewAppointment ? "Create" : "Save"}
             </Button>
           </div>
-        </div>
-      {/* </AppointmentForm.Overlay> */}
-      </Modal>
+        </StyledDiv>
+      </FormOverlay>
     );
   }
 }
@@ -477,7 +493,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       data: appointments,
       currentDate: "2023-01-07",
       confirmationVisible: false,
-      editingFormVisible: true,
+      editingFormVisible: false,
       deletedAppointmentId: undefined,
       editingAppointment: undefined,
       previousAppointment: undefined,
@@ -612,6 +628,7 @@ export default class SchedulerFaculty extends React.PureComponent {
         const startingAddedId =
           data.length > 0 ? data[data.length - 1].id + 1 : 0;
         data = [...data, { id: startingAddedId, ...fixedDateAppointment }];
+        console.log("Data after adding appointment:", data);
       }
 
       if (changed) {
@@ -657,18 +674,15 @@ export default class SchedulerFaculty extends React.PureComponent {
 
     return (
       <>
-
         <CustomPaper>
           <Scheduler data={data} height={"100%"}>
             <ViewState currentDate={currentDate} />
-            
             <EditingState
               onCommitChanges={this.commitChanges}
               onEditingAppointmentChange={this.onEditingAppointmentChange}
               onAddedAppointmentChange={this.onAddedAppointmentChange}
               readOnly
             />
-            
             <WeekView
               startDayHour={startDayHour}
               endDayHour={endDayHour}
@@ -689,6 +703,7 @@ export default class SchedulerFaculty extends React.PureComponent {
               overlayComponent={this.appointmentForm}
               visible={editingFormVisible}
               onVisibilityChange={this.toggleEditingFormVisibility}
+    
             />
             <DragDropProvider allowDrag={allowDrag} allowResize={allowDrag} />
           </Scheduler>
@@ -718,7 +733,6 @@ export default class SchedulerFaculty extends React.PureComponent {
             </DialogActions>
           </Dialog>
         </CustomPaper>
-
       </>
     );
   }
