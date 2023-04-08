@@ -79,7 +79,15 @@ const Appointment = ({
     </Appointments.Appointment>
   );
 };
-
+const days = [
+  { value: '2023-01-01', label: 'Monday' },
+  { value: '2023-01-02', label: 'Tuesday' },
+  { value: '2023-01-03', label: 'Wednesday' },
+  { value: '2023-01-04', label: 'Thursday' },
+  { value: '2023-01-05', label: 'Friday' },
+  { value: '2023-01-06', label: 'Saturday' },
+  { value: '2023-01-07', label: 'Sunday' },
+];
 const PREFIX = 'Demo';
 // #FOLD_BLOCK
 const classes = {
@@ -363,15 +371,22 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 </div>
 
             <div className={classes.wrapper}>
-            {/* <FormControl variant="outlined" className={classes.textField}>
-                <InputLabel>Block</InputLabel>
+            <FormControl variant="outlined" className={classes.textField}>
+                <InputLabel>Day</InputLabel>
                 <Select
-                  label="Block"
-                  // Add your options here
+                  label="Day"
+                  value={displayAppointmentData.day || ''}
+                  onChange={(event) => this.changeAppointment({
+                    field: 'day', changes: event.target.value,
+                  })}
                 >
-             
+                  {days.map((day) => (
+                    <MenuItem key={day.value} value={day.value}>
+                      {day.label}
+                    </MenuItem>
+                  ))}
                 </Select>
-              </FormControl> */}
+              </FormControl>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <TimePicker
                   label="Start Time"
@@ -427,7 +442,7 @@ export default class SchedulerFaculty extends React.PureComponent {
     super(props);
     this.state = {
       data: appointments,
-      currentDate: '2018-06-27',
+      currentDate: '2023-01-07', 
       confirmationVisible: false,
       editingFormVisible: false,
       deletedAppointmentId: undefined,
@@ -479,13 +494,15 @@ export default class SchedulerFaculty extends React.PureComponent {
     });
   }
   openModal() {
+    const { currentDate, startDayHour } = this.state;
     this.setState({ editingFormVisible: true });
     this.onEditingAppointmentChange(undefined);
     this.onAddedAppointmentChange({
-      startDate: new Date().setHours(startDayHour, 0, 0, 0),
-      endDate: new Date().setHours(startDayHour + 1, 0, 0, 0),
+      startDate: dayjs(currentDate).startOf('day').add(startDayHour, 'hour').toDate(),
+      endDate: dayjs(currentDate).startOf('day').add(startDayHour + 1, 'hour').toDate(),
     });
   }
+
   
   componentDidUpdate() {
     this.appointmentForm.update();
@@ -537,12 +554,29 @@ export default class SchedulerFaculty extends React.PureComponent {
     this.setState((state) => {
       let { data } = state;
       if (added) {
+        const fixedDateAppointment = {
+          ...added,
+          startDate: dayjs(added.day).set('hour', dayjs(added.startDate).hour()).set('minute', dayjs(added.startDate).minute()).toDate(),
+          endDate: dayjs(added.day).set('hour', dayjs(added.endDate).hour()).set('minute', dayjs(added.endDate).minute()).toDate(),
+        };
         const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
-        data = [...data, { id: startingAddedId, ...added }];
+        data = [...data, { id: startingAddedId, ...fixedDateAppointment }];
+        console.log("Data after adding appointment:", data);
       }
+
       if (changed) {
-        data = data.map(appointment => (
-          changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
+        data = data.map(appointment => {
+          if (changed[appointment.id]) {
+            const updatedAppointment = { ...appointment, ...changed[appointment.id] };
+            if (updatedAppointment.day) {
+              updatedAppointment.startDate = dayjs(updatedAppointment.day).set('hour', dayjs(updatedAppointment.startDate).hour()).set('minute', dayjs(updatedAppointment.startDate).minute()).toDate();
+              updatedAppointment.endDate = dayjs(updatedAppointment.day).set('hour', dayjs(updatedAppointment.endDate).hour()).set('minute', dayjs(updatedAppointment.endDate).minute()).toDate();
+            }
+            return updatedAppointment;
+          } else {
+            return appointment;
+          }
+        });
       }
       if (deleted !== undefined) {
         this.setDeletedAppointmentId(deleted);
@@ -551,6 +585,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       return { data, addedAppointment: {} };
     });
   }
+
 
   render() {
     const {
