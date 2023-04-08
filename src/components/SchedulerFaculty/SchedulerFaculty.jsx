@@ -71,7 +71,7 @@ const FormOverlay = React.forwardRef(({ visible, children }, ref) => {
     <Modal open={visible} ref={ref}>
       <Paper
         sx={{
-          width: '23rem',
+          width: '27rem',
           padding: 1,
   
           position: 'absolute',
@@ -287,11 +287,12 @@ class AppointmentFormContainerBasic extends React.PureComponent {
             ? date.toDate()
             : new Date(displayAppointmentData[field]),
         }),
-      ampm: false,
+      // Set minTime and maxTime depending on the field
+      minTime: dayjs().hour(6).minute(0),
+      maxTime: dayjs().hour(21).minute(0),
       // Update this line to display only the time
       onError: () => null,
     });
-
     const startDatePickerProps = pickerEditorProps("startDate");
     const endDatePickerProps = pickerEditorProps("endDate");
     const cancelChanges = () => {
@@ -444,20 +445,22 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <TimePicker
                   label="Start Time"
-                  format="HH:mm" // Add this line
+                  format="HH:mm a" // Add this line
                   renderInput={(props) => (
                     <TextField className={classes.picker} {...props} sx={{margin: "7px 7px" }}/>
                   )}
                   {...startDatePickerProps}
-                  
+                  ampm={true}
+                  defaultValue = "any"
                 />
                 <TimePicker
                   label="End Time"
-                  format="HH:mm" // Add this line
+                  format="HH:mm a" // Add this line
                   renderInput={(props) => (
                     <TextField className={classes.picker} {...props}  sx={{margin: "7px 7px" }} />
                   )}
                   {...endDatePickerProps}
+                  ampm={true}
                 />
               </LocalizationProvider>
             </div>
@@ -503,13 +506,13 @@ export default class SchedulerFaculty extends React.PureComponent {
       data: appointments,
       currentDate: "2023-01-07",
       confirmationVisible: false,
-      editingFormVisible: true,
+      editingFormVisible: false,
       deletedAppointmentId: undefined,
       editingAppointment: undefined,
       previousAppointment: undefined,
       addedAppointment: {},
-      startDayHour: 9,
-      endDayHour: 19,
+      startDayHour: 7,
+      endDayHour: 21,
       isNewAppointment: false,
     };
 
@@ -564,13 +567,14 @@ export default class SchedulerFaculty extends React.PureComponent {
     this.onAddedAppointmentChange({
       startDate: dayjs(currentDate)
         .startOf("day")
-        .add(startDayHour, "hour")
+        .add(7, "hour") // Set the start hour to 0 (12 am)
         .toDate(),
       endDate: dayjs(currentDate)
         .startOf("day")
-        .add(startDayHour + 1, "hour")
+        .add(21, "hour") // Set the end hour to 12 (12 pm)
         .toDate(),
     });
+
   }
 
   componentDidUpdate() {
