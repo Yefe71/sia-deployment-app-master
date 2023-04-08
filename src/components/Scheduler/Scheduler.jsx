@@ -8,7 +8,7 @@ import {
   Appointments,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
-import appointments from '../../data/today-appointments'
+
 
 const PREFIX = 'Demo';
 
