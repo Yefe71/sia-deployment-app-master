@@ -71,11 +71,14 @@ const FormOverlay = React.forwardRef(({ visible, children }, ref) => {
     <Modal open={visible} ref={ref}>
       <Paper
         sx={{
-          width: '90%',
-          padding: 3,
-          margin: '0 auto',
-          transform: 'translateY(20%)',
-          msTransform: 'translateY(20%)',
+          width: '23rem',
+          padding: 1,
+  
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+
         }}
       >
         {children}
@@ -118,13 +121,13 @@ const Appointment = ({ children, style, ...restProps }) => {
   );
 };
 const days = [
-  { value: "2023-01-01", label: "Monday" },
-  { value: "2023-01-02", label: "Tuesday" },
-  { value: "2023-01-03", label: "Wednesday" },
-  { value: "2023-01-04", label: "Thursday" },
-  { value: "2023-01-05", label: "Friday" },
-  { value: "2023-01-06", label: "Saturday" },
-  { value: "2023-01-07", label: "Sunday" },
+  { value: "2023-01-01", label: "Mon" },
+  { value: "2023-01-02", label: "Tue" },
+  { value: "2023-01-03", label: "Wed" },
+  { value: "2023-01-04", label: "Thu" },
+  { value: "2023-01-05", label: "Fri" },
+  { value: "2023-01-06", label: "Sat" },
+  { value: "2023-01-07", label: "Sun" },
 ];
 const PREFIX = "Demo";
 // #FOLD_BLOCK
@@ -316,7 +319,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           <div className={classes.content}>
             {/* PROFESSOR NAME FIELD */}
             <div className={classes.wrapper}>
-              <FormControl variant="outlined" className={classes.textField}>
+            <FormControl   sx={{margin: "0px 7px" }} variant="outlined"  className={classes.textField}>
+
                 <InputLabel id="professor-name-label">
                   Professor Name
                 </InputLabel>
@@ -335,7 +339,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
             {/* COURSE NAME FIELD */}
             <div className={classes.wrapper}>
-              <FormControl variant="outlined" className={classes.textField}>
+              <FormControl variant="outlined"  sx={{margin: "0px 7px" }} className={classes.textField}>
                 <InputLabel id="course-name-label">Course Name</InputLabel>
                 <Select
                   labelId="course-name-label"
@@ -352,6 +356,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
             {/* 1. Add a read-only text input field that says "EIT ELECTIVE 7" */}
             <div className={classes.wrapper}>
               <TextField
+                 sx={{margin: "0px 7px" }}
                 label="Course"
                 defaultValue="EIT ELECTIVE 7"
                 className={classes.textField}
@@ -364,7 +369,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
             {/* 2. Add a Select field that says Block, a number input field, and a read-only text input field that says "12" */}
             <div className={classes.wrapper}>
-              <FormControl variant="outlined" className={classes.textField}>
+              <FormControl variant="outlined"  sx={{margin: "0px 7px" }} className={classes.textField}>
                 <InputLabel>Block</InputLabel>
                 <Select
                   label="Block"
@@ -374,12 +379,14 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 </Select>
               </FormControl>
               <TextField
+                 sx={{margin: "0px 7px" }}
                 label="Number"
                 type="number"
                 className={classes.textField}
                 variant="outlined"
               />
               <TextField
+                 sx={{margin: "0px 7px" }}
                 label="Fixed Number"
                 defaultValue="12"
                 className={classes.textField}
@@ -392,7 +399,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
             {/* 3. Add a Select field that says Class type, and a Select field that says Room */}
             <div className={classes.wrapper}>
-              <FormControl variant="outlined" className={classes.textField}>
+              <FormControl  sx={{margin: "0px 7px" }} variant="outlined" className={classes.textField}>
                 <InputLabel>Class Type</InputLabel>
                 <Select
                   label="Class Type"
@@ -401,7 +408,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   {/* ... */}
                 </Select>
               </FormControl>
-              <FormControl variant="outlined" className={classes.textField}>
+              <FormControl  sx={{margin: "0px 7px" }} variant="outlined" className={classes.textField}>
                 <InputLabel>Room</InputLabel>
                 <Select
                   label="Room"
@@ -412,10 +419,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               </FormControl>
             </div>
 
-            <div className={classes.wrapper}>
-              <FormControl variant="outlined" className={classes.textField}>
+              <div className={SchedulerFacultyCSS.wrapper}>
+              <FormControl sx={{minWidth: 80, margin: "7px 7px"}}  variant="outlined" >
                 <InputLabel>Day</InputLabel>
                 <Select
+                  
                   label="Day"
                   value={displayAppointmentData.day || ""}
                   onChange={(event) =>
@@ -432,20 +440,22 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   ))}
                 </Select>
               </FormControl>
+            
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <TimePicker
                   label="Start Time"
                   format="HH:mm" // Add this line
                   renderInput={(props) => (
-                    <TextField className={classes.picker} {...props} />
+                    <TextField className={classes.picker} {...props} sx={{margin: "7px 7px" }}/>
                   )}
                   {...startDatePickerProps}
+                  
                 />
                 <TimePicker
                   label="End Time"
                   format="HH:mm" // Add this line
                   renderInput={(props) => (
-                    <TextField className={classes.picker} {...props} />
+                    <TextField className={classes.picker} {...props}  sx={{margin: "7px 7px" }} />
                   )}
                   {...endDatePickerProps}
                 />
@@ -493,7 +503,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       data: appointments,
       currentDate: "2023-01-07",
       confirmationVisible: false,
-      editingFormVisible: false,
+      editingFormVisible: true,
       deletedAppointmentId: undefined,
       editingAppointment: undefined,
       previousAppointment: undefined,
