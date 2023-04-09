@@ -1,6 +1,74 @@
 import React, { useEffect, useState } from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import * as XLSX from 'xlsx';
+
+
+function exportAsPDF(data) {
+  const doc = new jsPDF();
+  const headers = [
+      'Student ID',
+      'Last Name',
+      'First Name',
+      'Middle Name',
+      'Standing',
+      'Year',
+      'Block',
+  ];
+
+  const rows = data.map((obj) => [
+      obj.student_id,
+      obj.last_name,
+      obj.first_name,
+      obj.middle_name,
+      obj.standing,
+      obj.year,
+      obj.block,
+  ]);
+
+  doc.autoTable({
+      head: [headers],
+      body: rows,
+  });
+
+  doc.save('students.pdf');
+}
+
+function exportAsExcel(data) {
+    const ws = XLSX.utils.json_to_sheet(data, {
+        header: [
+            'student_id',
+            'last_name',
+            'first_name',
+            'middle_name',
+            'standing',
+            'year',
+            'block',
+        ],
+        skipHeader: true,
+    });
+
+    // Add the custom header row
+    XLSX.utils.sheet_add_aoa(ws, [
+        [
+            'Student ID',
+            'Last Name',
+            'First Name',
+            'Middle Name',
+            'Standing',
+            'Year',
+            'Block',
+        ],
+    ], { origin: 'A1' });
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Students');
+    XLSX.writeFile(wb, 'students.xlsx');
+}
+
+
 
 
 const StyleTable = styled(Table)({
@@ -83,9 +151,8 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockBu
 
   return (
     <>
-    <button>
-jkl
-    </button>
+    <button onClick={() => exportAsPDF(data)}>Export as PDF</button>
+    <button onClick={() => exportAsExcel(data)}>Export as Excel</button>
     <StyleTable>
     <Table>
       <StyledTableHead>
