@@ -116,8 +116,8 @@ const Appointment = ({ children, style, ...restProps }) => {
       {/* Display the professor's name */}
       <p style={contentStyle}>
         {" "}
-        {dayjs(data.startDate).format("HH:mm")} -{" "}
-        {dayjs(data.endDate).format("HH:mm")}{" "}
+        {dayjs(data.startDate).format("HH:mm a")} -{" "}
+        {dayjs(data.endDate).format("HH:mm a")}{" "}
       </p>{" "}
       {/* Display the end time */}
     </Appointments.Appointment>
