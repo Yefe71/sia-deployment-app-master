@@ -1,0 +1,11 @@
+.parentColor{
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+
+
+.colorContainer{
+    width: 2rem;
+}

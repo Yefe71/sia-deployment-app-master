@@ -24,6 +24,7 @@
     "@mui/x-date-pickers": "^5.0.20",
     "dayjs": "^1.11.7",
     "react": "^18.2.0",
+    "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.9.0",

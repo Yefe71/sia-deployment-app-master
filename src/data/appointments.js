@@ -14,14 +14,16 @@ export const appointments = [
     //   id: 0,
     //   location: 'Room 1',
     // }, 
+    // {
+    //   day: "2023-01-01",
+    //   professorName: "Jtae mo",
+    //   startDate: new Date(2023, 0, 2, 12, 11),
+    //   endDate: new Date(2023, 0, 2, 13, 0),
+    //   id: 1,
+    //   location: 'Room 1',
+    //   color: 'blue'
+    // }, 
     {
-      day: "2023-01-01",
-      professorName: "Jtae mo",
-      startDate: new Date(2023, 0, 2, 12, 11),
-      endDate: new Date(2023, 0, 2, 13, 0),
-      id: 1,
-      location: 'Room 1',
-    }, {
       title: 'Install New Router in Dev Room',
       startDate: new Date(2018, 5, 25, 14, 30),
       endDate: new Date(2018, 5, 25, 15, 35),

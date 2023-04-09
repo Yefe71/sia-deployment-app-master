@@ -47,8 +47,9 @@ import { TimePicker } from "@mui/x-date-pickers";
 import SchedulerFacultyCSS from "./SchedulerFaculty.module.css";
 import Modal from "@mui/material/Modal";
 import { appointments } from "../../data/appointments";
-
-
+import { SketchPicker } from "react-color";
+import reactCSS from "reactcss";
+import SketchExample from "../SketchPicker/SketchPicker";
 const CustomTimeTableCell = ({ ...props }) => {
   const onDoubleClick = (event) => {
     event.stopPropagation();
@@ -90,7 +91,7 @@ const FormOverlay = React.forwardRef(({ visible, children }, ref) => {
 
 const Appointment = ({ children, style, ...restProps }) => {
   const { data } = restProps; // Destructure data from restProps
-
+  
   // Create a new style object
   const contentStyle = {
     color: "white",
@@ -100,7 +101,7 @@ const Appointment = ({ children, style, ...restProps }) => {
   };
 
   return (
-    <Appointments.Appointment {...restProps} draggable={false}>
+    <Appointments.Appointment {...restProps} style = {{backgroundColor: `rgba(${data.color.r}, ${data.color.g}, ${data.color.b}, ${data.color.a})`}} draggable={false}>
       <p
         style={{
           color: "white",
@@ -109,6 +110,7 @@ const Appointment = ({ children, style, ...restProps }) => {
           margin: "0px",
         }}
       >
+    
         {data.professorName}
       </p>{" "}
       {/* Display the professor's name */}
@@ -202,6 +204,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     this.overlayRef = React.createRef();
     this.state = {
       appointmentChanges: {},
+      color: {}
     };
 
     this.getAppointmentData = () => {
@@ -216,6 +219,12 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     this.changeAppointment = this.changeAppointment.bind(this);
     this.commitAppointment = this.commitAppointment.bind(this);
   }
+
+  handleColorChange = (color) => {
+    this.setState({ color: color});
+    this.props.onAppointmentColorChange(color);
+  };
+
 
   changeAppointment({ field, changes }) {
     const nextChanges = {
@@ -319,6 +328,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
             </IconButton>
           </div>
           <div className={classes.content}>
+            <SketchExample  onColorChange={this.handleColorChange}/>
             {/* PROFESSOR NAME FIELD */}
             <div className={classes.wrapper}>
             <FormControl   sx={{margin: "0px 7px" }} variant="outlined"  className={classes.textField}>
@@ -540,7 +550,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       data: appointments,
       currentDate: "2023-01-07",
       confirmationVisible: false,
-      editingFormVisible: false,
+      editingFormVisible: true,
       deletedAppointmentId: undefined,
       editingAppointment: undefined,
       previousAppointment: undefined,
@@ -548,6 +558,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       startDayHour: 7,
       endDayHour: 21,
       isNewAppointment: false,
+      appointmentColor: {}
     };
 
     this.toggleConfirmationVisible = this.toggleConfirmationVisible.bind(this);
@@ -590,9 +601,14 @@ export default class SchedulerFaculty extends React.PureComponent {
         visibleChange: this.toggleEditingFormVisibility,
         onEditingAppointmentChange: this.onEditingAppointmentChange,
         cancelAppointment,
+        onAppointmentColorChange: this.handleAppointmentColorChange,
       };
     });
   }
+  handleAppointmentColorChange = (color) => {
+    this.setState({ appointmentColor: color });
+    console.log(this.state.appointmentColor, 'parent')
+  };
 
   openModal() {
     const { currentDate, startDayHour } = this.state;
@@ -660,7 +676,7 @@ export default class SchedulerFaculty extends React.PureComponent {
 
   commitChanges({ added, changed, deleted }) {
     this.setState((state) => {
-      let { data } = state;
+      let { data, appointmentColor } = state;
       if (added) {
         const fixedDateAppointment = {
           ...added,
@@ -675,7 +691,7 @@ export default class SchedulerFaculty extends React.PureComponent {
         };
         const startingAddedId =
           data.length > 0 ? data[data.length - 1].id + 1 : 0;
-        data = [...data, { id: startingAddedId, ...fixedDateAppointment }];
+        data = [...data, { id: startingAddedId, color: appointmentColor, ...fixedDateAppointment }];
         console.log("Data after adding appointment:", data);
       }
 
@@ -685,6 +701,7 @@ export default class SchedulerFaculty extends React.PureComponent {
             const updatedAppointment = {
               ...appointment,
               ...changed[appointment.id],
+              color: appointmentColor
             };
             if (updatedAppointment.day) {
               updatedAppointment.startDate = dayjs(updatedAppointment.day)
