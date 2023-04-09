@@ -12,9 +12,23 @@ import { TextField } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { useMediaQuery } from "@mui/material";
+import TableManageBlock from '../TableManageBlock/TableManageBlock';
+
+
 const BlockManagePage = () => {
     const [year, setYear] = React.useState("");
     const [block, setBlock] = React.useState("");
+
+    const [yearForm, setYearForm] = React.useState("");
+    const [blockForm, setBlockForm] = React.useState("");
+
+    
+    const [yearProp, setYearProp] = React.useState("");
+    const [blockProp, setBlockProp] = React.useState("");
+
+    const [refreshData, setRefreshData] = useState(false);
+
+
     const isSmallScreen = useMediaQuery("(max-width: 500px)");
     const style = {
       position: "absolute",
@@ -22,7 +36,7 @@ const BlockManagePage = () => {
       left: "50%",
       transform: "translate(-50%, -50%)",
       width: 180,
-      height: 350,
+      height: 450,
       bgcolor: "#eeeeee",
       borderRadius: "1rem",
       boxShadow: 24,
@@ -44,6 +58,9 @@ const BlockManagePage = () => {
   
     const handleSubmit = (event) => {
       event.preventDefault();
+      setYearProp(yearForm)
+      setBlockProp(blockForm)
+      setRefreshData(prevState => !prevState);
       handleClose();
     }
   return (
@@ -78,7 +95,7 @@ const BlockManagePage = () => {
       </div>
     </div>
     <div className={ManageBlockCSS.tableWrapper}>
-      <MyTable />
+      <TableManageBlock yearForm = {yearForm} blockForm = {blockForm} refreshData={refreshData} />
     </div>
     <div className={ManageBlockCSS.bottomButtons}>
 
@@ -181,27 +198,29 @@ const BlockManagePage = () => {
           <p>Number of Students</p>
           <h3>119</h3>
         </div>
-        {/* <div className={ManageBlockCSS.blkCapacity}>
-          <p>Block Capacity</p>
+        <div className={ManageBlockCSS.blkCapacity}>
+          <p>Year</p>
           <TextField
             id="outlined-number"
             type="number"
             sx={{ width: "6rem" }}
+            onChange={(event) => setYearForm(event.target.value)}
           />
-        </div> */}
+        </div>
         <div className={ManageBlockCSS.noBlocks}>
           <p>Number of Blocks</p>
           <TextField
             id="outlined-number"
             type="number"
             sx={{ width: "6rem" }}
+            onChange={(event) => setBlockForm(event.target.value)}
           />
         </div>
          
         <Stack spacing={2} direction="row">
           <Button
            type="submit"
-            onClick={handleOpen}
+            onClick={handleSubmit}
             style={{ textTransform: "none" }}
             sx={{
               marginTop: '3rem',
