@@ -1,7 +1,7 @@
 /* eslint-disable max-classes-per-file */
 /* eslint-disable react/no-unused-state */
 import * as React from "react";
-
+import { DayView } from "@devexpress/dx-react-scheduler";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { ViewState, EditingState } from "@devexpress/dx-react-scheduler";
@@ -48,6 +48,7 @@ import SchedulerFacultyCSS from "./SchedulerFaculty.module.css";
 import Modal from "@mui/material/Modal";
 import { appointments } from "../../data/appointments";
 
+
 const CustomTimeTableCell = ({ ...props }) => {
   const onDoubleClick = (event) => {
     event.stopPropagation();
@@ -73,7 +74,7 @@ const FormOverlay = React.forwardRef(({ visible, children }, ref) => {
         sx={{
           width: '27rem',
           padding: 1,
-  
+          borderRadius: '15px',
           position: 'absolute',
           top: '50%',
           left: '50%',
@@ -121,13 +122,13 @@ const Appointment = ({ children, style, ...restProps }) => {
   );
 };
 const days = [
-  { value: "2023-01-01", label: "Mon" },
-  { value: "2023-01-02", label: "Tue" },
-  { value: "2023-01-03", label: "Wed" },
-  { value: "2023-01-04", label: "Thu" },
-  { value: "2023-01-05", label: "Fri" },
-  { value: "2023-01-06", label: "Sat" },
-  { value: "2023-01-07", label: "Sun" },
+  { value: "2023-01-02", label: "Mon" },
+  { value: "2023-01-03", label: "Tue" },
+  { value: "2023-01-04", label: "Wed" },
+  { value: "2023-01-05", label: "Thu" },
+  { value: "2023-01-06", label: "Fri" },
+  { value: "2023-01-07", label: "Sat" },
+  { value: "2023-01-08", label: "Sun" },
 ];
 const PREFIX = "Demo";
 // #FOLD_BLOCK
@@ -344,27 +345,27 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 <InputLabel id="course-name-label">Course Name</InputLabel>
                 <Select
                   labelId="course-name-label"
-                  {...textEditorProps("professorName")}
+                  {...textEditorProps("courseName")}
                 >
-                  {professorNames.map((name, index) => (
-                    <MenuItem key={index} value={name}>
-                      {name}
-                    </MenuItem>
-                  ))}
+                   <MenuItem value={10}>Professional Elective 7</MenuItem>
+                  <MenuItem value={20}>General Chemistry 12</MenuItem>
+                  <MenuItem value={30}>Calculus 9</MenuItem>
                 </Select>
               </FormControl>
             </div>
-            {/* 1. Add a read-only text input field that says "EIT ELECTIVE 7" */}
+           
             <div className={classes.wrapper}>
               <TextField
-                 sx={{margin: "0px 7px" }}
-                label="Course"
-                defaultValue="EIT ELECTIVE 7"
+                sx={{margin: "0px 7px" }}
+                label="Course Code"
+                defaultValue=""
                 className={classes.textField}
                 InputProps={{
                   readOnly: true,
                 }}
                 variant="outlined"
+                disabled
+                InputLabelProps={{shrink: true}}
               />
             </div>
 
@@ -381,14 +382,14 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               </FormControl>
               <TextField
                  sx={{margin: "0px 7px" }}
-                label="Number"
+                label="Units"
                 type="number"
                 className={classes.textField}
                 variant="outlined"
               />
               <TextField
                  sx={{margin: "0px 7px" }}
-                label="Fixed Number"
+                label="Actual Units"
                 defaultValue="12"
                 className={classes.textField}
                 InputProps={{
@@ -465,33 +466,66 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               </LocalizationProvider>
             </div>
 
-          </div>
-          <div className={classes.buttonGroup}>
+            <div className={SchedulerFacultyCSS.buttonWrapper}>
+              
             {!isNewAppointment && (
               <Button
-                variant="outlined"
-                color="secondary"
-                className={classes.button}
+              sx={{
+         
+                color: "white",
+                borderRadius: "0.5rem",
+                fontFamily: "Poppins",
+                fontSize: "0.9rem",
+                padding: "0.7rem",
+                width: "100%",
+                margin: "15px 7px",
+                
+           
+      
+              }}
+                variant="contained"
+                color="error"
+            
                 onClick={() => {
                   visibleChange();
                   this.commitAppointment("deleted");
                 }}
+                
               >
                 Delete
               </Button>
             )}
-            <Button
-              variant="outlined"
-              color="primary"
-              className={classes.button}
-              onClick={() => {
-                visibleChange();
-                applyChanges();
-              }}
-            >
-              {isNewAppointment ? "Create" : "Save"}
-            </Button>
+
+              <Button
+                onClick={() => {
+                  visibleChange();
+                  applyChanges();
+                }}
+                style={{ textTransform: "none" }}
+                sx={{
+                
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: "0.9rem",
+                  padding: "0.7rem",
+                  width: "100%",
+                  margin: "15px 7px",
+                  backgroundColor: "#2196F3"
+             
+           
+                }}
+            
+                variant="contained"
+              >
+                 {isNewAppointment ? "Create" : "Save"}
+              </Button>
+              
+            </div>
+           
           </div>
+    
+
         </StyledDiv>
       </FormOverlay>
     );
@@ -689,7 +723,7 @@ export default class SchedulerFaculty extends React.PureComponent {
     return (
       <>
         <CustomPaper>
-          <Scheduler data={data} height={"100%"}>
+          <Scheduler data={data} height={"100%"} firstDayOfWeek={1}>
             <ViewState currentDate={currentDate} />
             <EditingState
               onCommitChanges={this.commitChanges}
@@ -698,6 +732,7 @@ export default class SchedulerFaculty extends React.PureComponent {
               readOnly
             />
             <WeekView
+
               startDayHour={startDayHour}
               endDayHour={endDayHour}
               dayScaleCellComponent={dayScaleCell}

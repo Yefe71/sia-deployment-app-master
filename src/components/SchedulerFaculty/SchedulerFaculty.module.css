@@ -8,7 +8,10 @@
 
 
 
-  
+  .buttonWrapper{
+    display: flex;
+    justify-content: space-between;
+  }
 .modal{
     margin: "0 auto";
     transform: "translateY(20%)";
