@@ -23,12 +23,15 @@
     "@mui/material": "^5.11.13",
     "@mui/x-date-pickers": "^5.0.20",
     "dayjs": "^1.11.7",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.28",
     "react": "^18.2.0",
     "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.9.0",
-    "swiper": "^9.1.1"
+    "swiper": "^9.1.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",

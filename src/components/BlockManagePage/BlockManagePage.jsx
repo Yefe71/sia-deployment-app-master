@@ -15,6 +15,29 @@ import { useMediaQuery } from "@mui/material";
 import TableManageBlock from '../TableManageBlock/TableManageBlock';
 
 
+
+const exportToExcel = (data) => {
+  const ws = XLSX.utils.json_to_sheet(data);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+  
+  const wbout = XLSX.write(wb, { bookType: "xlsx", type: "binary" });
+  saveAs(
+    new Blob([s2ab(wbout)], { type: "application/octet-stream" }),
+    "data.xlsx"
+  );
+};
+
+// Utility function to convert the string to an ArrayBuffer
+function s2ab(s) {
+  const buf = new ArrayBuffer(s.length);
+  const view = new Uint8Array(buf);
+  for (let i = 0; i < s.length; i++) {
+    view[i] = s.charCodeAt(i) & 0xff;
+  }
+  return buf;
+}
+
 const BlockManagePage = () => {
   const [year, setYear] = React.useState("");
   const [block, setBlock] = React.useState("");
@@ -190,8 +213,6 @@ const BlockManagePage = () => {
           onClick={handleOpen}
           style={{ textTransform: "none" }}
           sx={{ 
-
-           
             backgroundColor: "#007bff",
             color: "white",
             borderRadius: "0.5rem",
@@ -215,8 +236,6 @@ const BlockManagePage = () => {
 
     </div>
     </div>
-
-
     
     <Modal
       open={open}
