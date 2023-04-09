@@ -21,8 +21,8 @@ const BlockManagePage = () => {
       top: "50%",
       left: "50%",
       transform: "translate(-50%, -50%)",
-      width: 200,
-      height: 450,
+      width: 180,
+      height: 350,
       bgcolor: "#eeeeee",
       borderRadius: "1rem",
       boxShadow: 24,
@@ -181,14 +181,14 @@ const BlockManagePage = () => {
           <p>Number of Students</p>
           <h3>119</h3>
         </div>
-        <div className={ManageBlockCSS.blkCapacity}>
+        {/* <div className={ManageBlockCSS.blkCapacity}>
           <p>Block Capacity</p>
           <TextField
             id="outlined-number"
             type="number"
             sx={{ width: "6rem" }}
           />
-        </div>
+        </div> */}
         <div className={ManageBlockCSS.noBlocks}>
           <p>Number of Blocks</p>
           <TextField
