@@ -550,7 +550,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       data: appointments,
       currentDate: "2023-01-07",
       confirmationVisible: false,
-      editingFormVisible: true,
+      editingFormVisible: false,
       deletedAppointmentId: undefined,
       editingAppointment: undefined,
       previousAppointment: undefined,
