@@ -16,17 +16,23 @@ import TableManageBlock from '../TableManageBlock/TableManageBlock';
 
 
 const BlockManagePage = () => {
-    const [year, setYear] = React.useState("");
-    const [block, setBlock] = React.useState("");
+  const [year, setYear] = React.useState("");
+  const [block, setBlock] = React.useState("");
 
-    const [yearForm, setYearForm] = React.useState("");
-    const [blockForm, setBlockForm] = React.useState("");
-
+  const handleChangeYear = (event) => {
+    setYear(event.target.value);
+    setFilterRefreshData(prevState => !prevState);
+  };
+  const handleChangeBlock = (event) => {
+    setBlock(event.target.value);
+    setFilterRefreshData(prevState => !prevState);
+  };
     
-    const [yearProp, setYearProp] = React.useState("");
-    const [blockProp, setBlockProp] = React.useState("");
+  const [yearForm, setYearForm] = React.useState("");
+  const [blockForm, setBlockForm] = React.useState("");
 
-    const [refreshData, setRefreshData] = useState(false);
+  const [refreshData, setRefreshData] = useState(false);
+  const [filterRefreshData, setFilterRefreshData] = useState(false);
 
 
     const isSmallScreen = useMediaQuery("(max-width: 500px)");
@@ -43,12 +49,7 @@ const BlockManagePage = () => {
       p: 4,
     };
   
-    const handleChangeStatus = (event) => {
-      setYear(event.target.value);
-    };
-    const handleChangeBlock = (event) => {
-      setBlock(event.target.value);
-    };
+
 
 
     const [open, setOpen] = useState(false);
@@ -56,6 +57,7 @@ const BlockManagePage = () => {
     const handleClose = () => setOpen(false);
 
   
+ 
     const handleSubmit = (event) => {
       event.preventDefault();
       setYearProp(yearForm)
@@ -68,34 +70,66 @@ const BlockManagePage = () => {
     <div className={ManageBlockCSS.topTableWrapper}>
     <div className={ManageBlockCSS.topTable}>
       <h2>Manage Blocks</h2>
-      
       <div className={ManageBlockCSS.topButtons}>
-        <FormControl sx={{ mr: 1, minWidth: 120 }}>
+        <FormControl
+          sx={{
+            mr: 0.6,
+            minWidth: isSmallScreen ? 90 : 115,
+          }}
+        >
           <Select
             value={year}
-            onChange={handleChangeStatus}
+            onChange={handleChangeYear}
             displayEmpty
             inputProps={{ "aria-label": "Without label" }}
             sx={{
               backgroundColor: "white",
               borderRadius: "0.5rem",
               fontFamily: "Poppins",
-              fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+              fontSize: isSmallScreen ? "0.5rem" : "0.9rem",
               padding: "0rem",
-              fontWeight: "600"
+              fontWeight: "600",
             }}
           >
-     
-            <MenuItem value="">Regular</MenuItem>
-            
-            <MenuItem value={20}>Irregular</MenuItem>
+            <MenuItem value="" >Year</MenuItem>
+            <MenuItem value={1}>1st Year</MenuItem>
+            <MenuItem value={2}>2nd Year</MenuItem>
+            <MenuItem value={3}>3rd Year</MenuItem>
+            <MenuItem value={4}>4th Year</MenuItem>
+            <MenuItem value={5}>5th Year</MenuItem>
           </Select>
         </FormControl>
 
+        <FormControl sx={{minWidth: isSmallScreen ? 80 : 100}}>
+          <Select
+            value={block}
+            onChange={handleChangeBlock}
+            displayEmpty
+            inputProps={{ "aria-label": "Without label" }}
+            sx={{
+              backgroundColor: "white",
+              borderRadius: "0.5rem",
+              fontFamily: "Poppins",
+              fontSize: isSmallScreen ? "0.5rem" : "0.9rem",
+              padding: "0rem",
+              fontWeight: "600",
+            }}
+          >
+            <MenuItem value="" >Block</MenuItem>
+            <MenuItem value={1}>Block 1</MenuItem>
+            <MenuItem value={2}>Block 2</MenuItem>
+            <MenuItem value={3}>Block 3</MenuItem>
+            <MenuItem value={4}>Block 4</MenuItem>
+            <MenuItem value={5}>Block 5</MenuItem>
+            <MenuItem value={6}>Block 6</MenuItem>
+            <MenuItem value={7}>Block 7</MenuItem>
+          </Select>
+        </FormControl>
       </div>
     </div>
+    
     <div className={ManageBlockCSS.tableWrapper}>
-      <TableManageBlock yearForm = {yearForm} blockForm = {blockForm} refreshData={refreshData} />
+      <TableManageBlock yearForm = {yearForm} blockForm = {blockForm} yearButton = {year} blockButton = {block} filterRefreshData = {filterRefreshData} refreshData={refreshData} />
     </div>
     <div className={ManageBlockCSS.bottomButtons}>
 
@@ -105,8 +139,6 @@ const BlockManagePage = () => {
           onClick={handleOpen}
           style={{ textTransform: "none" }}
           sx={{ 
-
-         
             backgroundColor: "#007bff",
             color: "white",
             borderRadius: "0.5rem",

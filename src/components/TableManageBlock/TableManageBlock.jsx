@@ -3,28 +3,6 @@ import { Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material'
 import { styled } from '@mui/material/styles';
 
 
-// const data = [
-//   { id: 1, lastName: 'Doe', firstName: 'John', middleName: 'Adam', suffix: 'Jr', idNumber: '123456', status: 'Active' },
-//   { id: 2, lastName: 'Smith', firstName: 'Jane', middleName: 'Elizabeth', suffix: '', idNumber: '654321', status: 'Inactive' },
-//   { id: 3, lastName: 'Williams', firstName: 'David', middleName: 'Michael', suffix: '', idNumber: '789012', status: 'Active' },
-//   { id: 4, lastName: 'Brown', firstName: 'Emily', middleName: 'Rose', suffix: '', idNumber: '345678', status: 'Inactive' },
-//   { id: 5, lastName: 'Johnson', firstName: 'William', middleName: 'Thomas', suffix: 'Sr', idNumber: '901234', status: 'Active' },
-//   { id: 6, lastName: 'Davis', firstName: 'Jessica', middleName: 'Anne', suffix: '', idNumber: '567890', status: 'Inactive' },
-//   { id: 7, lastName: 'Garcia', firstName: 'Robert', middleName: 'Lee', suffix: '', idNumber: '432109', status: 'Active' },
-//   { id: 7, lastName: 'Garcia', firstName: 'Robert', middleName: 'Lee', suffix: '', idNumber: '432109', status: 'Active' },
-//   { id: 7, lastName: 'Garcia', firstName: 'Robert', middleName: 'Lee', suffix: '', idNumber: '432109', status: 'Active' },
-//   { id: 7, lastName: 'Garcia', firstName: 'Robert', middleName: 'Lee', suffix: '', idNumber: '432109', status: 'Active' },
-//   { id: 7, lastName: 'Garcia', firstName: 'Robert', middleName: 'Lee', suffix: '', idNumber: '432109', status: 'Active' },
-//   { id: 7, lastName: 'Garcia', firstName: 'Robert', middleName: 'Lee', suffix: '', idNumber: '432109', status: 'Active' },
-//   { id: 7, lastName: 'Garcia', firstName: 'Robert', middleName: 'Lee', suffix: '', idNumber: '432109', status: 'Active' },
-//   { id: 7, lastName: 'Garcia', firstName: 'Robert', middleName: 'Lee', suffix: '', idNumber: '432109', status: 'Active' },
-//   { id: 7, lastName: 'Garcia', firstName: 'Robert', middleName: 'Lee', suffix: '', idNumber: '432109', status: 'Active' },
-//   { id: 7, lastName: 'Garcia', firstName: 'Robert', middleName: 'Lee', suffix: '', idNumber: '432109', status: 'Active' },
-//   { id: 7, lastName: 'Garcia', firstName: 'Robert', middleName: 'Lee', suffix: '', idNumber: '432109', status: 'Active' },
-//   { id: 7, lastName: 'Garcia', firstName: 'Robert', middleName: 'Lee', suffix: '', idNumber: '432109', status: 'Active' },
-//   { id: 7, lastName: 'Garcia', firstName: 'Robert', middleName: 'Lee', suffix: '', idNumber: '432109', status: 'Active' },
-//   { id: 7, lastName: 'Garcia', firstName: 'Robert', middleName: 'Lee', suffix: '', idNumber: '432109', status: 'Active' },
-// ];
 
 const StyleTable = styled(Table)({
     // borderCollapse: 'collapse',
@@ -67,16 +45,27 @@ const StyleTable = styled(Table)({
     zIndex: 1,
   });
 
-const TableManageBlock = ({yearForm, blockForm, refreshData}) => {
+const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockButton, filterRefreshData}) => {
 
 
   const [data, setData] = useState([])
 
 
 
+
+  const fetchDataButtons = () => {
+    console.log(yearButton, blockButton)
+      fetch(`http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=${blockButton}`)
+        .then((response) => response.json())
+        .then((data) => setData(data))
+        .catch((error) => console.log(error));
+    
+  };
+
+
   const fetchData = () => {
     if (yearForm && blockForm) {
-      fetch(`http://localhost:3000/grabStudents?year=${yearForm}&numBlock=${blockForm}`)
+      fetch(`http://localhost:3000/grabStudents?year=${yearForm}&numBlock=${blockForm}&yearButton=${yearButton}&blockButton=${blockButton}`)
         .then((response) => response.json())
         .then((data) => setData(data))
         .catch((error) => console.log(error));
@@ -87,6 +76,10 @@ const TableManageBlock = ({yearForm, blockForm, refreshData}) => {
     console.log('hahahahah')
     fetchData();
   }, [refreshData]);
+
+  useEffect(() => {
+    fetchDataButtons();
+  }, [filterRefreshData]);
 
 
   return (

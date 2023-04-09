@@ -1,9 +1,10 @@
 
 
 
+
 .topButtons{
     display: flex;
- 
+    justify-content: center;
     align-items: center;
     margin-right: 0rem;
     margin-bottom: 0.5rem;
@@ -143,9 +144,6 @@ form{
     visibility: hidden;
 }
 
-.topButtons{
-    visibility: hidden;
-}
 
 /* @media screen and (max-width: 500px) {
     .topTable h2{

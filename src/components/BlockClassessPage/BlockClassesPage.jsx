@@ -14,7 +14,6 @@ import { useMediaQuery } from "@mui/material";
 const BlockClassesPage = () => {
   const [year, setYear] = React.useState("");
   const [block, setBlock] = React.useState("");
-
   const isSmallScreen = useMediaQuery("(max-width: 500px)");
   const handleChangeYear = (event) => {
     setYear(event.target.value);
