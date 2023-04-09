@@ -6,70 +6,6 @@ import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
 
-function exportAsPDF(data) {
-  const doc = new jsPDF();
-  const headers = [
-      'Student ID',
-      'Last Name',
-      'First Name',
-      'Middle Name',
-      'Standing',
-      'Year',
-      'Block',
-  ];
-
-  const rows = data.map((obj) => [
-      obj.student_id,
-      obj.last_name,
-      obj.first_name,
-      obj.middle_name,
-      obj.standing,
-      obj.year,
-      obj.block,
-  ]);
-
-  doc.autoTable({
-      head: [headers],
-      body: rows,
-  });
-
-  doc.save('students.pdf');
-}
-
-function exportAsExcel(data) {
-    const ws = XLSX.utils.json_to_sheet(data, {
-        header: [
-            'student_id',
-            'last_name',
-            'first_name',
-            'middle_name',
-            'standing',
-            'year',
-            'block',
-        ],
-        skipHeader: true,
-    });
-
-    // Add the custom header row
-    XLSX.utils.sheet_add_aoa(ws, [
-        [
-            'Student ID',
-            'Last Name',
-            'First Name',
-            'Middle Name',
-            'Standing',
-            'Year',
-            'Block',
-        ],
-    ], { origin: 'A1' });
-
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Students');
-    XLSX.writeFile(wb, 'students.xlsx');
-}
-
-
-
 
 const StyleTable = styled(Table)({
     // borderCollapse: 'collapse',
@@ -112,20 +48,21 @@ const StyleTable = styled(Table)({
     zIndex: 1,
   });
 
-const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockButton, filterRefreshData}) => {
+const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockButton, filterRefreshData, setDataChild}) => {
 
 
   const [data, setData] = useState([])
-
-
-
 
   const fetchDataButtons = () => {
     console.log(yearButton, blockButton)
       fetch(`http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=${blockButton}`)
         .then((response) => response.json())
-        .then((data) => setData(data))
+        .then((data) => {
+          setData(data);
+          setDataChild(data); // call setDataChild with the fetched data
+        })
         .catch((error) => console.log(error));
+    
     
   };
 
@@ -134,13 +71,16 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockBu
     if (yearForm && blockForm) {
       fetch(`http://localhost:3000/grabStudents?year=${yearForm}&numBlock=${blockForm}&yearButton=${yearButton}&blockButton=${blockButton}`)
         .then((response) => response.json())
-        .then((data) => setData(data))
+        .then((data) => {
+          setData(data);
+          setDataChild(data); // call setDataChild with the fetched data
+        })
         .catch((error) => console.log(error));
+        
     }
   };
 
   useEffect(() => {
-    console.log('hahahahah')
     fetchData();
   }, [refreshData]);
 
@@ -151,8 +91,7 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockBu
 
   return (
     <>
-    <button onClick={() => exportAsPDF(data)}>Export as PDF</button>
-    <button onClick={() => exportAsExcel(data)}>Export as Excel</button>
+
     <StyleTable>
     <Table>
       <StyledTableHead>

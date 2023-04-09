@@ -13,30 +13,73 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { useMediaQuery } from "@mui/material";
 import TableManageBlock from '../TableManageBlock/TableManageBlock';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import * as XLSX from 'xlsx';
 
 
+function exportAsPDF(data) {
+  const doc = new jsPDF();
+  const headers = [
+      'Student ID',
+      'Last Name',
+      'First Name',
+      'Middle Name',
+      'Standing',
+      'Year',
+      'Block',
+  ];
 
-const exportToExcel = (data) => {
-  const ws = XLSX.utils.json_to_sheet(data);
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-  
-  const wbout = XLSX.write(wb, { bookType: "xlsx", type: "binary" });
-  saveAs(
-    new Blob([s2ab(wbout)], { type: "application/octet-stream" }),
-    "data.xlsx"
-  );
-};
+  const rows = data.map((obj) => [
+      obj.student_id,
+      obj.last_name,
+      obj.first_name,
+      obj.middle_name,
+      obj.standing,
+      obj.year,
+      obj.block,
+  ]);
 
-// Utility function to convert the string to an ArrayBuffer
-function s2ab(s) {
-  const buf = new ArrayBuffer(s.length);
-  const view = new Uint8Array(buf);
-  for (let i = 0; i < s.length; i++) {
-    view[i] = s.charCodeAt(i) & 0xff;
-  }
-  return buf;
+  doc.autoTable({
+      head: [headers],
+      body: rows,
+  });
+
+  doc.save('students.pdf');
 }
+
+function exportAsExcel(data) {
+    const ws = XLSX.utils.json_to_sheet(data, {
+        header: [
+            'student_id',
+            'last_name',
+            'first_name',
+            'middle_name',
+            'standing',
+            'year',
+            'block',
+        ],
+        skipHeader: true,
+    });
+
+    // Add the custom header row
+    XLSX.utils.sheet_add_aoa(ws, [
+        [
+            'Student ID',
+            'Last Name',
+            'First Name',
+            'Middle Name',
+            'Standing',
+            'Year',
+            'Block',
+        ],
+    ], { origin: 'A1' });
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Students');
+    XLSX.writeFile(wb, 'students.xlsx');
+}
+
 
 const BlockManagePage = () => {
   const [year, setYear] = React.useState("");
@@ -78,7 +121,7 @@ const BlockManagePage = () => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
+    const [dataChild, setDataChild] = useState([])
   
  
     const handleSubmit = (event) => {
@@ -152,7 +195,7 @@ const BlockManagePage = () => {
     </div>
     
     <div className={ManageBlockCSS.tableWrapper}>
-      <TableManageBlock yearForm = {yearForm} blockForm = {blockForm} yearButton = {year} blockButton = {block} filterRefreshData = {filterRefreshData} refreshData={refreshData} />
+      <TableManageBlock setDataChild = {setDataChild} yearForm = {yearForm} blockForm = {blockForm} yearButton = {year} blockButton = {block} filterRefreshData = {filterRefreshData} refreshData={refreshData} />
     </div>
     <div className={ManageBlockCSS.bottomButtons}>
 
@@ -183,6 +226,7 @@ const BlockManagePage = () => {
     <Stack spacing={2} direction="row">
         <Button
           style={{ textTransform: "none" }}
+          onClick={() => exportAsPDF(dataChild)}
           sx={{ 
 
             marginRight: "1rem",
@@ -201,7 +245,32 @@ const BlockManagePage = () => {
           }}
           variant="contained"
         >
-          Print Reblock List
+          Print as PDF
+        </Button>
+      </Stack>
+    <Stack spacing={2} direction="row">
+        <Button
+          style={{ textTransform: "none" }}
+          onClick={() => exportAsExcel(dataChild)}
+          sx={{ 
+
+            marginRight: "1rem",
+            backgroundColor: "#424242",
+
+            color: "white",
+            borderRadius: "0.5rem",
+            fontFamily: "Poppins",
+            fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+            padding: "0rem",
+            padding: "0.9rem",
+            "&:hover": {
+              backgroundColor: "#313131",
+               // Change the hover background color here
+            },
+          }}
+          variant="contained"
+        >
+          Export as Excel
         </Button>
       </Stack>
     </div>

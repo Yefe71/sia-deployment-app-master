@@ -144,6 +144,9 @@ form{
     visibility: hidden;
 }
 
+.middle{
+    display: flex;
+}
 
 /* @media screen and (max-width: 500px) {
     .topTable h2{
