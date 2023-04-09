@@ -126,8 +126,6 @@ const BlockManagePage = () => {
  
     const handleSubmit = (event) => {
       event.preventDefault();
-      setYearProp(yearForm)
-      setBlockProp(blockForm)
       setRefreshData(prevState => !prevState);
       handleClose();
     }
