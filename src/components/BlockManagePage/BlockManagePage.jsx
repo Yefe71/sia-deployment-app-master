@@ -41,38 +41,26 @@ const exportAsPDF = (data) => {
 
   doc.save("students.pdf");
 };
+const exportAsExcel = (data) => {
+  const headers = ["ID", "Student ID", "Last Name", "First Name", "Middle Name", "Standing", "Year", "Block"];
 
-function exportAsExcel(data) {
-    const ws = XLSX.utils.json_to_sheet(data, {
-        header: [
-            'student_id',
-            'last_name',
-            'first_name',
-            'middle_name',
-            'standing',
-            'year',
-            'block',
-        ],
-        skipHeader: true,
-    });
+  const dataArray = data.map((row, index) => [
+    index + 1,
+    row.student_id,
+    row.last_name,
+    row.first_name,
+    row.middle_name,
+    row.standing,
+    row.year,
+    row.block,
+  ]);
 
-    // Add the custom header row
-    XLSX.utils.sheet_add_aoa(ws, [
-        [
-            'Student ID',
-            'Last Name',
-            'First Name',
-            'Middle Name',
-            'Standing',
-            'Year',
-            'Block',
-        ],
-    ], { origin: 'A1' });
+  const ws = XLSX.utils.aoa_to_sheet([headers, ...dataArray]);
 
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Students');
-    XLSX.writeFile(wb, 'students.xlsx');
-}
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Students");
+  XLSX.writeFile(wb, "students.xlsx");
+};
 
 
 const BlockManagePage = () => {
