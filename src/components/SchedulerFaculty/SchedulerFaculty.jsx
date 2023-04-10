@@ -110,9 +110,28 @@ const Appointment = ({ children, style, ...restProps }) => {
           margin: "0px",
         }}
       >
-    
         {data.professorName}
-      </p>{" "}
+      </p>
+      <p
+        style={{
+          color: "white",
+          fontWeight: "bold",
+          padding: "0px 10px 0px",
+          margin: "0px",
+        }}
+      >
+        {data.courseName}
+      </p>
+      <p
+        style={{
+          color: "white",
+          fontWeight: "bold",
+          padding: "0px 10px 0px",
+          margin: "0px",
+        }}
+      >
+        {data.courseCode}
+      </p>
       {/* Display the professor's name */}
       <p style={contentStyle}>
         {" "}
@@ -150,7 +169,43 @@ const professorNames = [
   "Prof. John Doe",
   "Prof. Jane Smith",
   "Prof. Michael Brown",
+  "Prof. Criselle Centeno"
 ];
+
+
+const courseNames = {
+  1: {
+    "Introduction to Computer Human Interaction (lec)": "EIT 0121",
+    "Introduction to Computer Human Interaction (lab)": "EIT 0121.1",
+    "Discrete Mathematics": "EIT 0122",
+    "Web Systems Technology (lec)": "EIT 0123",
+    "Web Systems Technology (lab)": "EIT 0123.1",
+    "Intermediate Programming (lec)": "ICC 0103",
+    "Intermediate Programming (lab)": "ICC 0103.1"
+  },
+  2: {
+    "Platform Technology": "EIT 0212",
+    "Information Management (lec)": "ICC 0105",
+    "Information Management (lab)": "ICC 0105.1",
+    "Quantitative Methods": "EIT 0221",
+    "Networking 1 (lec)": "EIT 0222",
+    "Networking 1 (lab)": "EIT 0222.1",
+    "Professional Elective 2": "EIT Elective 2"
+  },
+  3: {
+    "Information Assurance and Security 1 (lec)": "EIT 0321",
+    "Information Assurance and Security 1 (lab)": "EIT 0321.1",
+    "System Integration and Architecture 1 (lec)": "EIT 0322",
+    "System Integration and Architecture 1 (lab)": "EIT 0322.1",
+    "Integrative Programming and Technologies (lec)": "EIT 0323",
+    "Integrative Programming and Technologies (lab)": "EIT 0323.1"
+  },
+  4: {
+    "Praticum (Lecture)": "IIP 0101",
+    "Praticum (Immersion)": "IIP 0102"
+  }
+}
+
 // #FOLD_BLOCK
 const StyledDiv = styled("div")(({ theme }) => ({
   [`& .${classes.icon}`]: {
@@ -203,7 +258,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     super(props);
     this.overlayRef = React.createRef();
     this.state = {
-      appointmentChanges: {},
+      appointmentChanges: { },
       color: {}
     };
 
@@ -238,10 +293,13 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
   commitAppointment(type) {
     const { commitChanges } = this.props;
+    
     const appointment = {
       ...this.getAppointmentData(),
       ...this.getAppointmentChanges(),
     };
+
+    
     if (type === "deleted") {
       commitChanges({ [type]: appointment.id });
     } else if (type === "changed") {
@@ -271,6 +329,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     };
 
     const isNewAppointment = appointmentData.id === undefined;
+
+    
     const applyChanges = isNewAppointment
       ? () => this.commitAppointment("added")
       : () => this.commitAppointment("changed");
@@ -311,7 +371,17 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       });
       visibleChange();
       cancelAppointment();
+      
     };
+    const courseNameOptions = Object.keys(courseNames).map((category) => (
+      <optgroup key={`category-${category}`} label={`Category ${category}`}>
+        {Object.entries(courseNames[category]).map(([name, code]) => (
+          <option key={code} value={name}>
+            {name}
+          </option>
+        ))}
+      </optgroup>
+    ));
 
     return (
       <FormOverlay visible={visible} ref={this.overlayRef}
@@ -357,9 +427,9 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   labelId="course-name-label"
                   {...textEditorProps("courseName")}
                 >
-                   <MenuItem value={10}>Professional Elective 7</MenuItem>
-                  <MenuItem value={20}>General Chemistry 12</MenuItem>
-                  <MenuItem value={30}>Calculus 9</MenuItem>
+                   <MenuItem value={'Professional Elective 7'}>Professional Elective 7</MenuItem>
+                  <MenuItem value={'General Chemistry 12'}>General Chemistry 12</MenuItem>
+                  <MenuItem value={'Calculus 9'}>Calculus 9</MenuItem>
                 </Select>
               </FormControl>
             </div>
@@ -368,14 +438,14 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               <TextField
                 sx={{margin: "0px 7px" }}
                 label="Course Code"
-                defaultValue=""
+                defaultValue={'EIT ELECTIVE 7'}
                 className={classes.textField}
-                InputProps={{
-                  readOnly: true,
-                }}
+                // InputProps={{
+                //   readOnly: true,
+                // }}
                 variant="outlined"
-                disabled
                 InputLabelProps={{shrink: true}}
+                {...textEditorProps("courseCode")}
               />
             </div>
 
@@ -411,6 +481,15 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
             {/* 3. Add a Select field that says Class type, and a Select field that says Room */}
             <div className={classes.wrapper}>
+              <FormControl  sx={{margin: "0px 7px" }} variant="outlined" className={classes.textField}>
+                <InputLabel>Year</InputLabel>
+                <Select
+                  label="Year"
+                  // Add your options here
+                >
+                  {/* ... */}
+                </Select>
+              </FormControl>
               <FormControl  sx={{margin: "0px 7px" }} variant="outlined" className={classes.textField}>
                 <InputLabel>Class Type</InputLabel>
                 <Select
@@ -585,6 +664,8 @@ export default class SchedulerFaculty extends React.PureComponent {
           (appointment) =>
             editingAppointment && appointment.id === editingAppointment.id
         )[0] || addedAppointment;
+
+        
       const cancelAppointment = () => {
         if (isNewAppointment) {
           this.setState({
@@ -680,6 +761,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       if (added) {
         const fixedDateAppointment = {
           ...added,
+          
           startDate: dayjs(added.day)
             .set("hour", dayjs(added.startDate).hour())
             .set("minute", dayjs(added.startDate).minute())
@@ -757,6 +839,7 @@ export default class SchedulerFaculty extends React.PureComponent {
             />
 
             <EditRecurrenceMenu />
+            
             <Appointments appointmentComponent={Appointment} />
 
             <AppointmentTooltip
@@ -769,7 +852,7 @@ export default class SchedulerFaculty extends React.PureComponent {
               overlayComponent={this.appointmentForm}
               visible={editingFormVisible}
               onVisibilityChange={this.toggleEditingFormVisibility}
-    
+              
             />
             <DragDropProvider allowDrag={allowDrag} allowResize={allowDrag} />
           </Scheduler>
