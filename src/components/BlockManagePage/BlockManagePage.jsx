@@ -19,35 +19,28 @@ import * as XLSX from 'xlsx';
 
 
 
-function exportAsPDF(data) {
+const exportAsPDF = (data) => {
   const doc = new jsPDF();
-  const headers = [
-      'Student ID',
-      'Last Name',
-      'First Name',
-      'Middle Name',
-      'Standing',
-      'Year',
-      'Block',
-  ];
+  const head = [["ID", "Student ID", "Last Name", "First Name", "Middle Name", "Standing", "Year", "Block"]];
 
-  const rows = data.map((obj) => [
-      obj.student_id,
-      obj.last_name,
-      obj.first_name,
-      obj.middle_name,
-      obj.standing,
-      obj.year,
-      obj.block,
+  const body = data.map((row, index) => [
+    index + 1,
+    row.student_id,
+    row.last_name,
+    row.first_name,
+    row.middle_name,
+    row.standing,
+    row.year,
+    row.block,
   ]);
 
   doc.autoTable({
-      head: [headers],
-      body: rows,
+    head: head,
+    body: body,
   });
 
-  doc.save('students.pdf');
-}
+  doc.save("students.pdf");
+};
 
 function exportAsExcel(data) {
     const ws = XLSX.utils.json_to_sheet(data, {
@@ -87,6 +80,7 @@ const BlockManagePage = () => {
   const [block, setBlock] = React.useState("");
   const [blockChild, setBlockChild] = useState([])
   const [dataChild, setDataChild] = useState([])
+  const [numYearBlock, setNumYearBlock] = useState([])
   
   const handleChangeYear = (event) => {
     setYear(event.target.value);
@@ -139,6 +133,7 @@ const BlockManagePage = () => {
     useLayoutEffect(() => {
       const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
       window.scrollTo(0, vh * 0.11);
+  
     }, []);
 
     
@@ -207,11 +202,11 @@ const BlockManagePage = () => {
     </div>
     
     <div className={ManageBlockCSS.tableWrapper}>
-      <TableManageBlock setBlockChild = {setBlockChild} setDataChild = {setDataChild} yearForm = {yearForm} blockForm = {blockForm} yearButton = {year} blockButton = {block} filterRefreshData = {filterRefreshData} refreshData={refreshData} />
+      <TableManageBlock setNumYearBlock = {setNumYearBlock} setBlockChild = {setBlockChild} setDataChild = {setDataChild} yearForm = {yearForm} blockForm = {blockForm} yearButton = {year} blockButton = {block} filterRefreshData = {filterRefreshData} refreshData={refreshData} />
     </div>
     <div className={ManageBlockCSS.bottomButtons}>
-
     <div class={ManageBlockCSS.left}>
+      
     <Stack spacing={2} direction="row">
         <Button
           onClick={handleOpen}

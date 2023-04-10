@@ -5,7 +5,10 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
-
+const StyledTableCellID = styled(TableCell)({
+  fontWeight: 'bold',
+  backgroundColor: '#f7f4f4',
+});
 
 const StyleTable = styled(Table)({
     // borderCollapse: 'collapse',
@@ -48,7 +51,7 @@ const StyleTable = styled(Table)({
     zIndex: 1,
   });
 
-const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockButton, filterRefreshData, setDataChild, setBlockChild}) => {
+const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockButton, filterRefreshData, setDataChild, setBlockChild, setNumYearBlock}) => {
 
 
   const [data, setData] = useState([])
@@ -59,62 +62,47 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockBu
 
 
 
-
-  // useEffect(() => {
-  //   const fetchDataButtons = () => {
-  //     console.log(yearButton, blockButton, 'me!!')
-  //     fetch(`http://localhost:3000/grabStudentsButtons?yearButton='1'&blockButton=''`)
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         setData(data);
-  //         setDataChild(data);
-  //         const uniqueBlocks = [...new Set(data.map((student) => student.block))].sort();
-  //         setBlockChild(uniqueBlocks);
-  //         console.log('HAHAH')
-  //       })
-  //       .catch((error) => console.log(error));
-  //   };
-
-  //   fetchDataButtons();
-  // }, [yearButton]);
+  const [yearBlock1, setYearBlock1] = useState([])
+  const [yearBlock2, setYearBlock2] = useState([])
+  const [yearBlock3, setYearBlock3] = useState([])
+  const [yearBlock4, setYearBlock4] = useState([])
+  const [yearBlock5, setYearBlock5] = useState([])
 
 
 
+  useEffect(() => {
+    const fetchDataButtons = async () => {
+      try {
+        const responses = await Promise.all([
+          fetch(`http://localhost:3000/grabStudentsButtons?yearButton=1&blockButton=''`),
+          fetch(`http://localhost:3000/grabStudentsButtons?yearButton=2&blockButton=''`),
+          fetch(`http://localhost:3000/grabStudentsButtons?yearButton=3&blockButton=''`),
+          fetch(`http://localhost:3000/grabStudentsButtons?yearButton=4&blockButton=''`),
+          fetch(`http://localhost:3000/grabStudentsButtons?yearButton=5&blockButton=''`),
+        ]);
 
+        const dataPromises = responses.map((response) => response.json());
+        const allData = await Promise.all(dataPromises);
 
+        allData.forEach((data, index) => {
+          setData(data);
+          setDataChild(data);
+          const uniqueBlocks = [...new Set(data.map((student) => student.block))].sort();
+          if (index === 0) setYearBlock1(uniqueBlocks);
+          else if (index === 1) setYearBlock2(uniqueBlocks);
+          else if (index === 2) setYearBlock3(uniqueBlocks);
+          else if (index === 3) setYearBlock4(uniqueBlocks);
+          else if (index === 4) setYearBlock5(uniqueBlocks);
+        });
 
+        setNumYearBlock(yearBlock1, yearBlock2, yearBlock3, yearBlock4, yearBlock5);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    fetchDataButtons();
+  }, []);
 
 
   useEffect(() => {
@@ -157,7 +145,7 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockBu
           setDataChild(data);
           const uniqueBlocks = [...new Set(data.map((student) => student.block))].sort();  
           console.log(uniqueBlocks)
-      
+          setBlockChild(uniqueBlocks);
         })
         .catch((error) => console.log(error));
         
@@ -196,6 +184,7 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockBu
     <Table>
       <StyledTableHead>
         <StyledTableRow>
+        <StyledTableCellID>ID</StyledTableCellID>
           <StyledTableCellLeft>Student ID</StyledTableCellLeft>
           <StyledTableCell>Last Name</StyledTableCell>
           <StyledTableCell>First Name</StyledTableCell>
@@ -206,16 +195,19 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockBu
         </StyledTableRow>
       </StyledTableHead>
       <TableBody>
-      {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-          <StyledTableRow key={row.id}>
-            <TableCell>{row.student_id}</TableCell>
-            <TableCell>{row.last_name}</TableCell>
-            <TableCell>{row.first_name}</TableCell>
-            <TableCell>{row.middle_name}</TableCell>
-            <TableCell>{row.standing}</TableCell>
-            <TableCell>{row.year}</TableCell>
-            <TableCell>{row.block}</TableCell>
-          </StyledTableRow>
+      {data
+          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+          .map((row, index) => (
+            <StyledTableRow key={row.id}>
+              <TableCell>{page * rowsPerPage + index + 1}</TableCell>
+              <TableCell>{row.student_id}</TableCell>
+              <TableCell>{row.last_name}</TableCell>
+              <TableCell>{row.first_name}</TableCell>
+              <TableCell>{row.middle_name}</TableCell>
+              <TableCell>{row.standing}</TableCell>
+              <TableCell>{row.year}</TableCell>
+              <TableCell>{row.block}</TableCell>
+            </StyledTableRow>
         ))}
       </TableBody>
     </Table>
