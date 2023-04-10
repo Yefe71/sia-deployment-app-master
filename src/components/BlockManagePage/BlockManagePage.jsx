@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useLayoutEffect} from 'react'
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -16,6 +16,7 @@ import TableManageBlock from '../TableManageBlock/TableManageBlock';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
+
 
 
 function exportAsPDF(data) {
@@ -84,14 +85,18 @@ function exportAsExcel(data) {
 const BlockManagePage = () => {
   const [year, setYear] = React.useState("");
   const [block, setBlock] = React.useState("");
-
+  const [blockChild, setBlockChild] = useState([])
+  const [dataChild, setDataChild] = useState([])
+  
   const handleChangeYear = (event) => {
     setYear(event.target.value);
     setFilterRefreshData(prevState => !prevState);
+    
   };
   const handleChangeBlock = (event) => {
     setBlock(event.target.value);
     setFilterRefreshData(prevState => !prevState);
+    
   };
     
   const [yearForm, setYearForm] = React.useState("");
@@ -118,17 +123,25 @@ const BlockManagePage = () => {
 
 
 
+
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [dataChild, setDataChild] = useState([])
   
+
  
     const handleSubmit = (event) => {
       event.preventDefault();
       setRefreshData(prevState => !prevState);
       handleClose();
     }
+
+    useLayoutEffect(() => {
+      const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+      window.scrollTo(0, vh * 0.11);
+    }, []);
+
+    
   return (
    <>
     <div className={ManageBlockCSS.topTableWrapper}>
@@ -143,7 +156,10 @@ const BlockManagePage = () => {
         >
           <Select
             value={year}
-            onChange={handleChangeYear}
+            onChange={event => {
+              handleChangeYear(event);
+     
+            }}
             displayEmpty
             inputProps={{ "aria-label": "Without label" }}
             sx={{
@@ -179,21 +195,19 @@ const BlockManagePage = () => {
               fontWeight: "600",
             }}
           >
-            <MenuItem value="" >Block</MenuItem>
-            <MenuItem value={1}>Block 1</MenuItem>
-            <MenuItem value={2}>Block 2</MenuItem>
-            <MenuItem value={3}>Block 3</MenuItem>
-            <MenuItem value={4}>Block 4</MenuItem>
-            <MenuItem value={5}>Block 5</MenuItem>
-            <MenuItem value={6}>Block 6</MenuItem>
-            <MenuItem value={7}>Block 7</MenuItem>
+            <MenuItem value="">Block</MenuItem>
+            {blockChild.map((blockNumber) => (
+              <MenuItem value={blockNumber} key={blockNumber}>
+                Block {blockNumber}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </div>
     </div>
     
     <div className={ManageBlockCSS.tableWrapper}>
-      <TableManageBlock setDataChild = {setDataChild} yearForm = {yearForm} blockForm = {blockForm} yearButton = {year} blockButton = {block} filterRefreshData = {filterRefreshData} refreshData={refreshData} />
+      <TableManageBlock setBlockChild = {setBlockChild} setDataChild = {setDataChild} yearForm = {yearForm} blockForm = {blockForm} yearButton = {year} blockButton = {block} filterRefreshData = {filterRefreshData} refreshData={refreshData} />
     </div>
     <div className={ManageBlockCSS.bottomButtons}>
 
@@ -323,7 +337,12 @@ const BlockManagePage = () => {
             type="number"
             sx={{ width: "6rem" }}
             onChange={(event) => setYearForm(event.target.value)}
+            inputProps={{
+              min: "1",
+              max: "4"
+            }}
           />
+
         </div>
         <div className={ManageBlockCSS.noBlocks}>
           <p>Number of Blocks</p>
@@ -332,6 +351,10 @@ const BlockManagePage = () => {
             type="number"
             sx={{ width: "6rem" }}
             onChange={(event) => setBlockForm(event.target.value)}
+            inputProps={{
+              min: "1",
+              max: "7"
+            }}
           />
         </div>
          

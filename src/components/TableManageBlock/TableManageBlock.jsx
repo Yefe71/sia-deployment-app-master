@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, TablePagination } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -48,22 +48,103 @@ const StyleTable = styled(Table)({
     zIndex: 1,
   });
 
-const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockButton, filterRefreshData, setDataChild}) => {
+const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockButton, filterRefreshData, setDataChild, setBlockChild}) => {
 
 
   const [data, setData] = useState([])
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [currentBlock, setCurrentBlock] = useState([])
+  const [blockTrack, setBlockTrack] = useState([])
+
+
+
+
+  // useEffect(() => {
+  //   const fetchDataButtons = () => {
+  //     console.log(yearButton, blockButton, 'me!!')
+  //     fetch(`http://localhost:3000/grabStudentsButtons?yearButton='1'&blockButton=''`)
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         setData(data);
+  //         setDataChild(data);
+  //         const uniqueBlocks = [...new Set(data.map((student) => student.block))].sort();
+  //         setBlockChild(uniqueBlocks);
+  //         console.log('HAHAH')
+  //       })
+  //       .catch((error) => console.log(error));
+  //   };
+
+  //   fetchDataButtons();
+  // }, [yearButton]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  useEffect(() => {
+    const fetchDataButtons = () => {
+      console.log(yearButton, blockButton, 'me!!')
+      fetch(`http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=''`)
+        .then((response) => response.json())
+        .then((data) => {
+          setData(data);
+          setDataChild(data);
+          const uniqueBlocks = [...new Set(data.map((student) => student.block))].sort();
+          setBlockChild(uniqueBlocks);
+          console.log('HAHAH')
+        })
+        .catch((error) => console.log(error));
+    };
+
+    fetchDataButtons();
+  }, [yearButton]);
 
   const fetchDataButtons = () => {
-    console.log(yearButton, blockButton)
+
+ 
       fetch(`http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=${blockButton}`)
         .then((response) => response.json())
         .then((data) => {
           setData(data);
-          setDataChild(data); // call setDataChild with the fetched data
+          setDataChild(data);
         })
         .catch((error) => console.log(error));
-    
-    
   };
 
 
@@ -73,12 +154,28 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockBu
         .then((response) => response.json())
         .then((data) => {
           setData(data);
-          setDataChild(data); // call setDataChild with the fetched data
+          setDataChild(data);
+          const uniqueBlocks = [...new Set(data.map((student) => student.block))].sort();  
+          console.log(uniqueBlocks)
+      
         })
         .catch((error) => console.log(error));
         
     }
   };
+
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+  useEffect(() => {
+    setPage(0); // Set the page state to 0
+  }, [data]); // Watch for changes in the data state
 
   useEffect(() => {
     fetchData();
@@ -88,6 +185,9 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockBu
     fetchDataButtons();
   }, [filterRefreshData]);
 
+  useEffect(() => {
+    setPage(0);
+  }, [data]);
 
   return (
     <>
@@ -106,7 +206,7 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockBu
         </StyledTableRow>
       </StyledTableHead>
       <TableBody>
-        {data.map((row) => (
+      {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
           <StyledTableRow key={row.id}>
             <TableCell>{row.student_id}</TableCell>
             <TableCell>{row.last_name}</TableCell>
@@ -120,7 +220,15 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockBu
       </TableBody>
     </Table>
     </StyleTable>
-    
+    <TablePagination
+        component="div"
+        count={data.length}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        rowsPerPageOptions={[10, 25, 50, 100]}
+      />
     </>
   );
 };
