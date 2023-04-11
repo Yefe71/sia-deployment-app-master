@@ -73,7 +73,7 @@ const FormOverlay = React.forwardRef(({ visible, children }, ref) => {
     <Modal open={visible} ref={ref}>
       <Paper
         sx={{
-          width: '33rem',
+          width: '26rem',
           padding: 1,
           borderRadius: '15px',
           position: 'absolute',
@@ -91,15 +91,13 @@ const FormOverlay = React.forwardRef(({ visible, children }, ref) => {
 
 const Appointment = ({ children, style, ...restProps }) => {
   const { data } = restProps; // Destructure data from restProps
-  
-  // Create a new style object
   const contentStyle = {
     color: "white",
     fontWeight: "bold",
     padding: "0px 10px 0px",
     margin: "0px",
   };
-  console.log(data, 'appointment')
+
   return (
     <Appointments.Appointment {...restProps} style = {{backgroundColor: `rgba(${data.color.r}, ${data.color.g}, ${data.color.b}, ${data.color.a})`}} draggable={false}>
       
@@ -397,7 +395,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           name:  name,
           pair: pair,
         })
-        console.log(displayAppointmentData, "HAHAHAHAHAHHAHAHA")
       },
       
       value: this.state.courseName,
@@ -510,83 +507,89 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
             <div className={SchedulerFacultyCSS["year-courseWrapper"]}>
 
-            <FormControl variant="outlined" sx={{width: '110px', margin: "4px 4px 4px 7px" }}>
+            <FormControl variant="outlined" className={classes.textField} sx={{margin: "4px 7px" }}>
               <InputLabel id="course-category-label">Year</InputLabel>
               <Select
               
                 labelId="course-category-label"
                 {...textEditorPropsYear("year")}
               >
-                <MenuItem value={1}>1</MenuItem>
-                <MenuItem value={2}>2</MenuItem>
-                <MenuItem value={3}>3</MenuItem>
-                <MenuItem value={4}>4</MenuItem>
+                <MenuItem value={1}>1st Year</MenuItem>
+                <MenuItem value={2}>2nd Year</MenuItem>
+                <MenuItem value={3}>3rd Year</MenuItem>
+                <MenuItem value={4}>4th Year</MenuItem>
+                <MenuItem value={5}>5th Year</MenuItem>
               </Select>
             </FormControl>
-            {/* COURSE NAME FIELD */}
-           
-              <FormControl variant="outlined" sx={{margin: "4px 7px" }}  className={classes.textField}>
-                <InputLabel id="course-name-label">Course Name</InputLabel>
-                <Select
-                  labelId="course-name-label"
-                  {...textEditorPropsCourseName("courseName")}
-                >
-                  {Object.keys(filteredCourseNames).map((name) => (
-                    <MenuItem key={name} value={`${name}:${filteredCourseNames[name]}`}>
-                      {name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
 
-              
-            
-            </div>
-            
-            <div className={classes.wrapper}>
-              <FormControl variant="outlined"  sx={{margin: "4px 7px" }} className={classes.textField}>
-             
-                <TextField
-                  labelId="course-name-label"
-                  InputLabelProps={{shrink: true}}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  label = "Course Code"
-
-                  {...textEditorPropsReadOnly("courseCode")}
-                >
-                </TextField>
-              </FormControl>
-            </div>
-           
-
-            {/* 2. Add a Select field that says Block, a number input field, and a read-only text input field that says "12" */}
-            <div className={classes.wrapper}>
-              <FormControl variant="outlined"  sx={{margin: "0px 7px" }} className={classes.textField}>
+            <FormControl variant="outlined"  sx={{margin: "4px 7px" }} className={classes.textField}>
                 <InputLabel>Block</InputLabel>
                 <Select
                   label="Block"
                   // Add your options here
                 >
-                  {/* ... */}
+                  <MenuItem value={1}>Block 1</MenuItem>
+                  <MenuItem value={2}>Block 2</MenuItem>
+                  <MenuItem value={3}>Block 3</MenuItem>
+                  <MenuItem value={4}>Block 4</MenuItem>
+                  <MenuItem value={5}>Block 5</MenuItem>
                 </Select>
               </FormControl>
+              
+            
+            </div>
+
+            {/* COURSE NAME FIELD */}
+            <div className={classes.wrapper}>
+            <FormControl   sx={{margin: "4px 7px" }} variant="outlined"  className={classes.textField}>
+              <InputLabel id="course-name-label">Course Name</InputLabel>
+              <Select
+                labelId="course-name-label"
+                {...textEditorPropsCourseName("courseName")}
+              >
+                {Object.keys(filteredCourseNames).map((name) => (
+                  <MenuItem key={name} value={`${name}:${filteredCourseNames[name]}`}>
+                    {name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+
+            </div>
+            
+   
+       
+           
+
+            {/* 2. Add a Select field that says Block, a number input field, and a read-only text input field that says "12" */}
+            <div className={classes.wrapper}>
+      
+            <FormControl variant="outlined"  sx={{ margin: "0px 7px" }} className={classes.textField} >
+             
+             <TextField
+               labelId="course-name-label"
+               InputLabelProps={{shrink: true}}
+               InputProps={{
+                 readOnly: true,
+               }}
+               label = "Course Code"
+
+               {...textEditorPropsReadOnly("courseCode")}
+             >
+             </TextField>
+           </FormControl>
               <TextField
-                 sx={{margin: "0px 7px" }}
+                 sx={{margin: "0px 7px", width: '230px'}}
                 label="Units"
                 type="number"
-                className={classes.textField}
+                InputLabelProps={{shrink: true}}
                 variant="outlined"
               />
               <TextField
-                 sx={{margin: "0px 7px" }}
+                 sx={{margin: "0px 7px", width: '230px'}}
                 label="Actual Units"
-                defaultValue="12"
-                className={classes.textField}
-                InputProps={{
-                  readOnly: true,
-                }}
+                InputLabelProps={{shrink: true}}
                 variant="outlined"
               />
             </div>
@@ -955,8 +958,8 @@ export default class SchedulerFaculty extends React.PureComponent {
               overlayComponent={this.appointmentForm}
               visible={editingFormVisible}
               onVisibilityChange={this.toggleEditingFormVisibility}
-              
             />
+            
             <DragDropProvider allowDrag={allowDrag} allowResize={allowDrag} />
           </Scheduler>
 
