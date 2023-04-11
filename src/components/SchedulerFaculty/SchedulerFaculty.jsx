@@ -130,6 +130,16 @@ const Appointment = ({ children, style, ...restProps }) => {
           margin: "0px",
         }}
       >
+        {data.year}
+      </p>
+      <p
+        style={{
+          color: "white",
+          fontWeight: "bold",
+          padding: "0px 10px 0px",
+          margin: "0px",
+        }}
+      >
         {data.courseCode}
       </p>
       {/* Display the professor's name */}
