@@ -27,10 +27,36 @@
 
 
 }
+.iconButton {
+  width: 3rem;
+  height: 3rem;
+  margin-right: 7px;
+  padding: 0px;
+}
 
+.iconButton:focus-visible {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
 
+.iconButton img {
+  width: 1.95rem;
+  height: 1.95rem;
+}
+
+.MuiTouchRipple-root {
+  border-radius: 0 !important;
+}
 .wrapper{
     display: flex;
+    align-items: center;
+    justify-content: center;
     flex: 1;
     
+}
+
+.iconWrapper{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(230, 230, 230);
 }

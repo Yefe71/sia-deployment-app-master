@@ -50,7 +50,7 @@ import { appointments } from "../../data/appointments";
 import { SketchPicker } from "react-color";
 import reactCSS from "reactcss";
 import SketchExample from "../SketchPicker/SketchPicker";
-
+import addPerson from "../../assets/addPerson.svg"
 
 const CustomTimeTableCell = ({ ...props }) => {
   const onDoubleClick = (event) => {
@@ -560,8 +560,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           <div className={classes.content}>
             <SketchExample  onColorChange={this.handleColorChange}/>
             {/* PROFESSOR NAME FIELD */}
-            <div className={classes.wrapper}>
-            <FormControl   sx={{margin: "0px 7px" }} variant="outlined"  className={classes.textField}>
+            <div className={SchedulerFacultyCSS.wrapper}>
+            <FormControl   sx={{margin: "0px 7px 7px 7px" }} variant="outlined"  className={classes.textField}>
 
                 <InputLabel id="professor-name-label">
                   Professor Name
@@ -577,6 +577,15 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   ))}
                 </Select>
               </FormControl>
+
+              <IconButton sx={{width: '3rem', height: '3rem', marginRight: '7px', padding: '0px' }}  aria-label="add">
+                  <img src={addPerson}  style={{width: '1.95rem', height: '1.95rem'}} alt="" />
+                <style>{`
+                  .MuiIconButton-root:focus-visible {
+                    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+                  }
+                `}</style>
+              </IconButton>
             </div>
 
             <div className={SchedulerFacultyCSS["year-courseWrapper"]}>
@@ -818,7 +827,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       data: appointments,
       currentDate: "2023-01-07",
       confirmationVisible: false,
-      editingFormVisible: false,
+      editingFormVisible: true,
       deletedAppointmentId: undefined,
       editingAppointment: undefined,
       previousAppointment: undefined,

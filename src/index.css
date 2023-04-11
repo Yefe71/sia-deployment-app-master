@@ -262,7 +262,9 @@ legend {
   padding: 0; /* 3 */
   white-space: normal; /* 1 */
 }
-
+.MuiTouchRipple-root {
+  border-radius: 0 !important;
+}
 /**
  * Add the correct vertical alignment in Chrome, Firefox, and Opera.
  */
