@@ -270,7 +270,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     this.state = {
       appointmentChanges: {},
       color: {},
-      yearField: 1
+      yearField: 1,
+      courseCode: ''
     };
 
     this.getAppointmentData = () => {
@@ -283,6 +284,10 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     };
     this.handleCategoryChange = (event) => {
       this.setState({ yearField: event });
+    };
+    
+    this.handleNameToCodeChange = (event) => {
+      this.setState({ courseCode: event });
     };
 
 
@@ -365,6 +370,23 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       className: classes.textField,
       
     });
+    const textEditorPropsCourseName = (field) => ({
+      variant: "outlined",
+      
+      onChange: ({ target: change }) =>{
+        const name = change.value.split(':')[0];
+        const pair = change.value.split(':')[1];
+        this.handleNameToCodeChange(pair)
+        this.changeAppointment({
+          field: [field],
+          changes: change.value,
+        })
+      },
+      value: displayAppointmentData[field] || "",
+      label: field[0].toUpperCase() + field.slice(1),
+      className: classes.textField,
+      
+    });
     const textEditorPropsYear = (field) => ({
       variant: "outlined",
       onChange: ({ target: change }) =>{
@@ -390,7 +412,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           field: [field],
           changes: change.value,
         }),
-      value: displayAppointmentData[field] || "",
+      value: this.state.courseCode || "",
       className: classes.textField,
     });
 
@@ -487,10 +509,10 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 <InputLabel id="course-name-label">Course Name</InputLabel>
                 <Select
                   labelId="course-name-label"
-                  {...textEditorProps("courseName")}
+                  {...textEditorPropsCourseName("courseName")}
                 >
                   {Object.keys(filteredCourseNames).map((name) => (
-                    <MenuItem key={name} value={name}>
+                    <MenuItem key={name} value={`${name}:${filteredCourseNames[name]}`}>
                       {name}
                     </MenuItem>
                   ))}
@@ -514,9 +536,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
                   {...textEditorPropsReadOnly("courseCode")}
                 >
-                   <MenuItem value={'Professional Elective 7'}>Professional Elective 7</MenuItem>
-                  <MenuItem value={'General Chemistry 12'}>General Chemistry 12</MenuItem>
-                  <MenuItem value={'Calculus 9'}>Calculus 9</MenuItem>
                 </TextField>
               </FormControl>
             </div>
