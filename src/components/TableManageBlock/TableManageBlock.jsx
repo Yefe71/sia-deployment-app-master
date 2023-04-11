@@ -57,8 +57,7 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockBu
   const [data, setData] = useState([])
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [currentBlock, setCurrentBlock] = useState([])
-  const [blockTrack, setBlockTrack] = useState([])
+
 
 
 

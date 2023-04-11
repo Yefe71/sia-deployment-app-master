@@ -271,7 +271,12 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       appointmentChanges: {},
       color: {},
       yearField: 1,
-      courseCode: ''
+      courseCode: '',
+      yearBlock1: [],
+      yearBlock2: [],
+      yearBlock3: [],
+      yearBlock4: [],
+      yearBlock5: [],
     };
 
     this.getAppointmentData = () => {
@@ -346,6 +351,36 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     this.setState({
       appointmentChanges: {},
     });
+  }
+
+
+  async componentDidMount() {
+    try {
+      const responses = await Promise.all([
+        fetch(`http://localhost:3000/grabStudentsButtons?yearButton=1&blockButton=''`),
+        fetch(`http://localhost:3000/grabStudentsButtons?yearButton=2&blockButton=''`),
+        fetch(`http://localhost:3000/grabStudentsButtons?yearButton=3&blockButton=''`),
+        fetch(`http://localhost:3000/grabStudentsButtons?yearButton=4&blockButton=''`),
+        fetch(`http://localhost:3000/grabStudentsButtons?yearButton=5&blockButton=''`),
+      ]);
+
+      const dataPromises = responses.map((response) => response.json());
+      const allData = await Promise.all(dataPromises);
+
+      console.log(allData)
+      allData.forEach((data, index) => {
+        const uniqueBlocks = [...new Set(data.map((student) => student.block))].sort();
+        if (index === 0) this.setState({ yearBlock1: uniqueBlocks });
+        else if (index === 1) this.setState({ yearBlock2: uniqueBlocks });
+        else if (index === 2) this.setState({ yearBlock3: uniqueBlocks });
+        else if (index === 3) this.setState({ yearBlock4: uniqueBlocks });
+        else if (index === 4) this.setState({ yearBlock5: uniqueBlocks });
+      });
+
+
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   render() {
@@ -469,10 +504,30 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       </optgroup>
     ));
 
+
+    const { yearBlock1, yearBlock2, yearBlock3, yearBlock4, yearBlock5 } = this.state;
+
+    // create a variable based on yearField to determine the current block options
+    let currentBlocks;
+    if (yearField === 1) {
+      currentBlocks = yearBlock1;
+    } else if (yearField === 2) {
+      currentBlocks = yearBlock2;
+    } else if (yearField === 3) {
+      currentBlocks = yearBlock3;
+    } else if (yearField === 4) {
+      currentBlocks = yearBlock4;
+    } else if (yearField === 5) {
+      currentBlocks = yearBlock5;
+    } else {
+      currentBlocks = [];
+    }
+
     return (
       <FormOverlay visible={visible} ref={this.overlayRef}
 
-      >
+      >  
+      
         <StyledDiv >
           <div className={classes.header}>
             <IconButton
@@ -518,7 +573,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 <MenuItem value={2}>2nd Year</MenuItem>
                 <MenuItem value={3}>3rd Year</MenuItem>
                 <MenuItem value={4}>4th Year</MenuItem>
-                <MenuItem value={5}>5th Year</MenuItem>
               </Select>
             </FormControl>
 
@@ -526,13 +580,12 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 <InputLabel>Block</InputLabel>
                 <Select
                   label="Block"
-                  // Add your options here
                 >
-                  <MenuItem value={1}>Block 1</MenuItem>
-                  <MenuItem value={2}>Block 2</MenuItem>
-                  <MenuItem value={3}>Block 3</MenuItem>
-                  <MenuItem value={4}>Block 4</MenuItem>
-                  <MenuItem value={5}>Block 5</MenuItem>
+                  {currentBlocks.map((block) => (
+                    <MenuItem key={block} value={block}>
+                      Block {block}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               
