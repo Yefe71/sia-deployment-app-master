@@ -258,8 +258,9 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     super(props);
     this.overlayRef = React.createRef();
     this.state = {
-      appointmentChanges: { },
-      color: {}
+      appointmentChanges: {},
+      color: {},
+      yearField: 1
     };
 
     this.getAppointmentData = () => {
@@ -270,11 +271,17 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       const { appointmentChanges } = this.state;
       return appointmentChanges;
     };
+    this.handleCategoryChange = (event) => {
+      this.setState({ yearField: event });
+    };
+
 
     this.changeAppointment = this.changeAppointment.bind(this);
     this.commitAppointment = this.commitAppointment.bind(this);
   }
 
+
+  
   handleColorChange = (color) => {
     this.setState({ color: color});
     this.props.onAppointmentColorChange(color);
@@ -322,7 +329,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       onHide,
     } = this.props;
     const { appointmentChanges } = this.state;
-
+    const { yearField } = this.state;
+    const filteredCourseNames = courseNames[yearField];
     const displayAppointmentData = {
       ...appointmentData,
       ...appointmentChanges,
@@ -344,6 +352,35 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         }),
       value: displayAppointmentData[field] || "",
       label: field[0].toUpperCase() + field.slice(1),
+      className: classes.textField,
+      
+    });
+    const textEditorPropsYear = (field) => ({
+      variant: "outlined",
+      onChange: ({ target: change }) =>{
+
+        this.handleCategoryChange(change.value)
+        this.changeAppointment({
+          field: [field],
+          changes: change.value,
+        })
+
+        
+      },
+      value: displayAppointmentData[field] || "",
+      label: field[0].toUpperCase() + field.slice(1),
+      className: classes.textField,
+      
+    });
+    
+    const textEditorPropsReadOnly = (field) => ({
+      variant: "outlined",
+      onChange: ({ target: change }) =>
+        this.changeAppointment({
+          field: [field],
+          changes: change.value,
+        }),
+      value: displayAppointmentData[field] || "",
       className: classes.textField,
     });
 
@@ -419,35 +456,61 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               </FormControl>
             </div>
 
+            <div className={SchedulerFacultyCSS["year-courseWrapper"]}>
+
+            <FormControl variant="outlined" sx={{width: '110px', margin: "4px 4px 4px 7px" }}>
+              <InputLabel id="course-category-label">Year</InputLabel>
+              <Select
+              
+                labelId="course-category-label"
+                {...textEditorPropsYear("year")}
+              >
+                <MenuItem value={1}>1</MenuItem>
+                <MenuItem value={2}>2</MenuItem>
+                <MenuItem value={3}>3</MenuItem>
+                <MenuItem value={4}>4</MenuItem>
+              </Select>
+            </FormControl>
             {/* COURSE NAME FIELD */}
-            <div className={classes.wrapper}>
-              <FormControl variant="outlined"  sx={{margin: "0px 7px" }} className={classes.textField}>
+           
+              <FormControl variant="outlined" sx={{margin: "4px 7px" }}  className={classes.textField}>
                 <InputLabel id="course-name-label">Course Name</InputLabel>
                 <Select
                   labelId="course-name-label"
                   {...textEditorProps("courseName")}
                 >
+                  {Object.keys(filteredCourseNames).map((name) => (
+                    <MenuItem key={name} value={name}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              
+            
+            </div>
+            
+            <div className={classes.wrapper}>
+              <FormControl variant="outlined"  sx={{margin: "4px 7px" }} className={classes.textField}>
+             
+                <TextField
+                  labelId="course-name-label"
+                  InputLabelProps={{shrink: true}}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label = "Course Code"
+
+                  {...textEditorPropsReadOnly("courseCode")}
+                >
                    <MenuItem value={'Professional Elective 7'}>Professional Elective 7</MenuItem>
                   <MenuItem value={'General Chemistry 12'}>General Chemistry 12</MenuItem>
                   <MenuItem value={'Calculus 9'}>Calculus 9</MenuItem>
-                </Select>
+                </TextField>
               </FormControl>
             </div>
            
-            <div className={classes.wrapper}>
-              <TextField
-                sx={{margin: "0px 7px" }}
-                label="Course Code"
-                defaultValue={'EIT ELECTIVE 7'}
-                className={classes.textField}
-                // InputProps={{
-                //   readOnly: true,
-                // }}
-                variant="outlined"
-                InputLabelProps={{shrink: true}}
-                {...textEditorProps("courseCode")}
-              />
-            </div>
 
             {/* 2. Add a Select field that says Block, a number input field, and a read-only text input field that says "12" */}
             <div className={classes.wrapper}>
@@ -481,15 +544,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
             {/* 3. Add a Select field that says Class type, and a Select field that says Room */}
             <div className={classes.wrapper}>
-              <FormControl  sx={{margin: "0px 7px" }} variant="outlined" className={classes.textField}>
-                <InputLabel>Year</InputLabel>
-                <Select
-                  label="Year"
-                  // Add your options here
-                >
-                  {/* ... */}
-                </Select>
-              </FormControl>
               <FormControl  sx={{margin: "0px 7px" }} variant="outlined" className={classes.textField}>
                 <InputLabel>Class Type</InputLabel>
                 <Select
@@ -629,7 +683,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       data: appointments,
       currentDate: "2023-01-07",
       confirmationVisible: false,
-      editingFormVisible: false,
+      editingFormVisible: true,
       deletedAppointmentId: undefined,
       editingAppointment: undefined,
       previousAppointment: undefined,

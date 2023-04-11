@@ -6,7 +6,9 @@
 
 
 
-
+.year-courseWrapper{
+  display: flex;
+}
 
   .buttonWrapper{
     display: flex;
