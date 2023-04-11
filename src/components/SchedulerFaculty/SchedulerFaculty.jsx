@@ -99,9 +99,11 @@ const Appointment = ({ children, style, ...restProps }) => {
     padding: "0px 10px 0px",
     margin: "0px",
   };
-
+  console.log(data, 'appointment')
   return (
     <Appointments.Appointment {...restProps} style = {{backgroundColor: `rgba(${data.color.r}, ${data.color.g}, ${data.color.b}, ${data.color.a})`}} draggable={false}>
+      
+      
       <p
         style={{
           color: "white",
@@ -305,9 +307,23 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
   changeAppointment({ field, changes }) {
     const nextChanges = {
+  
       ...this.getAppointmentChanges(),
       [field]: changes,
     };
+    console.log(nextChanges)
+    this.setState({
+      appointmentChanges: nextChanges,
+    });
+  }
+  changeAppointmentYearCode({ name, pair }) {
+    const nextChanges = {
+  
+      ...this.getAppointmentChanges(),
+      'courseName': name,
+      'courseCode': pair,
+    };
+    console.log(nextChanges)
     this.setState({
       appointmentChanges: nextChanges,
     });
@@ -377,11 +393,13 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         const name = change.value.split(':')[0];
         const pair = change.value.split(':')[1];
         this.handleNameToCodeChange(pair)
-        this.changeAppointment({
-          field: [field],
-          changes: change.value,
+        this.changeAppointmentYearCode({
+          name:  name,
+          pair: pair,
         })
+
       },
+      
       value: displayAppointmentData[field] || "",
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
@@ -407,12 +425,14 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     
     const textEditorPropsReadOnly = (field) => ({
       variant: "outlined",
-      onChange: ({ target: change }) =>
+      onChange: ({ target: change }) =>{
+      console.log('I NEED TO RUN')
         this.changeAppointment({
           field: [field],
           changes: change.value,
-        }),
-      value: this.state.courseCode || "",
+        })
+      },
+      value: displayAppointmentData[field] || "",
       className: classes.textField,
     });
 
