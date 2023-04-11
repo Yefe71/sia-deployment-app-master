@@ -50,6 +50,8 @@ import { appointments } from "../../data/appointments";
 import { SketchPicker } from "react-color";
 import reactCSS from "reactcss";
 import SketchExample from "../SketchPicker/SketchPicker";
+
+
 const CustomTimeTableCell = ({ ...props }) => {
   const onDoubleClick = (event) => {
     event.stopPropagation();
@@ -136,8 +138,8 @@ const Appointment = ({ children, style, ...restProps }) => {
  
       <p style={contentStyle}>
         {" "}
-        {dayjs(data.startDate).format("HH:mm a")} -{" "}
-        {dayjs(data.endDate).format("HH:mm a")}{" "}
+        {dayjs(data.startDate).format("h:mm a")} -{" "}
+        {dayjs(data.endDate).format("h:mm a")}{" "}
       </p>{" "}
       {/* Display the end time */}
     </Appointments.Appointment>
@@ -298,7 +300,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     this.props.onAppointmentColorChange(color);
   };
 
-
+ 
   changeAppointment({ field, changes }) {
     const nextChanges = {
   
@@ -390,6 +392,17 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       ...appointmentData,
       ...appointmentChanges,
     };
+
+
+    const isFormValid = () => {
+  
+      const requiredFields = ["professorName", "year", "block", "courseName", "courseCode", "units", "actualUnits", "classType", "room", "day"];
+
+      return requiredFields.every((field) => displayAppointmentData[field]);
+    }
+
+
+
 
     const isNewAppointment = appointmentData.id === undefined;
 
@@ -526,6 +539,9 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       currentBlocks = [];
     }
 
+
+    
+
     return (
       <FormOverlay visible={visible} ref={this.overlayRef}
 
@@ -568,7 +584,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
             <FormControl variant="outlined" className={classes.textField} sx={{margin: "4px 7px" }}>
               <InputLabel id="course-category-label">Year</InputLabel>
               <Select
-              
                 labelId="course-category-label"
                 {...textEditorPropsYear("year")}
               >
@@ -778,7 +793,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
              
            
                 }}
-            
+                disabled={!isFormValid()}
                 variant="contained"
               >
                  {isNewAppointment ? "Create" : "Save"}
@@ -803,7 +818,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       data: appointments,
       currentDate: "2023-01-07",
       confirmationVisible: false,
-      editingFormVisible: true,
+      editingFormVisible: false,
       deletedAppointmentId: undefined,
       editingAppointment: undefined,
       previousAppointment: undefined,
