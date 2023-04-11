@@ -305,7 +305,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       ...this.getAppointmentChanges(),
       [field]: changes,
     };
-    console.log(nextChanges)
+
     this.setState({
       appointmentChanges: nextChanges,
     });
@@ -317,7 +317,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       'courseName': name,
       'courseCode': pair,
     };
-    console.log(nextChanges, 'HAHAH')
+ 
     this.setState({
       appointmentChanges: nextChanges,
     });
@@ -358,7 +358,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       const dataPromises = responses.map((response) => response.json());
       const allData = await Promise.all(dataPromises);
 
-      console.log(allData)
+
       allData.forEach((data, index) => {
         const uniqueBlocks = [...new Set(data.map((student) => student.block))].sort();
         if (index === 0) this.setState({ yearBlock1: uniqueBlocks });
@@ -425,7 +425,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       variant: "outlined",
       
       onChange: ({ target: change }) =>{
-        console.log(change)
         const name = change.value.split(':')[0];
         const pair = change.value.split(':')[1];
         this.handleNameToCodeChange(pair)
@@ -433,9 +432,10 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           name:  name,
           pair: pair,
         })
+  
       },
       
-      value: this.state.courseName,
+      value: `${displayAppointmentData.courseName}:${displayAppointmentData.courseCode}`,
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
       
@@ -461,7 +461,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     const textEditorPropsReadOnly = (field) => ({
       variant: "outlined",
       onChange: ({ target: change }) =>{
-      console.log('I NEED TO RUN')
+
         this.changeAppointment({
           field: [field],
           changes: change.value,
@@ -604,6 +604,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 labelId="course-name-label"
                 {...textEditorPropsCourseName("courseName")}
                 sx = {{fontSize: '15px'}}
+           
               >
                 {Object.keys(filteredCourseNames).map((name) => (
                   <MenuItem  sx = {{fontSize: '15px'}} key={name} value={`${name}:${filteredCourseNames[name]}`}>
@@ -612,6 +613,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 ))}
               </Select>
             </FormControl>
+
+
 
 
             </div>
@@ -624,9 +627,9 @@ class AppointmentFormContainerBasic extends React.PureComponent {
             <div className={classes.wrapper}>
       
             <FormControl variant="outlined"  sx={{ margin: "0px 7px" }} className={classes.textField} >
-             
+        
              <TextField
-               labelId="course-name-label"
+               labelId="course-code-label"
                InputLabelProps={{shrink: true}}
                InputProps={{
                  readOnly: true,
@@ -657,21 +660,26 @@ class AppointmentFormContainerBasic extends React.PureComponent {
             {/* 3. Add a Select field that says Class type, and a Select field that says Room */}
             <div className={classes.wrapper}>
               <FormControl  sx={{margin: "0px 7px" }} variant="outlined" className={classes.textField}>
-                <InputLabel>Class Type</InputLabel>
+                <InputLabel >Class Type</InputLabel>
                 <Select
                   label="Class Type"
-                  // Add your options here
+                  {...textEditorPropsSpecial("classType")}
+                  
                 >
-                  {/* ... */}
+                  <MenuItem value={'F2F'}>F2F</MenuItem>
+                  <MenuItem value={'Synchronous Online'}>Sync Online</MenuItem>
+                  <MenuItem value={'Asynchronous Online'}>Async Online</MenuItem>
                 </Select>
               </FormControl>
               <FormControl  sx={{margin: "0px 7px" }} variant="outlined" className={classes.textField}>
                 <InputLabel>Room</InputLabel>
                 <Select
                   label="Room"
-                  // Add your options here
+                  {...textEditorPropsSpecial("room")}
                 >
-                  {/* ... */}
+                  <MenuItem value={1}>GCA</MenuItem>
+                  <MenuItem value={2}>Com Lab 2</MenuItem>
+                  <MenuItem value={3}>Field</MenuItem>
                 </Select>
               </FormControl>
             </div>
@@ -854,7 +862,7 @@ export default class SchedulerFaculty extends React.PureComponent {
   }
   handleAppointmentColorChange = (color) => {
     this.setState({ appointmentColor: color });
-    console.log(this.state.appointmentColor, 'parent')
+
   };
 
   openModal() {
@@ -940,7 +948,7 @@ export default class SchedulerFaculty extends React.PureComponent {
         const startingAddedId =
           data.length > 0 ? data[data.length - 1].id + 1 : 0;
         data = [...data, { id: startingAddedId, color: appointmentColor, ...fixedDateAppointment }];
-        console.log("Data after adding appointment:", data);
+       
       }
 
       if (changed) {
