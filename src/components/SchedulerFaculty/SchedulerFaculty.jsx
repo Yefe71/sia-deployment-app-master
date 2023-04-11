@@ -73,7 +73,7 @@ const FormOverlay = React.forwardRef(({ visible, children }, ref) => {
     <Modal open={visible} ref={ref}>
       <Paper
         sx={{
-          width: '26rem',
+          width: '27rem',
           padding: 1,
           borderRadius: '15px',
           position: 'absolute',
@@ -120,7 +120,7 @@ const Appointment = ({ children, style, ...restProps }) => {
           margin: "0px",
         }}
       >
-        {data.courseName}
+       {` ${data.courseName} | ${data.courseCode} `}
       </p>
       <p
         style={{
@@ -130,19 +130,10 @@ const Appointment = ({ children, style, ...restProps }) => {
           margin: "0px",
         }}
       >
-        {data.year}
+        {`BSIT ${data.year} - ${data.block}`}
       </p>
-      <p
-        style={{
-          color: "white",
-          fontWeight: "bold",
-          padding: "0px 10px 0px",
-          margin: "0px",
-        }}
-      >
-        {data.courseCode}
-      </p>
-      {/* Display the professor's name */}
+
+ 
       <p style={contentStyle}>
         {" "}
         {dayjs(data.startDate).format("HH:mm a")} -{" "}
@@ -326,7 +317,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       'courseName': name,
       'courseCode': pair,
     };
-    console.log(nextChanges)
+    console.log(nextChanges, 'HAHAH')
     this.setState({
       appointmentChanges: nextChanges,
     });
@@ -419,10 +410,22 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       className: classes.textField,
       
     });
+    const textEditorPropsSpecial = (field) => ({
+      variant: "outlined",
+      onChange: ({ target: change }) =>
+        this.changeAppointment({
+          field: [field],
+          changes: change.value,
+        }),
+      value: displayAppointmentData[field] || "",
+      className: classes.textField,
+      
+    });
     const textEditorPropsCourseName = (field) => ({
       variant: "outlined",
       
       onChange: ({ target: change }) =>{
+        console.log(change)
         const name = change.value.split(':')[0];
         const pair = change.value.split(':')[1];
         this.handleNameToCodeChange(pair)
@@ -580,6 +583,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 <InputLabel>Block</InputLabel>
                 <Select
                   label="Block"
+                  {...textEditorPropsSpecial("block")}
                 >
                   {currentBlocks.map((block) => (
                     <MenuItem key={block} value={block}>
@@ -595,13 +599,14 @@ class AppointmentFormContainerBasic extends React.PureComponent {
             {/* COURSE NAME FIELD */}
             <div className={classes.wrapper}>
             <FormControl   sx={{margin: "4px 7px" }} variant="outlined"  className={classes.textField}>
-              <InputLabel id="course-name-label">Course Name</InputLabel>
+              <InputLabel     sx = {{fontSize: '15px'}}id="course-name-label">Course Name</InputLabel>
               <Select
                 labelId="course-name-label"
                 {...textEditorPropsCourseName("courseName")}
+                sx = {{fontSize: '15px'}}
               >
                 {Object.keys(filteredCourseNames).map((name) => (
-                  <MenuItem key={name} value={`${name}:${filteredCourseNames[name]}`}>
+                  <MenuItem  sx = {{fontSize: '15px'}} key={name} value={`${name}:${filteredCourseNames[name]}`}>
                     {name}
                   </MenuItem>
                 ))}
@@ -638,12 +643,14 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 type="number"
                 InputLabelProps={{shrink: true}}
                 variant="outlined"
+                {...textEditorPropsSpecial("units")}
               />
               <TextField
                  sx={{margin: "0px 7px", width: '230px'}}
                 label="Actual Units"
                 InputLabelProps={{shrink: true}}
                 variant="outlined"
+              {...textEditorPropsSpecial("actualUnits")}
               />
             </div>
 
