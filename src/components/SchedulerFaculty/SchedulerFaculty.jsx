@@ -73,7 +73,7 @@ const FormOverlay = React.forwardRef(({ visible, children }, ref) => {
     <Modal open={visible} ref={ref}>
       <Paper
         sx={{
-          width: '27rem',
+          width: '33rem',
           padding: 1,
           borderRadius: '15px',
           position: 'absolute',
@@ -311,6 +311,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       ...this.getAppointmentChanges(),
       [field]: changes,
     };
+    console.log(nextChanges)
     this.setState({
       appointmentChanges: nextChanges,
     });
@@ -322,6 +323,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       'courseName': name,
       'courseCode': pair,
     };
+    console.log(nextChanges)
     this.setState({
       appointmentChanges: nextChanges,
     });
@@ -364,7 +366,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       ...appointmentData,
       ...appointmentChanges,
     };
-    console.log("displayAppointmentData:", displayAppointmentData);
+
     const isNewAppointment = appointmentData.id === undefined;
 
     
@@ -374,13 +376,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
     const textEditorProps = (field) => ({
       variant: "outlined",
-      onChange: ({ target: change }) =>{
+      onChange: ({ target: change }) =>
         this.changeAppointment({
           field: [field],
           changes: change.value,
-        })
-
-        },
+        }),
       value: displayAppointmentData[field] || "",
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
@@ -397,10 +397,10 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           name:  name,
           pair: pair,
         })
-        
+        console.log(displayAppointmentData, "HAHAHAHAHAHHAHAHA")
       },
       
-      value: displayAppointmentData[field] || "",
+      value: this.state.courseName,
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
       
@@ -426,6 +426,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     const textEditorPropsReadOnly = (field) => ({
       variant: "outlined",
       onChange: ({ target: change }) =>{
+      console.log('I NEED TO RUN')
         this.changeAppointment({
           field: [field],
           changes: change.value,
@@ -790,6 +791,7 @@ export default class SchedulerFaculty extends React.PureComponent {
   }
   handleAppointmentColorChange = (color) => {
     this.setState({ appointmentColor: color });
+    console.log(this.state.appointmentColor, 'parent')
   };
 
   openModal() {
@@ -875,6 +877,7 @@ export default class SchedulerFaculty extends React.PureComponent {
         const startingAddedId =
           data.length > 0 ? data[data.length - 1].id + 1 : 0;
         data = [...data, { id: startingAddedId, color: appointmentColor, ...fixedDateAppointment }];
+        console.log("Data after adding appointment:", data);
       }
 
       if (changed) {
