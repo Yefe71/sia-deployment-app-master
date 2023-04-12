@@ -579,16 +579,18 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   ))}
                 </Select>
               </FormControl>
-
+          
               <div style={{width: '2rem', height: '2rem'}} className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`} >
                   <img src={addPerson}  style={{width: '1.8rem', height: '1.8rem'}} alt="" />
               </div>
-      
+    
+
+              
             </div>
 
             <div className={SchedulerFacultyCSS["year-courseWrapper"]}>
 
-            <FormControl variant="outlined" className={classes.textField} sx={{margin: "4px 7px" }}>
+            <FormControl variant="outlined" className={classes.textField} sx={{margin: "7px 7px" }}>
               <InputLabel id="course-category-label">Year</InputLabel>
               <Select
                 labelId="course-category-label"
@@ -600,8 +602,10 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 <MenuItem value={4}>4th Year</MenuItem>
               </Select>
             </FormControl>
+    
             <SketchExample className={`${SchedulerFacultyCSS.ripple}`} onColorChange={this.handleColorChange}/>
-            <FormControl variant="outlined"  sx={{margin: "4px 7px" }} className={classes.textField}>
+           
+            <FormControl variant="outlined"  sx={{margin: "7px 7px" }} className={classes.textField}>
                 <InputLabel>Block</InputLabel>
                 <Select
                   label="Block"
