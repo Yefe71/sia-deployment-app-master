@@ -41,7 +41,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import dayjs from "dayjs";
-import { TableCell } from "@mui/material";
+import { Box, TableCell, Typography } from "@mui/material";
 import { TimePicker } from "@mui/x-date-pickers";
 import SchedulerFacultyCSS from "./SchedulerFaculty.module.css";
 import Modal from "@mui/material/Modal";
@@ -50,6 +50,10 @@ import { SketchPicker } from "react-color";
 import reactCSS from "reactcss";
 import SketchExample from "../SketchPicker/SketchPicker";
 import addPerson from "../../assets/edit.svg"
+import ProfessorTable from "../ProfessorTable/ProfessorTable";
+
+
+
 
 
 const CustomTimeTableCell = ({ ...props }) => {
@@ -68,7 +72,17 @@ const dayScaleCell = ({ startDate, endDate, today }) => (
   </TableCell>
 );
 
-
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 1500,
+  bgcolor: 'background.paper',
+  borderRadius: '10px',
+  boxShadow: 24,
+  p: 4,
+};
 
 const FormOverlay = React.forwardRef(({ visible, children }, ref) => {
   return (
@@ -263,6 +277,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     this.state = {
       appointmentChanges: {},
       yearField: 1,
+      open: true,
       courseCode: '',
       yearBlock1: [],
       yearBlock2: [],
@@ -287,12 +302,21 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       this.setState({ courseCode: event });
     };
 
-
+    this.handleOpen = this.handleOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
     this.changeAppointment = this.changeAppointment.bind(this);
     this.commitAppointment = this.commitAppointment.bind(this);
   }
 
+  handleOpen() {
+    this.setState({ open: true });
+  }
 
+  handleClose() {
+    this.setState({ open: false });
+  }
+
+  
   handleColorChange = (color) => {
     this.changeAppointment({
       field: 'color',
@@ -582,7 +606,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 </Select>
               </FormControl>
           
-              <div style={{width: '2rem', height: '2rem'}} className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`} >
+              <div style={{width: '2rem', height: '2rem'}}  onClick={this.handleOpen} className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`} >
                   <img src={addPerson}  style={{width: '1.8rem', height: '1.8rem', marginBottom: '5px'}} alt="" />
               </div>
     
@@ -823,6 +847,24 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     
 
         </StyledDiv>
+
+  
+        <Modal
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+
+       
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+        
+            </Typography> 
+
+            <ProfessorTable/>
+          </Box>
+        </Modal>
       </FormOverlay>
     );
   }
@@ -836,7 +878,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       data: appointments,
       currentDate: "2023-01-07",
       confirmationVisible: false,
-      editingFormVisible: false,
+      editingFormVisible: true,
       deletedAppointmentId: undefined,
       editingAppointment: undefined,
       previousAppointment: undefined,
