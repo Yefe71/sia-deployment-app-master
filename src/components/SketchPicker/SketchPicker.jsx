@@ -8,13 +8,13 @@ class SketchExample extends React.Component {
   state = {
     displayColorPicker: false,
     color: {
-        r: '66',
-        g: '165',
-        b: '245',
-        a: '1',
-      }
+      r: this.props.defaultColor ? this.props.defaultColor.r : '66',
+      g: this.props.defaultColor ? this.props.defaultColor.g : '165',
+      b: this.props.defaultColor ? this.props.defaultColor.b : '245',
+      a: this.props.defaultColor ? this.props.defaultColor.a : '1',
+    },
   };
-
+  
   handleClick = () => {
     this.setState({ displayColorPicker: !this.state.displayColorPicker })
   };
@@ -31,8 +31,29 @@ class SketchExample extends React.Component {
       });
   };
 
-  render() {
 
+
+  render() {
+    
+
+
+    
+    // Object { r: 9, g: 71, b: 136, a: 1 }
+    // ​
+    // a: 1
+    // ​
+    // b: 136
+    // ​
+    // g: 71
+    // ​
+    // r: 9
+
+
+
+
+
+
+    
     const styles = reactCSS({
       'default': {
         color: {

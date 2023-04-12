@@ -262,7 +262,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     this.overlayRef = React.createRef();
     this.state = {
       appointmentChanges: {},
-      color: {},
       yearField: 1,
       courseCode: '',
       yearBlock1: [],
@@ -294,27 +293,26 @@ class AppointmentFormContainerBasic extends React.PureComponent {
   }
 
 
-  
   handleColorChange = (color) => {
-    this.setState({ color: color});
-    this.props.onAppointmentColorChange(color);
+    this.changeAppointment({
+      field: 'color',
+      changes: color,
+    });
   };
+
 
  
   changeAppointment({ field, changes }) {
     const nextChanges = {
-  
       ...this.getAppointmentChanges(),
       [field]: changes,
     };
-
     this.setState({
       appointmentChanges: nextChanges,
     });
   }
   changeAppointmentYearCode({ name, pair }) {
     const nextChanges = {
-  
       ...this.getAppointmentChanges(),
       'courseName': name,
       'courseCode': pair,
@@ -394,6 +392,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     };
 
 
+
+
     const isFormValid = () => {
   
       const requiredFields = ["professorName", "year", "block", "courseName", "courseCode", "units", "actualUnits", "classType", "room", "day"];
@@ -406,7 +406,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
     const isNewAppointment = appointmentData.id === undefined;
 
-    
+
     const applyChanges = isNewAppointment
       ? () => this.commitAppointment("added")
       : () => this.commitAppointment("changed");
@@ -539,7 +539,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       currentBlocks = [];
     }
 
-
+    const randomNumber = Math.floor(Math.random() * 100) + 1;
     
 
     return (
@@ -602,8 +602,9 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 <MenuItem value={4}>4th Year</MenuItem>
               </Select>
             </FormControl>
-    
-            <SketchExample className={`${SchedulerFacultyCSS.ripple}`} onColorChange={this.handleColorChange}/>
+           
+            
+            <SketchExample defaultColor = {displayAppointmentData['color']}  className={`${SchedulerFacultyCSS.ripple}`} onColorChange={this.handleColorChange}/>
            
             <FormControl variant="outlined"  sx={{margin: "7px 7px" }} className={classes.textField}>
                 <InputLabel>Block</InputLabel>
@@ -882,7 +883,7 @@ export default class SchedulerFaculty extends React.PureComponent {
         visibleChange: this.toggleEditingFormVisibility,
         onEditingAppointmentChange: this.onEditingAppointmentChange,
         cancelAppointment,
-        onAppointmentColorChange: this.handleAppointmentColorChange,
+       
       };
     });
   }
