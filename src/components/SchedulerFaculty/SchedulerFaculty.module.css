@@ -85,6 +85,6 @@ cursor: pointer;
 .modalBoxParent{
   display: flex;
   outline: 1px solid red;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
 }

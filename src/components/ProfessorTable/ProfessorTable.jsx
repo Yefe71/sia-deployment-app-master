@@ -198,9 +198,6 @@ function ProfessorTable() {
         >
           <TableHead>
             <TableRow>
-              {/* <TableCell>First Name</TableCell>
-              <TableCell>Last Name</TableCell>
-              <TableCell>City</TableCell> */}
             </TableRow>
           </TableHead>
 
@@ -211,46 +208,83 @@ function ProfessorTable() {
                   <TableRow>
                     {isEdit ? (
                       <div>
-                        <TableCell sx={{ padding: "10px" }}>
+                        <TableCell sx={{ padding: "0px", paddingTop: "4px"  }}>
 
+                        <FormControl
+                            variant="outlined"
+                            sx={{ margin: "5px 7px" }}
+                            className={classes.textField}
+                            
+                          >
                           <TextField
                             labelId="course-code-label"
                             InputLabelProps={{ shrink: true }}
-                            sx={{ width: "150px" }}
+                            sx={{ width: "100px" }}
                             size="small"
-                            label="First Name"
-                            onChange={(e) => handleInputChange(e, i)}
-                            value={row.firstname}
-                            name="firstname"
-                          ></TextField>
-                        </TableCell>
-                        <TableCell sx={{ padding: "0px" }}>
-                          <TextField
-                            labelId="course-code-label"
-                            size="small"
-                            sx={{ width: "150px" }}
-                            InputLabelProps={{ shrink: true }}
-                            label="Last Name"
+                           
                             onChange={(e) => handleInputChange(e, i)}
                             value={row.lastname}
                             name="lastname"
                           ></TextField>
+
+                        </FormControl>
+
+
+                          
                         </TableCell>
-                        <TableCell sx={{ padding: "10px" }}>
+                        <TableCell sx={{ padding: "0px", paddingTop: "4px"  }}>
+                        <FormControl
+                            variant="outlined"
+                            sx={{ margin: "5px 7px" }}
+                            className={classes.textField}
+                          >
+                          <TextField
+                            labelId="course-code-label"
+                            size="small"
+                            sx={{ width: "100px" }}
+                            InputLabelProps={{ shrink: true }}
+                           
+                            onChange={(e) => handleInputChange(e, i)}
+                            value={row.firstname}
+                            name="firstname"
+                          ></TextField>
+                              </FormControl>
+                        </TableCell>
+                        
+                        <TableCell sx={{ padding: "0px" }}>
+                        <FormControl
+                            variant="outlined"
+                            sx={{ margin: "5px 7px" }}
+                            className={classes.textField}
+                          >
+                          <TextField
+                            labelId="course-code-label"
+                            size="small"
+                            sx={{ width: "100px" }}
+                            InputLabelProps={{ shrink: true }}
+                           
+                            onChange={(e) => handleInputChange(e, i)}
+                            value={row.middlename}
+                            name="middlename"
+                          ></TextField>
+                              </FormControl>
+                        </TableCell>
+                        <TableCell sx={{ padding: "0px", paddingRight:"0px", paddingTop: "4px"  }}>
+                            
                           <FormControl
                             size="small"
-                            sx={{ margin: "0px 0px" }}
+                            sx={{ margin: "5px 7px" }}
                             variant="outlined"
                           >
                       
                             <TextField
                               size="small"
-                              sx={{ width: "150px", fontSize: "15px" }}
-                              name="city"
+                              sx={{ width: "120px", fontSize: "15px" }}
+                              name="employment"
                               select
                               InputLabelProps={{ shrink: true }}
-                              label="Class Type"
-                              value={row.city}
+                            
+                              value={row.employment}
                               onChange={(e) => handleInputChange(e, i)}
                             >
                               <MenuItem
@@ -274,6 +308,26 @@ function ProfessorTable() {
                             </TextField>
                           </FormControl>
                         </TableCell>
+
+                        <TableCell sx={{ padding: "0px", paddingBottom: "4px", paddingTop: "4px" }}>
+                        <FormControl
+                            variant="outlined"
+                            sx={{ margin: "5px 7px" }}
+                            className={classes.textField}
+                          >
+                          <TextField
+                            labelId="course-code-label"
+                            size="small"
+                            type="number"
+                            sx={{ width: "70px" }}
+                            InputLabelProps={{ shrink: true }}
+                           
+                            onChange={(e) => handleInputChange(e, i)}
+                            value={row.maxunits}
+                            name="maxUnits"
+                          ></TextField>
+                              </FormControl>
+                        </TableCell>
                       </div>
                     ) : (
                       <div className={ProfessorTableCSS["cells-deleteWrapper"]}>
@@ -287,24 +341,7 @@ function ProfessorTable() {
                               labelId="class-type-label"
                               InputLabelProps={{ shrink: true }}
                               size="small"
-                              sx={{ width: "150px" }}
-                              InputProps={{
-                                readOnly: true,
-                              }}
-                              //   label = "Class Type"
-                              value={row.firstname}
-                            />
-                          </FormControl>
-                          <FormControl
-                            variant="outlined"
-                            sx={{ margin: "5px 7px" }}
-                            className={classes.textField}
-                          >
-                            <TextField
-                              labelId="class-type-label"
-                              InputLabelProps={{ shrink: true }}
-                              size="small"
-                              sx={{ width: "150px" }}
+                              sx={{ width: "100px" }}
                               InputProps={{
                                 readOnly: true,
                               }}
@@ -321,14 +358,65 @@ function ProfessorTable() {
                               labelId="class-type-label"
                               InputLabelProps={{ shrink: true }}
                               size="small"
-                              sx={{ width: "150px" }}
+                              sx={{ width: "100px" }}
                               InputProps={{
                                 readOnly: true,
                               }}
                               //   label = "Class Type"
-                              value={row.city}
+                              value={row.firstname}
                             />
                           </FormControl>
+                          <FormControl
+                            variant="outlined"
+                            sx={{ margin: "5px 7px" }}
+                            className={classes.textField}
+                          >
+                            <TextField
+                              labelId="class-type-label"
+                              InputLabelProps={{ shrink: true }}
+                              size="small"
+                              sx={{ width: "100px" }}
+                              InputProps={{
+                                readOnly: true,
+                              }}
+                              //   label = "Class Type"
+                              value={row.middlename}
+                            />
+                          </FormControl>
+                          <FormControl
+                            variant="outlined"
+                            sx={{ margin: "5px 7px" }}
+                            className={classes.textField}
+                          >
+                            <TextField
+                              labelId="class-type-label"
+                              InputLabelProps={{ shrink: true }}
+                              size="small"
+                              sx={{ width: "120px" }}
+                              InputProps={{
+                                readOnly: true,
+                              }}
+                              //   label = "Class Type"
+                              value={row.employment}
+                            />
+                          </FormControl>
+                          <FormControl
+                                variant="outlined"
+                                sx={{ margin: "5px 7px" }}
+                                className={classes.textField}
+                              >
+                                <TextField
+                                  labelId="class-type-label"
+                                  InputLabelProps={{ shrink: true }}
+                                  size="small"
+                                  sx={{ width: "70px" }}
+                                  InputProps={{
+                                    readOnly: true,
+                                  }}
+                                  //   label = "Class Type"
+                                  value={row.maxUnits}
+                                />
+                              </FormControl>
                         </div>
                         {isEdit ? (
                            
