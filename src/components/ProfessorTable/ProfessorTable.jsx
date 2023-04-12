@@ -38,9 +38,7 @@ const useStyles = () =>
         borderBottom: "unset",
       },
     },
-    table: {
-      minWidth: 650,
-    },
+
     snackbar: {
       bottom: "104px",
     },
@@ -144,27 +142,57 @@ function ProfessorTable() {
         </Alert>
       </Snackbar>
 
-      <Box margin={1}>
-        <div>
+      <Box  margin={1}  className={ProfessorTableCSS.tableParent}>
+        <div className={ProfessorTableCSS.topItems}>
           <div>
             {isEdit ? (
-              <div className={ProfessorTableCSS["add-saveOptions"]}>
-                <Button onClick={handleAdd}>
+              <div style= {{ margin: "5px 7px 10px 7px"}} className={ProfessorTableCSS["add-saveOptions"]}>
+  
+                <div  style= {{ fontFamily: 'Poppins', fontWeight: "500", color: "#6f6f6f"}} onClick={handleAdd} className={`${ProfessorTableCSS.iconWrapper} ${ProfessorTableCSS.ripple}`} >
                   <AddBoxIcon
                     className={ProfessorTableCSS.addIcon}
                     onClick={handleAdd}
+                    sx = {{color: "#6f6f6f"}}
                   />
                   ADD
-                </Button>
+                </div>
                 {rows.length !== 0 && (
-                  <div>
+                  <div style= {{ margin: "0px 0px 0px 8px"}}>
                     {disable ? (
-                      <Button disabled align="right" onClick={handleSave}>
+                      <Button disabled align="right" style={{ textTransform: "none" }}
+                      sx={{
+                     
+                        color: "#6f6f6f",
+                        borderRadius: "0.4rem",
+                        fontFamily: "Poppins",
+                        fontSize:  "0.7rem",
+                        padding: "0rem",
+                        padding: "0.6rem",
+                        "&:hover": {
+                            color: "#6f6f6f",
+                          // Change the hover background color here
+                        },
+                      }}
+                      variant="contained" onClick={handleSave}>
                         <DoneIcon />
                         SAVE
                       </Button>
                     ) : (
-                      <Button align="right" onClick={handleSave}>
+                      <Button align="right" style={{ textTransform: "none" }}
+                      sx={{
+                   
+                        color: "#6f6f6f",
+                        borderRadius: "0.4rem",
+                        fontFamily: "Poppins",
+                        fontSize:  "0.7rem",
+                        padding: "0rem",
+                        padding: "0.6rem",
+                        "&:hover": {
+                        color: "#6f6f6f",
+                          // Change the hover background color here
+                        },
+                      }}
+                      variant="contained" onClick={handleSave}>
                         <DoneIcon />
                         SAVE
                       </Button>
@@ -173,15 +201,41 @@ function ProfessorTable() {
                 )}
               </div>
             ) : (
-              <div className={ProfessorTableCSS["add-editOptions"]}>
-                <Button onClick={handleAdd}>
+              <div style= {{ margin: "5px 7px 10px 7px"}} className={ProfessorTableCSS["add-editOptions"]}>
+                <Button style={{ textTransform: "none" }}
+                sx={{
+                  
+                    color: "#6f6f6f",
+                  borderRadius: "0.4rem",
+                  fontFamily: "Poppins",
+                  fontSize:  "0.7rem",
+                  padding: "0rem",
+                  padding: "0.6rem",
+                  "&:hover": {
+                    color: "#6f6f6f",
+                    // Change the hover background color here
+                  },
+                }}onClick={handleAdd}>
                   <AddBoxIcon
                     className={ProfessorTableCSS.addIcon}
                     onClick={handleAdd}
                   />
                   ADD
                 </Button>
-                <Button align="right" onClick={handleEdit}>
+                <Button align="right" style={{ textTransform: "none", marginLeft: "8px" }}
+                sx={{
+               
+                  
+                  borderRadius: "0.4rem",
+                  fontFamily: "Poppins",
+                  fontSize:  "0.7rem",
+                  color: "#6f6f6f",
+                  padding: "0.6rem",
+                  "&:hover": {
+                    color: "#6f6f6f",
+                    // Change the hover background color here
+                  },
+                }} onClick={handleEdit}>
                   <CreateIcon />
                   EDIT
                 </Button>
@@ -190,11 +244,11 @@ function ProfessorTable() {
           </div>
           <div className={ProfessorTableCSS.fieldLabels}>
 
-              <h3>Last Name</h3>
-              <h3>First Name</h3>
-              <h3>Middle Name</h3>
-              <h3>Employment</h3>
-              <h3>Max Units</h3>
+              <h3 className={ProfessorTableCSS.label1}>Last Name</h3>
+              <h3 className={ProfessorTableCSS.label2} >First Name</h3>
+              <h3 className={ProfessorTableCSS.label3} >Middle Name</h3>
+              <h3 className={ProfessorTableCSS.label4} >Employment</h3>
+              <h3 className={ProfessorTableCSS.label5} >Max Units</h3>
             
           </div>
 
@@ -202,9 +256,10 @@ function ProfessorTable() {
         <TableRow align="center"> </TableRow>
 
         <Table
-          className={classes.table}
+        //   className={classes.table}
           size="small"
           aria-label="a dense table"
+          style={{width: '0px'}}
         >
           <TableHead>
             <TableRow>
@@ -218,42 +273,48 @@ function ProfessorTable() {
                   <TableRow>
                     {isEdit ? (
                       <div className={ProfessorTableCSS.trueIsEdit}>
-                        <TableCell sx={{ padding: "0px", paddingTop: "4px"  }}>
+                        <TableCell sx={{ padding: "0px", paddingTop: "0px", borderBottom: '0px'  }}>
 
                         <FormControl
                             variant="outlined"
-                            sx={{ margin: "5px 7px" }}
+                            sx={{ margin: "5px 7px", fontSize: "10px" }}
                             className={classes.textField}
                             
                           >
                           <TextField
                             labelId="course-code-label"
                             InputLabelProps={{ shrink: true }}
-                            sx={{ width: "100px" }}
+                            sx={{ width: "100px"}}
                             size="small"
-                           
+                  
+                              InputProps={{
+                                style: { fontSize: '13px' },
+                              }}
+                    
                             onChange={(e) => handleInputChange(e, i)}
                             value={row.lastname}
                             name="lastname"
-                          ></TextField>
+                         />
 
                         </FormControl>
 
 
                           
                         </TableCell>
-                        <TableCell sx={{ padding: "0px", paddingTop: "4px"  }}>
+                        <TableCell sx={{ padding: "0px", paddingTop: "0px", borderBottom: '0px'  }}>
                         <FormControl
                             variant="outlined"
-                            sx={{ margin: "5px 7px" }}
+                            sx={{ margin: "5px 7px", fontSize: "13px" }}
                             className={classes.textField}
                           >
                           <TextField
                             labelId="course-code-label"
                             size="small"
-                            sx={{ width: "100px" }}
+                            sx={{ width: "100px", fontSize: "13px" }}
                             InputLabelProps={{ shrink: true }}
-                           
+                            InputProps={{
+                                style: { fontSize: '13px' },
+                              }}
                             onChange={(e) => handleInputChange(e, i)}
                             value={row.firstname}
                             name="firstname"
@@ -261,56 +322,60 @@ function ProfessorTable() {
                               </FormControl>
                         </TableCell>
                         
-                        <TableCell sx={{ padding: "0px" }}>
+                        <TableCell sx={{ padding: "0px", paddingTop: "0px", borderBottom: '0px' }}>
                         <FormControl
                             variant="outlined"
-                            sx={{ margin: "5px 7px" }}
+                            sx={{ margin: "5px 7px", fontSize: "13px" }}
                             className={classes.textField}
                           >
                           <TextField
                             labelId="course-code-label"
                             size="small"
-                            sx={{ width: "100px" }}
+                            sx={{ width: "100px", fontSize: "13px" }}
                             InputLabelProps={{ shrink: true }}
-                           
+                            InputProps={{
+                                style: { fontSize: '13px' },
+                              }}
                             onChange={(e) => handleInputChange(e, i)}
                             value={row.middlename}
                             name="middlename"
                           ></TextField>
                               </FormControl>
                         </TableCell>
-                        <TableCell sx={{ padding: "0px", paddingRight:"0px", paddingTop: "4px"  }}>
+                        <TableCell sx={{ padding: "0px", paddingRight:"0px", paddingTop: "0px", borderBottom: '0px' }}>
                             
                           <FormControl
                             size="small"
-                            sx={{ margin: "5px 7px" }}
+                            sx={{ margin: "5px 7px", fontSize: "13px" }}
                             variant="outlined"
                           >
                       
                             <TextField
-                              size="small"
-                              sx={{ width: "120px", fontSize: "15px" }}
+                             
+                              sx={{ width: "120px"}}
                               name="employment"
                               select
-                              InputLabelProps={{ shrink: true }}
-                            
+                              InputProps={{
+                                style: { fontSize: '13px' },
+                              }}
+                              size="small"
                               value={row.employment}
                               onChange={(e) => handleInputChange(e, i)}
                             >
                               <MenuItem
-                                sx={{ fontSize: "15px" }}
+                           
                                 value={"Karanja"}
                               >
                                 Karanja
                               </MenuItem>
                               <MenuItem
-                                sx={{ fontSize: "15px" }}
+                             
                                 value={"Hingoli"}
                               >
                                 Hingoli
                               </MenuItem>
                               <MenuItem
-                                sx={{ fontSize: "15px" }}
+                                
                                 value={"Bhandara"}
                               >
                                 Bhandara
@@ -319,17 +384,17 @@ function ProfessorTable() {
                           </FormControl>
                         </TableCell>
 
-                        <TableCell sx={{ padding: "0px", paddingBottom: "4px", paddingTop: "4px" }}>
+                        <TableCell sx={{ padding: "0px", paddingBottom: "0px", borderBottom: '0px', paddingTop: "0px" }}>
                         <FormControl
                             variant="outlined"
-                            sx={{ margin: "5px 7px" }}
+                            sx={{ margin: "5px 7px", fontSize: "13px" }}
                             className={classes.textField}
                           >
                           <TextField
                             labelId="course-code-label"
                             size="small"
                             type="number"
-                            sx={{ width: "70px" }}
+                            sx={{ width: "70px", fontSize: "13px" }}
                             InputLabelProps={{ shrink: true }}
                            
                             onChange={(e) => handleInputChange(e, i)}
@@ -344,7 +409,7 @@ function ProfessorTable() {
                             className={`${ProfessorTableCSS.iconWrapper} ${ProfessorTableCSS.ripple}`}
                           >
                         
-                            <ClearIcon />
+                            <DeleteOutlineIcon style={{ color: '#6f6f6f' }}/>
                           </div>   
                       </div>
                     ) : (
@@ -435,13 +500,13 @@ function ProfessorTable() {
                                   value={row.maxUnits}
                                 />
                               </FormControl>
-                               <div
+                               {/* <div
                                 onClick={handleConfirm}
                                 style={{ width: "1rem", height: "1rem" }}
                                 className={`${ProfessorTableCSS.iconWrapper} ${ProfessorTableCSS.ripple}`}
                               >
-                                <DeleteOutlineIcon />
-                              </div>
+                                <DeleteOutlineIcon style={{ color: '#6f6f6f' }}/>
+                              </div> */}
                       
                               
                         </div>

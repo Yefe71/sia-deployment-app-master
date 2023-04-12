@@ -851,6 +851,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
   
         <Modal
+          className={SchedulerFacultyCSS.profModal} 
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="modal-modal-title"
