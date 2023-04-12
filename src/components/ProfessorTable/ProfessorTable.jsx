@@ -14,7 +14,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-
+import ProfessorTableCSS from "./ProfessorTable.module.css"
 // Creating styles
 const useStyles = () => css({
     root: {
@@ -125,13 +125,14 @@ function ProfessorTable() {
           Record saved successfully!
         </Alert>
       </Snackbar>
+      
       <Box margin={1}>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div>
           <div>
             {isEdit ? (
-              <div>
+              <div className={ProfessorTableCSS["add-saveOptions"]}>
                 <Button onClick={handleAdd}>
-                  <AddBoxIcon onClick={handleAdd} />
+                  <AddBoxIcon className={ProfessorTableCSS.addIcon} onClick={handleAdd}  />
                   ADD
                 </Button>
                 {rows.length !== 0 && (
@@ -151,9 +152,9 @@ function ProfessorTable() {
                 )}
               </div>
             ) : (
-              <div>
+              <div className={ProfessorTableCSS["add-editOptions"]}>
                 <Button onClick={handleAdd}>
-                  <AddBoxIcon onClick={handleAdd} />
+                  <AddBoxIcon className={ProfessorTableCSS.addIcon} onClick={handleAdd} />
                   ADD
                 </Button>
                 <Button align="right" onClick={handleEdit}>
@@ -175,10 +176,11 @@ function ProfessorTable() {
             <TableRow>
               <TableCell>First Name</TableCell>
               <TableCell>Last Name</TableCell>
-              <TableCell align="center">City</TableCell>
-              <TableCell align="center"> </TableCell>
+              <TableCell>City</TableCell>
+    
             </TableRow>
           </TableHead>
+          
           <TableBody>
             {rows.map((row, i) => {
               return (
@@ -186,23 +188,23 @@ function ProfessorTable() {
                   <TableRow>
                     {isEdit ? (
                       <div>
-                        <TableCell padding="none">
+                        <TableCell >
                           <input
                             value={row.firstname}
                             name="firstname"
                             onChange={(e) => handleInputChange(e, i)}
                           />
                         </TableCell>
-                        <TableCell padding="none">
+                        <TableCell >
                           <input
                             value={row.lastname}
                             name="lastname"
                             onChange={(e) => handleInputChange(e, i)}
                           />
                         </TableCell>
-                        <TableCell padding="none">
+                        <TableCell>
                           <select
-                            style={{ width: "100px" }}
+                         
                             name="city"
                             value={row.city}
                             onChange={(e) => handleInputChange(e, i)}
@@ -235,11 +237,11 @@ function ProfessorTable() {
                       </div>
                     )}
                     {isEdit ? (
-                      <Button className="mr10" onClick={handleConfirm}>
+                      <Button className={ProfessorTableCSS.mr10} onClick={handleConfirm}>
                         <ClearIcon />
                       </Button>
                     ) : (
-                      <Button className="mr10" onClick={handleConfirm}>
+                      <Button className={ProfessorTableCSS.mr10} onClick={handleConfirm}>
                         <DeleteOutlineIcon />
                       </Button>
                     )}

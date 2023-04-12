@@ -1,0 +1,10 @@
+.add-editOptions{
+    display: flex;
+}
+.add-saveOptions{
+    display: flex;
+}
+
+.addIcon{
+    margin-right: 5px;
+}
