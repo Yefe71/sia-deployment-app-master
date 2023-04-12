@@ -36,16 +36,16 @@ class SketchExample extends React.Component {
     const styles = reactCSS({
       'default': {
         color: {
-          width: '36px',
-          height: '14px',
+          width: '40px',
+          height: '40px',
           borderRadius: '2px',
           background: `rgba(${ this.state.color.r }, ${ this.state.color.g }, ${ this.state.color.b }, ${ this.state.color.a })`,
         },
         swatch: {
-          padding: '5px',
+          padding: '7px',
           background: '#fff',
-          borderRadius: '2px',
-          boxShadow: '0 0 0 1px #c4c4c4',
+          borderRadius: '4px',
+          
           display: 'inline-block',
           cursor: 'pointer',
         },
@@ -60,21 +60,21 @@ class SketchExample extends React.Component {
           bottom: '0px',
           left: '0px',
         },
+        
       },
     });
 
     return (
-      <div className={SketchPickerCSS.parentColor} style = {{margin: "2px 7px"}}>
-    
-        <div className={SketchPickerCSS.colorFill} style={ styles.swatch } onClick={ this.handleClick }>
+     
+    <>
+        <div className={`${SketchPickerCSS.colorFill} ${SketchPickerCSS.ripple}`}  style={ styles.swatch } onClick={ this.handleClick }>
           <div style={ styles.color } />
         </div>
         { this.state.displayColorPicker ? <div style={ styles.popover }>
           <div style={ styles.cover } onClick={ this.handleClose }/>
-          <SketchPicker color={ this.state.color } onChange={ this.handleChange } />
+          <SketchPicker color={ this.state.color } className={SketchPickerCSS.sketchModal} onChange={ this.handleChange } />
         </div> : null }
-
-      </div>
+    </>
     )
   }
 }

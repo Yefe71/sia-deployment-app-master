@@ -30,7 +30,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import Fab from "@mui/material/Fab";
 import IconButton from "@mui/material/IconButton";
-import AddIcon from "@mui/icons-material/Add";
 import TextField from "@mui/material/TextField";
 import LocationOn from "@mui/icons-material/LocationOn";
 import Notes from "@mui/icons-material/Notes";
@@ -51,6 +50,7 @@ import { SketchPicker } from "react-color";
 import reactCSS from "reactcss";
 import SketchExample from "../SketchPicker/SketchPicker";
 import addPerson from "../../assets/addPerson.svg"
+
 
 const CustomTimeTableCell = ({ ...props }) => {
   const onDoubleClick = (event) => {
@@ -558,10 +558,12 @@ class AppointmentFormContainerBasic extends React.PureComponent {
             </IconButton>
           </div>
           <div className={classes.content}>
-            <SketchExample  onColorChange={this.handleColorChange}/>
+
+      
+            
             {/* PROFESSOR NAME FIELD */}
-            <div className={SchedulerFacultyCSS.wrapper}>
-            <FormControl   sx={{margin: "0px 7px 7px 7px" }} variant="outlined"  className={classes.textField}>
+            <div className={SchedulerFacultyCSS.wrapper} style={{margin: "0px 7px 7px 7px" }}>
+            <FormControl    variant="outlined"  className={classes.textField}>
 
                 <InputLabel id="professor-name-label">
                   Professor Name
@@ -578,14 +580,10 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 </Select>
               </FormControl>
 
-              <IconButton sx={{width: '3rem', height: '3rem', marginRight: '7px', padding: '0px' }}  aria-label="add">
-                  <img src={addPerson}  style={{width: '1.95rem', height: '1.95rem'}} alt="" />
-                <style>{`
-                  .MuiIconButton-root:focus-visible {
-                    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
-                  }
-                `}</style>
-              </IconButton>
+              <div style={{width: '2rem', height: '2rem'}} className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`} >
+                  <img src={addPerson}  style={{width: '1.8rem', height: '1.8rem'}} alt="" />
+              </div>
+      
             </div>
 
             <div className={SchedulerFacultyCSS["year-courseWrapper"]}>
@@ -602,7 +600,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 <MenuItem value={4}>4th Year</MenuItem>
               </Select>
             </FormControl>
-
+            <SketchExample className={`${SchedulerFacultyCSS.ripple}`} onColorChange={this.handleColorChange}/>
             <FormControl variant="outlined"  sx={{margin: "4px 7px" }} className={classes.textField}>
                 <InputLabel>Block</InputLabel>
                 <Select

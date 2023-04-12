@@ -1,13 +1,11 @@
-.parentColor{
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    justify-content: end;
-
+.colorFill{
+    outline: 1px solid #c4c4c4;
 }
 
+.colorFill:hover{
+    outline: 1px solid #000000;
+}
 
-
-.colorContainer{
-    width: 2rem;
+.sketchModal{
+    font-family: 'Roboto';
 }
