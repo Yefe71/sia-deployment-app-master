@@ -77,7 +77,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: 600,
   bgcolor: 'background.paper',
   borderRadius: '10px',
   boxShadow: 24,
@@ -857,7 +857,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         >
 
        
-          <Box sx={style}>
+          <Box className={SchedulerFacultyCSS.modalBoxParent} sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
         
             </Typography> 

@@ -82,3 +82,9 @@ cursor: pointer;
 }
 
 
+.modalBoxParent{
+  display: flex;
+  outline: 1px solid red;
+  justify-content: center;
+  align-items: center;
+}
