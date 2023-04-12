@@ -188,6 +188,16 @@ function ProfessorTable() {
               </div>
             )}
           </div>
+          <div className={ProfessorTableCSS.fieldLabels}>
+
+              <h3>Last Name</h3>
+              <h3>First Name</h3>
+              <h3>Middle Name</h3>
+              <h3>Employment</h3>
+              <h3>Max Units</h3>
+            
+          </div>
+
         </div>
         <TableRow align="center"> </TableRow>
 
@@ -207,7 +217,7 @@ function ProfessorTable() {
                 <div>
                   <TableRow>
                     {isEdit ? (
-                      <div>
+                      <div className={ProfessorTableCSS.trueIsEdit}>
                         <TableCell sx={{ padding: "0px", paddingTop: "4px"  }}>
 
                         <FormControl
@@ -328,10 +338,18 @@ function ProfessorTable() {
                           ></TextField>
                               </FormControl>
                         </TableCell>
+                        <div
+                            onClick={handleConfirm}
+                            style={{ width: "1rem", height: "1rem" }}
+                            className={`${ProfessorTableCSS.iconWrapper} ${ProfessorTableCSS.ripple}`}
+                          >
+                        
+                            <ClearIcon />
+                          </div>   
                       </div>
                     ) : (
                       <div className={ProfessorTableCSS["cells-deleteWrapper"]}>
-                        <div>
+                        <div className={ProfessorTableCSS.falseIsEdit}>
                           <FormControl
                             variant="outlined"
                             sx={{ margin: "5px 7px" }}
@@ -417,26 +435,21 @@ function ProfessorTable() {
                                   value={row.maxUnits}
                                 />
                               </FormControl>
+                               <div
+                                onClick={handleConfirm}
+                                style={{ width: "1rem", height: "1rem" }}
+                                className={`${ProfessorTableCSS.iconWrapper} ${ProfessorTableCSS.ripple}`}
+                              >
+                                <DeleteOutlineIcon />
+                              </div>
+                      
+                              
                         </div>
-                        {isEdit ? (
+                      
                            
-                          <div
-                            onClick={handleConfirm}
-                            style={{ width: "1rem", height: "1rem" }}
-                            className={`${ProfessorTableCSS.iconWrapper} ${ProfessorTableCSS.ripple}`}
-                          >
-                        
-                            <ClearIcon />
-                          </div>    
-                        ) : (
-                          <div
-                            onClick={handleConfirm}
-                            style={{ width: "1rem", height: "1rem" }}
-                            className={`${ProfessorTableCSS.iconWrapper} ${ProfessorTableCSS.ripple}`}
-                          >
-                            <DeleteOutlineIcon />
-                          </div>
-                        )}
+             
+                      
+   
 
 
                       </div>
