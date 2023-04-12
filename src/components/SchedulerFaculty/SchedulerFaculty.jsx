@@ -49,7 +49,7 @@ import { appointments } from "../../data/appointments";
 import { SketchPicker } from "react-color";
 import reactCSS from "reactcss";
 import SketchExample from "../SketchPicker/SketchPicker";
-import addPerson from "../../assets/addPerson.svg"
+import addPerson from "../../assets/edit.svg"
 
 
 const CustomTimeTableCell = ({ ...props }) => {
@@ -583,7 +583,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               </FormControl>
           
               <div style={{width: '2rem', height: '2rem'}} className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`} >
-                  <img src={addPerson}  style={{width: '1.8rem', height: '1.8rem'}} alt="" />
+                  <img src={addPerson}  style={{width: '1.8rem', height: '1.8rem', marginBottom: '5px'}} alt="" />
               </div>
     
 
@@ -709,10 +709,14 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   <MenuItem value={1}>GCA</MenuItem>
                   <MenuItem value={2}>Com Lab 2</MenuItem>
                   <MenuItem value={3}>Field</MenuItem>
+                  
                 </Select>
               </FormControl>
+            <div style={{width: '2rem', height: '2rem', margin: "0px 7px 7px 7px"}} className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`} >
+                  <img src={addPerson}  style={{width: '1.8rem', height: '1.8rem', marginBottom: '5px'}} alt="" />
+              </div>
             </div>
-
+    
               <div className={SchedulerFacultyCSS.wrapper}>
               <FormControl sx={{minWidth: 80, margin: "7px 7px"}}  variant="outlined" >
                 <InputLabel>Day</InputLabel>
@@ -905,12 +909,12 @@ export default class SchedulerFaculty extends React.PureComponent {
         .toDate(),
       endDate: dayjs(currentDate)
         .startOf("day")
-        .add(21, "hour") // Set the end hour to 12 (12 pm)
+        .add(10, "hour") // Set the end hour to 12 (12 pm)
         .toDate(),
       color: {
-        "r": 14,
-        "g": 65,
-        "b": 107,
+        "r": 66,
+        "g": 165,
+        "b": 245,
         "a": 1
       }
     });
