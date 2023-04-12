@@ -307,6 +307,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       ...this.getAppointmentChanges(),
       [field]: changes,
     };
+
+    console.log('nextChanges')
     this.setState({
       appointmentChanges: nextChanges,
     });
@@ -403,7 +405,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
 
 
-
+                                
     const isNewAppointment = appointmentData.id === undefined;
 
 
@@ -830,7 +832,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       data: appointments,
       currentDate: "2023-01-07",
       confirmationVisible: false,
-      editingFormVisible: true,
+      editingFormVisible: false,
       deletedAppointmentId: undefined,
       editingAppointment: undefined,
       previousAppointment: undefined,
@@ -905,6 +907,12 @@ export default class SchedulerFaculty extends React.PureComponent {
         .startOf("day")
         .add(21, "hour") // Set the end hour to 12 (12 pm)
         .toDate(),
+      color: {
+        "r": 14,
+        "g": 65,
+        "b": 107,
+        "a": 1
+      }
     });
 
   }
@@ -984,7 +992,7 @@ export default class SchedulerFaculty extends React.PureComponent {
             const updatedAppointment = {
               ...appointment,
               ...changed[appointment.id],
-              color: appointmentColor
+            
             };
             if (updatedAppointment.day) {
               updatedAppointment.startDate = dayjs(updatedAppointment.day)
