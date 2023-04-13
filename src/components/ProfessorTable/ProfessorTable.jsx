@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   Box,
   Button,
-  IconButton,
   Snackbar,
   Table,
   TableBody,
@@ -14,9 +13,8 @@ import {
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+
 import DoneIcon from "@mui/icons-material/Done";
-import ClearIcon from "@mui/icons-material/Clear";
-import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import Alert from "@mui/lab/Alert";
 import Dialog from "@mui/material/Dialog";
@@ -25,10 +23,11 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import ProfessorTableCSS from "./ProfessorTable.module.css";
+import IconButton from "@mui/material/IconButton";
+import Close from "@mui/icons-material/Close";
+
 
 // Creating styles
 const useStyles = () =>
@@ -141,6 +140,9 @@ function ProfessorTable() {
 
   return (
     <div className={ProfessorTableCSS.tableOnly}>
+
+
+
       <TableBody>
         <Snackbar
           open={open}
@@ -153,6 +155,10 @@ function ProfessorTable() {
           </Alert>
         </Snackbar>
 
+
+          
+     
+     
         <Box className={ProfessorTableCSS.tableParent}>
           <div className={ProfessorTableCSS.topItems}>
             <div></div>
