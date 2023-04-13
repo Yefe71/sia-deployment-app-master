@@ -627,7 +627,7 @@ function ProfessorTable({onCloseProp}) {
           style={{ margin: "15px 7px 10px 0px" }}
           className={ProfessorTableCSS["add-editOptions"]}
         >
-          <Button
+          {/* <Button
             style={{ textTransform: "none" }}
             sx={{
               background: "#1e82d4",
@@ -655,7 +655,7 @@ function ProfessorTable({onCloseProp}) {
               }}
             />
             ADD
-          </Button>
+          </Button> */}
           <Button
             align="right"
             style={{ textTransform: "none", marginLeft: "8px" }}
