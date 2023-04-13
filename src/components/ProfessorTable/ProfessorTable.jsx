@@ -74,7 +74,7 @@ function ProfessorTable({onCloseProp}) {
           const rows = data.map((item) => ({
             // id: item.id,
             lastname: item.last_name,
-            middlename: item.middle_name + "1",
+            middlename: item.middle_name,
             firstname: item.first_name,
             employment: item.employment,
             maxUnits: item.max_units,
@@ -103,7 +103,7 @@ function ProfessorTable({onCloseProp}) {
           const rows = data.map((item) => ({
             // id: item.id,
             lastname: item.last_name,
-            middlename: item.middle_name + "2",
+            middlename: item.middle_name,
             firstname: item.first_name,
             employment: item.employment,
             maxUnits: item.max_units,
@@ -221,6 +221,8 @@ function ProfessorTable({onCloseProp}) {
     const list = [...rowsEdit];
     list[index][name] = value;
     setRowsEdit(list);
+
+    console.log(typeof(e.target.value))
     
   };
 
@@ -399,13 +401,13 @@ function ProfessorTable({onCloseProp}) {
                                 value={row.employment}
                                 onChange={(e) => handleInputChange(e, i)}
                               >
-                                <MenuItem value={"Part-time"}>
+                                <MenuItem  style= {{ fontSize: "15px" }} value={"Part-time"}>
                                   Part-time
                                 </MenuItem>
-                                <MenuItem value={"Full-time"}>
+                                <MenuItem  style= {{ fontSize: "15px" }} value={"Full-time"}>
                                   Full-time
                                 </MenuItem>
-                                <MenuItem value={"Full-pledge"}>
+                                <MenuItem   style= {{ fontSize: "15px" }}value={"Full-pledge"}>
                                   Full-pledge
                                 </MenuItem>
                               </TextField>
@@ -425,7 +427,7 @@ function ProfessorTable({onCloseProp}) {
                               sx={{ margin: "5px 7px", fontSize: "13px" }}
                               className={classes.textField}
                             >
-                              <TextField
+                              {/* <TextField
                                 labelId="course-code-label"
                                 size="small"
                                 type="number"
@@ -437,7 +439,32 @@ function ProfessorTable({onCloseProp}) {
                                 onChange={(e) => handleInputChange(e, i)}
                                 value={row.maxUnits}
                                 name="maxUnits"
-                              ></TextField>
+                              ></TextField> */}
+
+                              <TextField
+                                sx={{ width: "70px" }}
+                                name="maxUnits"
+                                select
+                                InputProps={{
+                                  style: { fontSize: "13px" },
+                                }}
+                                size="small"
+                                value={row.maxUnits}
+                                onChange={(e) => handleInputChange(e, i)}
+                              >
+                                <MenuItem  style= {{ fontSize: "15px" }} value={0}>
+                                  0
+                                </MenuItem>
+                                <MenuItem style= {{ fontSize: "15px" }} value={18}>
+                                  18
+                                </MenuItem>
+                                <MenuItem style= {{ fontSize: "15px" }} value={24}>
+                                  24
+                                </MenuItem>
+                              </TextField>
+
+
+
                             </FormControl>
                           </TableCell>
 
@@ -687,7 +714,8 @@ function ProfessorTable({onCloseProp}) {
           </Button>
           {true && (
             <div style={{ margin: "0px 0px 0px 7px" }}>
-              {disable ? (
+              
+              {!rowsEdit.length ? (
                 <Button
                   disabled
                   style={{ textTransform: "none" }}
