@@ -74,13 +74,13 @@ function ProfessorTable({onCloseProp}) {
           const rows = data.map((item) => ({
             id: item.id,
             lastname: item.last_name,
-            middlename: item.middle_name + "2",
+            middlename: item.middle_name + "1",
             firstname: item.first_name,
             employment: item.employment,
             maxUnits: item.max_units,
           }));
           setRows(rows);
-          setRowsEdit(rows);
+      
           console.log(rowsTest);
         } catch (error) {
           console.log(error);
@@ -96,7 +96,30 @@ function ProfessorTable({onCloseProp}) {
 
 
 
-
+    useEffect(() => {
+      const fetchProfessors = async () => {
+        try {
+          const response = await fetch(`http://localhost:3000/grabProfessors`);
+          const data = await response.json();
+          const rows = data.map((item) => ({
+            id: item.id,
+            lastname: item.last_name,
+            middlename: item.middle_name + "2",
+            firstname: item.first_name,
+            employment: item.employment,
+            maxUnits: item.max_units,
+          }));
+          setRowsEdit(rows);
+          console.log(rowsTest);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+  
+  
+      fetchProfessors();
+    }, []);
+  
 
 
 
@@ -148,7 +171,7 @@ function ProfessorTable({onCloseProp}) {
 
 
     setRows(rowsEdit);
-    console.log(rows, "rows")
+ 
     setDisable(false);
     setOpen(true);
   };
@@ -160,6 +183,7 @@ function ProfessorTable({onCloseProp}) {
     const list = [...rowsEdit];
     list[index][name] = value;
     setRowsEdit(list);
+    
   };
 
   const handleConfirm = (index) => {
@@ -168,9 +192,9 @@ function ProfessorTable({onCloseProp}) {
   };
 
   const handleRemoveClick = () => {
-    const list = [...rows];
+    const list = [...rowsEdit];
     list.splice(deleteIndex, 1);
-    setRows(list);
+    setRowsEdit(list);
     setShowConfirm(false);
   };
 
@@ -201,7 +225,11 @@ function ProfessorTable({onCloseProp}) {
      
         </div>
       {/* {`${rowsTest}`} */}
-        <Box className={ProfessorTableCSS.tableParent}>
+        <Box onClick = {() => {
+          console.log(rowsEdit, "rowsEdit")
+          console.log(rows, "rows")
+          
+          }} className={ProfessorTableCSS.tableParent}>
           <div className={ProfessorTableCSS.topItems}>
             <div></div>
             <div className={ProfessorTableCSS.fieldLabels}>
