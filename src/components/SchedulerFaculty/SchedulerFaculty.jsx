@@ -77,13 +77,14 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  minWidth: 400,
-  height: 350,
-  overflowY: "scroll",
-  bgcolor: 'background.paper',
+  minWidth: 500,
+  height: 418,
+  overflowY: "none",
+
   borderRadius: '10px',
   boxShadow: 24,
   p: 4,
+  background: "#f6f6f6"
 };
 
 
@@ -99,7 +100,7 @@ const FormOverlay = React.forwardRef(({ visible, children }, ref) => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-
+         
         }}
       >
         {children}

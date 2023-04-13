@@ -1,12 +1,18 @@
 .add-editOptions{
-    display: flex;
+  display: flex;
+  justify-content: end;
+  width: 100%;
+  margin-right: 7px;
 }
 .add-saveOptions{
     display: flex;
+    justify-content: end;
+    width: 100%;
+    margin-right: 30px;
 }
 
 .addIcon{
-    margin-right: 5px;
+    margin-right: 1.5px;
 }
 .trueIsEdit{
     display: flex;
@@ -136,9 +142,15 @@
 
   .tableParent{
         display: flex;
-        justify-content: center;
-        align-items: start;
+        justify-content: start;
+        
         flex-direction: column;
+       /* margin:8px !important; */
+      outline: 1px solid #c4c4c4;
+      border-radius: 5px;
+      height: 320px;
+      overflow-y: scroll;
+      padding: 1rem 1rem 1.5rem 1rem;
 
   }
 

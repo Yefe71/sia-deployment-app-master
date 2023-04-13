@@ -51,7 +51,14 @@ function ProfessorTable() {
   // Defining a state named rows
   // which we can update by calling on setRows function
   const [rows, setRows] = useState([
-    { id: 1, lastname: "", middlename: "", firstname: "", employment: "", maxUnits: "" },
+    {
+      id: 1,
+      lastname: "Libed",
+      middlename: "Jake",
+      firstname: "Dela Rosa",
+      employment: "Part-time",
+      maxUnits: "24",
+    },
   ]);
 
   // Initial states
@@ -74,9 +81,10 @@ function ProfessorTable() {
       ...rows,
       {
         id: rows.length + 1,
-        firstname: "",
         lastname: "",
-        city: "",
+        firstname: "",
+        employment: "",
+        maxUnits: "",
       },
     ]);
     setEdit(true);
@@ -130,480 +138,514 @@ function ProfessorTable() {
   };
 
   return (
-    <TableBody>
-      <Snackbar
-        open={open}
-        autoHideDuration={2000}
-        onClose={handleClose}
-        className={classes.snackbar}
-      >
-        <Alert onClose={handleClose} severity="success">
-          Record saved successfully!
-        </Alert>
-      </Snackbar>
-
-      <Box  margin={1}  className={ProfessorTableCSS.tableParent}>
-        <div className={ProfessorTableCSS.topItems}>
-          <div>
-            {isEdit ? (
-              <div style= {{ margin: "5px 7px 10px 7px"}} className={ProfessorTableCSS["add-saveOptions"]}>
-  
-                  <Button style={{ textTransform: "none" }}
-                  sx={{
-                    outline: "1px solid #c4c4c4",
-                      color: "#6f6f6f",
-                    borderRadius: "0.25rem",
-                    fontFamily: "Poppins",
-                    fontSize:  "0.7rem",
-                    padding: "0rem",
-                    padding: "0.4rem",
-                    "&:hover": {
-                      background: "#ffffff",
-                      outline: "1px solid #030303",
-                      color: "#6f6f6f",
-                      // Change the hover background color here
-                    },
-                  }}onClick={handleAdd}>
-                  <AddBoxIcon
-                    className={ProfessorTableCSS.addIcon}
-                    onClick={handleAdd}
-                    sx = {{color: "#6f6f6f"}}
-                  />
-                  ADD
-                </Button>
-                {rows.length !== 0 && (
-                  <div style= {{ margin: "0px 0px 0px 8px"}}>
-                    {disable ? (
-                    <Button disabled style={{ textTransform: "none" }}
-                    sx={{
-                      outline: "1px solid #c4c4c4",
-                        color: "#6f6f6f",
-                      borderRadius: "0.25rem",
-                      fontFamily: "Poppins",
-                      fontSize:  "0.7rem",
-                      padding: "0rem",
-                      padding: "0.4rem",
-                      "&:hover": {
-                        background: "#ffffff",
-                        outline: "1px solid #030303",
-                        color: "#6f6f6f",
-                        // Change the hover background color here
-                      },
-                    }}onClick={handleSave}>
-                    <DoneIcon
-                      className={ProfessorTableCSS.addIcon}
-                      onClick={handleSave}
-                      sx = {{color: "#bdc5ca"}}
-                    />
-                    SAVE
-                  </Button>
-                    ) : (
-                      <Button style={{ textTransform: "none" }}
-                      sx={{
-                        outline: "1px solid #c4c4c4",
-                          color: "#6f6f6f",
-                        borderRadius: "0.25rem",
-                        fontFamily: "Poppins",
-                        fontSize:  "0.7rem",
-                        padding: "0rem",
-                        padding: "0.4rem",
-                        "&:hover": {
-                          background: "#ffffff",
-                          outline: "1px solid #030303",
-                          color: "#6f6f6f",
-                          // Change the hover background color here
-                        },
-                      }}onClick={handleSave}>
-                      <DoneIcon
-                        className={ProfessorTableCSS.addIcon}
-                        onClick={handleSave}
-                        sx = {{color: "#6f6f6f"}}
-                      />
-                      SAVE
-                    </Button>
-                    )}
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div style= {{ margin: "5px 7px 10px 7px"}} className={ProfessorTableCSS["add-editOptions"]}>
-                <Button style={{ textTransform: "none" }}
-                sx={{
-                  outline: "1px solid #c4c4c4",
-                    color: "#6f6f6f",
-                  borderRadius: "0.25rem",
-                  fontFamily: "Poppins",
-                  fontSize:  "0.7rem",
-                  padding: "0rem",
-                  padding: "0.4rem",
-                  "&:hover": {
-                    background: "#ffffff",
-                    outline: "1px solid #030303",
-                    color: "#6f6f6f",
-                    // Change the hover background color here
-                  },
-                }}onClick={handleAdd}>
-                  <AddBoxIcon
-                    className={ProfessorTableCSS.addIcon}
-                    onClick={handleAdd}
-                  />
-                  ADD
-                </Button>
-                <Button align="right" style={{ textTransform: "none", marginLeft: "8px" }}
-                sx={{
-                  outline: "1px solid #c4c4c4",
-                  color: "#6f6f6f",
-                  borderRadius: "0.25rem",
-                fontFamily: "Poppins",
-                fontSize:  "0.7rem",
-                padding: "0rem",
-                padding: "0.4rem",
-                "&:hover": {
-                  background: "#ffffff",
-                  outline: "1px solid #030303",
-                  color: "#6f6f6f",
-                  // Change the hover background color here
-                  },
-                }} onClick={handleEdit}>
-                  <CreateIcon />
-                  EDIT
-                </Button>
-              </div>
-            )}
-          </div>
-          <div className={ProfessorTableCSS.fieldLabels}>
-
-              <h3 className={ProfessorTableCSS.label1}>Last Name</h3>
-              <h3 className={ProfessorTableCSS.label2} >First Name</h3>
-              <h3 className={ProfessorTableCSS.label3} >Middle Name</h3>
-              <h3 className={ProfessorTableCSS.label4} >Employment</h3>
-              <h3 className={ProfessorTableCSS.label5} >Max Units</h3>
-            
-          </div>
-
-        </div>
-        <TableRow align="center"> </TableRow>
-
-        <Table
-        //   className={classes.table}
-          size="small"
-          aria-label="a dense table"
-          style={{width: '0px'}}
+    <div className={ProfessorTableCSS.tableOnly}>
+      <TableBody>
+        <Snackbar
+          open={open}
+          autoHideDuration={2000}
+          onClose={handleClose}
+          className={classes.snackbar}
         >
-          <TableHead>
-            <TableRow>
-            </TableRow>
-          </TableHead>
+          <Alert onClose={handleClose} severity="success">
+            Record saved successfully!
+          </Alert>
+        </Snackbar>
 
-          <TableBody>
-          {rows.map((row, i) => {
-              return (
-                <div>
-                  <TableRow>
-                    {isEdit ? (
-                      <div className={ProfessorTableCSS.trueIsEdit}>
-                        <TableCell sx={{ padding: "0px", paddingTop: "0px", borderBottom: '0px'  }}>
+        <Box className={ProfessorTableCSS.tableParent}>
+          <div className={ProfessorTableCSS.topItems}>
+            <div></div>
+            <div className={ProfessorTableCSS.fieldLabels}>
+              <h3 className={ProfessorTableCSS.label1}>Last Name</h3>
+              <h3 className={ProfessorTableCSS.label2}>First Name</h3>
+              <h3 className={ProfessorTableCSS.label3}>Middle Name</h3>
+              <h3 className={ProfessorTableCSS.label4}>Employment</h3>
+              <h3 className={ProfessorTableCSS.label5}>Max Units</h3>
+            </div>
+          </div>
+          <TableRow align="center"> </TableRow>
 
-                        <FormControl
-                            variant="outlined"
-                            sx={{ margin: "5px 7px", fontSize: "10px" }}
-                            className={classes.textField}
-                            
-                          >
-                          <TextField
-                            labelId="course-code-label"
-                            InputLabelProps={{ shrink: true }}
-                            sx={{ width: "100px"}}
-                            size="small"
-                  
-                              InputProps={{
-                                style: { fontSize: '13px' },
-                              }}
-                    
-                            onChange={(e) => handleInputChange(e, i)}
-                            value={row.lastname}
-                            name="lastname"
-                         />
+          <Table
+            //   className={classes.table}
+            size="small"
+            aria-label="a dense table"
+            style={{ width: "0px" }}
+          >
+            <TableHead>
+              <TableRow></TableRow>
+            </TableHead>
 
-                        </FormControl>
-
-
-                          
-                        </TableCell>
-                        <TableCell sx={{ padding: "0px", paddingTop: "0px", borderBottom: '0px'  }}>
-                        <FormControl
-                            variant="outlined"
-                            sx={{ margin: "5px 7px", fontSize: "13px" }}
-                            className={classes.textField}
-                          >
-                          <TextField
-                            labelId="course-code-label"
-                            size="small"
-                            sx={{ width: "100px", fontSize: "13px" }}
-                            InputLabelProps={{ shrink: true }}
-                            InputProps={{
-                                style: { fontSize: '13px' },
-                              }}
-                            onChange={(e) => handleInputChange(e, i)}
-                            value={row.firstname}
-                            name="firstname"
-                          ></TextField>
-                              </FormControl>
-                        </TableCell>
-                        
-                        <TableCell sx={{ padding: "0px", paddingTop: "0px", borderBottom: '0px' }}>
-                        <FormControl
-                            variant="outlined"
-                            sx={{ margin: "5px 7px", fontSize: "13px" }}
-                            className={classes.textField}
-                          >
-                          <TextField
-                            labelId="course-code-label"
-                            size="small"
-                            sx={{ width: "100px", fontSize: "13px" }}
-                            InputLabelProps={{ shrink: true }}
-                            InputProps={{
-                                style: { fontSize: '13px' },
-                              }}
-                            onChange={(e) => handleInputChange(e, i)}
-                            value={row.middlename}
-                            name="middlename"
-                          ></TextField>
-                              </FormControl>
-                        </TableCell>
-                        <TableCell sx={{ padding: "0px", paddingRight:"0px", paddingTop: "0px", borderBottom: '0px' }}>
-                            
-                          <FormControl
-                            size="small"
-                            sx={{ margin: "5px 7px", fontSize: "13px" }}
-                            variant="outlined"
-                          >
-                      
-                            <TextField
-                             
-                              sx={{ width: "120px"}}
-                              name="employment"
-                              select
-                              InputProps={{
-                                style: { fontSize: '13px' },
-                              }}
-                              size="small"
-                              value={row.employment}
-                              onChange={(e) => handleInputChange(e, i)}
-                            >
-                              <MenuItem
-                           
-                                value={"Karanja"}
-                              >
-                                Karanja
-                              </MenuItem>
-                              <MenuItem
-                             
-                                value={"Hingoli"}
-                              >
-                                Hingoli
-                              </MenuItem>
-                              <MenuItem
-                                
-                                value={"Bhandara"}
-                              >
-                                Bhandara
-                              </MenuItem>
-                            </TextField>
-                          </FormControl>
-                        </TableCell>
-
-                        <TableCell sx={{ padding: "0px", paddingBottom: "0px", borderBottom: '0px', paddingTop: "0px" }}>
-                        <FormControl
-                            variant="outlined"
-                            sx={{ margin: "5px 7px", fontSize: "13px" }}
-                            className={classes.textField}
-                          >
-                          <TextField
-                            labelId="course-code-label"
-                            size="small"
-                            type="number"
-                            sx={{ width: "70px", fontSize: "13px" }}
-                            InputLabelProps={{ shrink: true }}
-                            InputProps={{
-                              style: { fontSize: '13px' },
+            <TableBody>
+              {rows.map((row, i) => {
+                return (
+                  <div>
+                    <TableRow>
+                      {isEdit ? (
+                        <div className={ProfessorTableCSS.trueIsEdit}>
+                          <TableCell
+                            sx={{
+                              padding: "0px",
+                              paddingTop: "0px",
+                              borderBottom: "0px",
                             }}
-                            onChange={(e) => handleInputChange(e, i)}
-                            value={row.maxUnits}
-                            name="maxUnits"
-                          ></TextField>
-                              </FormControl>
-                        </TableCell>
-                        <div
+                          >
+                            <FormControl
+                              variant="outlined"
+                              sx={{ margin: "5px 7px", fontSize: "10px" }}
+                              className={classes.textField}
+                            >
+                              <TextField
+                                labelId="course-code-label"
+                                InputLabelProps={{ shrink: true }}
+                                sx={{ width: "100px" }}
+                                size="small"
+                                InputProps={{
+                                  style: { fontSize: "13px" },
+                                }}
+                                onChange={(e) => handleInputChange(e, i)}
+                                value={row.lastname}
+                                name="lastname"
+                              />
+                            </FormControl>
+                          </TableCell>
+                          <TableCell
+                            sx={{
+                              padding: "0px",
+                              paddingTop: "0px",
+                              borderBottom: "0px",
+                            }}
+                          >
+                            <FormControl
+                              variant="outlined"
+                              sx={{ margin: "5px 7px", fontSize: "13px" }}
+                              className={classes.textField}
+                            >
+                              <TextField
+                                labelId="course-code-label"
+                                size="small"
+                                sx={{ width: "100px", fontSize: "13px" }}
+                                InputLabelProps={{ shrink: true }}
+                                InputProps={{
+                                  style: { fontSize: "13px" },
+                                }}
+                                onChange={(e) => handleInputChange(e, i)}
+                                value={row.firstname}
+                                name="firstname"
+                              ></TextField>
+                            </FormControl>
+                          </TableCell>
+
+                          <TableCell
+                            sx={{
+                              padding: "0px",
+                              paddingTop: "0px",
+                              borderBottom: "0px",
+                            }}
+                          >
+                            <FormControl
+                              variant="outlined"
+                              sx={{ margin: "5px 7px", fontSize: "13px" }}
+                              className={classes.textField}
+                            >
+                              <TextField
+                                labelId="course-code-label"
+                                size="small"
+                                sx={{ width: "100px", fontSize: "13px" }}
+                                InputLabelProps={{ shrink: true }}
+                                InputProps={{
+                                  style: { fontSize: "13px" },
+                                }}
+                                onChange={(e) => handleInputChange(e, i)}
+                                value={row.middlename}
+                                name="middlename"
+                              ></TextField>
+                            </FormControl>
+                          </TableCell>
+                          <TableCell
+                            sx={{
+                              padding: "0px",
+                              paddingRight: "0px",
+                              paddingTop: "0px",
+                              borderBottom: "0px",
+                            }}
+                          >
+                            <FormControl
+                              size="small"
+                              sx={{ margin: "5px 7px", fontSize: "13px" }}
+                              variant="outlined"
+                            >
+                              <TextField
+                                sx={{ width: "120px" }}
+                                name="employment"
+                                select
+                                InputProps={{
+                                  style: { fontSize: "13px" },
+                                }}
+                                size="small"
+                                value={row.employment}
+                                onChange={(e) => handleInputChange(e, i)}
+                              >
+                                <MenuItem value={"Part-time"}>
+                                  Part-time
+                                </MenuItem>
+                                <MenuItem value={"Full-time"}>
+                                  Full-time
+                                </MenuItem>
+                                <MenuItem value={"Full-pledge"}>
+                                  Full-pledge
+                                </MenuItem>
+                              </TextField>
+                            </FormControl>
+                          </TableCell>
+
+                          <TableCell
+                            sx={{
+                              padding: "0px",
+                              paddingBottom: "0px",
+                              borderBottom: "0px",
+                              paddingTop: "0px",
+                            }}
+                          >
+                            <FormControl
+                              variant="outlined"
+                              sx={{ margin: "5px 7px", fontSize: "13px" }}
+                              className={classes.textField}
+                            >
+                              <TextField
+                                labelId="course-code-label"
+                                size="small"
+                                type="number"
+                                sx={{ width: "70px", fontSize: "13px" }}
+                                InputLabelProps={{ shrink: true }}
+                                InputProps={{
+                                  style: { fontSize: "13px" },
+                                }}
+                                onChange={(e) => handleInputChange(e, i)}
+                                value={row.maxUnits}
+                                name="maxUnits"
+                              ></TextField>
+                            </FormControl>
+                          </TableCell>
+                          <div
                             onClick={handleConfirm}
-                            style={{ width: "1rem", height: "1rem" }}
+                            style={{ width: "0.7rem", height: "0.7rem" }}
                             className={`${ProfessorTableCSS.iconWrapper} ${ProfessorTableCSS.ripple}`}
                           >
-                        
-                            <DeleteOutlineIcon style={{ color: '#6f6f6f' }}/>
-                          </div>   
-                      </div>
-                    ) : (
-                      <div className={ProfessorTableCSS["cells-deleteWrapper"]}>
-                        <div className={ProfessorTableCSS.falseIsEdit}>
-                          <FormControl
-                            variant="outlined"
-                            sx={{ margin: "5px 7px" }}
-                            className={classes.textField}
-                          >
-                            <TextField
-                              labelId="class-type-label"
-                              InputLabelProps={{ shrink: true }}
-                              size="small"
-                              sx={{ width: "100px" }}
-                              InputProps={{
-                                readOnly: true,
-                                style: { fontSize: '13px' }
+                            <DeleteOutlineIcon
+                              style={{
+                                color: "#6f6f6f",
+                                width: "1.4rem",
+                                height: "1.4rem",
                               }}
-                              //   label = "Class Type"
-                              value={row.lastname}
-                      
                             />
-                          </FormControl>
-                          <FormControl
-                            variant="outlined"
-                            sx={{ margin: "5px 7px" }}
-                            className={classes.textField}
-                          >
-                            <TextField
-                              labelId="class-type-label"
-                              InputLabelProps={{ shrink: true }}
-                              size="small"
-                              sx={{ width: "100px" }}
-                              InputProps={{
-                                readOnly: true,
-                                style: { fontSize: '13px' }
-                              }}
-                              //   label = "Class Type"
-                              value={row.firstname}
-                        
-                            />
-                          </FormControl>
-                          <FormControl
-                            variant="outlined"
-                            sx={{ margin: "5px 7px" }}
-                            className={classes.textField}
-                          >
-                            <TextField
-                              labelId="class-type-label"
-                              InputLabelProps={{ shrink: true }}
-                              size="small"
-                              sx={{ width: "100px" }}
-                              InputProps={{
-                                readOnly: true,
-                                style: { fontSize: '13px' } 
-                              }}
-                              //   label = "Class Type"
-                              value={row.middlename}
-                      
-                            />
-                          </FormControl>
-                          <FormControl
-                            variant="outlined"
-                            sx={{ margin: "5px 7px" }}
-                            className={classes.textField}
-                          >
-                            <TextField
-                              labelId="class-type-label"
-                              InputLabelProps={{ shrink: true }}
-                              size="small"
-                              sx={{ width: "120px",    }}
-                              InputProps={{
-                                readOnly: true,
-                                style: { fontSize: '13px' }
-                              }}
-                              //   label = "Class Type"
-                              value={row.employment}
-                   
-                            />
-                          </FormControl>
-                          <FormControl
-                                variant="outlined"
-                                sx={{ margin: "5px 7px" }}
-                                className={classes.textField}
-                              >
-                                <TextField
-                                  labelId="class-type-label"
-                                  InputLabelProps={{ shrink: true }}
-                                  size="small"
-                                  sx={{ width: "70px" }}
-                                  InputProps={{
-                                    readOnly: true,
-                                    style: { fontSize: '13px' }
-                                  }}
-                                  //   label = "Class Type"
-                                  value={row.maxUnits}
-                                />
-                              </FormControl>
-                               {/* <div
-                                onClick={handleConfirm}
-                                style={{ width: "1rem", height: "1rem" }}
-                                className={`${ProfessorTableCSS.iconWrapper} ${ProfessorTableCSS.ripple}`}
-                              >
-                                <DeleteOutlineIcon style={{ color: '#6f6f6f' }}/>
-                              </div> */}
-                      
-                              
+                          </div>
                         </div>
-                      
-                           
-             
-                      
-   
-
-
-                      </div>
-                    )}
-
-                    {showConfirm && (
-                      <div>
-                        <Dialog
-                          open={showConfirm}
-                          onClose={handleNo}
-                          aria-labelledby="alert-dialog-title"
-                          aria-describedby="alert-dialog-description"
+                      ) : (
+                        <div
+                          className={ProfessorTableCSS["cells-deleteWrapper"]}
                         >
-                          <DialogTitle id="alert-dialog-title">
-                            {"Confirm Delete"}
-                          </DialogTitle>
-                          <DialogContent>
-                            <DialogContentText id="alert-dialog-description">
-                              Are you sure to delete
-                            </DialogContentText>
-                          </DialogContent>
-                          <DialogActions>
-                            <Button
-                              onClick={() => handleRemoveClick(i)}
-                              color="primary"
-                              autoFocus
+                          <div className={ProfessorTableCSS.falseIsEdit}>
+                            <FormControl
+                              variant="outlined"
+                              sx={{ margin: "5px 7px" }}
+                              className={classes.textField}
                             >
-                              Yes
-                            </Button>
-                            <Button
-                              onClick={handleNo}
-                              color="primary"
-                              autoFocus
+                              <TextField
+                                labelId="class-type-label"
+                                InputLabelProps={{ shrink: true }}
+                                size="small"
+                                sx={{ width: "100px" }}
+                                InputProps={{
+                                  readOnly: true,
+                                  style: { fontSize: "13px" },
+                                }}
+                                //   label = "Class Type"
+                                value={row.lastname}
+                              />
+                            </FormControl>
+                            <FormControl
+                              variant="outlined"
+                              sx={{ margin: "5px 7px" }}
+                              className={classes.textField}
                             >
-                              No
-                            </Button>
-                          </DialogActions>
-                        </Dialog>
-                      </div>
-                    )}
-                  </TableRow>
-                </div>
-              );
-            })}
+                              <TextField
+                                labelId="class-type-label"
+                                InputLabelProps={{ shrink: true }}
+                                size="small"
+                                sx={{ width: "100px" }}
+                                InputProps={{
+                                  readOnly: true,
+                                  style: { fontSize: "13px" },
+                                }}
+                                //   label = "Class Type"
+                                value={row.firstname}
+                              />
+                            </FormControl>
+                            <FormControl
+                              variant="outlined"
+                              sx={{ margin: "5px 7px" }}
+                              className={classes.textField}
+                            >
+                              <TextField
+                                labelId="class-type-label"
+                                InputLabelProps={{ shrink: true }}
+                                size="small"
+                                sx={{ width: "100px" }}
+                                InputProps={{
+                                  readOnly: true,
+                                  style: { fontSize: "13px" },
+                                }}
+                                //   label = "Class Type"
+                                value={row.middlename}
+                              />
+                            </FormControl>
+                            <FormControl
+                              variant="outlined"
+                              sx={{ margin: "5px 7px" }}
+                              className={classes.textField}
+                            >
+                              <TextField
+                                labelId="class-type-label"
+                                InputLabelProps={{ shrink: true }}
+                                size="small"
+                                sx={{ width: "120px" }}
+                                InputProps={{
+                                  readOnly: true,
+                                  style: { fontSize: "13px" },
+                                }}
+                                //   label = "Class Type"
+                                value={row.employment}
+                              />
+                            </FormControl>
+                            <FormControl
+                              variant="outlined"
+                              sx={{ margin: "5px 7px" }}
+                              className={classes.textField}
+                            >
+                              <TextField
+                                labelId="class-type-label"
+                                InputLabelProps={{ shrink: true }}
+                                size="small"
+                                sx={{ width: "70px" }}
+                                InputProps={{
+                                  readOnly: true,
+                                  style: { fontSize: "13px" },
+                                }}
+                                //   label = "Class Type"
+                                value={row.maxUnits}
+                              />
+                            </FormControl>
+                          </div>
+                        </div>
+                      )}
 
-          </TableBody>
-        </Table>
-      </Box>
-    </TableBody>
+                      {showConfirm && (
+                        <div>
+                          <Dialog
+                            open={showConfirm}
+                            onClose={handleNo}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                          >
+                            <DialogTitle id="alert-dialog-title">
+                              {"Confirm Delete"}
+                            </DialogTitle>
+                            <DialogContent>
+                              <DialogContentText id="alert-dialog-description">
+                                Are you sure to delete
+                              </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                              <Button
+                                onClick={() => handleRemoveClick(i)}
+                                color="primary"
+                                autoFocus
+                              >
+                                Yes
+                              </Button>
+                              <Button
+                                onClick={handleNo}
+                                color="primary"
+                                autoFocus
+                              >
+                                No
+                              </Button>
+                            </DialogActions>
+                          </Dialog>
+                        </div>
+                      )}
+                    </TableRow>
+                  </div>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </Box>
+      </TableBody>
+      {isEdit ? (
+        <div
+          style={{ margin: "15px 7px 10px 0px" }}
+          className={ProfessorTableCSS["add-saveOptions"]}
+        >
+          <Button
+            style={{ textTransform: "none" }}
+            sx={{
+              background: "#2196F3",
+              color: "#ffffff",
+              borderRadius: "0.25rem",
+              fontFamily: "Poppins",
+              fontSize: "0.7rem",
+              padding: "0rem",
+              padding: "0.7rem",
+              "&:hover": {
+                background: "#1f7ecc",
+
+                color: "#fafafa",
+              },
+            }}
+            onClick={handleAdd}
+          >
+            <AddBoxIcon
+              className={ProfessorTableCSS.addIcon}
+              onClick={handleAdd}
+              sx={{
+                color: "#ffffff",
+                "&:hover": {
+                  color: "#ffffff",
+                },
+              }}
+            />
+            ADD
+          </Button>
+          {rows.length !== 0 && (
+            <div style={{ margin: "0px 0px 0px 7px" }}>
+              {disable ? (
+                <Button
+                  disabled
+                  style={{ textTransform: "none" }}
+                  sx={{
+                    background: "#cfd2d3",
+                    color: "#ffffff",
+                    borderRadius: "0.25rem",
+                    fontFamily: "Poppins",
+                    fontSize: "0.7rem",
+                    padding: "0rem",
+                    padding: "0.7rem",
+                    "&:hover": {
+                      background: "#1f7ecc",
+
+                      color: "#fafafa",
+                    },
+                  }}
+                  onClick={handleSave}
+                >
+                  <DoneIcon
+                    className={ProfessorTableCSS.addIcon}
+                    onClick={handleSave}
+                  />
+                  SAVE
+                </Button>
+              ) : (
+                <Button
+                  style={{ textTransform: "none" }}
+                  sx={{
+                    background: "#2196F3",
+                    color: "#ffffff",
+                    borderRadius: "0.25rem",
+                    fontFamily: "Poppins",
+                    fontSize: "0.7rem",
+                    padding: "0rem",
+                    padding: "0.7rem",
+                    "&:hover": {
+                      background: "#1f7ecc",
+
+                      color: "#fafafa",
+                    },
+                  }}
+                  onClick={handleSave}
+                >
+                  <DoneIcon
+                    className={ProfessorTableCSS.addIcon}
+                    onClick={handleSave}
+                    sx={{
+                      color: "#ffffff",
+                      "&:hover": {
+                        color: "#ffffff",
+                      },
+                    }}
+                  />
+                  SAVE
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
+      ) : (
+        <div
+          style={{ margin: "15px 7px 10px 0px" }}
+          className={ProfessorTableCSS["add-editOptions"]}
+        >
+          <Button
+            style={{ textTransform: "none" }}
+            sx={{
+              background: "#2196F3",
+              color: "#ffffff",
+              borderRadius: "0.25rem",
+              fontFamily: "Poppins",
+              fontSize: "0.7rem",
+              padding: "0rem",
+              padding: "0.7rem",
+              "&:hover": {
+                background: "#1f7ecc",
+
+                color: "#fafafa",
+              },
+            }}
+            onClick={handleAdd}
+          >
+            <AddBoxIcon
+              className={ProfessorTableCSS.addIcon}
+              onClick={handleAdd}
+              sx={{
+                color: "#ffffff",
+                "&:hover": {
+                  color: "#ffffff",
+                },
+              }}
+            />
+            ADD
+          </Button>
+          <Button
+            align="right"
+            style={{ textTransform: "none", marginLeft: "8px" }}
+            sx={{
+              background: "#2196F3",
+              color: "#ffffff",
+              borderRadius: "0.25rem",
+              fontFamily: "Poppins",
+              fontSize: "0.7rem",
+              padding: "0rem",
+              padding: "0.7rem",
+              "&:hover": {
+                background: "#1f7ecc",
+
+                color: "#fafafa",
+              },
+            }}
+            onClick={handleEdit}
+          >
+            <CreateIcon
+              sx={{
+                color: "#ffffff",
+                "&:hover": {
+                  color: "#ffffff",
+                },
+              }}
+            />
+            EDIT
+          </Button>
+        </div>
+      )}
+    </div>
   );
 }
 
