@@ -13,7 +13,7 @@ import {
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-
+import BlockIcon from "@mui/icons-material/Block"
 import DoneIcon from "@mui/icons-material/Done";
 import { css } from "@emotion/react";
 import Alert from "@mui/lab/Alert";
@@ -142,6 +142,8 @@ function ProfessorTable({onCloseProp}) {
     setOpen(false);
   };
 
+  
+
   // Function For adding new row object
   const handleAdd = () => {
     setRowsEdit([
@@ -174,6 +176,13 @@ function ProfessorTable({onCloseProp}) {
  
     setDisable(false);
     setOpen(true);
+  };
+
+  const handleCancel = () => {
+    console.log(rows, "rows in cancel")
+    setEdit(false)
+    setRowsEdit(rows)
+    console.log("i ran")
   };
 
   
@@ -579,6 +588,44 @@ function ProfessorTable({onCloseProp}) {
           style={{ margin: "15px 7px 10px 0px" }}
           className={ProfessorTableCSS["add-saveOptions"]}
         >
+
+
+
+<Button
+            onClick={handleCancel}
+            style={{ textTransform: "none" }}
+            sx={{
+              marginRight: "7px",
+              background: "#1e82d4",
+              color: "#ffffff",
+              borderRadius: "0.25rem",
+              fontFamily: "Poppins",
+              fontSize: "0.7rem",
+              padding: "0rem",
+              padding: "0.7rem",
+              "&:hover": {
+                background: "#1b70b5",
+
+                color: "#fafafa",
+              },
+            }}
+            // onClick={handleAdd}
+          >
+            <BlockIcon
+              className={ProfessorTableCSS.addIcon}
+       
+              sx={{
+                color: "#ffffff",
+                marginRight: "2px",
+                "&:hover": {
+                  color: "#ffffff",
+                },
+              }}
+            />
+            CANCEL
+          </Button>
+
+          
           <Button
             style={{ textTransform: "none" }}
             sx={{
@@ -599,7 +646,7 @@ function ProfessorTable({onCloseProp}) {
           >
             <AddBoxIcon
               className={ProfessorTableCSS.addIcon}
-              onClick={handleAdd}
+    
               sx={{
                 color: "#ffffff",
                 "&:hover": {
@@ -633,7 +680,7 @@ function ProfessorTable({onCloseProp}) {
                 >
                   <DoneIcon
                     className={ProfessorTableCSS.addIcon}
-                    onClick={handleSave}
+                  
                   />
                   SAVE
                 </Button>
@@ -658,7 +705,7 @@ function ProfessorTable({onCloseProp}) {
                 >
                   <DoneIcon
                     className={ProfessorTableCSS.addIcon}
-                    onClick={handleSave}
+              
                     sx={{
                       color: "#ffffff",
                       "&:hover": {
