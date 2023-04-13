@@ -78,7 +78,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   minWidth: 500,
-  height: 418,
+  height: 450,
   overflowY: "none",
 
   borderRadius: '10px',
@@ -320,7 +320,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     this.setState({ open: false });
   }
 
-  
+
   handleColorChange = (color) => {
     this.changeAppointment({
       field: 'color',
@@ -583,6 +583,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               className={classes.closeButton}
               onClick={cancelChanges}
               size="large"
+       
             >
               <Close color="action" />
             </IconButton>
@@ -859,6 +860,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           onClose={this.handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
+        
         >
 
        
@@ -867,7 +869,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         
             </Typography> 
 
-            <ProfessorTable/>
+            <ProfessorTable  onCloseProp = {this.handleClose}/>
           </Box>
         </Modal>
       </FormOverlay>

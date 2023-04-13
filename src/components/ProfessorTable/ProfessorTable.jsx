@@ -43,7 +43,7 @@ const useStyles = () =>
     },
   });
 
-function ProfessorTable() {
+function ProfessorTable({onCloseProp}) {
   // Creating style object
   const classes = useStyles();
   const [deleteIndex, setDeleteIndex] = useState(null);
@@ -83,10 +83,13 @@ function ProfessorTable() {
         id: rows.length + 1,
         lastname: "",
         firstname: "",
+        middleName: "",
         employment: "",
         maxUnits: "",
       },
     ]);
+    
+    console.log(rows)
     setEdit(true);
   };
 
@@ -155,9 +158,14 @@ function ProfessorTable() {
           </Alert>
         </Snackbar>
 
-
+        <div className={ProfessorTableCSS.closeIconWrapper}>
           
+          <div className={`${ProfessorTableCSS.ripple} ${ProfessorTableCSS.iconContainer}`}>
+            
+         <Close onClick = {onCloseProp} sx={{color: "#707070"}} />
+          </div>
      
+        </div>
      
         <Box className={ProfessorTableCSS.tableParent}>
           <div className={ProfessorTableCSS.topItems}>
@@ -173,7 +181,6 @@ function ProfessorTable() {
           <TableRow align="center"> </TableRow>
 
           <Table
-            //   className={classes.table}
             size="small"
             aria-label="a dense table"
             style={{ width: "0px" }}
@@ -497,7 +504,7 @@ function ProfessorTable() {
           <Button
             style={{ textTransform: "none" }}
             sx={{
-              background: "#2196F3",
+              background: "#1e82d4",
               color: "#ffffff",
               borderRadius: "0.25rem",
               fontFamily: "Poppins",
@@ -505,7 +512,7 @@ function ProfessorTable() {
               padding: "0rem",
               padding: "0.7rem",
               "&:hover": {
-                background: "#1f7ecc",
+                background: "#1b70b5",
 
                 color: "#fafafa",
               },
@@ -539,7 +546,7 @@ function ProfessorTable() {
                     padding: "0rem",
                     padding: "0.7rem",
                     "&:hover": {
-                      background: "#1f7ecc",
+                      background: "#1b70b5",
 
                       color: "#fafafa",
                     },
@@ -556,7 +563,7 @@ function ProfessorTable() {
                 <Button
                   style={{ textTransform: "none" }}
                   sx={{
-                    background: "#2196F3",
+                    background: "#1e82d4",
                     color: "#ffffff",
                     borderRadius: "0.25rem",
                     fontFamily: "Poppins",
@@ -564,7 +571,7 @@ function ProfessorTable() {
                     padding: "0rem",
                     padding: "0.7rem",
                     "&:hover": {
-                      background: "#1f7ecc",
+                      background: "#1b70b5",
 
                       color: "#fafafa",
                     },
@@ -595,7 +602,7 @@ function ProfessorTable() {
           <Button
             style={{ textTransform: "none" }}
             sx={{
-              background: "#2196F3",
+              background: "#1e82d4",
               color: "#ffffff",
               borderRadius: "0.25rem",
               fontFamily: "Poppins",
@@ -603,8 +610,7 @@ function ProfessorTable() {
               padding: "0rem",
               padding: "0.7rem",
               "&:hover": {
-                background: "#1f7ecc",
-
+                background: "#1b70b5",
                 color: "#fafafa",
               },
             }}
@@ -626,7 +632,7 @@ function ProfessorTable() {
             align="right"
             style={{ textTransform: "none", marginLeft: "8px" }}
             sx={{
-              background: "#2196F3",
+              background: "#1e82d4",
               color: "#ffffff",
               borderRadius: "0.25rem",
               fontFamily: "Poppins",
@@ -634,7 +640,7 @@ function ProfessorTable() {
               padding: "0rem",
               padding: "0.7rem",
               "&:hover": {
-                background: "#1f7ecc",
+                background: "#1b70b5",
 
                 color: "#fafafa",
               },
