@@ -72,7 +72,7 @@ function ProfessorTable({onCloseProp}) {
           const response = await fetch(`http://localhost:3000/grabProfessors`);
           const data = await response.json();
           const rows = data.map((item) => ({
-            id: item.id,
+            // id: item.id,
             lastname: item.last_name,
             middlename: item.middle_name + "1",
             firstname: item.first_name,
@@ -80,8 +80,7 @@ function ProfessorTable({onCloseProp}) {
             maxUnits: item.max_units,
           }));
           setRows(rows);
-      
-          console.log(rowsTest);
+
         } catch (error) {
           console.log(error);
         }
@@ -102,7 +101,7 @@ function ProfessorTable({onCloseProp}) {
           const response = await fetch(`http://localhost:3000/grabProfessors`);
           const data = await response.json();
           const rows = data.map((item) => ({
-            id: item.id,
+            // id: item.id,
             lastname: item.last_name,
             middlename: item.middle_name + "2",
             firstname: item.first_name,
@@ -110,7 +109,7 @@ function ProfessorTable({onCloseProp}) {
             maxUnits: item.max_units,
           }));
           setRowsEdit(rows);
-          console.log(rowsTest);
+    
         } catch (error) {
           console.log(error);
         }
@@ -149,7 +148,7 @@ function ProfessorTable({onCloseProp}) {
     setRowsEdit([
       ...rowsEdit,
       {
-        id: rowsEdit.length + 1,
+        // id: rowsEdit.length + 1,
         lastname: "",
         firstname: "",
         middlename: "",
@@ -179,6 +178,34 @@ function ProfessorTable({onCloseProp}) {
  
     setDisable(false);
     setOpen(true);
+
+
+    const updateProfessors = async () => {
+     
+      try {
+        const requestOptions = {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(rowsEdit),
+        };
+     
+        const response = await fetch('http://localhost:3000/updateProfessors', requestOptions);
+        const data = await response.json();
+        
+        console.log(data, "hahah")
+        if (data.success) {
+          console.log('Professors updated successfully');
+        } else {
+          console.log('Failed to update professors');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    updateProfessors();
+
+  
   };
 
   const handleCancel = () => {
@@ -235,7 +262,7 @@ function ProfessorTable({onCloseProp}) {
           </div>
      
         </div>
-      {/* {`${rowsTest}`} */}
+  
         <Box onClick = {() => {
           console.log(rowsEdit, "rowsEdit")
           console.log(rows, "rows")
@@ -658,7 +685,7 @@ function ProfessorTable({onCloseProp}) {
             />
             ADD
           </Button>
-          {rows.length !== 0 && (
+          {true && (
             <div style={{ margin: "0px 0px 0px 7px" }}>
               {disable ? (
                 <Button
