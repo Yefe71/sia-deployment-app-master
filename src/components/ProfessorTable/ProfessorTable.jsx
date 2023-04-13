@@ -47,6 +47,7 @@ const useStyles = () =>
 function ProfessorTable() {
   // Creating style object
   const classes = useStyles();
+  const [deleteIndex, setDeleteIndex] = useState(null);
 
   // Defining a state named rows
   // which we can update by calling on setRows function
@@ -64,7 +65,7 @@ function ProfessorTable() {
   // Initial states
   const [open, setOpen] = React.useState(false);
   const [isEdit, setEdit] = React.useState(false);
-  const [disable, setDisable] = React.useState(true);
+  const [disable, setDisable] = React.useState(false);
   const [showConfirm, setShowConfirm] = React.useState(false);
 
   // Function For closing the alert snackbar
@@ -102,7 +103,7 @@ function ProfessorTable() {
     setEdit(!isEdit);
     setRows(rows);
     console.log("saved : ", rows);
-    setDisable(true);
+    setDisable(false);
     setOpen(true);
   };
 
@@ -118,15 +119,16 @@ function ProfessorTable() {
   };
 
   // Showing delete confirmation to users
-  const handleConfirm = () => {
+  const handleConfirm = (index) => {
     setShowConfirm(true);
+    setDeleteIndex(index);
   };
 
   // Handle the case of delete confirmation where
   // user click yes delete a specific row of id:i
-  const handleRemoveClick = (i) => {
+  const handleRemoveClick = () => {
     const list = [...rows];
-    list.splice(i, 1);
+    list.splice(deleteIndex, 1);
     setRows(list);
     setShowConfirm(false);
   };
@@ -326,7 +328,7 @@ function ProfessorTable() {
                             </FormControl>
                           </TableCell>
                           <div
-                            onClick={handleConfirm}
+                             onClick={() => handleConfirm(i)}
                             style={{ width: "0.7rem", height: "0.7rem" }}
                             className={`${ProfessorTableCSS.iconWrapper} ${ProfessorTableCSS.ripple}`}
                           >
@@ -438,46 +440,46 @@ function ProfessorTable() {
                         </div>
                       )}
 
-                      {showConfirm && (
-                        <div>
-                          <Dialog
-                            open={showConfirm}
-                            onClose={handleNo}
-                            aria-labelledby="alert-dialog-title"
-                            aria-describedby="alert-dialog-description"
-                          >
-                            <DialogTitle id="alert-dialog-title">
-                              {"Confirm Delete"}
-                            </DialogTitle>
-                            <DialogContent>
-                              <DialogContentText id="alert-dialog-description">
-                                Are you sure to delete
-                              </DialogContentText>
-                            </DialogContent>
-                            <DialogActions>
-                              <Button
-                                onClick={() => handleRemoveClick(i)}
-                                color="primary"
-                                autoFocus
-                              >
-                                Yes
-                              </Button>
-                              <Button
-                                onClick={handleNo}
-                                color="primary"
-                                autoFocus
-                              >
-                                No
-                              </Button>
-                            </DialogActions>
-                          </Dialog>
-                        </div>
-                      )}
                     </TableRow>
                   </div>
                 );
               })}
             </TableBody>
+              {showConfirm && (
+                <div>
+                  <Dialog
+                    open={showConfirm}
+                    onClose={handleNo}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                  >
+                    <DialogTitle id="alert-dialog-title">
+                      {"Confirm Delete"}
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText id="alert-dialog-description">
+                        Are you sure to delete
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button
+                        onClick={handleRemoveClick}
+                        color="primary"
+                        autoFocus
+                      >
+                        Yes
+                      </Button>
+                      <Button
+                        onClick={handleNo}
+                        color="primary"
+                        autoFocus
+                      >
+                        No
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                </div>
+              )}
           </Table>
         </Box>
       </TableBody>
