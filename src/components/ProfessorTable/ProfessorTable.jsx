@@ -53,6 +53,14 @@ function ProfessorTable({onCloseProp}) {
   const [rows, setRows] = useState([
 
   ]);
+
+
+  
+  const [rowsEdit, setRowsEdit] = useState([
+
+  ]);
+
+  
   
 
   
@@ -66,12 +74,36 @@ function ProfessorTable({onCloseProp}) {
           const rows = data.map((item) => ({
             id: item.id,
             lastname: item.last_name,
-            middlename: item.middle_name,
+            middlename: item.middle_name + "2",
             firstname: item.first_name,
             employment: item.employment,
             maxUnits: item.max_units,
           }));
           setRows(rows);
+          console.log(rowsTest);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+
+      fetchProfessors();
+    }, []);
+
+    useEffect(() => {
+      const fetchProfessors = async () => {
+        try {
+          const response = await fetch(`http://localhost:3000/grabProfessors`);
+          const data = await response.json();
+          const rows = data.map((item) => ({
+            id: item.id,
+            lastname: item.last_name,
+            middlename: item.middle_name + "1",
+            firstname: item.first_name,
+            employment: item.employment,
+            maxUnits: item.max_units,
+          }));
+          setRowsEdit(rows);
           console.log(rowsTest);
         } catch (error) {
           console.log(error);
@@ -213,7 +245,7 @@ function ProfessorTable({onCloseProp}) {
             </TableHead>
 
             <TableBody>
-              {rows.map((row, i) => {
+              {rowsEdit.map((row, i) => {
                 return (
                   <div>
                     <TableRow>
@@ -382,7 +414,18 @@ function ProfessorTable({onCloseProp}) {
                             />
                           </div>
                         </div>
-                      ) : (
+                      ) : ""}
+
+                    </TableRow>
+                  </div>
+                );
+              })}
+
+{rows.map((row, i) => {
+                return (
+                  <div>
+                    <TableRow>
+                      {!isEdit ? (
                         <div
                           className={ProfessorTableCSS["cells-deleteWrapper"]}
                         >
@@ -479,7 +522,7 @@ function ProfessorTable({onCloseProp}) {
                             </FormControl>
                           </div>
                         </div>
-                      )}
+                      ): ""}
 
                     </TableRow>
                   </div>
