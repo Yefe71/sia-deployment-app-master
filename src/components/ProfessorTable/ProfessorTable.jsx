@@ -340,6 +340,11 @@ function ProfessorTable({onCloseProp}) {
                               ></TextField>
                             </FormControl>
                           </TableCell>
+
+
+
+
+                          
                           <div
                              onClick={() => handleConfirm(i)}
                             style={{ width: "0.7rem", height: "0.7rem" }}
