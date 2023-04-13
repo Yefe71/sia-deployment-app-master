@@ -164,6 +164,9 @@ function ProfessorTable({onCloseProp}) {
 
   // Function to handle edit
   const handleEdit = (i) => {
+    if (!isEdit) {
+      setRowsEdit(rows.map(row => ({ ...row })));
+    }
     setEdit(!isEdit);
   };
 
@@ -180,9 +183,8 @@ function ProfessorTable({onCloseProp}) {
 
   const handleCancel = () => {
     console.log(rows, "rows in cancel")
-    setEdit(false)
-    setRowsEdit(rows)
-    console.log("i ran")
+    setEdit(false);
+    console.log("i ran");
   };
 
   
