@@ -186,12 +186,6 @@ const classes = {
   textField: `${PREFIX}-textField`,
   addButton: `${PREFIX}-addButton`,
 };
-const professorNames = [
-  "Prof. John Doe",
-  "Prof. Jane Smith",
-  "Prof. Michael Brown",
-  "Prof. Criselle Centeno"
-];
 
 
 const courseNames = {
@@ -288,6 +282,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       yearBlock3: [],
       yearBlock4: [],
       yearBlock5: [],
+      professorsNames: [],
     };
 
     this.getAppointmentData = () => {
@@ -311,6 +306,14 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     this.changeAppointment = this.changeAppointment.bind(this);
     this.commitAppointment = this.commitAppointment.bind(this);
   }
+
+
+  // componentDidMount() {
+  //   this.fetchData();
+  //   console.log('i ran')
+  // }
+
+
 
   handleOpen() {
     this.setState({ open: true });
@@ -373,7 +376,23 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       appointmentChanges: {},
     });
   }
+  async fetchData() {
+    try {
+      const response = await fetch('http://localhost:3000/grabProfessorsNames');
+      const data = await response.json();
+      this.setState({ professorsNames: data });
+    } catch (error) {
+      console.error('Error fetching professor names:', error);
+    }
+  }
 
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.open !== this.state.open && !this.state.open) {
+      this.fetchData();
+      console.log('i ran hay')
+    }
+  }
 
   async componentDidMount() {
     try {
@@ -383,11 +402,15 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         fetch(`http://localhost:3000/grabStudentsButtons?yearButton=3&blockButton=''`),
         fetch(`http://localhost:3000/grabStudentsButtons?yearButton=4&blockButton=''`),
         fetch(`http://localhost:3000/grabStudentsButtons?yearButton=5&blockButton=''`),
+        fetch('http://localhost:3000/grabProfessorsNames'),
       ]);
 
       const dataPromises = responses.map((response) => response.json());
       const allData = await Promise.all(dataPromises);
 
+      // Process the fetched professor names
+      const professorsNamesData = allData.pop();
+      this.setState({ professorsNames: professorsNamesData });
 
       allData.forEach((data, index) => {
         const uniqueBlocks = [...new Set(data.map((student) => student.block))].sort();
@@ -397,12 +420,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         else if (index === 3) this.setState({ yearBlock4: uniqueBlocks });
         else if (index === 4) this.setState({ yearBlock5: uniqueBlocks });
       });
-
-
     } catch (error) {
       console.log(error);
     }
   }
+
 
   render() {
     const {
@@ -603,9 +625,9 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   labelId="professor-name-label"
                   {...textEditorProps("professorName")}
                 >
-                  {professorNames.map((name, index) => (
+                  {this.state.professorsNames.map((name, index) => (
                     <MenuItem key={index} value={name}>
-                      {name}
+                      {name.full_name}
                     </MenuItem>
                   ))}
                 </Select>

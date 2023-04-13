@@ -47,11 +47,8 @@ function ProfessorTable({onCloseProp}) {
   // Creating style object
   const classes = useStyles();
   const [deleteIndex, setDeleteIndex] = useState(null);
-  
-  // Defining a state named rows
-  // which we can update by calling on setRows function
-  const [rows, setRows] = useState([
 
+  const [rows, setRows] = useState([
   ]);
 
 
@@ -89,7 +86,6 @@ function ProfessorTable({onCloseProp}) {
 
       fetchProfessors();
     }, []);
-
 
 
 
