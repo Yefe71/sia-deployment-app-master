@@ -80,29 +80,6 @@ function ProfessorTable({onCloseProp}) {
             maxUnits: item.max_units,
           }));
           setRows(rows);
-          console.log(rowsTest);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-
-
-      fetchProfessors();
-    }, []);
-
-    useEffect(() => {
-      const fetchProfessors = async () => {
-        try {
-          const response = await fetch(`http://localhost:3000/grabProfessors`);
-          const data = await response.json();
-          const rows = data.map((item) => ({
-            id: item.id,
-            lastname: item.last_name,
-            middlename: item.middle_name + "1",
-            firstname: item.first_name,
-            employment: item.employment,
-            maxUnits: item.max_units,
-          }));
           setRowsEdit(rows);
           console.log(rowsTest);
         } catch (error) {
@@ -113,6 +90,8 @@ function ProfessorTable({onCloseProp}) {
 
       fetchProfessors();
     }, []);
+
+
 
 
 
@@ -142,13 +121,13 @@ function ProfessorTable({onCloseProp}) {
 
   // Function For adding new row object
   const handleAdd = () => {
-    setRows([
-      ...rows,
+    setRowsEdit([
+      ...rowsEdit,
       {
-        id: rows.length + 1,
+        id: rowsEdit.length + 1,
         lastname: "",
         firstname: "",
-        middleName: "",
+        middlename: "",
         employment: "",
         maxUnits: "",
       },
@@ -166,8 +145,10 @@ function ProfessorTable({onCloseProp}) {
 
   const handleSave = () => {
     setEdit(!isEdit);
-    setRows(rows);
-    console.log("saved : ", rows);
+
+
+    setRows(rowsEdit);
+    console.log(rows, "rows")
     setDisable(false);
     setOpen(true);
   };
@@ -176,11 +157,9 @@ function ProfessorTable({onCloseProp}) {
   const handleInputChange = (e, index) => {
     setDisable(false);
     const { name, value } = e.target;
-    const list = [...rows];
+    const list = [...rowsEdit];
     list[index][name] = value;
-
-    setRows(list);
-    console.log(rows)
+    setRowsEdit(list);
   };
 
   const handleConfirm = (index) => {
