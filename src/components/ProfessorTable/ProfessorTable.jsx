@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -47,20 +47,53 @@ function ProfessorTable({onCloseProp}) {
   // Creating style object
   const classes = useStyles();
   const [deleteIndex, setDeleteIndex] = useState(null);
-
+  
   // Defining a state named rows
   // which we can update by calling on setRows function
   const [rows, setRows] = useState([
-    {
-      id: 1,
-      lastname: "Libed",
-      middlename: "Jake",
-      firstname: "Dela Rosa",
-      employment: "Part-time",
-      maxUnits: "24",
-    },
-  ]);
 
+  ]);
+  
+
+  
+
+
+    useEffect(() => {
+      const fetchProfessors = async () => {
+        try {
+          const response = await fetch(`http://localhost:3000/grabProfessors`);
+          const data = await response.json();
+          const rows = data.map((item) => ({
+            id: item.id,
+            lastname: item.last_name,
+            middlename: item.middle_name,
+            firstname: item.first_name,
+            employment: item.employment,
+            maxUnits: item.max_units,
+          }));
+          setRows(rows);
+          console.log(rowsTest);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+
+      fetchProfessors();
+    }, []);
+
+
+
+
+
+
+
+
+
+
+
+
+  
   // Initial states
   const [open, setOpen] = React.useState(false);
   const [isEdit, setEdit] = React.useState(false);
@@ -89,18 +122,16 @@ function ProfessorTable({onCloseProp}) {
       },
     ]);
     
-    console.log(rows)
+    
     setEdit(true);
   };
 
   // Function to handle edit
   const handleEdit = (i) => {
-    // If edit mode is true setEdit will
-    // set it to false and vice versa
     setEdit(!isEdit);
   };
 
-  // Function to handle save
+
   const handleSave = () => {
     setEdit(!isEdit);
     setRows(rows);
@@ -109,25 +140,22 @@ function ProfessorTable({onCloseProp}) {
     setOpen(true);
   };
 
-  // The handleInputChange handler can be set up to handle
-  // many different inputs in the form, listen for changes
-  // to input elements and record their values in state
+  
   const handleInputChange = (e, index) => {
     setDisable(false);
     const { name, value } = e.target;
     const list = [...rows];
     list[index][name] = value;
+
     setRows(list);
+    console.log(rows)
   };
 
-  // Showing delete confirmation to users
   const handleConfirm = (index) => {
     setShowConfirm(true);
     setDeleteIndex(index);
   };
 
-  // Handle the case of delete confirmation where
-  // user click yes delete a specific row of id:i
   const handleRemoveClick = () => {
     const list = [...rows];
     list.splice(deleteIndex, 1);
@@ -135,17 +163,12 @@ function ProfessorTable({onCloseProp}) {
     setShowConfirm(false);
   };
 
-  // Handle the case of delete confirmation
-  // where user click no
   const handleNo = () => {
     setShowConfirm(false);
   };
 
   return (
     <div className={ProfessorTableCSS.tableOnly}>
-
-
-
       <TableBody>
         <Snackbar
           open={open}
@@ -166,7 +189,7 @@ function ProfessorTable({onCloseProp}) {
           </div>
      
         </div>
-     
+      {/* {`${rowsTest}`} */}
         <Box className={ProfessorTableCSS.tableParent}>
           <div className={ProfessorTableCSS.topItems}>
             <div></div>
