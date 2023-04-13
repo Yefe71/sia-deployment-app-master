@@ -51,7 +51,7 @@ function ProfessorTable() {
   // Defining a state named rows
   // which we can update by calling on setRows function
   const [rows, setRows] = useState([
-    { id: 1, firstname: "", lastname: "", city: "" },
+    { id: 1, lastname: "", middlename: "", firstname: "", employment: "", maxUnits: "" },
   ]);
 
   // Initial states
@@ -148,54 +148,79 @@ function ProfessorTable() {
             {isEdit ? (
               <div style= {{ margin: "5px 7px 10px 7px"}} className={ProfessorTableCSS["add-saveOptions"]}>
   
-                <div  style= {{ fontFamily: 'Poppins', fontWeight: "500", color: "#6f6f6f"}} onClick={handleAdd} className={`${ProfessorTableCSS.iconWrapper} ${ProfessorTableCSS.ripple}`} >
+                  <Button style={{ textTransform: "none" }}
+                  sx={{
+                    outline: "1px solid #c4c4c4",
+                      color: "#6f6f6f",
+                    borderRadius: "0.25rem",
+                    fontFamily: "Poppins",
+                    fontSize:  "0.7rem",
+                    padding: "0rem",
+                    padding: "0.4rem",
+                    "&:hover": {
+                      background: "#ffffff",
+                      outline: "1px solid #030303",
+                      color: "#6f6f6f",
+                      // Change the hover background color here
+                    },
+                  }}onClick={handleAdd}>
                   <AddBoxIcon
                     className={ProfessorTableCSS.addIcon}
                     onClick={handleAdd}
                     sx = {{color: "#6f6f6f"}}
                   />
                   ADD
-                </div>
+                </Button>
                 {rows.length !== 0 && (
                   <div style= {{ margin: "0px 0px 0px 8px"}}>
                     {disable ? (
-                      <Button disabled align="right" style={{ textTransform: "none" }}
-                      sx={{
-                     
+                    <Button disabled style={{ textTransform: "none" }}
+                    sx={{
+                      outline: "1px solid #c4c4c4",
                         color: "#6f6f6f",
-                        borderRadius: "0.4rem",
-                        fontFamily: "Poppins",
-                        fontSize:  "0.7rem",
-                        padding: "0rem",
-                        padding: "0.6rem",
-                        "&:hover": {
-                            color: "#6f6f6f",
-                          // Change the hover background color here
-                        },
-                      }}
-                      variant="contained" onClick={handleSave}>
-                        <DoneIcon />
-                        SAVE
-                      </Button>
+                      borderRadius: "0.25rem",
+                      fontFamily: "Poppins",
+                      fontSize:  "0.7rem",
+                      padding: "0rem",
+                      padding: "0.4rem",
+                      "&:hover": {
+                        background: "#ffffff",
+                        outline: "1px solid #030303",
+                        color: "#6f6f6f",
+                        // Change the hover background color here
+                      },
+                    }}onClick={handleSave}>
+                    <DoneIcon
+                      className={ProfessorTableCSS.addIcon}
+                      onClick={handleSave}
+                      sx = {{color: "#bdc5ca"}}
+                    />
+                    SAVE
+                  </Button>
                     ) : (
-                      <Button align="right" style={{ textTransform: "none" }}
+                      <Button style={{ textTransform: "none" }}
                       sx={{
-                   
-                        color: "#6f6f6f",
-                        borderRadius: "0.4rem",
+                        outline: "1px solid #c4c4c4",
+                          color: "#6f6f6f",
+                        borderRadius: "0.25rem",
                         fontFamily: "Poppins",
                         fontSize:  "0.7rem",
                         padding: "0rem",
-                        padding: "0.6rem",
+                        padding: "0.4rem",
                         "&:hover": {
-                        color: "#6f6f6f",
+                          background: "#ffffff",
+                          outline: "1px solid #030303",
+                          color: "#6f6f6f",
                           // Change the hover background color here
                         },
-                      }}
-                      variant="contained" onClick={handleSave}>
-                        <DoneIcon />
-                        SAVE
-                      </Button>
+                      }}onClick={handleSave}>
+                      <DoneIcon
+                        className={ProfessorTableCSS.addIcon}
+                        onClick={handleSave}
+                        sx = {{color: "#6f6f6f"}}
+                      />
+                      SAVE
+                    </Button>
                     )}
                   </div>
                 )}
@@ -204,14 +229,16 @@ function ProfessorTable() {
               <div style= {{ margin: "5px 7px 10px 7px"}} className={ProfessorTableCSS["add-editOptions"]}>
                 <Button style={{ textTransform: "none" }}
                 sx={{
-                  
+                  outline: "1px solid #c4c4c4",
                     color: "#6f6f6f",
-                  borderRadius: "0.4rem",
+                  borderRadius: "0.25rem",
                   fontFamily: "Poppins",
                   fontSize:  "0.7rem",
                   padding: "0rem",
-                  padding: "0.6rem",
+                  padding: "0.4rem",
                   "&:hover": {
+                    background: "#ffffff",
+                    outline: "1px solid #030303",
                     color: "#6f6f6f",
                     // Change the hover background color here
                   },
@@ -224,16 +251,18 @@ function ProfessorTable() {
                 </Button>
                 <Button align="right" style={{ textTransform: "none", marginLeft: "8px" }}
                 sx={{
-               
-                  
-                  borderRadius: "0.4rem",
-                  fontFamily: "Poppins",
-                  fontSize:  "0.7rem",
+                  outline: "1px solid #c4c4c4",
                   color: "#6f6f6f",
-                  padding: "0.6rem",
-                  "&:hover": {
-                    color: "#6f6f6f",
-                    // Change the hover background color here
+                  borderRadius: "0.25rem",
+                fontFamily: "Poppins",
+                fontSize:  "0.7rem",
+                padding: "0rem",
+                padding: "0.4rem",
+                "&:hover": {
+                  background: "#ffffff",
+                  outline: "1px solid #030303",
+                  color: "#6f6f6f",
+                  // Change the hover background color here
                   },
                 }} onClick={handleEdit}>
                   <CreateIcon />
@@ -396,9 +425,11 @@ function ProfessorTable() {
                             type="number"
                             sx={{ width: "70px", fontSize: "13px" }}
                             InputLabelProps={{ shrink: true }}
-                           
+                            InputProps={{
+                              style: { fontSize: '13px' },
+                            }}
                             onChange={(e) => handleInputChange(e, i)}
-                            value={row.maxunits}
+                            value={row.maxUnits}
                             name="maxUnits"
                           ></TextField>
                               </FormControl>
@@ -427,9 +458,11 @@ function ProfessorTable() {
                               sx={{ width: "100px" }}
                               InputProps={{
                                 readOnly: true,
+                                style: { fontSize: '13px' }
                               }}
                               //   label = "Class Type"
                               value={row.lastname}
+                      
                             />
                           </FormControl>
                           <FormControl
@@ -444,9 +477,11 @@ function ProfessorTable() {
                               sx={{ width: "100px" }}
                               InputProps={{
                                 readOnly: true,
+                                style: { fontSize: '13px' }
                               }}
                               //   label = "Class Type"
                               value={row.firstname}
+                        
                             />
                           </FormControl>
                           <FormControl
@@ -461,9 +496,11 @@ function ProfessorTable() {
                               sx={{ width: "100px" }}
                               InputProps={{
                                 readOnly: true,
+                                style: { fontSize: '13px' } 
                               }}
                               //   label = "Class Type"
                               value={row.middlename}
+                      
                             />
                           </FormControl>
                           <FormControl
@@ -475,12 +512,14 @@ function ProfessorTable() {
                               labelId="class-type-label"
                               InputLabelProps={{ shrink: true }}
                               size="small"
-                              sx={{ width: "120px" }}
+                              sx={{ width: "120px",    }}
                               InputProps={{
                                 readOnly: true,
+                                style: { fontSize: '13px' }
                               }}
                               //   label = "Class Type"
                               value={row.employment}
+                   
                             />
                           </FormControl>
                           <FormControl
@@ -495,6 +534,7 @@ function ProfessorTable() {
                                   sx={{ width: "70px" }}
                                   InputProps={{
                                     readOnly: true,
+                                    style: { fontSize: '13px' }
                                   }}
                                   //   label = "Class Type"
                                   value={row.maxUnits}
