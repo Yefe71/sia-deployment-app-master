@@ -626,7 +626,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   {...textEditorProps("professorName")}
                 >
                   {this.state.professorsNames.map((name, index) => (
-                    <MenuItem key={index} value={name}>
+                    <MenuItem key={index} value={name.full_name}>
                       {name.full_name}
                     </MenuItem>
                   ))}
