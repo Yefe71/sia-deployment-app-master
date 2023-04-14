@@ -236,8 +236,8 @@ const courseNames = {
     "Integrative Programming and Technologies (lab)": "EIT 0323.1"
   },
   4: {
-    "Praticum (Lecture)": "IIP 0101",
-    "Praticum (Immersion)": "IIP 0102"
+    "Practicum (Lecture)": "IIP 0101",
+    "Practicum (Immersion)": "IIP 0102"
   }
 }
 
