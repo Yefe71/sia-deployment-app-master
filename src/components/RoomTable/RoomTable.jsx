@@ -112,7 +112,9 @@ function RoomTable({onCloseProp}) {
 
 
 
+ 
 
+    
   
   // Initial states
   const [open, setOpen] = React.useState(false);
@@ -488,9 +490,13 @@ function RoomTable({onCloseProp}) {
           {true && (
             <div style={{ margin: "0px 0px 0px 7px" }}>
               
-              {!rowsEdit.length ? (
+              {!rowsEdit.length || !rowsEdit.every(row => row.roomname !== "")  ? (
+
+           <>
+             
                 <Button
-                  disabled
+                 
+                disabled
                   style={{ textTransform: "none" }}
                   sx={{
                     background: "#cfd2d3",
@@ -514,8 +520,10 @@ function RoomTable({onCloseProp}) {
                   />
                   SAVE
                 </Button>
+              </>
               ) : (
                 <Button
+          
                   style={{ textTransform: "none" }}
                   sx={{
                     background: "#1e82d4",
@@ -554,6 +562,7 @@ function RoomTable({onCloseProp}) {
           style={{ margin: "15px 7px 10px 0px" }}
           className={RoomTableCSS["add-editOptions"]}
         >
+          
           <Button
             align="right"
             style={{ textTransform: "none", marginLeft: "8px" }}
