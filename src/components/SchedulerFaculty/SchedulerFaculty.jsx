@@ -153,7 +153,7 @@ const Appointment = ({ children, style, ...restProps }) => {
   };
 
   return (
-    <Appointments.Appointment {...restProps} style = {{backgroundColor: `rgba(${data.color.r}, ${data.color.g}, ${data.color.b}, ${data.color.a})`}} draggable={false}>
+    <Appointments.Appointment {...restProps} style = {{overflowY: 'scroll', backgroundColor: `rgba(${data.color.r}, ${data.color.g}, ${data.color.b}, ${data.color.a})`}} draggable={false}>
       
       
       <p
@@ -174,7 +174,17 @@ const Appointment = ({ children, style, ...restProps }) => {
           margin: "0px",
         }}
       >
-       {` ${data.courseName} | ${data.courseCode} `}
+       {` ${data.courseCode} `}
+      </p>
+      <p
+        style={{
+          color: "white",
+          fontWeight: "bold",
+          padding: "0px 10px 0px",
+          margin: "0px",
+        }}
+      >
+       {` ${data.courseName} `}
       </p>
       <p
         style={{
@@ -185,6 +195,17 @@ const Appointment = ({ children, style, ...restProps }) => {
         }}
       >
         {`BSIT ${data.year} - ${data.block}`}
+      </p>
+      
+      <p
+        style={{
+          color: "white",
+          fontWeight: "bold",
+          padding: "0px 10px 0px",
+          margin: "0px",
+        }}
+      >
+        {`${data.classType} ${data.room}`}
       </p>
 
  
