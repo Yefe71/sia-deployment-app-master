@@ -405,7 +405,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       [field]: changes,
     };
 
-    console.log('nextChanges')
+ 
     this.setState({
       appointmentChanges: nextChanges,
     });
@@ -475,7 +475,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       this.fetchDataRoom();
     }
 
-    console.log('rerender')
   }
   
 
@@ -1024,7 +1023,8 @@ export default class SchedulerFaculty extends React.PureComponent {
       startDayHour: 7,
       endDayHour: 21,
       isNewAppointment: false,
-      appointmentColor: {}
+      appointmentColor: {},
+      isUpdatingSchedules: false
     };
 
     this.toggleConfirmationVisible = this.toggleConfirmationVisible.bind(this);
@@ -1196,7 +1196,6 @@ export default class SchedulerFaculty extends React.PureComponent {
         const startingAddedId =
           data.length > 0 ? data[data.length - 1].id + 1 : 0;
         data = [...data, { id: startingAddedId, color: appointmentColor, ...fixedDateAppointment }];
-       
       }
 
       if (changed) {
@@ -1227,6 +1226,46 @@ export default class SchedulerFaculty extends React.PureComponent {
         this.setDeletedAppointmentId(deleted);
         this.toggleConfirmationVisible();
       }
+
+      
+    console.log('ahhahahahha')
+      
+      // const updateSchedules = async (dataLatest) => {
+
+    
+ 
+      //    this.setState({ isUpdatingSchedules: true });
+         
+      //   try {
+      //     const requestOptions = {
+      //       method: 'PUT',
+      //       headers: { 'Content-Type': 'application/json' },
+      //       body: JSON.stringify(dataLatest),
+      //     };
+     
+      //     const response = await fetch('http://localhost:3000/updateSchedules', requestOptions);
+      //     const data = await response.json();
+        
+      //     console.log(data, "updating scheds, should be latest")
+      //     if (data.success) {
+      //       console.log('Schedules updated successfully');
+        
+      //     } else {
+      //       console.log('Failed to update schedules');
+      //     }
+      //   } catch (error) {
+      //     console.log(error);
+      //   } finally {
+          
+      //     this.setState({ isUpdatingSchedules: false });
+      //   }
+      // };
+
+      // updateSchedules(data);
+
+
+
+
       return { data, addedAppointment: {} };
     });
   }
