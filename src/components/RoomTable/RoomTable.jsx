@@ -64,18 +64,14 @@ function RoomTable({onCloseProp}) {
 
 
     useEffect(() => {
-      const fetchProfessors = async () => {
+      const fetchRooms = async () => {
         try {
-          const response = await fetch(`http://localhost:3000/grabProfessors`);
+          const response = await fetch(`http://localhost:3000/grabRooms`);
           const data = await response.json();
           const rows = data.map((item) => ({
-            // id: item.id,
-            lastname: item.last_name,
-            middlename: item.middle_name,
-            firstname: item.first_name,
-            employment: item.employment,
-            maxUnits: item.max_units,
+            roomname: item.room_name,
           }));
+          console.log(rows, 'grab roms')
           setRows(rows);
 
         } catch (error) {
@@ -84,7 +80,7 @@ function RoomTable({onCloseProp}) {
       };
 
 
-      fetchProfessors();
+      fetchRooms();
     }, []);
 
 
@@ -92,17 +88,13 @@ function RoomTable({onCloseProp}) {
 
 
     useEffect(() => {
-      const fetchProfessors = async () => {
+      const fetchRooms = async () => {
         try {
-          const response = await fetch(`http://localhost:3000/grabProfessors`);
+          const response = await fetch(`http://localhost:3000/grabRooms`);
           const data = await response.json();
           const rows = data.map((item) => ({
             // id: item.id,
-            lastname: item.last_name,
-            middlename: item.middle_name,
-            firstname: item.first_name,
-            employment: item.employment,
-            maxUnits: item.max_units,
+            roomname: item.room_name,
           }));
           setRowsEdit(rows);
     
@@ -112,7 +104,7 @@ function RoomTable({onCloseProp}) {
       };
   
   
-      fetchProfessors();
+      fetchRooms();
     }, []);
   
 
@@ -145,11 +137,7 @@ function RoomTable({onCloseProp}) {
       ...rowsEdit,
       {
         // id: rowsEdit.length + 1,
-        lastname: "",
-        firstname: "",
-        middlename: "",
-        employment: "",
-        maxUnits: "",
+        roomname: "",
       },
     ]);
     
@@ -176,7 +164,7 @@ function RoomTable({onCloseProp}) {
     setOpen(true);
 
 
-    const updateProfessors = async () => {
+    const updateRooms = async () => {
      
       try {
         const requestOptions = {
@@ -185,21 +173,21 @@ function RoomTable({onCloseProp}) {
           body: JSON.stringify(rowsEdit),
         };
      
-        const response = await fetch('http://localhost:3000/updateProfessors', requestOptions);
+        const response = await fetch('http://localhost:3000/updateRooms', requestOptions);
         const data = await response.json();
         
         console.log(data, "hahah")
         if (data.success) {
-          console.log('Professors updated successfully');
+          console.log('Rooms updated successfully');
         } else {
-          console.log('Failed to update professors');
+          console.log('Failed to update rooms');
         }
       } catch (error) {
         console.log(error);
       }
     };
 
-    updateProfessors();
+    updateRooms();
 
   
   };
@@ -271,7 +259,7 @@ function RoomTable({onCloseProp}) {
           <div className={RoomTableCSS.topItems}>
             <div></div>
             <div className={RoomTableCSS.fieldLabels}>
-              <h3 className={RoomTableCSS.label1}>Last Name</h3>
+              <h3 className={RoomTableCSS.label1}>Room Name</h3>
             </div>
           </div>
           <TableRow align="center"> </TableRow>
@@ -313,8 +301,8 @@ function RoomTable({onCloseProp}) {
                                   style: { fontSize: "13px" },
                                 }}
                                 onChange={(e) => handleInputChange(e, i)}
-                                value={row.lastname}
-                                name="lastname"
+                                value={row.roomname}
+                                name="roomname"
                               />
                             </FormControl>
                           </TableCell>
@@ -369,7 +357,7 @@ function RoomTable({onCloseProp}) {
                                   style: { fontSize: "13px" },
                                 }}
                                 //   label = "Class Type"
-                                value={row.lastname}
+                                value={row.roomname}
                               />
                             </FormControl>
                            
