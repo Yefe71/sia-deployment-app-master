@@ -1,0 +1,215 @@
+.add-editOptions{
+  display: flex;
+  justify-content: end;
+  width: 100%;
+  margin-right: 7px;
+}
+.add-saveOptions{
+    display: flex;
+    justify-content: end;
+    width: 100%;
+    margin-right: 30px;
+}
+
+.addIcon{
+    margin-right: 1.5px;
+}
+.trueIsEdit{
+    display: flex;
+    align-items: center;
+}
+.falseIsEdit{
+    display: flex;
+    align-items: center;
+}
+.cells-deleteWrapper{
+    display: flex;
+    align-items: center;
+}.ripple {
+    background-position: center;
+    transition: background 0.6s;
+  }
+  .ripple:hover {
+    background: #f5f5f5 radial-gradient(circle, transparent 1%, #f5f5f5 1%) center/15000%;
+  }
+  .ripple:active {
+    background-color: #dadada;
+    background-size: 100%;
+    transition: background 0s;
+  }
+  .iconWrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  outline: 1px solid #c4c4c4;
+  padding: 10.9px;
+  border-radius: 2px;
+  margin-left: 5px;
+  cursor: pointer;
+  }
+
+
+
+  .fieldLabels{
+    display: flex;
+    margin-right: 0rem;
+  
+   align-items: start;
+   ;
+    
+
+  }
+
+  .fieldLabels h3{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.3rem; 
+    font-family: 'Poppins';
+    font-weight: 500;
+    font-size: 12px;
+    margin-bottom: 0;
+    outline: 1px solid #c4c4c4;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+    border-radius: 2px;
+    background-color: rgba(0, 0, 0, 0.034);
+    margin-bottom: 5px;
+  }
+
+  .label1{
+    width: 100px;
+    margin: 5px 7px
+
+  }
+
+  .label2{
+    margin: 5px 7px;
+    width: 100px;
+
+  }
+
+  .label3{
+    margin: 5px 7px;
+    width: 100px;
+  
+  }
+
+  .label4{
+    margin: 5px 7px;
+    width: 120px;
+   
+  }
+  
+  .label5{
+    margin: 5px 7px;
+    width: 70px;
+ 
+  }
+  .CustomRipple {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    user-select: none;
+    touch-action: none;
+  }
+  
+  .CustomRipple::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background-image: radial-gradient(circle, #000 10%, transparent 10.01%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: scale(10, 10);
+    opacity: 0;
+    transition: transform 0.3s, opacity 0.5s;
+  }
+  
+  .CustomRipple:active::after {
+    transform: scale(0, 0);
+    opacity: 0.2;
+    transition: 0s;
+  }
+
+  .tableParent{
+        display: flex;
+        justify-content: start;
+        
+        flex-direction: column;
+       /* margin:8px !important; */
+      outline: 1px solid #c4c4c4;
+      border-radius: 5px;
+      height: 320px;
+      overflow-y: scroll;
+      padding: 1rem 1rem 1.5rem 1rem;
+
+  }
+
+  .topItems{
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .ripple {
+    background-position: center;
+    transition: background 0.6s;
+  }
+  .ripple:hover {
+    background: #f5f5f5 radial-gradient(circle, transparent 1%, #f5f5f5 1%) center/15000%;
+    
+  }
+  .ripple:active {
+    background-color: #dadada;
+    background-size: 100%;
+    transition: background 0s;
+  }
+  .iconWrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  outline: 1px solid #c4c4c4;
+  padding: 10.9px;
+  border-radius: 2px;
+
+  cursor: pointer;
+  }
+  .iconWrapper:hover{
+    outline: 1px solid #000000;
+  }
+
+  .iconContainer{
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    justify-content: center;
+   align-items: center;
+   padding: 0.4rem;
+   border-radius: 2rem;
+   cursor: pointer;
+   transform: translate(1.1rem, -1rem);
+  }
+
+
+
+
+  .closeIconWrapper{
+    display: flex;
+    justify-content: space-between;
+  }
+
+
+  .professorsTitle{
+    font-family: Poppins;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #3e3d3d;
+    font-size: 24px;
+  }

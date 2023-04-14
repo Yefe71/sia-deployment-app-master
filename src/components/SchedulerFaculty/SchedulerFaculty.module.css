@@ -84,7 +84,19 @@ cursor: pointer;
 .profModal {
   transform: scale(1.15); /* Change the value to adjust the scaling factor */
 }
+.profRoom {
+  transform: scale(1.15); /* Change the value to adjust the scaling factor */
+}
 .profModalBoxParent{
+  display: flex;
+  min-width: none;
+  justify-content: center;
+  align-items: start; 
+  /* padding: 30px 10px 20px 10px !important; */
+  background: "#f6f6f6 ! ";
+
+}
+.roomModalBoxParent{
   display: flex;
   min-width: none;
   justify-content: center;

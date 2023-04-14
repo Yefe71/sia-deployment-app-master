@@ -51,6 +51,7 @@ import reactCSS from "reactcss";
 import SketchExample from "../SketchPicker/SketchPicker";
 import addPerson from "../../assets/edit.svg"
 import ProfessorTable from "../ProfessorTable/ProfessorTable";
+import RoomTable from "../RoomTable/RoomTable";
 
 
 
@@ -296,6 +297,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       appointmentChanges: {},
       yearField: 1,
       openProf: false,
+      openRoom: false,
       courseCode: '',
       yearBlock1: [],
       yearBlock2: [],
@@ -323,6 +325,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
     this.handleOpenProf = this.handleOpenProf.bind(this);
     this.handleCloseProf = this.handleCloseProf.bind(this);
+    this.handleOpenRoom = this.handleOpenRoom.bind(this);
+    this.handleCloseRoom = this.handleCloseRoom.bind(this);
     this.changeAppointment = this.changeAppointment.bind(this);
     this.commitAppointment = this.commitAppointment.bind(this);
   }
@@ -341,6 +345,13 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
   handleCloseProf() {
     this.setState({ openProf: false });
+  }
+  handleOpenRoom() {
+    this.setState({ openRoom: true });
+  }
+
+  handleCloseRoom() {
+    this.setState({ openRoom: false });
   }
 
 
@@ -783,7 +794,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   
                 </Select>
               </FormControl>
-            <div style={{width: '2rem', height: '2rem', margin: "0px 7px 7px 7px"}} className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`} >
+            <div style={{width: '2rem', height: '2rem', margin: "0px 7px 7px 7px"}}  onClick={this.handleOpenRoom}  className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`} >
                   <img src={addPerson}  style={{width: '1.8rem', height: '1.8rem', marginBottom: '5px'}} alt="" />
               </div>
             </div>
@@ -895,7 +906,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
         </StyledDiv>
 
-  
+         {/* PROF MODAL */}
         <Modal
           className={SchedulerFacultyCSS.profModal} 
           open={this.state.openProf}
@@ -907,6 +918,22 @@ class AppointmentFormContainerBasic extends React.PureComponent {
        
           <Box className={SchedulerFacultyCSS.profModalBoxParent} sx={style}>
             <ProfessorTable  onCloseProp = {this.handleCloseProf}/>
+          </Box>
+        </Modal>
+        
+
+        {/* ROOM MODAL */}
+        <Modal
+          className={SchedulerFacultyCSS.profRoom} 
+          open={this.state.openRoom}
+          onClose={this.handleCloseRoom}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        
+        >
+       
+          <Box className={SchedulerFacultyCSS.roomModalBoxParent} sx={style}>
+            <RoomTable onCloseProp = {this.handleCloseRoom}/>
           </Box>
         </Modal>
 
