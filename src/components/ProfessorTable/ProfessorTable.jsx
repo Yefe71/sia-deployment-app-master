@@ -713,7 +713,7 @@ function ProfessorTable({onCloseProp}) {
           {true && (
             <div style={{ margin: "0px 0px 0px 7px" }}>
               
-              {!rowsEdit.every(row => row.lastname !== "" && row.firstname !== "" && row.middlename !== "" && row.employment !== "" && row.maxUnits !== "") ? (
+              {!rowsEdit.every(row => row.lastname !== "" && row.firstname !== "" && row.employment !== "" && row.maxUnits !== "") ? (
                 <Button
                   disabled
                   style={{ textTransform: "none" }}
