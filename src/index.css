@@ -253,6 +253,10 @@ fieldset {
  * 3. Remove the padding so developers are not caught out when they zero out
  *    `fieldset` elements in all browsers.
  */
+/* index.css or App.css */
+.MuiPopover-paper.Layout-popover {
+  width: inherit !important;
+}
 
 legend {
   box-sizing: border-box; /* 1 */

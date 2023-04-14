@@ -2,3 +2,8 @@ body{
     background: #f6f6f6;
 }
 
+/* index.css or App.css */
+.MuiPopover-paper.Layout-popover {
+    width: inherit !important;
+  }
+  

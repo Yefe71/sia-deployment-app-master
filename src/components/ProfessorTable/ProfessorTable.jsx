@@ -254,6 +254,8 @@ function ProfessorTable({onCloseProp}) {
 
         <div className={ProfessorTableCSS.closeIconWrapper}>
           
+          <h2 className={ProfessorTableCSS.professorsTitle}>Professors</h2>
+
           <div className={`${ProfessorTableCSS.ripple} ${ProfessorTableCSS.iconContainer}`}>
             
          <Close onClick = {onCloseProp} sx={{color: "#707070"}} />

@@ -93,3 +93,13 @@ cursor: pointer;
   background: "#f6f6f6 ! ";
 
 }
+/* SchedulerFaculty.module.css */
+.tooltipContainer {
+  width: 300px !important;
+}
+
+@media screen and (max-width: 800px) {
+  .profModal {
+    transform: scale(1); /* Change the value to adjust the scaling factor */
+  }
+}

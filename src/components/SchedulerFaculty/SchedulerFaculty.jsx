@@ -54,7 +54,27 @@ import ProfessorTable from "../ProfessorTable/ProfessorTable";
 
 
 
-
+const tooltipStyle = {
+  width: '300px !important',
+};
+const CustomHeader = ({
+  showOpenButton,
+  showCloseButton,
+  showDeleteButton,
+  commandButtonComponent: CommandButton,
+  onOpenButtonClick,
+  onHide,
+  onDeleteButtonClick,
+}) => (
+  <div style={tooltipStyle}>
+    <div style={tooltipStyle}>
+      {showOpenButton && <CommandButton id="open" onExecute={onOpenButtonClick} />}
+      {showDeleteButton && <CommandButton id="delete" onExecute={onDeleteButtonClick} />}
+      {showCloseButton && <CommandButton id="close" onExecute={onHide} />}
+    </div>
+  </div>
+);
+const CustomContent = () => <div style={tooltipStyle} />;
 
 const CustomTimeTableCell = ({ ...props }) => {
   const onDoubleClick = (event) => {
@@ -78,7 +98,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   minWidth: 500,
-  height: 450,
+  height: 470,
   overflowY: "none",
 
   borderRadius: '10px',
@@ -275,7 +295,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     this.state = {
       appointmentChanges: {},
       yearField: 1,
-      open: true,
+      open: false,
       courseCode: '',
       yearBlock1: [],
       yearBlock2: [],
@@ -907,7 +927,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       data: appointments,
       currentDate: "2023-01-07",
       confirmationVisible: false,
-      editingFormVisible: true,
+      editingFormVisible: false,
       deletedAppointmentId: undefined,
       editingAppointment: undefined,
       previousAppointment: undefined,
@@ -1104,6 +1124,7 @@ export default class SchedulerFaculty extends React.PureComponent {
     } = this.state;
 
     return (
+      <div className={SchedulerFacultyCSS.tooltipContainer}>
       <>
         <CustomPaper>
           <Scheduler data={data} height={"100%"} firstDayOfWeek={1}>
@@ -1130,6 +1151,9 @@ export default class SchedulerFaculty extends React.PureComponent {
               showOpenButton
               showCloseButton
               showDeleteButton
+              headerComponent={CustomHeader}
+              contentComponent={CustomContent}
+              sx = {{width: "300px"}}
             />
 
             <AppointmentForm
@@ -1167,6 +1191,7 @@ export default class SchedulerFaculty extends React.PureComponent {
           </Dialog>
         </CustomPaper>
       </>
+      </div>
     );
   }
 }
