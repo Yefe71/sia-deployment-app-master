@@ -295,7 +295,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     this.state = {
       appointmentChanges: {},
       yearField: 1,
-      open: false,
+      openProf: false,
       courseCode: '',
       yearBlock1: [],
       yearBlock2: [],
@@ -321,8 +321,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       this.setState({ courseCode: event });
     };
 
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+    this.handleOpenProf = this.handleOpenProf.bind(this);
+    this.handleCloseProf = this.handleCloseProf.bind(this);
     this.changeAppointment = this.changeAppointment.bind(this);
     this.commitAppointment = this.commitAppointment.bind(this);
   }
@@ -335,12 +335,12 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
 
 
-  handleOpen() {
-    this.setState({ open: true });
+  handleOpenProf() {
+    this.setState({ openProf: true });
   }
 
-  handleClose() {
-    this.setState({ open: false });
+  handleCloseProf() {
+    this.setState({ openProf: false });
   }
 
 
@@ -408,7 +408,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.open !== this.state.open && !this.state.open) {
+    if (prevState.openProf !== this.state.openProf && !this.state.openProf) {
       this.fetchData();
       console.log('i ran hay')
     }
@@ -653,7 +653,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 </Select>
               </FormControl>
           
-              <div style={{width: '2rem', height: '2rem'}}  onClick={this.handleOpen} className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`} >
+              <div style={{width: '2rem', height: '2rem'}}  onClick={this.handleOpenProf} className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`} >
                   <img src={addPerson}  style={{width: '1.8rem', height: '1.8rem', marginBottom: '5px'}} alt="" />
               </div>
     
@@ -898,22 +898,22 @@ class AppointmentFormContainerBasic extends React.PureComponent {
   
         <Modal
           className={SchedulerFacultyCSS.profModal} 
-          open={this.state.open}
-          onClose={this.handleClose}
+          open={this.state.openProf}
+          onClose={this.handleCloseProf}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         
         >
-
        
-          <Box className={SchedulerFacultyCSS.modalBoxParent} sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-        
-            </Typography> 
-
-            <ProfessorTable  onCloseProp = {this.handleClose}/>
+          <Box className={SchedulerFacultyCSS.profModalBoxParent} sx={style}>
+            <ProfessorTable  onCloseProp = {this.handleCloseProf}/>
           </Box>
         </Modal>
+
+
+
+
+        
       </FormOverlay>
     );
   }

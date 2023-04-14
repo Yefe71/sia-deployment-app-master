@@ -84,7 +84,7 @@ cursor: pointer;
 .profModal {
   transform: scale(1.15); /* Change the value to adjust the scaling factor */
 }
-.modalBoxParent{
+.profModalBoxParent{
   display: flex;
   min-width: none;
   justify-content: center;
