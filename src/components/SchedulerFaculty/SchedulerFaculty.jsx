@@ -305,6 +305,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       yearBlock4: [],
       yearBlock5: [],
       professorsNames: [],
+      roomsNames: []
     };
 
     this.getAppointmentData = () => {
@@ -407,8 +408,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       appointmentChanges: {},
     });
   }
-  async fetchData() {
+
+  
+  async fetchDataProf() {
     try {
+      console.log('i ran prof')
       const response = await fetch('http://localhost:3000/grabProfessorsNames');
       const data = await response.json();
       this.setState({ professorsNames: data });
@@ -417,13 +421,30 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     }
   }
 
+  
+  async fetchDataRoom() {
+    try {
+      const response = await fetch('http://localhost:3000/grabRoomsNames');
+      const data = await response.json();
+      this.setState({ roomsNames: data });
+    } catch (error) {
+      console.error('Error fetching rooms names:', error);
+    }
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.openProf !== this.state.openProf && !this.state.openProf) {
-      this.fetchData();
-      console.log('i ran hay')
+      this.fetchDataProf();
     }
+
+    if (prevState.openRoom !== this.state.openRoom && !this.state.openRoom) {
+      this.fetchDataRoom();
+    }
+
+    console.log('rerender')
   }
+  
+
 
   async componentDidMount() {
     try {
@@ -434,14 +455,21 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         fetch(`http://localhost:3000/grabStudentsButtons?yearButton=4&blockButton=''`),
         fetch(`http://localhost:3000/grabStudentsButtons?yearButton=5&blockButton=''`),
         fetch('http://localhost:3000/grabProfessorsNames'),
+        fetch('http://localhost:3000/grabRoomsNames'),
       ]);
 
       const dataPromises = responses.map((response) => response.json());
       const allData = await Promise.all(dataPromises);
 
+      // Process the fetched rooms names
+      const roomsNamesData = allData.pop();
+      this.setState({ roomsNames: roomsNamesData });
+
+
       // Process the fetched professor names
       const professorsNamesData = allData.pop();
       this.setState({ professorsNames: professorsNamesData });
+
 
       allData.forEach((data, index) => {
         const uniqueBlocks = [...new Set(data.map((student) => student.block))].sort();
@@ -455,7 +483,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       console.log(error);
     }
   }
-
 
   render() {
     const {
@@ -734,7 +761,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
        
            
 
-            {/* 2. Add a Select field that says Block, a number input field, and a read-only text input field that says "12" */}
+         
             <div className={classes.wrapper}>
       
             <FormControl variant="outlined"  sx={{ margin: "0px 7px" }} className={classes.textField} >
@@ -785,13 +812,14 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               <FormControl  sx={{margin: "0px 7px" }} variant="outlined" className={classes.textField}>
                 <InputLabel>Room</InputLabel>
                 <Select
-                  label="Room"
-                  {...textEditorPropsSpecial("room")}
+                  labelId="Room"
+                  {...textEditorProps("room")}
                 >
-                  <MenuItem value={1}>GCA</MenuItem>
-                  <MenuItem value={2}>Com Lab 2</MenuItem>
-                  <MenuItem value={3}>Field</MenuItem>
-                  
+                  {this.state.roomsNames.map((name, index) => (
+                    <MenuItem key={index} value={name.room_name}>
+                      {name.room_name}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             <div style={{width: '2rem', height: '2rem', margin: "0px 7px 7px 7px"}}  onClick={this.handleOpenRoom}  className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`} >

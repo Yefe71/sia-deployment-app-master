@@ -254,7 +254,7 @@ function RoomTable({onCloseProp}) {
 
         <div className={RoomTableCSS.closeIconWrapper}>
           
-          <h2 className={RoomTableCSS.professorsTitle}>Rooms</h2>
+          <h2 className={RoomTableCSS.roomTitle}>Rooms</h2>
 
           <div className={`${RoomTableCSS.ripple} ${RoomTableCSS.iconContainer}`}>
             
@@ -779,35 +779,6 @@ function RoomTable({onCloseProp}) {
           style={{ margin: "15px 7px 10px 0px" }}
           className={RoomTableCSS["add-editOptions"]}
         >
-          {/* <Button
-            style={{ textTransform: "none" }}
-            sx={{
-              background: "#1e82d4",
-              color: "#ffffff",
-              borderRadius: "0.25rem",
-              fontFamily: "Poppins",
-              fontSize: "0.7rem",
-              padding: "0rem",
-              padding: "0.7rem",
-              "&:hover": {
-                background: "#1b70b5",
-                color: "#fafafa",
-              },
-            }}
-            onClick={handleAdd}
-          >
-            <AddBoxIcon
-              className={RoomTableCSS.addIcon}
-              onClick={handleAdd}
-              sx={{
-                color: "#ffffff",
-                "&:hover": {
-                  color: "#ffffff",
-                },
-              }}
-            />
-            ADD
-          </Button> */}
           <Button
             align="right"
             style={{ textTransform: "none", marginLeft: "8px" }}
