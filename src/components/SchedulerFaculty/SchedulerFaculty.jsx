@@ -1173,10 +1173,53 @@ export default class SchedulerFaculty extends React.PureComponent {
       );
 
       return { data: nextData, deletedAppointmentId: null };
+    }, () => {
+        console.log('me delete')
+      this.updateSchedules(this.state.data);
     });
     this.toggleConfirmationVisible();
   }
 
+
+
+async updateSchedules(dataLatest){
+
+    
+ 
+     this.setState({ isUpdatingSchedules: true });
+         
+    try {
+      const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dataLatest),
+      };
+     
+      const response = await fetch('http://localhost:3000/updateSchedules', requestOptions);
+      const data = await response.json();
+        
+      console.log(data, "updating scheds, should be latest")
+      if (data.success) {
+        console.log(data, 'guds');
+        
+      } else {
+        console.log(data, 'error');
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+          
+      this.setState({ isUpdatingSchedules: false });
+    }
+  };
+
+ 
+
+
+
+
+
+  
   commitChanges({ added, changed, deleted }) {
     this.setState((state) => {
       let { data, appointmentColor } = state;
@@ -1228,45 +1271,10 @@ export default class SchedulerFaculty extends React.PureComponent {
       }
 
       
-    console.log('ahhahahahha')
-      
-      // const updateSchedules = async (dataLatest) => {
-
-    
- 
-      //    this.setState({ isUpdatingSchedules: true });
-         
-      //   try {
-      //     const requestOptions = {
-      //       method: 'PUT',
-      //       headers: { 'Content-Type': 'application/json' },
-      //       body: JSON.stringify(dataLatest),
-      //     };
-     
-      //     const response = await fetch('http://localhost:3000/updateSchedules', requestOptions);
-      //     const data = await response.json();
-        
-      //     console.log(data, "updating scheds, should be latest")
-      //     if (data.success) {
-      //       console.log('Schedules updated successfully');
-        
-      //     } else {
-      //       console.log('Failed to update schedules');
-      //     }
-      //   } catch (error) {
-      //     console.log(error);
-      //   } finally {
-          
-      //     this.setState({ isUpdatingSchedules: false });
-      //   }
-      // };
-
-      // updateSchedules(data);
-
-
-
-
       return { data, addedAppointment: {} };
+    }, () => {
+      console.log('i ran')
+      this.updateSchedules(this.state.data);
     });
   }
 
