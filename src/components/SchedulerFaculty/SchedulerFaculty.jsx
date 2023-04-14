@@ -1105,6 +1105,35 @@ export default class SchedulerFaculty extends React.PureComponent {
     this.appointmentForm.update();
   }
 
+
+  async componentDidMount() {
+    try {
+      const response = await fetch(`http://localhost:3000/grabSchedules`);
+      const data = await response.json();
+      const rows = data.map((item) => ({
+        color: item.color,
+        startDate: item.start_date,
+        endDate: item.end_date,
+        professorName: item.professor_name,
+        year: item.year,
+        block: item.block,
+        courseName: item.course_name,
+        courseCode: item.course_code,
+        units: item.units,
+        classType: item.class_type,
+        room: item.room,
+        day: item.day
+      }));
+      console.log(rows, 'grab schedules')
+
+      this.setState({data: rows}, () => console.log(this.state.data, 'hahahhasds'))
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
   onEditingAppointmentChange(editingAppointment) {
     this.setState({ editingAppointment });
   }
