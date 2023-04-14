@@ -52,6 +52,7 @@ import SketchExample from "../SketchPicker/SketchPicker";
 import addPerson from "../../assets/edit.svg"
 import ProfessorTable from "../ProfessorTable/ProfessorTable";
 import RoomTable from "../RoomTable/RoomTable";
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -1012,7 +1013,7 @@ export default class SchedulerFaculty extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      data: appointments,
+      data: [],
       currentDate: "2023-01-07",
       confirmationVisible: false,
       editingFormVisible: false,
@@ -1111,6 +1112,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       const response = await fetch(`http://localhost:3000/grabSchedules`);
       const data = await response.json();
       const rows = data.map((item) => ({
+        id: item.id,
         color: item.color,
         startDate: item.start_date,
         endDate: item.end_date,
@@ -1119,6 +1121,7 @@ export default class SchedulerFaculty extends React.PureComponent {
         block: item.block,
         courseName: item.course_name,
         courseCode: item.course_code,
+        actualUnits: item.actual_units,
         units: item.units,
         classType: item.class_type,
         room: item.room,
@@ -1236,9 +1239,12 @@ async updateSchedules(dataLatest){
             .set("minute", dayjs(added.endDate).minute())
             .toDate(),
         };
-        const startingAddedId =
-          data.length > 0 ? data[data.length - 1].id + 1 : 0;
-        data = [...data, { id: startingAddedId, color: appointmentColor, ...fixedDateAppointment }];
+        const maxId = data.length > 0 ? Math.max(...data.map(item => item.id)) : -1;
+        const newId = maxId + 1;
+        data = [
+          ...data,
+          { id: newId, color: appointmentColor, ...fixedDateAppointment },
+        ];
       }
 
       if (changed) {
