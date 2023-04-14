@@ -93,7 +93,6 @@ function RoomTable({onCloseProp}) {
           const response = await fetch(`http://localhost:3000/grabRooms`);
           const data = await response.json();
           const rows = data.map((item) => ({
-            // id: item.id,
             roomname: item.room_name,
           }));
           setRowsEdit(rows);
@@ -256,6 +255,10 @@ function RoomTable({onCloseProp}) {
           console.log(rows, "rows")
           
           }} className={RoomTableCSS.tableParent}>
+
+
+          <div className={RoomTableCSS.contentContainer}>
+            
           <div className={RoomTableCSS.topItems}>
             <div></div>
             <div className={RoomTableCSS.fieldLabels}>
@@ -295,7 +298,7 @@ function RoomTable({onCloseProp}) {
                               <TextField
                                 labelId="course-code-label"
                                 InputLabelProps={{ shrink: true }}
-                                sx={{ width: "100px" }}
+                                sx={{ width: "160px" }}
                                 size="small"
                                 InputProps={{
                                   style: { fontSize: "13px" },
@@ -351,7 +354,7 @@ function RoomTable({onCloseProp}) {
                                 labelId="class-type-label"
                                 InputLabelProps={{ shrink: true }}
                                 size="small"
-                                sx={{ width: "100px" }}
+                                sx={{ width: "160px" }}
                                 InputProps={{
                                   readOnly: true,
                                   style: { fontSize: "13px" },
@@ -406,11 +409,12 @@ function RoomTable({onCloseProp}) {
                 </div>
               )}
           </Table>
+          </div>
         </Box>
       </TableBody>
       {isEdit ? (
         <div
-          style={{ margin: "15px 7px 10px 0px" }}
+    
           className={RoomTableCSS["add-saveOptions"]}
         >
 

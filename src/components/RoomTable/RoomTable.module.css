@@ -6,9 +6,10 @@
 }
 .add-saveOptions{
     display: flex;
-    justify-content: end;
-    width: 100%;
-    margin-right: 30px;
+    justify-content: center;
+    margin-top: 15px;
+
+    
 }
 
 .addIcon{
@@ -79,7 +80,7 @@
   }
 
   .label1{
-    width: 100px;
+    width: 160px;
     margin: 5px 7px
 
   }
@@ -140,12 +141,13 @@
   .tableParent{
         display: flex;
         justify-content: start;
-        
+      align-items: center;
+        width: 15rem;
         flex-direction: column;
        /* margin:8px !important; */
       outline: 1px solid #c4c4c4;
       border-radius: 5px;
-      height: 320px;
+      height: 200px;
       overflow-y: scroll;
       padding: 1rem 1rem 1.5rem 1rem;
 
@@ -213,3 +215,4 @@
     color: #3e3d3d;
     font-size: 24px;
   }
+

@@ -93,13 +93,26 @@ const dayScaleCell = ({ startDate, endDate, today }) => (
   </TableCell>
 );
 
-const style = {
+const styleProf = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   minWidth: 500,
   height: 470,
+  overflowY: "none",
+
+  borderRadius: '10px',
+  boxShadow: 24,
+  p: 4,
+  background: "#f6f6f6"
+};
+const styleRoom = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  height: 350,
   overflowY: "none",
 
   borderRadius: '10px',
@@ -944,7 +957,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         
         >
        
-          <Box className={SchedulerFacultyCSS.profModalBoxParent} sx={style}>
+          <Box className={SchedulerFacultyCSS.profModalBoxParent} sx={styleProf}>
             <ProfessorTable  onCloseProp = {this.handleCloseProf}/>
           </Box>
         </Modal>
@@ -960,7 +973,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         
         >
        
-          <Box className={SchedulerFacultyCSS.roomModalBoxParent} sx={style}>
+          <Box className={SchedulerFacultyCSS.roomModalBoxParent} sx={styleRoom}>
             <RoomTable onCloseProp = {this.handleCloseRoom}/>
           </Box>
         </Modal>
