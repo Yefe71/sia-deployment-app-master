@@ -330,7 +330,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     this.overlayRef = React.createRef();
     this.state = {
       appointmentChanges: {},
-      yearField: 1,
       openProf: false,
       openRoom: false,
       courseCode: '',
@@ -340,9 +339,14 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       yearBlock4: [],
       yearBlock5: [],
       professorsNames: [],
-      roomsNames: []
+      roomsNames: [],
+      newYear: null,
+      yearField: this.props.appointmentData.year
     };
 
+
+
+    
     this.getAppointmentData = () => {
       const { appointmentData } = this.props;
       return appointmentData;
@@ -529,7 +533,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     } = this.props;
     const { appointmentChanges } = this.state;
     const { yearField } = this.state;
-    const filteredCourseNames = courseNames[yearField];
+    const filteredCourseNames = yearField ? courseNames[yearField] : [];
     const displayAppointmentData = {
       ...appointmentData,
       ...appointmentChanges,
@@ -669,15 +673,19 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
     // create a variable based on yearField to determine the current block options
     let currentBlocks;
-    if (yearField === 1) {
+    console.log(this.props.appointmentData.year, 'after click after refresh')
+    if (!this.props.appointmentData.year){
+      currentBlocks = [];
+      }
+    else if (this.props.appointmentData.year === 1) {
       currentBlocks = yearBlock1;
-    } else if (yearField === 2) {
+    } else if (this.props.appointmentData.year === 2) {
       currentBlocks = yearBlock2;
-    } else if (yearField === 3) {
+    } else if (this.props.appointmentData.year === 3) {
       currentBlocks = yearBlock3;
-    } else if (yearField === 4) {
+    } else if (this.props.appointmentData.year === 4) {
       currentBlocks = yearBlock4;
-    } else if (yearField === 5) {
+    } else if (this.props.appointmentData.year === 5) {
       currentBlocks = yearBlock5;
     } else {
       currentBlocks = [];
