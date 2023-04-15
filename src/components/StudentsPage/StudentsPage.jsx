@@ -86,7 +86,7 @@ const StudentsPage = () => {
     <div className={StudentsPageCSS.bottomButtons}>
 
    
-    <div class={StudentsPageCSS.middle}>
+    <div className={StudentsPageCSS.middle}>
     <Stack spacing={2} direction="row">
         <Button
           style={{ textTransform: "none" }}

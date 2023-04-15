@@ -82,7 +82,7 @@ const RoomPlotPage = () => {
     </div>
     <div className={RoomPlotCSS.bottomButtons}>
 
-    <div class={RoomPlotCSS.left}>
+    <div className={RoomPlotCSS.left}>
     <Stack spacing={2} direction="row">
         <Button
           onClick={handleOpen}
@@ -107,7 +107,7 @@ const RoomPlotPage = () => {
         </Button>
       </Stack>
     </div>
-    <div class={RoomPlotCSS.middle}>
+    <div className={RoomPlotCSS.middle}>
     <Stack spacing={2} direction="row">
         <Button
           style={{ textTransform: "none" }}
@@ -133,7 +133,7 @@ const RoomPlotPage = () => {
         </Button>
       </Stack>
     </div>
-    <div class={RoomPlotCSS.right}>
+    <div className={RoomPlotCSS.right}>
       
       
       <Stack spacing={2} direction="row">

@@ -94,7 +94,7 @@ const SchedSummaryPage = () => {
         </div>
       </div>
       <div className={SchedSumCSS.bottomButtons}>
-        <div class={SchedSumCSS.middle}>
+        <div className={SchedSumCSS.middle}>
           <Stack spacing={2} direction="row">
             <Button
               style={{ textTransform: "none" }}

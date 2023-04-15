@@ -203,7 +203,7 @@ const SubjectAssignPage = () => {
           <SchedulerFaculty ref={childComponentRef}/>
         </div>
         <div className={SubjectAssignCSS.bottomButtons}>
-          <div class={SubjectAssignCSS.left}>
+          <div className={SubjectAssignCSS.left}>
             <Stack spacing={2} direction="row">
               <Button
                 onClick={handleOpen}
@@ -226,7 +226,7 @@ const SubjectAssignPage = () => {
               </Button>
             </Stack>
           </div>
-          <div class={SubjectAssignCSS.middle}>
+          <div className={SubjectAssignCSS.middle}>
             <Stack spacing={2} direction="row">
               <Button
                 style={{ textTransform: "none" }}
@@ -251,7 +251,7 @@ const SubjectAssignPage = () => {
               </Button>
             </Stack>
           </div>
-          <div class={SubjectAssignCSS.right}>
+          <div className={SubjectAssignCSS.right}>
             <Stack spacing={2} direction="row">
               <Button
                 onClick={handleClick}

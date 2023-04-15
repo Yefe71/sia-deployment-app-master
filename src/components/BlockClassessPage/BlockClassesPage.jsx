@@ -91,7 +91,7 @@ const BlockClassesPage = () => {
       </div>
       <div className={BlockClassessCSS.bottomButtons}>
 
-        <div class={BlockClassessCSS.middle}>
+        <div className={BlockClassessCSS.middle}>
           <Stack spacing={2} direction="row">
             <Button
               style={{ textTransform: "none" }}

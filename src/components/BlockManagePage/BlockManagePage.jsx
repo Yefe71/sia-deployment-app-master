@@ -193,7 +193,7 @@ const BlockManagePage = () => {
       <TableManageBlock setNumYearBlock = {setNumYearBlock} setBlockChild = {setBlockChild} setDataChild = {setDataChild} yearForm = {yearForm} blockForm = {blockForm} yearButton = {year} blockButton = {block} filterRefreshData = {filterRefreshData} refreshData={refreshData} />
     </div>
     <div className={ManageBlockCSS.bottomButtons}>
-    <div class={ManageBlockCSS.left}>
+    <div className={ManageBlockCSS.left}>
       
     <Stack spacing={2} direction="row">
         <Button
@@ -217,7 +217,7 @@ const BlockManagePage = () => {
         </Button>
       </Stack>
     </div>
-    <div class={ManageBlockCSS.middle}>
+    <div className={ManageBlockCSS.middle}>
     <Stack spacing={2} direction="row">
         <Button
           style={{ textTransform: "none" }}
@@ -269,7 +269,7 @@ const BlockManagePage = () => {
         </Button>
       </Stack>
     </div>
-    <div class={ManageBlockCSS.right}>
+    <div className={ManageBlockCSS.right}>
       
       
       <Stack spacing={2} direction="row">

@@ -535,7 +535,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       ...appointmentChanges,
     };
 
-
+    this.props.data.map(item => console.log(item));
 
 
     const isFormValid = () => {
@@ -714,7 +714,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   Professor Name
                 </InputLabel>
                 <Select
-                  labelId="professor-name-label"
+                  label="professor-name-label"
                   {...textEditorProps("professorName")}
                 >
                   {this.state.professorsNames.map((name, index) => (
@@ -738,7 +738,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
             <FormControl variant="outlined" className={classes.textField} sx={{margin: "7px 7px" }}>
               <InputLabel id="course-category-label">Year</InputLabel>
               <Select
-                labelId="course-category-label"
+                label="course-category-label"
                 {...textEditorPropsYear("year")}
               >
                 <MenuItem value={1}>1st Year</MenuItem>
@@ -773,7 +773,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
             <FormControl   sx={{margin: "4px 7px" }} variant="outlined"  className={classes.textField}>
               <InputLabel     sx = {{fontSize: '15px'}}id="course-name-label">Course Name</InputLabel>
               <Select
-                labelId="course-name-label"
+                label="course-name-label"
                 {...textEditorPropsCourseName("courseName")}
                 sx = {{fontSize: '15px'}}
            
@@ -801,7 +801,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
             <FormControl variant="outlined"  sx={{ margin: "0px 7px" }} className={classes.textField} >
         
              <TextField
-               labelId="course-code-label"
+      
                InputLabelProps={{shrink: true}}
                InputProps={{
                  readOnly: true,
@@ -825,6 +825,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 label="Actual Units"
                 InputLabelProps={{shrink: true}}
                 variant="outlined"
+                type="number"
               {...textEditorPropsSpecial("actualUnits")}
               />
             </div>
@@ -846,7 +847,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               <FormControl  sx={{margin: "0px 7px" }} variant="outlined" className={classes.textField}>
                 <InputLabel>Room</InputLabel>
                 <Select
-                  labelId="Room"
+                  label="Room"
                   {...textEditorProps("room")}
                 >
                   {this.state.roomsNames.map((name, index) => (
@@ -864,14 +865,14 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               <div className={SchedulerFacultyCSS.wrapper}>
               <FormControl sx={{minWidth: 80, margin: "7px 7px"}}  variant="outlined" >
                 <InputLabel>Day</InputLabel>
+    
                 <Select
-                  
                   label="Day"
-                  value={displayAppointmentData.day || ""}
+                  value={displayAppointmentData['day']}
                   onChange={(event) =>
                     this.changeAppointment({
                       field: "day",
-                      changes: event.target.value,
+                      changes: dayjs(event.target.value).format('YYYY-MM-DD')
                     })
                   }
                 >
@@ -1070,6 +1071,7 @@ export default class SchedulerFaculty extends React.PureComponent {
         visibleChange: this.toggleEditingFormVisibility,
         onEditingAppointmentChange: this.onEditingAppointmentChange,
         cancelAppointment,
+        data: data
        
       };
     });
@@ -1112,6 +1114,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       const response = await fetch(`http://localhost:3000/grabSchedules`);
       const data = await response.json();
       const rows = data.map((item) => ({
+        
         id: item.id,
         color: item.color,
         startDate: item.start_date,
@@ -1125,7 +1128,7 @@ export default class SchedulerFaculty extends React.PureComponent {
         units: item.units,
         classType: item.class_type,
         room: item.room,
-        day: item.day
+        day: dayjs(item.day).format('YYYY-MM-DD')
       }));
       console.log(rows, 'grab schedules')
 
