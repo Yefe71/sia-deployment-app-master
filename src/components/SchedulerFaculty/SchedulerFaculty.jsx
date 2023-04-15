@@ -345,6 +345,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     };
 
 
+    
 
     
     this.getAppointmentData = () => {
@@ -539,7 +540,10 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       ...appointmentChanges,
     };
 
-    this.props.data.map(item => console.log(item));
+    if (!this.state.yearField){
+      
+      this.setState({yearField: appointmentData.year}, () => console.log(this.state.yearField, "SET EVERYTIME APPOINTMENT CHANGES"))
+    }
 
 
     const isFormValid = () => {
@@ -674,18 +678,18 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     // create a variable based on yearField to determine the current block options
     let currentBlocks;
     console.log(this.props.appointmentData.year, 'after click after refresh')
-    if (!this.props.appointmentData.year){
+    if (!yearField){
       currentBlocks = [];
       }
-    else if (this.props.appointmentData.year === 1) {
+    else if (yearField === 1) {
       currentBlocks = yearBlock1;
-    } else if (this.props.appointmentData.year === 2) {
+    } else if (yearField === 2) {
       currentBlocks = yearBlock2;
-    } else if (this.props.appointmentData.year === 3) {
+    } else if (yearField === 3) {
       currentBlocks = yearBlock3;
-    } else if (this.props.appointmentData.year === 4) {
+    } else if (yearField === 4) {
       currentBlocks = yearBlock4;
-    } else if (this.props.appointmentData.year === 5) {
+    } else if (yearField === 5) {
       currentBlocks = yearBlock5;
     } else {
       currentBlocks = [];
