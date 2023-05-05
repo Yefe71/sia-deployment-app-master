@@ -10,6 +10,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Scheduler from "../Scheduler/Scheduler";
 import { useMediaQuery } from "@mui/material";
+import SchedulerStudent from "../SchedulerStudent/SchedulerStudent";
 
 const BlockClassesPage = () => {
   const [year, setYear] = React.useState("");
@@ -21,6 +22,14 @@ const BlockClassesPage = () => {
   const handleChangeBlock = (event) => {
     setBlock(event.target.value);
   };
+
+
+  const handleClick = () => {
+    // Call the function in the child component
+    childComponentRef.current.openModal();
+  };
+
+  const childComponentRef = React.useRef();
   return (
     <>
       <div className={BlockClassessCSS.topTableWrapper}>
@@ -77,7 +86,7 @@ const BlockClassesPage = () => {
         </div>
 
         <div className={`${BlockClassessCSS.tableWrapper} ${BlockClassessCSS.sched}`}>
-     
+        <SchedulerStudent  ref={childComponentRef}/>
         </div>
       </div>
 

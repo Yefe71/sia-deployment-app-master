@@ -31,7 +31,7 @@
 }
 
 .tableWrapper{
-    
+  
     width: 75vw;
     height: 66vh;
     background: #f1f1f1;
@@ -52,7 +52,7 @@
 
 
 .sched{
-    overflow-y: hidden;
+    overflow-y: scroll;
     height: 66vh;
 }
 

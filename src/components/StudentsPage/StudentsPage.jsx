@@ -12,10 +12,10 @@ import { TextField } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { useMediaQuery } from "@mui/material";
+import TableStudentsList from '../TableStudentsList/TableStudentsList';
 
 const StudentsPage = () => {
-    const [year, setYear] = React.useState("");
-    const [block, setBlock] = React.useState("");
+    const [standing, setStanding] = React.useState("");
     const isSmallScreen = useMediaQuery("(max-width: 500px)");
     const style = {
       position: "absolute",
@@ -30,11 +30,8 @@ const StudentsPage = () => {
       p: 4,
     };
   
-    const handleChangeStatus = (event) => {
-      setYear(event.target.value);
-    };
-    const handleChangeBlock = (event) => {
-      setBlock(event.target.value);
+    const handleChangeStanding = (event) => {
+      setStanding(event.target.value);
     };
 
 
@@ -55,8 +52,8 @@ const StudentsPage = () => {
       <div className={StudentsPageCSS.topButtons}>
         <FormControl sx={{ mr: 1, minWidth: isSmallScreen ? 90 : 115}}>
           <Select
-            value={year}
-            onChange={handleChangeStatus}
+            value={standing}
+            onChange={handleChangeStanding}
             displayEmpty
             inputProps={{ "aria-label": "Without label" }}
             sx={{
@@ -69,16 +66,16 @@ const StudentsPage = () => {
             }}
           >
      
-            <MenuItem value="">Regular</MenuItem>
-            
-            <MenuItem value={20}>Irregular</MenuItem>
+            <MenuItem value="">All</MenuItem>
+            <MenuItem value="REGULAR">Regular</MenuItem>
+            <MenuItem value="IRREGULAR">Irregular</MenuItem>
           </Select>
         </FormControl>
 
       </div>
     </div>
     <div className={StudentsPageCSS.tableWrapper}>
-      <MyTable />
+    <TableStudentsList standing = {standing}/>
     </div>
             </div>
 

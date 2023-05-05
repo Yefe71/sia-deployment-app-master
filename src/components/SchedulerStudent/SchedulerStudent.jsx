@@ -43,7 +43,7 @@ import Select from "@mui/material/Select";
 import dayjs from "dayjs";
 import { Box, TableCell, Typography } from "@mui/material";
 import { TimePicker } from "@mui/x-date-pickers";
-import SchedulerFacultyCSS from "./SchedulerFaculty.module.css";
+import SchedulerStudentCSS from "./SchedulerStudent.module.css";
 import Modal from "@mui/material/Modal";
 import { appointments } from "../../data/appointments";
 import { SketchPicker } from "react-color";
@@ -90,7 +90,7 @@ const CustomTimeTableCell = ({ ...props }) => {
 const allowDrag = () => false;
 const dayScaleCell = ({ startDate, endDate, today }) => (
   <TableCell>
-    <span className={SchedulerFacultyCSS.dayName}>
+    <span className={SchedulerStudentCSS.dayName}>
       {Intl.DateTimeFormat("en-US", { weekday: "short" }).format(startDate)}
     </span>
   </TableCell>
@@ -701,7 +701,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           <div className={classes.content}>
             {/* PROFESSOR NAME FIELD */}
             <div
-              className={SchedulerFacultyCSS.wrapper}
+              className={SchedulerStudentCSS.wrapper}
               style={{ margin: "0px 7px 7px 7px" }}
             >
               <FormControl variant="outlined" className={classes.textField}>
@@ -723,7 +723,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               <div
                 style={{ width: "2rem", height: "2rem" }}
                 onClick={this.handleOpenProf}
-                className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`}
+                className={`${SchedulerStudentCSS.iconWrapper} ${SchedulerStudentCSS.ripple}`}
               >
                 <img
                   src={addPerson}
@@ -737,7 +737,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               </div>
             </div>
 
-            <div className={SchedulerFacultyCSS["year-courseWrapper"]}>
+            <div className={SchedulerStudentCSS["year-courseWrapper"]}>
               <FormControl
                 variant="outlined"
                 className={classes.textField}
@@ -757,7 +757,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
               <SketchExample
                 defaultColor={displayAppointmentData["color"]}
-                className={`${SchedulerFacultyCSS.ripple}`}
+                className={`${SchedulerStudentCSS.ripple}`}
                 onColorChange={this.handleColorChange}
               />
 
@@ -878,7 +878,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   margin: "0px 7px 7px 7px",
                 }}
                 onClick={this.handleOpenRoom}
-                className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`}
+                className={`${SchedulerStudentCSS.iconWrapper} ${SchedulerStudentCSS.ripple}`}
               >
                 <img
                   src={addPerson}
@@ -892,7 +892,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               </div>
             </div>
 
-            <div className={SchedulerFacultyCSS.wrapper}>
+            <div className={SchedulerStudentCSS.wrapper}>
               <FormControl
                 sx={{ minWidth: 80, margin: "7px 7px" }}
                 variant="outlined"
@@ -948,7 +948,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               </LocalizationProvider>
             </div>
 
-            <div className={SchedulerFacultyCSS.buttonWrapper}>
+            <div className={SchedulerStudentCSS.buttonWrapper}>
               {!isNewAppointment && (
                 <Button
                   sx={{
@@ -998,14 +998,14 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
         {/* PROF MODAL */}
         <Modal
-          className={SchedulerFacultyCSS.profModal}
+          className={SchedulerStudentCSS.profModal}
           open={this.state.openProf}
           onClose={this.handleCloseProf}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
           <Box
-            className={SchedulerFacultyCSS.profModalBoxParent}
+            className={SchedulerStudentCSS.profModalBoxParent}
             sx={styleProf}
           >
             <ProfessorTable onCloseProp={this.handleCloseProf} />
@@ -1014,14 +1014,14 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
         {/* ROOM MODAL */}
         <Modal
-          className={SchedulerFacultyCSS.profRoom}
+          className={SchedulerStudentCSS.profRoom}
           open={this.state.openRoom}
           onClose={this.handleCloseRoom}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
           <Box
-            className={SchedulerFacultyCSS.roomModalBoxParent}
+            className={SchedulerStudentCSS.roomModalBoxParent}
             sx={styleRoom}
           >
             <RoomTable onCloseProp={this.handleCloseRoom} />
@@ -1033,7 +1033,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 }
 
 /* eslint-disable-next-line react/no-multi-comp */
-export default class SchedulerFaculty extends React.PureComponent {
+export default class SchedulerStudent extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -1309,7 +1309,7 @@ export default class SchedulerFaculty extends React.PureComponent {
     } = this.state;
 
     return (
-      <div className={SchedulerFacultyCSS.tooltipContainer}>
+      <div className={SchedulerStudentCSS.tooltipContainer}>
         <>
           <CustomPaper>
             <Scheduler data={data} height={"100%"} firstDayOfWeek={1}>
