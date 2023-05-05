@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useLayoutEffect} from 'react'
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -171,7 +171,16 @@ const SubjectAssignPage = () => {
     const handleBlurDay = () => {
       setIsFocusedDay(false);
     };
-  
+    useLayoutEffect(() => {
+      const vh = Math.max(
+        document.documentElement.clientHeight || 0,
+        window.innerHeight || 0
+      );
+      window.scrollTo({
+        top: vh * 0.11,
+        behavior: 'smooth'
+      });
+    }, []);
   return (
     <>
       <div className={SubjectAssignCSS.topTableWrapper}>

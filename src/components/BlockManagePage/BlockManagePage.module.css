@@ -83,13 +83,14 @@
 .noStudents p{
     color: #454545;
     font-family: Lato;
-    font-weight: 700;
+    font-weight: 800;
+    font-size: 16px;
 }
 .noStudents h3{
-    color: rgb(108, 107, 107);
+    color: #454545;
     font-family: Lato;
-    font-size: 2rem;
-    margin-top: 1rem;
+    font-weight: 800;
+    font-size: 16px;
 }
 
 .blkCapacity{
@@ -98,6 +99,14 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 1rem;
+    width: 100%;
+    
+}
+.blkCapacity p{
+    color: #454545;
+    font-family: Lato;
+    font-weight: 800;
+    font-size: 16px;
     
 }
 
@@ -107,18 +116,53 @@
     justify-content: center;
     align-items: center;
 }
+.transferFields{
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+  width: 100%;
+}
 
-.blkCapacity p{
-    margin-bottom: 1rem;
+.transferFields h3{
     color: #454545;
     font-family: Lato;
     font-weight: 700;
+    font-size: 16px;
 }
+
+
+.yearBlockTitle{
+    color: #454545;
+    font-family: Lato;
+    font-weight: 800;
+    font-size: 16px;
+}
+
 .noBlocks p{
     margin-bottom: 1rem;
     color: #454545;
     font-family: Lato;
     font-weight: 700;
+}
+
+
+.newWrapper, .currentWrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+    white-space: nowrap;
+  
+}
+
+.arrowWrapper{
+    height: 3rem;
+    display: flex;
+    align-items: end;
+    transform: translate(18%, 25%);
+    margin-right: 8px;
 }
 
 form{
@@ -146,6 +190,7 @@ form{
 
 .middle{
     display: flex;
+    transform: translateX(20%);
 }
 
 /* @media screen and (max-width: 500px) {
