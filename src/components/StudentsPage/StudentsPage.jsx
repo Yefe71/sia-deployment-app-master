@@ -13,9 +13,61 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { useMediaQuery } from "@mui/material";
 import TableStudentsList from '../TableStudentsList/TableStudentsList';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import * as XLSX from 'xlsx';
+
 
 const StudentsPage = () => {
+  const exportAsPDF = (data) => {
+    const doc = new jsPDF();
+    const head = [["ID", "Student ID", "Last Name", "First Name", "Middle Name", "Standing", "Year", "Block"]];
+
+    const body = data.map((row, index) => [
+      index + 1,
+      row.student_id,
+      row.last_name,
+      row.first_name,
+      row.middle_name,
+      row.standing,
+      row.year,
+      row.block,
+    ]);
+
+    doc.autoTable({
+      head: head,
+      body: body,
+    });
+
+    doc.save("students.pdf");
+  };
+  const exportAsExcel = (data) => {
+    const headers = ["ID", "Student ID", "Last Name", "First Name", "Middle Name", "Standing", "Year", "Block"];
+
+    const dataArray = data.map((row, index) => [
+      index + 1,
+      row.student_id,
+      row.last_name,
+      row.first_name,
+      row.middle_name,
+      row.standing,
+      row.year,
+      row.block,
+    ]);
+
+    const ws = XLSX.utils.aoa_to_sheet([headers, ...dataArray]);
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Students");
+    XLSX.writeFile(wb, "students.xlsx");
+  };
+
+
+
+
+
     const [standing, setStanding] = React.useState("");
+    const [dataChild, setDataChild] = useState([])
     const isSmallScreen = useMediaQuery("(max-width: 500px)");
     const style = {
       position: "absolute",
@@ -75,7 +127,7 @@ const StudentsPage = () => {
       </div>
     </div>
     <div className={StudentsPageCSS.tableWrapper}>
-    <TableStudentsList standing = {standing}/>
+    <TableStudentsList standing = {standing} setDataChild = {setDataChild}/>
     </div>
             </div>
 
@@ -85,28 +137,55 @@ const StudentsPage = () => {
    
     <div className={StudentsPageCSS.middle}>
     <Stack spacing={2} direction="row">
-        <Button
-          style={{ textTransform: "none" }}
-          sx={{ 
+          <Button
+            style={{ textTransform: "none" }}
+            onClick={() => exportAsPDF(dataChild)}
+            sx={{ 
 
-            marginRight: "1rem",
-            backgroundColor: "#424242",
+              marginRight: "1rem",
+              backgroundColor: "#424242",
 
-            color: "white",
-            borderRadius: "0.5rem",
-            fontFamily: "Poppins",
-            fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
-            padding: "0.9rem",
-            "&:hover": {
-              backgroundColor: "#313131",
-               // Change the hover background color here
-            },
-          }}
-          variant="contained"
-        >
-          Print Student List
-        </Button>
-      </Stack>
+              color: "white",
+              borderRadius: "0.5rem",
+              fontFamily: "Poppins",
+              fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+              padding: "0rem",
+              padding: "0.9rem",
+              "&:hover": {
+                backgroundColor: "#313131",
+                 // Change the hover background color here
+              },
+            }}
+            variant="contained"
+          >
+            Print as PDF
+          </Button>
+        </Stack>
+      <Stack spacing={2} direction="row">
+          <Button
+            style={{ textTransform: "none" }}
+            onClick={() => exportAsExcel(dataChild)}
+            sx={{ 
+
+              marginRight: "1rem",
+              backgroundColor: "#424242",
+
+              color: "white",
+              borderRadius: "0.5rem",
+              fontFamily: "Poppins",
+              fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+              padding: "0rem",
+              padding: "0.9rem",
+              "&:hover": {
+                backgroundColor: "#313131",
+                 // Change the hover background color here
+              },
+            }}
+            variant="contained"
+          >
+            Export as Excel
+          </Button>
+        </Stack>
     </div>
 
       

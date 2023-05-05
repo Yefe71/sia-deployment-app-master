@@ -51,7 +51,7 @@ const StyleTable = styled(Table)({
     zIndex: 1,
   });
 
-const TableStudentsList = ({standing}) => {
+const TableStudentsList = ({standing, setDataChild}) => {
 
 
   const [data, setData] = useState([])
@@ -111,7 +111,8 @@ const TableStudentsList = ({standing}) => {
         .then((response) => response.json())
         .then((data) => {
           setData(data);
-          console.log('HAHAH')
+          setDataChild(data);
+          console.log('HAHAH');
         })
         .catch((error) => console.log(error));
     };
