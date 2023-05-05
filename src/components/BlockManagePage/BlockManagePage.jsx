@@ -1,4 +1,4 @@
-import React, {useState, useLayoutEffect} from 'react'
+import React, {useState, useLayoutEffect, useEffect} from 'react'
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -83,7 +83,7 @@ const BlockManagePage = () => {
     
   const [yearForm, setYearForm] = React.useState("");
   const [blockForm, setBlockForm] = React.useState("");
-
+  const [studentsNumForm, setStudentsNumForm] = useState("")
   const [refreshData, setRefreshData] = useState(false);
   const [filterRefreshData, setFilterRefreshData] = useState(false);
 
@@ -107,8 +107,14 @@ const BlockManagePage = () => {
 
 
     const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleOpen = () => {
+      setOpen(true)
+      setStudentsNumForm("")  
+    };
+    const handleClose = () => {
+      setOpen(false)
+      setStudentsNumForm("")  
+    };
   
 
  
@@ -124,6 +130,20 @@ const BlockManagePage = () => {
   
     }, []);
 
+
+    useEffect(() => {
+      const fetchDataButtons = () => {
+        console.log(year, 'me!!')
+        fetch(`http://localhost:3000/grabStudentsButtons?yearButton=${yearForm}&blockButton=''`)
+          .then((response) => response.json())
+          .then((data) => {
+              setStudentsNumForm(data.length)
+          })
+          .catch((error) => console.log(error));
+      };
+  
+      fetchDataButtons();
+    }, [yearForm]);
     
   return (
    <>
@@ -311,7 +331,7 @@ const BlockManagePage = () => {
       <form onSubmit={handleSubmit}>
         <div className={ManageBlockCSS.noStudents}>
           <p>Number of Students</p>
-          <h3>119</h3>
+          <h3>{yearForm ? studentsNumForm : ""}</h3>
         </div>
         <div className={ManageBlockCSS.blkCapacity}>
           <p>Year</p>
@@ -322,7 +342,7 @@ const BlockManagePage = () => {
             onChange={(event) => setYearForm(event.target.value)}
             inputProps={{
               min: "1",
-              max: "4"
+              max: "5"
             }}
           />
 
