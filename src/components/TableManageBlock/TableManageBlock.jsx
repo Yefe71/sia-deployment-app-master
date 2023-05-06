@@ -109,39 +109,7 @@ useEffect(() => {
     fetchDataButtons();
   }, []);
   
-  useEffect(() => {
-    const fetchDataButtons = async () => {
-      try {
-        const responses = await Promise.all([
-          fetch(`http://localhost:3000/grabStudentsButtons?yearButton=1&blockButton=''`),
-          fetch(`http://localhost:3000/grabStudentsButtons?yearButton=2&blockButton=''`),
-          fetch(`http://localhost:3000/grabStudentsButtons?yearButton=3&blockButton=''`),
-          fetch(`http://localhost:3000/grabStudentsButtons?yearButton=4&blockButton=''`),
-          fetch(`http://localhost:3000/grabStudentsButtons?yearButton=5&blockButton=''`),
-        ]);
 
-        const dataPromises = responses.map((response) => response.json());
-        const allData = await Promise.all(dataPromises);
-
-        allData.forEach((data, index) => {
-          setData(data);
-          setDataChild(data);
-          const uniqueBlocks = [...new Set(data.map((student) => student.block))].sort();
-          if (index === 0) setYearBlock1(uniqueBlocks);
-          else if (index === 1) setYearBlock2(uniqueBlocks);
-          else if (index === 2) setYearBlock3(uniqueBlocks);
-          else if (index === 3) setYearBlock4(uniqueBlocks);
-          else if (index === 4) setYearBlock5(uniqueBlocks);
-        });
-
-        setNumYearBlock(yearBlock1, yearBlock2, yearBlock3, yearBlock4, yearBlock5);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchDataButtons();
-  }, []);
 
 
   useEffect(() => {

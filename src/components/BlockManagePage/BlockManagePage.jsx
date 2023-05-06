@@ -16,7 +16,7 @@ import TableManageBlock from "../TableManageBlock/TableManageBlock";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import * as XLSX from "xlsx";
-import EastIcon from '@mui/icons-material/East';
+import EastIcon from "@mui/icons-material/East";
 import Tooltip from "@mui/material/Tooltip";
 
 const exportAsPDF = (data) => {
@@ -102,11 +102,10 @@ const BlockManagePage = () => {
 
   const [currentEditYearBlock, setCurrentEditYearBlock] = React.useState("");
 
-
   const [newEditYearBlock, setNewEditYearBlock] = useState("");
 
   const handleInputChange = (event) => {
-    console.log(blockChild)
+    console.log(blockChild);
     const newValue = event.target.value;
     const length = newValue.length;
     const secondCharIsHyphen = length >= 2 && newValue.charAt(1) === "-";
@@ -132,27 +131,25 @@ const BlockManagePage = () => {
   const [studentsBlockForm, setStudentsBlockForm] = useState("");
   const [studentsBlockFormValue, setStudentsBlockFormValue] = useState("");
 
-
   const [error, setError] = useState(false);
   const [errorYear, setErrorYear] = useState(false);
 
-  const isYearEmpty = !yearForm || yearForm === '' || yearForm === '0';
+  const isYearEmpty = !yearForm || yearForm === "" || yearForm === "0";
 
   const handleInputReblockChange = (event) => {
     const value = event.target.value;
     let newValue = parseInt(value);
 
-    if (value === '') {
+    if (value === "") {
       setStudentsBlockFormValue(value);
       setError(false);
       return;
     }
 
-    if (!isNaN(newValue) && newValue >= 1  ) {
+    if (!isNaN(newValue) && newValue >= 1) {
       setStudentsBlockFormValue(newValue);
       setError(false);
     } else {
-   
     }
   };
 
@@ -168,8 +165,6 @@ const BlockManagePage = () => {
       setErrorYear(true);
     }
   };
-
-
 
   const [refreshData, setRefreshData] = useState(false);
   const [refreshDataTransfer, setRefreshDataTransfer] = useState(true);
@@ -200,24 +195,18 @@ const BlockManagePage = () => {
     boxShadow: 24,
     p: 1,
     pt: 5,
-    pb: 5
+    pb: 5,
   };
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
-    setError(false)
-    setYearForm("")
-    setStudentsBlockForm("")
-    
-  
-    
+    setError(false);
+    setYearForm("");
+    setStudentsBlockForm("");
   };
   const handleClose = () => {
     setOpen(false);
-
- 
-
   };
 
   const [openEdit, setOpenEdit] = useState(false);
@@ -225,70 +214,56 @@ const BlockManagePage = () => {
     setOpenEdit(true);
     setEditType(null);
 
-    setEditId(null)
-    setEditStudentName(null)
-    setCurrentEditYearBlock(null)
-    setNewEditYearBlock(null)
-    setEditType("transfer")
+    setEditId(null);
+    setEditStudentName(null);
+    setCurrentEditYearBlock(null);
+    setNewEditYearBlock(null);
+    setEditType("transfer");
   };
   const handleCloseEdit = () => {
     setOpenEdit(false);
   };
 
   const handleSubmit = (event) => {
-    console.log(refreshData, 1)
+    console.log(refreshData, 1);
     setRefreshData((prevState) => !prevState);
-    console.log(refreshData, 2)
+    console.log(refreshData, 2);
     handleClose();
+    setYear("");
+    setBlock("");
   };
 
-
-
-
-
-
-
-
   const transferStudent = async () => {
-  
     try {
-      const response = await fetch(`http://localhost:3000/transferStudent?studentId=${editId}&newBlock=${newEditYearBlock}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({  })
-      });
+      const response = await fetch(
+        `http://localhost:3000/transferStudent?studentId=${editId}&newBlock=${newEditYearBlock}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({}),
+        }
+      );
       const data = await response.json();
-      console.log(data, "data updated")
+      console.log(data, "data updated");
       // const fullNames = data.map(student => student.full_name);
-      // const fullNameString = fullNames.join(', '); 
+      // const fullNameString = fullNames.join(', ');
       // setEditStudentName(fullNameString)
-  
     } catch (error) {
       console.log(error);
     }
   };
 
-
-
-
-
-
-
-
-
-  
   const handleSubmitEdit = (event) => {
     event.preventDefault();
     // setRefreshDataTransfer((prevState) => !prevState);
-    
+
     handleCloseEdit();
     transferStudent();
- 
+
     setYear("");
     setBlock("");
-
   };
 
   useLayoutEffect(() => {
@@ -298,13 +273,12 @@ const BlockManagePage = () => {
     );
     window.scrollTo({
       top: vh * 0.11,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
   }, []);
 
-
   //reblock modal || year and block
-  
+
   useEffect(() => {
     const fetchDataButtons = () => {
       console.log(year, "me!!");
@@ -313,7 +287,9 @@ const BlockManagePage = () => {
       )
         .then((response) => response.json())
         .then((data) => {
-          const uniqueBlocks = [...new Set(data.map((student) => student.block))].sort();
+          const uniqueBlocks = [
+            ...new Set(data.map((student) => student.block)),
+          ].sort();
           setStudentsNumForm(data.length);
           setStudentsBlockForm(uniqueBlocks.length);
           setStudentsBlockFormValue("");
@@ -324,27 +300,25 @@ const BlockManagePage = () => {
     fetchDataButtons();
   }, [yearForm]);
 
-
-
-
-  
   useEffect(() => {
-    console.log('run')
+    console.log("run");
     const fetchStudentName = async () => {
       console.log(editId, "me!!");
       try {
-        const response = await fetch(`http://localhost:3000/transferStudentName?studentId=${editId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({  })
-        });
+        const response = await fetch(
+          `http://localhost:3000/transferStudentName?studentId=${editId}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({}),
+          }
+        );
         const data = await response.json();
-        const fullNames = data.map(student => student.full_name);
-        const fullNameString = fullNames.join(', '); 
-        setEditStudentName(fullNameString)
-  
+        const fullNames = data.map((student) => student.full_name);
+        const fullNameString = fullNames.join(", ");
+        setEditStudentName(fullNameString);
       } catch (error) {
         console.log(error);
       }
@@ -353,28 +327,27 @@ const BlockManagePage = () => {
     fetchStudentName();
   }, [editId]);
 
-  
   useEffect(() => {
-    console.log('run')
+    console.log("run");
     const fetchStudentYearBlock = async () => {
- 
       try {
-        const response = await fetch(`http://localhost:3000/transferYearBlock?studentId=${editId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({  })
-        });
+        const response = await fetch(
+          `http://localhost:3000/transferYearBlock?studentId=${editId}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({}),
+          }
+        );
         const data = await response.json();
-        const yearBlock = data.map(student => student.year_block);
-        const yearBlockString = yearBlock.join(', '); 
-        setCurrentEditYearBlock(yearBlockString)
+        const yearBlock = data.map((student) => student.year_block);
+        const yearBlockString = yearBlock.join(", ");
+        setCurrentEditYearBlock(yearBlockString);
 
-        const yearBlockStringSplit = yearBlockString.slice(0,2);
-        setNewEditYearBlock(yearBlockStringSplit)
-    
-  
+        const yearBlockStringSplit = yearBlockString.slice(0, 2);
+        setNewEditYearBlock(yearBlockStringSplit);
       } catch (error) {
         console.log(error);
       }
@@ -387,24 +360,23 @@ const BlockManagePage = () => {
     const value = event.target.value;
     let newValue = parseInt(value);
 
-    if (value === '') {
+    if (value === "") {
       setYearForm(value);
       setErrorYear(false);
       return;
     }
 
-    if (!isNaN(newValue) && newValue >= 1 && newValue <= 5  ) {
+    if (!isNaN(newValue) && newValue >= 1 && newValue <= 5) {
       setYearForm(newValue);
       setErrorYear(false);
     } else {
       setErrorYear(true);
     }
-    
-  
-    console.log('changed')
-   
-  }
 
+    console.log("changed");
+  };
+
+  console.log(blockChild, "where did I come form");
   return (
     <>
       <div className={ManageBlockCSS.topTableWrapper}>
@@ -479,7 +451,7 @@ const BlockManagePage = () => {
             blockButton={block}
             filterRefreshData={filterRefreshData}
             refreshData={refreshData}
-            refreshDataTransfer = {refreshDataTransfer}
+            refreshDataTransfer={refreshDataTransfer}
           />
         </div>
         <div className={ManageBlockCSS.bottomButtons}>
@@ -610,73 +582,74 @@ const BlockManagePage = () => {
         <Box sx={style} className={ManageBlockCSS.boxWrapper}>
           <form onSubmit={handleSubmit}>
             <div className={ManageBlockCSS.noStudents}>
-              <p style={{textAlign: 'center'}}>Number of Students</p>
-              
-              <h3 style={{textAlign: 'center', color: '#7a7a7a', fontSize: '19px'}}>{studentsNumForm}</h3>
+              <p style={{ textAlign: "center" }}>Number of Students</p>
+
+              <h3
+                style={{
+                  textAlign: "center",
+                  color: "#7a7a7a",
+                  fontSize: "19px",
+                }}
+              >
+                {studentsNumForm}
+              </h3>
             </div>
             <div className={ManageBlockCSS.blkCapacity}>
-              <p >Year</p>
+              <p>Year</p>
               <Tooltip
-                 open={errorYear}
-                 title={'Only input numbers from [0-5]'}
+                open={errorYear}
+                title={"Only input numbers from [0-5]"}
                 arrow
               >
-              <TextField
-                value={yearForm}
-                type="number"
-                sx={{ width: "5rem" }}
-                onChange={handleChangeYearForm}
-                inputProps={{
-                  min: "1",
-                  max: "5",
-                  style: { textAlign: 'center' }
-                }}
-                onKeyPress={onKeyPressYear}
-              />
-               </Tooltip>
+                <TextField
+                  value={yearForm}
+                  type="number"
+                  sx={{ width: "5rem" }}
+                  onChange={handleChangeYearForm}
+                  inputProps={{
+                    min: "1",
+                    max: "5",
+                    style: { textAlign: "center" },
+                  }}
+                  onKeyPress={onKeyPressYear}
+                />
+              </Tooltip>
             </div>
             <div className={ManageBlockCSS.noBlocks}>
               <p className={ManageBlockCSS.reblockNumTitle}>Number of Blocks</p>
 
-              <div className={ManageBlockCSS.noBlocksWrapper}>     
-              
-              <div className={ManageBlockCSS.currentReblockWrapper}>
-                <p>Current</p>
-              <TextField
-                   readOnly
+              <div className={ManageBlockCSS.noBlocksWrapper}>
+                <div className={ManageBlockCSS.currentReblockWrapper}>
+                  <p>Current</p>
+                  <TextField
+                    readOnly
                     value={yearForm ? studentsBlockForm : ""}
-                    disabled = {isYearEmpty}
+                    disabled={isYearEmpty}
                     sx={{ width: "3rem" }}
                     inputProps={{
-                      style: { textAlign: 'center' }
+                      style: { textAlign: "center" },
                     }}
                   />
-                </div>      
-    
-              <div className={ManageBlockCSS.newReblockWrapper}>
-              <p>New</p>
-              <Tooltip
-                   open={error}
-                   title={'Only input numbers'}
-                  arrow
-                >
-                  <TextField
-                    disabled = {isYearEmpty}
-                    value={studentsBlockFormValue}
-                    error={error}
-                  
-                    type="number"
-                    sx={{ width: '4.5rem' }}
-                    onChange={handleInputReblockChange}
-                    onKeyPress={onKeyPress}
-                    inputProps={{
-                      min: '1',
-                      style: { textAlign: 'center' }
-                    }}
-                    
-                  />
-                </Tooltip>
-              </div>
+                </div>
+
+                <div className={ManageBlockCSS.newReblockWrapper}>
+                  <p>New</p>
+                  <Tooltip open={error} title={"Only input numbers"} arrow>
+                    <TextField
+                      disabled={isYearEmpty}
+                      value={studentsBlockFormValue}
+                      error={error}
+                      type="number"
+                      sx={{ width: "4.5rem" }}
+                      onChange={handleInputReblockChange}
+                      onKeyPress={onKeyPress}
+                      inputProps={{
+                        min: "1",
+                        style: { textAlign: "center" },
+                      }}
+                    />
+                  </Tooltip>
+                </div>
               </div>
             </div>
 
@@ -725,198 +698,186 @@ const BlockManagePage = () => {
                 displayEmpty
                 inputProps={{ "aria-label": "Without label" }}
                 sx={{
-                 
                   fontFamily: "Poppins",
                   fontSize: isSmallScreen ? "0.5rem" : "0.9rem",
                   padding: "0rem",
                   fontWeight: "600",
                   width: "120px",
-                  marginBottom: "20px"
+                  marginBottom: "20px",
                 }}
               >
                 <MenuItem value={"transfer"}>Transfer</MenuItem>
                 <MenuItem value={"drop"}>Drop</MenuItem>
               </Select>
             </div>
-         
-            { editType === 'drop' ? 
-            <>
-              <div className={ManageBlockCSS.blkCapacity}>
-                <p>Student ID</p>
-                <TextField
-                  id="outlined-number"
-                  sx={{ width: "100%", marginBottom: "10px" }}
-                  onChange={(event) => setEditId(event.target.value)}
-                  inputProps={{
-                    min: "1",
-                    max: "999",
-                    style: { textAlign: 'center' }
-                  }}
-                />
-                <p>Student Name</p>
-                <TextField
 
-                value={editStudentName}
-                  id="outlined"
-                  sx={{ width: "100%" }}
-                  onChange={(event) => setEditId(event.target.value)}
-                  inputProps={{
-                    min: "1",
-                    max: "999",
-                    readOnly: true,
-                    style: { textAlign: 'center' }
-                  }}
-                />
-              </div>
-
-              <p className={ManageBlockCSS.yearBlockTitle}>Year and Block</p>
-                
-              <div className={ManageBlockCSS.transferFields}>
-            
-                <div className={ManageBlockCSS.currentWrapper}>
-        
+            {editType === "drop" ? (
+              <>
+                <div className={ManageBlockCSS.blkCapacity}>
+                  <p>Student ID</p>
                   <TextField
-                    value={currentEditYearBlock}
                     id="outlined-number"
-                    sx={{ width: "5rem" }}
-                  
-                    onChange={(event) => setCurrentEditYearBlock(event.target.value)}
+                    sx={{ width: "100%", marginBottom: "10px" }}
+                    onChange={(event) => setEditId(event.target.value)}
+                    inputProps={{
+                      min: "1",
+                      max: "999",
+                      style: { textAlign: "center" },
+                    }}
+                  />
+                  <p>Student Name</p>
+                  <TextField
+                    value={editStudentName}
+                    id="outlined"
+                    sx={{ width: "100%" }}
+                    onChange={(event) => setEditId(event.target.value)}
                     inputProps={{
                       min: "1",
                       max: "999",
                       readOnly: true,
-                      style: { textAlign: 'center' }
+                      style: { textAlign: "center" },
                     }}
                   />
                 </div>
 
-              </div>
+                <p className={ManageBlockCSS.yearBlockTitle}>Year and Block</p>
 
-              <Stack spacing={2} direction="row">
-                <Button
-                  type="submit"
-                  onClick={handleSubmitEdit}
-                  style={{ textTransform: "none" }}
-                  sx={{
-                    marginTop: "5.7rem",
-                    backgroundColor: "#df0000 ",
-                    color: "white",
-                    borderRadius: "0.5rem",
-                    fontFamily: "Poppins",
-                    fontSize: "0.9rem",
-                    padding: "0rem",
-                    padding: "0.9rem 1.5rem",
-                   
-                    "&:hover": {
-                      backgroundColor: "#c70202 ", // Change the hover background color here
-                    },
-                  }}
-                  variant="contained"
-                >
-                  Drop
-                </Button>
-              </Stack>
-            </>
-            
-        
-            
-            : 
-
-            <>
-            <div className={ManageBlockCSS.blkCapacity}>
-              <p>Student ID</p>
-              <TextField
-                id="outlined-number"
-                sx={{ width: "100%", marginBottom: "10px" }}
-                onChange={(event) => setEditId(event.target.value)}
-                inputProps={{
-                  min: "1",
-                  max: "999",
-                  style: { textAlign: 'center' }
-                }}
-              />
-              <p>Student Name</p>
-              <TextField
-
-              value={editStudentName}
-                id="outlined"
-                sx={{ width: "100%" }}
-                inputProps={{
-                  min: "1",
-                  max: "999",
-                  readOnly: true,
-                  style: { textAlign: 'center' }
-                }}
-              />
-            </div>
-
-            <p className={ManageBlockCSS.yearBlockTitle}>Year and Block</p>
-              
-            <div className={ManageBlockCSS.transferFields}>
-          
-              <div className={ManageBlockCSS.currentWrapper}>
-                <h3>Current</h3>
-                <TextField
-                  value={currentEditYearBlock}
-                  id="outlined-number"
-                  sx={{ width: "5rem" }}
-                
-                  onChange={(event) => setCurrentEditYearBlock(event.target.value)}
-                  inputProps={{
-                    min: "1",
-                    max: "999",
-                    readOnly: true,
-                    style: { textAlign: 'center' }
-                  }}
-                />
-              </div>
-
-                <div className={ManageBlockCSS.arrowWrapper}>
-                  <EastIcon sx={{ color: "#6d6d6d" }}/>
+                <div className={ManageBlockCSS.transferFields}>
+                  <div className={ManageBlockCSS.currentWrapper}>
+                    <TextField
+                      value={currentEditYearBlock}
+                      id="outlined-number"
+                      sx={{ width: "5rem" }}
+                      onChange={(event) =>
+                        setCurrentEditYearBlock(event.target.value)
+                      }
+                      inputProps={{
+                        min: "1",
+                        max: "999",
+                        readOnly: true,
+                        style: { textAlign: "center" },
+                      }}
+                    />
+                  </div>
                 </div>
-              <div className={ManageBlockCSS.newWrapper}>
-              <h3>New</h3>
-              <TextField
-                  value={newEditYearBlock}
-                  id="outlined-number"
-                  sx={{ width: "5rem", textAlign: "center" }}
-                  onChange={handleInputChange}
-                  inputProps={{
-                    style: { textAlign: "center" },
-                    maxLength: 4,
-                  }}
-                />
-              </div>
-            </div>
 
+                <Stack spacing={2} direction="row">
+                  <Button
+                    type="submit"
+                    onClick={handleSubmitEdit}
+                    style={{ textTransform: "none" }}
+                    sx={{
+                      marginTop: "5.7rem",
+                      backgroundColor: "#df0000 ",
+                      color: "white",
+                      borderRadius: "0.5rem",
+                      fontFamily: "Poppins",
+                      fontSize: "0.9rem",
+                      padding: "0rem",
+                      padding: "0.9rem 1.5rem",
 
-              <Stack spacing={2} direction="row">
-                <Button
-                  type="submit"
-                  onClick={handleSubmitEdit}
-                  style={{ textTransform: "none" }}
-                  sx={{
-                    marginTop: "2.5rem",
-                    backgroundColor: "#4CAF50 ",
-                    color: "white",
-                    borderRadius: "0.5rem",
-                    fontFamily: "Poppins",
-                    fontSize: "0.9rem",
-                    padding: "0rem",
-                    padding: "0.9rem",
-                    "&:hover": {
-                      backgroundColor: "#429645 ", // Change the hover background color here
-                    },
-                  }}
-                  variant="contained"
-                >
-                  Transfer
-                </Button>
-              </Stack>
-            </>
-            }
+                      "&:hover": {
+                        backgroundColor: "#c70202 ", // Change the hover background color here
+                      },
+                    }}
+                    variant="contained"
+                  >
+                    Drop
+                  </Button>
+                </Stack>
+              </>
+            ) : (
+              <>
+                <div className={ManageBlockCSS.blkCapacity}>
+                  <p>Student ID</p>
+                  <TextField
+                    id="outlined-number"
+                    sx={{ width: "100%", marginBottom: "10px" }}
+                    onChange={(event) => setEditId(event.target.value)}
+                    inputProps={{
+                      min: "1",
+                      max: "999",
+                      style: { textAlign: "center" },
+                    }}
+                  />
+                  <p>Student Name</p>
+                  <TextField
+                    value={editStudentName}
+                    id="outlined"
+                    sx={{ width: "100%" }}
+                    inputProps={{
+                      min: "1",
+                      max: "999",
+                      readOnly: true,
+                      style: { textAlign: "center" },
+                    }}
+                  />
+                </div>
 
+                <p className={ManageBlockCSS.yearBlockTitle}>Year and Block</p>
 
+                <div className={ManageBlockCSS.transferFields}>
+                  <div className={ManageBlockCSS.currentWrapper}>
+                    <h3>Current</h3>
+                    <TextField
+                      value={currentEditYearBlock}
+                      id="outlined-number"
+                      sx={{ width: "5rem" }}
+                      onChange={(event) =>
+                        setCurrentEditYearBlock(event.target.value)
+                      }
+                      inputProps={{
+                        min: "1",
+                        max: "999",
+                        readOnly: true,
+                        style: { textAlign: "center" },
+                      }}
+                    />
+                  </div>
+
+                  <div className={ManageBlockCSS.arrowWrapper}>
+                    <EastIcon sx={{ color: "#6d6d6d" }} />
+                  </div>
+                  <div className={ManageBlockCSS.newWrapper}>
+                    <h3>New</h3>
+                    <TextField
+                      value={newEditYearBlock}
+                      id="outlined-number"
+                      sx={{ width: "5rem", textAlign: "center" }}
+                      onChange={handleInputChange}
+                      inputProps={{
+                        style: { textAlign: "center" },
+                        maxLength: 4,
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <Stack spacing={2} direction="row">
+                  <Button
+                    type="submit"
+                    onClick={handleSubmitEdit}
+                    style={{ textTransform: "none" }}
+                    sx={{
+                      marginTop: "2.5rem",
+                      backgroundColor: "#4CAF50 ",
+                      color: "white",
+                      borderRadius: "0.5rem",
+                      fontFamily: "Poppins",
+                      fontSize: "0.9rem",
+                      padding: "0rem",
+                      padding: "0.9rem",
+                      "&:hover": {
+                        backgroundColor: "#429645 ", // Change the hover background color here
+                      },
+                    }}
+                    variant="contained"
+                  >
+                    Transfer
+                  </Button>
+                </Stack>
+              </>
+            )}
           </form>
         </Box>
       </Modal>
