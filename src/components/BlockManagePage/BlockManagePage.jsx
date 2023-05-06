@@ -17,6 +17,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import * as XLSX from "xlsx";
 import EastIcon from '@mui/icons-material/East';
+import Tooltip from "@mui/material/Tooltip";
 
 const exportAsPDF = (data) => {
   const doc = new jsPDF();
@@ -105,6 +106,7 @@ const BlockManagePage = () => {
   const [newEditYearBlock, setNewEditYearBlock] = useState("");
 
   const handleInputChange = (event) => {
+    console.log(blockChild)
     const newValue = event.target.value;
     const length = newValue.length;
     const secondCharIsHyphen = length >= 2 && newValue.charAt(1) === "-";
@@ -127,6 +129,31 @@ const BlockManagePage = () => {
   const [yearForm, setYearForm] = React.useState("");
   const [blockForm, setBlockForm] = React.useState("");
   const [studentsNumForm, setStudentsNumForm] = useState("");
+  const [studentsBlockForm, setStudentsBlockForm] = useState("");
+  const [studentsBlockFormValue, setStudentsBlockFormValue] = useState("");
+  const [error, setError] = useState(false);
+
+  const isYearEmpty = !yearForm || yearForm === '';
+
+  const handleInputReblockChange = (event) => {
+    const value = event.target.value;
+    let newValue = parseInt(value);
+
+    if (value === '') {
+      setStudentsBlockFormValue(value);
+      setError(false);
+      return;
+    }
+
+    if (newValue >= 1 && newValue <= studentsBlockForm) {
+      setStudentsBlockFormValue(newValue);
+      setError(false);
+    } else {
+      setError(true);
+    }
+  };
+
+
   const [refreshData, setRefreshData] = useState(false);
   const [filterRefreshData, setFilterRefreshData] = useState(false);
 
@@ -136,8 +163,8 @@ const BlockManagePage = () => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 180,
-    height: 450,
+    width: 150,
+    height: 530,
     bgcolor: "#eeeeee",
     borderRadius: "1rem",
     boxShadow: 24,
@@ -162,6 +189,8 @@ const BlockManagePage = () => {
   const handleOpen = () => {
     setOpen(true);
     setStudentsNumForm("");
+    setError(false)
+    setStudentsBlockForm("")
   };
   const handleClose = () => {
     setOpen(false);
@@ -203,6 +232,9 @@ const BlockManagePage = () => {
     });
   }, []);
 
+
+  //reblock modal || year and block
+  
   useEffect(() => {
     const fetchDataButtons = () => {
       console.log(year, "me!!");
@@ -211,13 +243,19 @@ const BlockManagePage = () => {
       )
         .then((response) => response.json())
         .then((data) => {
+          const uniqueBlocks = [...new Set(data.map((student) => student.block))].sort();
           setStudentsNumForm(data.length);
+          setStudentsBlockForm(uniqueBlocks.length);
+          setStudentsBlockFormValue("");
         })
         .catch((error) => console.log(error));
     };
 
     fetchDataButtons();
   }, [yearForm]);
+
+
+
 
   
   useEffect(() => {
@@ -480,34 +518,67 @@ const BlockManagePage = () => {
         <Box sx={style} className={ManageBlockCSS.boxWrapper}>
           <form onSubmit={handleSubmit}>
             <div className={ManageBlockCSS.noStudents}>
-              <p>Number of Students</p>
-              <h3>{yearForm ? studentsNumForm : ""}</h3>
+              <p style={{textAlign: 'center'}}>Number of Students</p>
+              <h3 style={{textAlign: 'center', color: '#7a7a7a', fontSize: '19px'}}>{yearForm ? studentsNumForm : ""}</h3>
             </div>
             <div className={ManageBlockCSS.blkCapacity}>
-              <p>Year</p>
+              <p >Year</p>
               <TextField
-                id="outlined-number"
+            
                 type="number"
-                sx={{ width: "6rem" }}
+                sx={{ width: "5rem" }}
                 onChange={(event) => setYearForm(event.target.value)}
                 inputProps={{
                   min: "1",
                   max: "5",
+                  style: { textAlign: 'center' }
                 }}
               />
             </div>
             <div className={ManageBlockCSS.noBlocks}>
-              <p>Number of Blocks</p>
+              <p className={ManageBlockCSS.reblockNumTitle}>Number of Blocks</p>
+
+              <div className={ManageBlockCSS.noBlocksWrapper}>     
+              
+              <div className={ManageBlockCSS.currentReblockWrapper}>
+                <p>Current</p>
               <TextField
-                id="outlined-number"
-                type="number"
-                sx={{ width: "6rem" }}
-                onChange={(event) => setBlockForm(event.target.value)}
-                inputProps={{
-                  min: "1",
-                  max: "7",
-                }}
-              />
+                   readOnly
+                    value={studentsBlockForm}
+                
+                    sx={{ width: "3rem" }}
+                    inputProps={{
+                      style: { textAlign: 'center' }
+                    }}
+                  />
+                </div>      
+    
+              <div className={ManageBlockCSS.newReblockWrapper}>
+              <p>New</p>
+              <Tooltip
+                   open={error}
+                  title={'Value must be between 1 and ' + studentsBlockForm}
+                  arrow
+                >
+                  <TextField
+                    disabled = {isYearEmpty}
+                    value={studentsBlockFormValue}
+                    error={error}
+                  
+                    type="number"
+                    sx={{ width: '4.5rem' }}
+                    onChange={handleInputReblockChange}
+                    inputProps={{
+                      min: '1',
+                      max: studentsBlockForm,
+                      style: { textAlign: 'center' }
+                      
+                      
+                    }}
+                  />
+                </Tooltip>
+              </div>
+              </div>
             </div>
 
             <Stack spacing={2} direction="row">
@@ -548,7 +619,7 @@ const BlockManagePage = () => {
             <div className={ManageBlockCSS.noStudents}>
               <p>Edit Type</p>
               <Select
-               
+                
                 onChange={(event) => {
                   handleChangeEditType(event);
                 }}
@@ -667,33 +738,56 @@ const BlockManagePage = () => {
             </>
             : editType === 'drop' ? 
             <>
-            <div className={ManageBlockCSS.blkCapacity}>
-              <p>Student Table ID</p>
-              <TextField
-                id="outlined-number"
-                type="number"
-                sx={{ width: "6rem", marginBottom: "10px" }}
-                onChange={(event) => setEditId(event.target.value)}
-                inputProps={{
-                  min: "1",
-                  max: "999",
-                }}
-              />
-              <p>Student Name</p>
-              <TextField
+              <div className={ManageBlockCSS.blkCapacity}>
+                <p>Student ID</p>
+                <TextField
+                  id="outlined-number"
+                  sx={{ width: "100%", marginBottom: "10px" }}
+                  onChange={(event) => setEditId(event.target.value)}
+                  inputProps={{
+                    min: "1",
+                    max: "999",
+                    style: { textAlign: 'center' }
+                  }}
+                />
+                <p>Student Name</p>
+                <TextField
+
                 value={editStudentName}
-                id="outlined"
-                sx={{ width: "100%" }}
-                onChange={(event) => setEditStudentName(event.target.value)}
-                inputProps={{
-                  min: "1",
-                  max: "999",
-                  readOnly: true
-                }}
-              />
-            </div>
+                  id="outlined"
+                  sx={{ width: "100%" }}
+                  onChange={(event) => setEditId(event.target.value)}
+                  inputProps={{
+                    min: "1",
+                    max: "999",
+                    readOnly: true,
+                    style: { textAlign: 'center' }
+                  }}
+                />
+              </div>
 
+              <p className={ManageBlockCSS.yearBlockTitle}>Year and Block</p>
+                
+              <div className={ManageBlockCSS.transferFields}>
+            
+                <div className={ManageBlockCSS.currentWrapper}>
+        
+                  <TextField
+                    value={currentEditYearBlock}
+                    id="outlined-number"
+                    sx={{ width: "5rem" }}
+                  
+                    onChange={(event) => setCurrentEditYearBlock(event.target.value)}
+                    inputProps={{
+                      min: "1",
+                      max: "999",
+                      readOnly: true,
+                      style: { textAlign: 'center' }
+                    }}
+                  />
+                </div>
 
+              </div>
 
               <Stack spacing={2} direction="row">
                 <Button
@@ -701,7 +795,7 @@ const BlockManagePage = () => {
                   onClick={handleSubmitEdit}
                   style={{ textTransform: "none" }}
                   sx={{
-                    marginTop: "1rem",
+                    marginTop: "5.5rem",
                     backgroundColor: "#df0000 ",
                     color: "white",
                     borderRadius: "0.5rem",

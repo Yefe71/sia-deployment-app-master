@@ -116,6 +116,41 @@
     justify-content: center;
     align-items: center;
 }
+
+.noBlocksWrapper{
+    display: flex;
+    gap: 10px;
+  
+}
+
+.currentReblockWrapper{
+display: flex;
+flex-direction: column;
+align-items: center;
+
+}
+
+
+.newReblockWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+
+.currentReblockWrapper p{
+    font-size: 13px;
+}
+.newReblockWrapper p{
+    font-size: 13px;
+}
+
+.reblockNumTitle{
+font-weight: 800 !important;
+}
+
+
 .transferFields{
     display: flex;
     justify-content: center;
