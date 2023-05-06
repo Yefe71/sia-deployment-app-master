@@ -133,7 +133,7 @@ const BlockManagePage = () => {
   const [studentsBlockFormValue, setStudentsBlockFormValue] = useState("");
   const [error, setError] = useState(false);
 
-  const isYearEmpty = !yearForm || yearForm === '';
+  const isYearEmpty = !studentsNumForm || studentsNumForm === '' || studentsNumForm === '0';
 
   const handleInputReblockChange = (event) => {
     const value = event.target.value;
@@ -163,7 +163,7 @@ const BlockManagePage = () => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 150,
+    width: 180,
     height: 530,
     bgcolor: "#eeeeee",
     borderRadius: "1rem",
@@ -188,7 +188,7 @@ const BlockManagePage = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
-    setStudentsNumForm("");
+    setStudentsNumForm("0");
     setError(false)
     setStudentsBlockForm("")
   };
@@ -519,7 +519,8 @@ const BlockManagePage = () => {
           <form onSubmit={handleSubmit}>
             <div className={ManageBlockCSS.noStudents}>
               <p style={{textAlign: 'center'}}>Number of Students</p>
-              <h3 style={{textAlign: 'center', color: '#7a7a7a', fontSize: '19px'}}>{yearForm ? studentsNumForm : ""}</h3>
+              
+              <h3 style={{textAlign: 'center', color: '#7a7a7a', fontSize: '19px'}}>{studentsNumForm}</h3>
             </div>
             <div className={ManageBlockCSS.blkCapacity}>
               <p >Year</p>
@@ -545,7 +546,7 @@ const BlockManagePage = () => {
               <TextField
                    readOnly
                     value={studentsBlockForm}
-                
+                    disabled = {isYearEmpty}
                     sx={{ width: "3rem" }}
                     inputProps={{
                       style: { textAlign: 'center' }
