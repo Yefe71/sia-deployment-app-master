@@ -188,13 +188,16 @@ const BlockManagePage = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
-    setStudentsNumForm("0");
     setError(false)
-    setStudentsBlockForm("")
+    setYearForm("")
+  
+    
   };
   const handleClose = () => {
     setOpen(false);
-    setStudentsNumForm("");
+    setYearForm("")
+ 
+
   };
 
   const [openEdit, setOpenEdit] = useState(false);
@@ -316,6 +319,8 @@ const BlockManagePage = () => {
 
   const handleChangeYearForm = (event) => {
     setYearForm(event.target.value)
+    console.log('changed')
+   
   }
 
   return (
@@ -529,7 +534,7 @@ const BlockManagePage = () => {
             <div className={ManageBlockCSS.blkCapacity}>
               <p >Year</p>
               <TextField
-            
+                value={yearForm}
                 type="number"
                 sx={{ width: "5rem" }}
                 onChange={handleChangeYearForm}
