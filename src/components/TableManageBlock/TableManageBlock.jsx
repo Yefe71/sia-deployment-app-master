@@ -136,6 +136,8 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockBu
 
 
   const fetchData = () => {
+
+    console.log('i ran too helo', yearForm, blockForm)
     if (yearForm && blockForm) {
       fetch(`http://localhost:3000/grabStudents?year=${yearForm}&numBlock=${blockForm}&yearButton=${yearButton}&blockButton=${blockButton}`)
         .then((response) => response.json())

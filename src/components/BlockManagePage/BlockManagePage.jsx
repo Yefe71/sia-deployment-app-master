@@ -131,9 +131,12 @@ const BlockManagePage = () => {
   const [studentsNumForm, setStudentsNumForm] = useState("");
   const [studentsBlockForm, setStudentsBlockForm] = useState("");
   const [studentsBlockFormValue, setStudentsBlockFormValue] = useState("");
-  const [error, setError] = useState(false);
 
-  const isYearEmpty = !studentsNumForm || studentsNumForm === '' || studentsNumForm === '0';
+
+  const [error, setError] = useState(false);
+  const [errorYear, setErrorYear] = useState(false);
+
+  const isYearEmpty = !yearForm || yearForm === '' || yearForm === '0';
 
   const handleInputReblockChange = (event) => {
     const value = event.target.value;
@@ -145,13 +148,27 @@ const BlockManagePage = () => {
       return;
     }
 
-    if (newValue >= 1 && newValue <= studentsBlockForm) {
+    if (!isNaN(newValue) && newValue >= 1  ) {
       setStudentsBlockFormValue(newValue);
       setError(false);
     } else {
+   
+    }
+  };
+
+  const onKeyPress = (event) => {
+    if (!/\d/.test(event.key)) {
+      event.preventDefault();
       setError(true);
     }
   };
+  const onKeyPressYear = (event) => {
+    if (!/\d/.test(event.key)) {
+      event.preventDefault();
+      setErrorYear(true);
+    }
+  };
+
 
 
   const [refreshData, setRefreshData] = useState(false);
@@ -190,12 +207,14 @@ const BlockManagePage = () => {
     setOpen(true);
     setError(false)
     setYearForm("")
+    setStudentsBlockForm("")
+    
   
     
   };
   const handleClose = () => {
     setOpen(false);
-    setYearForm("")
+
  
 
   };
@@ -216,8 +235,9 @@ const BlockManagePage = () => {
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    console.log(refreshData, 1)
     setRefreshData((prevState) => !prevState);
+    console.log(refreshData, 2)
     handleClose();
   };
   const handleSubmitEdit = (event) => {
@@ -318,7 +338,23 @@ const BlockManagePage = () => {
   }, [editId]);
 
   const handleChangeYearForm = (event) => {
-    setYearForm(event.target.value)
+    const value = event.target.value;
+    let newValue = parseInt(value);
+
+    if (value === '') {
+      setYearForm(value);
+      setErrorYear(false);
+      return;
+    }
+
+    if (!isNaN(newValue) && newValue >= 1  ) {
+      setYearForm(newValue);
+      setErrorYear(false);
+    } else {
+      
+    }
+    
+  
     console.log('changed')
    
   }
@@ -392,7 +428,7 @@ const BlockManagePage = () => {
             setBlockChild={setBlockChild}
             setDataChild={setDataChild}
             yearForm={yearForm}
-            blockForm={blockForm}
+            blockForm={studentsBlockFormValue}
             yearButton={year}
             blockButton={block}
             filterRefreshData={filterRefreshData}
@@ -533,6 +569,11 @@ const BlockManagePage = () => {
             </div>
             <div className={ManageBlockCSS.blkCapacity}>
               <p >Year</p>
+              <Tooltip
+                 open={errorYear}
+                 title={'Only input numbers'}
+                arrow
+              >
               <TextField
                 value={yearForm}
                 type="number"
@@ -543,7 +584,9 @@ const BlockManagePage = () => {
                   max: "5",
                   style: { textAlign: 'center' }
                 }}
+                onKeyPress={onKeyPressYear}
               />
+               </Tooltip>
             </div>
             <div className={ManageBlockCSS.noBlocks}>
               <p className={ManageBlockCSS.reblockNumTitle}>Number of Blocks</p>
@@ -554,7 +597,7 @@ const BlockManagePage = () => {
                 <p>Current</p>
               <TextField
                    readOnly
-                    value={studentsBlockForm}
+                    value={yearForm ? studentsBlockForm : ""}
                     disabled = {isYearEmpty}
                     sx={{ width: "3rem" }}
                     inputProps={{
@@ -567,7 +610,7 @@ const BlockManagePage = () => {
               <p>New</p>
               <Tooltip
                    open={error}
-                  title={'Value must be between 1 and ' + studentsBlockForm}
+                   title={'Only input numbers'}
                   arrow
                 >
                   <TextField
@@ -578,13 +621,12 @@ const BlockManagePage = () => {
                     type="number"
                     sx={{ width: '4.5rem' }}
                     onChange={handleInputReblockChange}
+                    onKeyPress={onKeyPress}
                     inputProps={{
                       min: '1',
-                      max: studentsBlockForm,
                       style: { textAlign: 'center' }
-                      
-                      
                     }}
+                    
                   />
                 </Tooltip>
               </div>
