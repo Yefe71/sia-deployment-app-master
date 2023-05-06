@@ -90,7 +90,7 @@ const BlockManagePage = () => {
   const [numYearBlock, setNumYearBlock] = useState([]);
 
   //EDIT MODAL
-  const [editType, setEditType] = React.useState("");
+  const [editType, setEditType] = React.useState("transfer");
 
   const handleChangeEditType = (event) => {
     setEditType(event.target.value);
@@ -206,6 +206,7 @@ const BlockManagePage = () => {
     setEditStudentName(null)
     setCurrentEditYearBlock(null)
     setNewEditYearBlock(null)
+    setEditType("transfer")
   };
   const handleCloseEdit = () => {
     setOpenEdit(false);
@@ -313,6 +314,9 @@ const BlockManagePage = () => {
     fetchStudentYearBlock();
   }, [editId]);
 
+  const handleChangeYearForm = (event) => {
+    setYearForm(event.target.value)
+  }
 
   return (
     <>
@@ -528,7 +532,7 @@ const BlockManagePage = () => {
             
                 type="number"
                 sx={{ width: "5rem" }}
-                onChange={(event) => setYearForm(event.target.value)}
+                onChange={handleChangeYearForm}
                 inputProps={{
                   min: "1",
                   max: "5",
@@ -620,7 +624,7 @@ const BlockManagePage = () => {
             <div className={ManageBlockCSS.noStudents}>
               <p>Edit Type</p>
               <Select
-                
+                value={editType}
                 onChange={(event) => {
                   handleChangeEditType(event);
                 }}
@@ -641,103 +645,7 @@ const BlockManagePage = () => {
               </Select>
             </div>
          
-            { editType === 'transfer' ? 
-            
-            
-            <>
-            <div className={ManageBlockCSS.blkCapacity}>
-              <p>Student ID</p>
-              <TextField
-                id="outlined-number"
-                sx={{ width: "100%", marginBottom: "10px" }}
-                onChange={(event) => setEditId(event.target.value)}
-                inputProps={{
-                  min: "1",
-                  max: "999",
-                  style: { textAlign: 'center' }
-                }}
-              />
-              <p>Student Name</p>
-              <TextField
-
-              value={editStudentName}
-                id="outlined"
-                sx={{ width: "100%" }}
-                onChange={(event) => setEditId(event.target.value)}
-                inputProps={{
-                  min: "1",
-                  max: "999",
-                  readOnly: true,
-                  style: { textAlign: 'center' }
-                }}
-              />
-            </div>
-
-            <p className={ManageBlockCSS.yearBlockTitle}>Year and Block</p>
-                
-            <div className={ManageBlockCSS.transferFields}>
-            
-              <div className={ManageBlockCSS.currentWrapper}>
-                <h3>Current</h3>
-                <TextField
-                  value={currentEditYearBlock}
-                  id="outlined-number"
-                  sx={{ width: "5rem" }}
-                  
-                  onChange={(event) => setCurrentEditYearBlock(event.target.value)}
-                  inputProps={{
-                    min: "1",
-                    max: "999",
-                    readOnly: true,
-                    style: { textAlign: 'center' }
-                  }}
-                />
-              </div>
-
-                <div className={ManageBlockCSS.arrowWrapper}>
-                  <EastIcon sx={{ color: "#6d6d6d" }}/>
-                </div>
-              <div className={ManageBlockCSS.newWrapper}>
-              <h3>New</h3>
-              <TextField
-                  value={newEditYearBlock}
-                  id="outlined-number"
-                  sx={{ width: "5rem", textAlign: "center" }}
-                  onChange={handleInputChange}
-                  inputProps={{
-                    style: { textAlign: "center" },
-                    maxLength: 4,
-                  }}
-                />
-              </div>
-            </div>
-
-
-              <Stack spacing={2} direction="row">
-                <Button
-                  type="submit"
-                  onClick={handleSubmitEdit}
-                  style={{ textTransform: "none" }}
-                  sx={{
-                    marginTop: "2.5rem",
-                    backgroundColor: "#4CAF50 ",
-                    color: "white",
-                    borderRadius: "0.5rem",
-                    fontFamily: "Poppins",
-                    fontSize: "0.9rem",
-                    padding: "0rem",
-                    padding: "0.9rem",
-                    "&:hover": {
-                      backgroundColor: "#429645 ", // Change the hover background color here
-                    },
-                  }}
-                  variant="contained"
-                >
-                  Transfer
-                </Button>
-              </Stack>
-            </>
-            : editType === 'drop' ? 
+            { editType === 'drop' ? 
             <>
               <div className={ManageBlockCSS.blkCapacity}>
                 <p>Student ID</p>
@@ -796,7 +704,7 @@ const BlockManagePage = () => {
                   onClick={handleSubmitEdit}
                   style={{ textTransform: "none" }}
                   sx={{
-                    marginTop: "5.5rem",
+                    marginTop: "5.7rem",
                     backgroundColor: "#df0000 ",
                     color: "white",
                     borderRadius: "0.5rem",
@@ -815,7 +723,104 @@ const BlockManagePage = () => {
                 </Button>
               </Stack>
             </>
-            : null
+            
+        
+            
+            : 
+
+            <>
+            <div className={ManageBlockCSS.blkCapacity}>
+              <p>Student ID</p>
+              <TextField
+                id="outlined-number"
+                sx={{ width: "100%", marginBottom: "10px" }}
+                onChange={(event) => setEditId(event.target.value)}
+                inputProps={{
+                  min: "1",
+                  max: "999",
+                  style: { textAlign: 'center' }
+                }}
+              />
+              <p>Student Name</p>
+              <TextField
+
+              value={editStudentName}
+                id="outlined"
+                sx={{ width: "100%" }}
+                onChange={(event) => setEditId(event.target.value)}
+                inputProps={{
+                  min: "1",
+                  max: "999",
+                  readOnly: true,
+                  style: { textAlign: 'center' }
+                }}
+              />
+            </div>
+
+            <p className={ManageBlockCSS.yearBlockTitle}>Year and Block</p>
+              
+            <div className={ManageBlockCSS.transferFields}>
+          
+              <div className={ManageBlockCSS.currentWrapper}>
+                <h3>Current</h3>
+                <TextField
+                  value={currentEditYearBlock}
+                  id="outlined-number"
+                  sx={{ width: "5rem" }}
+                
+                  onChange={(event) => setCurrentEditYearBlock(event.target.value)}
+                  inputProps={{
+                    min: "1",
+                    max: "999",
+                    readOnly: true,
+                    style: { textAlign: 'center' }
+                  }}
+                />
+              </div>
+
+                <div className={ManageBlockCSS.arrowWrapper}>
+                  <EastIcon sx={{ color: "#6d6d6d" }}/>
+                </div>
+              <div className={ManageBlockCSS.newWrapper}>
+              <h3>New</h3>
+              <TextField
+                  value={newEditYearBlock}
+                  id="outlined-number"
+                  sx={{ width: "5rem", textAlign: "center" }}
+                  onChange={handleInputChange}
+                  inputProps={{
+                    style: { textAlign: "center" },
+                    maxLength: 4,
+                  }}
+                />
+              </div>
+            </div>
+
+
+              <Stack spacing={2} direction="row">
+                <Button
+                  type="submit"
+                  onClick={handleSubmitEdit}
+                  style={{ textTransform: "none" }}
+                  sx={{
+                    marginTop: "2.5rem",
+                    backgroundColor: "#4CAF50 ",
+                    color: "white",
+                    borderRadius: "0.5rem",
+                    fontFamily: "Poppins",
+                    fontSize: "0.9rem",
+                    padding: "0rem",
+                    padding: "0.9rem",
+                    "&:hover": {
+                      backgroundColor: "#429645 ", // Change the hover background color here
+                    },
+                  }}
+                  variant="contained"
+                >
+                  Transfer
+                </Button>
+              </Stack>
+            </>
             }
 
 
