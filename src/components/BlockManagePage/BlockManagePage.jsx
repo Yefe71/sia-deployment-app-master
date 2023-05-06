@@ -172,7 +172,7 @@ const BlockManagePage = () => {
 
 
   const [refreshData, setRefreshData] = useState(false);
-  const [refreshDataTransfer, setRefreshDataTransfer] = useState(false);
+  const [refreshDataTransfer, setRefreshDataTransfer] = useState(true);
   const [filterRefreshData, setFilterRefreshData] = useState(false);
 
   const isSmallScreen = useMediaQuery("(max-width: 500px)");
@@ -281,11 +281,14 @@ const BlockManagePage = () => {
   
   const handleSubmitEdit = (event) => {
     event.preventDefault();
-    setRefreshDataTransfer((prevState) => !prevState);
+    // setRefreshDataTransfer((prevState) => !prevState);
+    
     handleCloseEdit();
     transferStudent();
-    
-    
+ 
+    setYear("");
+    setBlock("");
+
   };
 
   useLayoutEffect(() => {
