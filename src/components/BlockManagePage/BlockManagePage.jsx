@@ -172,6 +172,7 @@ const BlockManagePage = () => {
 
 
   const [refreshData, setRefreshData] = useState(false);
+  const [refreshDataTransfer, setRefreshDataTransfer] = useState(false);
   const [filterRefreshData, setFilterRefreshData] = useState(false);
 
   const isSmallScreen = useMediaQuery("(max-width: 500px)");
@@ -240,9 +241,51 @@ const BlockManagePage = () => {
     console.log(refreshData, 2)
     handleClose();
   };
+
+
+
+
+
+
+
+
+  const transferStudent = async () => {
+  
+    try {
+      const response = await fetch(`http://localhost:3000/transferStudent?studentId=${editId}&newBlock=${newEditYearBlock}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({  })
+      });
+      const data = await response.json();
+      console.log(data, "data updated")
+      // const fullNames = data.map(student => student.full_name);
+      // const fullNameString = fullNames.join(', '); 
+      // setEditStudentName(fullNameString)
+  
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+
+
+
+
+
+
+
+  
   const handleSubmitEdit = (event) => {
     event.preventDefault();
+    setRefreshDataTransfer((prevState) => !prevState);
     handleCloseEdit();
+    transferStudent();
+    
+    
   };
 
   useLayoutEffect(() => {
@@ -433,6 +476,7 @@ const BlockManagePage = () => {
             blockButton={block}
             filterRefreshData={filterRefreshData}
             refreshData={refreshData}
+            refreshDataTransfer = {refreshDataTransfer}
           />
         </div>
         <div className={ManageBlockCSS.bottomButtons}>
@@ -794,7 +838,6 @@ const BlockManagePage = () => {
               value={editStudentName}
                 id="outlined"
                 sx={{ width: "100%" }}
-                onChange={(event) => setEditId(event.target.value)}
                 inputProps={{
                   min: "1",
                   max: "999",

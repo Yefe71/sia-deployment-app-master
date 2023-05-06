@@ -51,7 +51,7 @@ const StyleTable = styled(Table)({
     zIndex: 1,
   });
 
-const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockButton, filterRefreshData, setDataChild, setBlockChild, setNumYearBlock}) => {
+const TableManageBlock = ({yearForm, blockForm, refreshData, refreshDataTransfer, yearButton, blockButton, filterRefreshData, setDataChild, setBlockChild, setNumYearBlock}) => {
 
 
   const [data, setData] = useState([])
@@ -104,6 +104,8 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockBu
   }, []);
 
 
+
+
   useEffect(() => {
     const fetchDataButtons = () => {
       console.log(yearButton, blockButton, 'me!!')
@@ -120,7 +122,7 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, blockBu
     };
 
     fetchDataButtons();
-  }, [yearButton]);
+  }, [refreshDataTransfer]);
 
   const fetchDataButtons = () => {
 
