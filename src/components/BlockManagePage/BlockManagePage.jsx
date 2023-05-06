@@ -94,7 +94,7 @@ const BlockManagePage = () => {
 
   const handleChangeEditType = (event) => {
     setEditType(event.target.value);
-    setFilterRefreshData((prevState) => !prevState);
+    // setFilterRefreshData((prevState) => !prevState);
   };
 
   const [editId, setEditId] = React.useState("");
@@ -347,11 +347,11 @@ const BlockManagePage = () => {
       return;
     }
 
-    if (!isNaN(newValue) && newValue >= 1  ) {
+    if (!isNaN(newValue) && newValue >= 1 && newValue <= 5  ) {
       setYearForm(newValue);
       setErrorYear(false);
     } else {
-      
+      setErrorYear(true);
     }
     
   
@@ -571,7 +571,7 @@ const BlockManagePage = () => {
               <p >Year</p>
               <Tooltip
                  open={errorYear}
-                 title={'Only input numbers'}
+                 title={'Only input numbers from [0-5]'}
                 arrow
               >
               <TextField
