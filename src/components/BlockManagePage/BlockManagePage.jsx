@@ -186,7 +186,8 @@ const BlockManagePage = () => {
       setErrorYear(true);
     }
   };
-
+  const [nameIsFocused, setNameIsFocused] = useState(false);
+  
   const [refreshData, setRefreshData] = useState(false);
   const [refreshDataTransfer, setRefreshDataTransfer] = useState(true);
   const [filterRefreshData, setFilterRefreshData] = useState(false);
@@ -225,6 +226,7 @@ const BlockManagePage = () => {
     setError(false);
     setYearForm("");
     setStudentsBlockForm("");
+
   };
   const handleClose = () => {
     setOpen(false);
@@ -234,13 +236,13 @@ const BlockManagePage = () => {
   const [openAdd, setOpenAdd] = useState(false);
   const handleOpenEdit = () => {
     setOpenEdit(true);
-    setEditType(null);
+    setEditType("edit");
 
     setEditId(null);
     setEditStudentName(null);
     setCurrentEditYearBlock(null);
     setNewEditYearBlock(null);
-    setEditType("transfer");
+
 
     setAddStudentId(null);
     setAddStudentYear(null);
@@ -253,6 +255,7 @@ const BlockManagePage = () => {
     setEditStudentLast(null);
     setEditStudentFirst(null);
     setEditStudentMiddle(null);
+    setNameIsFocused(false)
   };
   const handleCloseEdit = () => {
     setOpenEdit(false);
@@ -376,6 +379,8 @@ const BlockManagePage = () => {
     handleCloseEdit();
     addStudent();
     setRefreshData((prevState) => !prevState);
+    setYear("1");
+    setBlock("1");
     setYear("");
     setBlock("");
     console.log("i ran");
@@ -386,6 +391,8 @@ const BlockManagePage = () => {
     handleCloseEdit();
     dropStudent();
     setRefreshData((prevState) => !prevState);
+    setYear("1");
+    setBlock("1");
     setYear("");
     setBlock("");
     console.log("i ran");
@@ -450,8 +457,11 @@ const BlockManagePage = () => {
           setEditStudentLast(studentData.last_name);
           setEditStudentFirst(studentData.first_name);
           setEditStudentMiddle(studentData.middle_name);
+
+        
         } else {
           console.log("No student data found for this ID");
+          setEditStudentName("");
         }
       } catch (error) {
         console.log(error);
@@ -463,7 +473,7 @@ const BlockManagePage = () => {
 
   
  
-  
+
   useEffect(() => {
     console.log("run");
     const fetchStudentName = async () => {
@@ -480,9 +490,16 @@ const BlockManagePage = () => {
           }
         );
         const data = await response.json();
-        const fullNames = data.map((student) => student.full_name);
-        const fullNameString = fullNames.join(", ");
-        setDropStudentName(fullNameString);
+
+        if (data && data.length > 0) {
+          const studentData = data[0];
+          const fullNameString = `${studentData.last_name}, ${studentData.first_name} ${studentData.middle_name}`;
+          console.log(fullNameString, "hello")
+          setDropStudentName(fullNameString);
+        } else {
+          console.log("No student data found for this ID");
+          setDropStudentName("");
+        }
       } catch (error) {
         console.log(error);
       }
@@ -490,6 +507,10 @@ const BlockManagePage = () => {
 
     fetchStudentName();
   }, [dropStudentId]);
+
+
+
+  
 
   useEffect(() => {
     console.log("run");
@@ -581,6 +602,15 @@ const BlockManagePage = () => {
 
     console.log("changed");
   };
+
+
+  useEffect(() => {
+ 
+    setNameIsFocused(false);
+    setDropStudentId("")
+    setEditId("")
+  }, [editType])
+  
 
   return (
     <>
@@ -752,7 +782,7 @@ const BlockManagePage = () => {
                 }}
                 variant="contained"
               >
-                Edit
+                Action
               </Button>
               <Button
                 onClick={handleOpen}
@@ -916,8 +946,8 @@ const BlockManagePage = () => {
                 }}
               >
                 <MenuItem value={"edit"}>Edit</MenuItem>
-                <MenuItem value={"drop"}>Drop</MenuItem>
                 <MenuItem value={"add"}>Add</MenuItem>
+                <MenuItem value={"drop"}>Drop</MenuItem>
               </Select>
             </div>
 
@@ -1257,11 +1287,16 @@ const BlockManagePage = () => {
                     </div>
                   </div>
 
-                  <p>Student Name</p>
+{ !nameIsFocused ? 
+<>
+                  <p>Student Name</p>       
                   <TextField
+                    disabled={!editId}
                     value={editStudentName}
                     id="outlined"
                     sx={{ width: "100%" }}
+                    onFocus={() => setNameIsFocused(true)}
+                    onBlur={() => setNameIsFocused(false)}
                     onChange={(event) =>
                       setEditStudentName(event.target.value.toUpperCase())
                     }
@@ -1272,11 +1307,13 @@ const BlockManagePage = () => {
                       style: { textAlign: "center" },
                     }}
                   />
-
-
+</>
+:
+<>
                   <p>Student Name</p>
                   <div className={ManageBlockCSS.studentNameWrapper}>
                     <TextField
+                      disabled={!editId}
                       label="Last Name"
                       value={editStudentLast}
                       id="outlined"
@@ -1291,6 +1328,7 @@ const BlockManagePage = () => {
                       InputLabelProps={{ shrink: true }}
                     />
                     <TextField
+                      disabled={!editId}
                       label="First Name"
                       value={editStudentFirst}
                       id="outlined"
@@ -1307,6 +1345,7 @@ const BlockManagePage = () => {
                       InputLabelProps={{ shrink: true }}
                     />
                     <TextField
+                      disabled={!editId}
                       label="Middle Name"
                       value={editStudentMiddle}
                       id="outlined"
@@ -1321,6 +1360,8 @@ const BlockManagePage = () => {
                       InputLabelProps={{ shrink: true }}
                     />
                   </div>
+                    </>
+                  }
                 </div>
 
                 {/* <p className={ManageBlockCSS.yearBlockTitle}>Year and Block</p> */}
@@ -1335,6 +1376,7 @@ const BlockManagePage = () => {
 
 
                 <Select
+                  disabled={!editId}
                   value={transferStanding}
                   id="outlined-number"
                   sx={{ width: "9rem" }}
@@ -1360,6 +1402,7 @@ const BlockManagePage = () => {
                     onClick={handleSubmitEdit}
                     style={{ textTransform: "none" }}
                     sx={{
+                      width: "5rem",
                       marginTop: "2rem",
                       backgroundColor: "#4CAF50 ",
                       color: "white",
@@ -1374,7 +1417,7 @@ const BlockManagePage = () => {
                     }}
                     variant="contained"
                   >
-                    Transfer
+                    Edit
                   </Button>
                 </Stack>
               </>
