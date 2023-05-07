@@ -722,8 +722,8 @@ const BlockManagePage = () => {
                 }}
               >
                 <MenuItem value={"transfer"}>Transfer</MenuItem>
-                <MenuItem value={"drop"}>Drop</MenuItem>
                 <MenuItem value={"add"}>Add</MenuItem>
+                <MenuItem value={"drop"}>Drop</MenuItem>
               </Select>
             </div>
 
@@ -734,7 +734,7 @@ const BlockManagePage = () => {
                   <TextField
                      value={editId}
                     id="outlined-number"
-                    sx={{ width: "100%", marginBottom: "10px" }}
+                    sx={{ width: "50%", marginBottom: "10px" }}
                     onChange={(event) => setEditId(event.target.value)}
                     inputProps={{
                       min: "1",
@@ -826,7 +826,7 @@ const BlockManagePage = () => {
                   <p>Student ID</p>
                   <TextField
                     value={addStudentId}
-                    sx={{ width: "100%", marginBottom: "10px" }}
+                    sx={{ width: "50%", marginBottom: "10px" }}
                     onChange={(event) => setAddStudentId(event.target.value)}
                     inputProps={{
                       min: "1",
@@ -868,7 +868,7 @@ const BlockManagePage = () => {
                       InputLabelProps={{ shrink: true }}
                     />
                     <TextField
-                      label="Last Name"
+                      label="Middle Name"
                       // value={editStudentName}
                       id="outlined"
                       sx={{ width: "100%" }}
@@ -978,7 +978,7 @@ const BlockManagePage = () => {
                   <TextField
                   value={editId}
                     id="outlined-number"
-                    sx={{ width: "100%", marginBottom: "10px" }}
+                    sx={{ width: "50%", marginBottom: "10px" }}
                     onChange={(event) => setEditId(event.target.value)}
                     inputProps={{
                       min: "1",
