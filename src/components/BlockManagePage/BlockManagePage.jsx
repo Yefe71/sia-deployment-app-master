@@ -750,7 +750,7 @@ const BlockManagePage = () => {
                       </div>
 
                       <div className={ManageBlockCSS.rightWrapper}>
-                      <p className={ManageBlockCSS.yearBlockTitle}>Year and Block</p>
+                      <p className={ManageBlockCSS.yearBlockTitle}>Year & Block</p>
 
 <div className={ManageBlockCSS.transferFields}>
   <div className={ManageBlockCSS.currentWrapper}>
@@ -1023,7 +1023,7 @@ const BlockManagePage = () => {
 
                     <div className={ManageBlockCSS.rightWrapper}>
                     <div className={ManageBlockCSS.transferFields}>
-                        <p>Year and Block</p>
+                        <p>Year & Block</p>
 
                         <div className={ManageBlockCSS.currentNewWrapper}>
                           <TextField
