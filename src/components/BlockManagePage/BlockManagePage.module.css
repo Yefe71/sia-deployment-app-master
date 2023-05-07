@@ -110,6 +110,25 @@
     
 }
 
+.transferFields p{
+    color: #454545;
+    font-family: Lato;
+    font-weight: 800;
+    font-size: 16px;
+}
+
+.transferFields{
+    display: flex;
+    flex-direction: column;
+}
+
+.currentNewWrapper{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+ 
+}
+
 .noBlocks{
     display: flex;
     flex-direction: column;
@@ -151,6 +170,22 @@ font-weight: 800 !important;
 }
 
 
+.studentNameWrapper{
+    display: flex;
+    /* flex-direction: column; */
+    gap: 5px;
+    width: 100%;
+    align-items: center;
+}
+
+.yearBlockWrapper{
+    display: flex;
+}
+
+.addYearBlockWrapper{
+    display: flex;
+     gap: 10px;
+}
 .transferFields{
     display: flex;
     justify-content: center;
@@ -186,18 +221,18 @@ font-weight: 800 !important;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    /* width: 100%; */
     text-align: center;
     white-space: nowrap;
   
 }
 
 .arrowWrapper{
-    height: 3rem;
-    display: flex;
-    align-items: end;
-    transform: translate(18%, 25%);
-    margin-right: 8px;
+    /* height: 3rem; */
+    /* display: flex; */
+    /* align-items: end; */
+    /* transform: translate(18%, 25%);
+    margin-right: 8px; */
 }
 
 form{
