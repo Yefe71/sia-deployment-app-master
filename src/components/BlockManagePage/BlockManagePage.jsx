@@ -105,6 +105,11 @@ const BlockManagePage = () => {
 
   const [newEditYearBlock, setNewEditYearBlock] = useState("");
 
+  const [editStudentLast, setEditStudentLast] = useState("");
+  const [editStudentFirst, setEditStudentFirst] = useState("");
+  const [editStudentMiddle, setEditStudentMiddle] = useState("");
+
+
   const handleInputChange = (event) => {
     console.log(blockChild);
     const newValue = event.target.value;
@@ -264,7 +269,7 @@ const BlockManagePage = () => {
     setBlock("");
   };
 
-  const transferStudent = async () => {
+  const editStudent = async () => {
     try {
       const response = await fetch(
         `http://localhost:3000/transferStudent?studentId=${editId}&newBlock=${newEditYearBlock}`,
@@ -326,7 +331,7 @@ const BlockManagePage = () => {
     // setRefreshDataTransfer((prevState) => !prevState);
 
     handleCloseEdit();
-    transferStudent();
+    editStudent();
     setRefreshData((prevState) => !prevState);
     setYear("");
     setBlock("");
@@ -852,7 +857,7 @@ const BlockManagePage = () => {
         <Box sx={editStyle} className={ManageBlockCSS.boxWrapper}>
           <form onSubmit={handleSubmit}>
             <div className={ManageBlockCSS.noStudents}>
-              <p>Edit Type</p>
+              <p>Action Type</p>
               <Select
                 value={editType}
                 onChange={(event) => {
@@ -873,7 +878,7 @@ const BlockManagePage = () => {
                   textAlign: "center",
                 }}
               >
-                <MenuItem value={"transfer"}>Transfer</MenuItem>
+                <MenuItem value={"edit"}>Edit</MenuItem>
                 <MenuItem value={"drop"}>Drop</MenuItem>
                 <MenuItem value={"add"}>Add</MenuItem>
               </Select>
@@ -1051,7 +1056,7 @@ const BlockManagePage = () => {
                       id="outlined"
                       sx={{ width: "100%" }}
                       onChange={(event) =>
-                        setAddStudentLast(event.target.value)
+                        setAddStudentLast(event.target.value.toUpperCase())
                       }
                       inputProps={{
                         min: "1",
@@ -1065,7 +1070,7 @@ const BlockManagePage = () => {
                       id="outlined"
                       sx={{ width: "100%" }}
                       onChange={(event) =>
-                        setAddStudentFirst(event.target.value)
+                        setAddStudentFirst(event.target.value.toUpperCase())
                       }
                       inputProps={{
                         min: "1",
@@ -1081,7 +1086,7 @@ const BlockManagePage = () => {
                       id="outlined"
                       sx={{ width: "100%" }}
                       onChange={(event) =>
-                        setAddStudentMiddle(event.target.value)
+                        setAddStudentMiddle(event.target.value.toUpperCase())
                       }
                       inputProps={{
                         min: "1",
@@ -1105,7 +1110,7 @@ const BlockManagePage = () => {
                     id="outlined-number"
                     sx={{ width: "9rem" }}
                     onChange={(event) =>
-                      setAddStudentStanding(event.target.value)
+                      setAddStudentStanding(event.target.value.toUpperCase())
                     }
                     inputProps={{
                       min: "1",
@@ -1220,13 +1225,65 @@ const BlockManagePage = () => {
                     value={editStudentName}
                     id="outlined"
                     sx={{ width: "100%" }}
+                    onChange={(event) =>
+                      setEditStudentName(event.target.value.toUpperCase())
+                    }
                     inputProps={{
                       min: "1",
                       max: "999",
-                      readOnly: true,
+                    
                       style: { textAlign: "center" },
                     }}
                   />
+
+
+                  <p>Student Name</p>
+                  <div className={ManageBlockCSS.studentNameWrapper}>
+                    <TextField
+                      label="Last Name"
+                      value={editStudentLast}
+                      id="outlined"
+                      sx={{ width: "100%" }}
+                      onChange={(event) =>
+                        setEditStudentLast(event.target.value.toUpperCase())
+                      }
+                      inputProps={{
+                        min: "1",
+                        max: "999",
+                      }}
+                      InputLabelProps={{ shrink: true }}
+                    />
+                    <TextField
+                      label="First Name"
+                      value={editStudentFirst}
+                      id="outlined"
+                      sx={{ width: "100%" }}
+                      onChange={(event) =>
+                        setEditStudentFirst(event.target.value.toUpperCase())
+                      }
+                      inputProps={{
+                        min: "1",
+                        max: "999",
+                        // readOnly: true,
+                        // style: { textAlign: "center" },
+                      }}
+                      InputLabelProps={{ shrink: true }}
+                    />
+                    <TextField
+                      label="Middle Name"
+                      value={editStudentMiddle}
+                      id="outlined"
+                      sx={{ width: "100%" }}
+                      onChange={(event) =>
+                        setEditStudentMiddle(event.target.value.toUpperCase())
+                      }
+                      inputProps={{
+                        min: "1",
+                        max: "999",
+                      }}
+                      InputLabelProps={{ shrink: true }}
+                    />
+                  </div>
                 </div>
 
                 {/* <p className={ManageBlockCSS.yearBlockTitle}>Year and Block</p> */}
@@ -1238,17 +1295,27 @@ const BlockManagePage = () => {
                   Standing
                 </p>
 
-                <TextField
+
+
+                <Select
                   value={transferStanding}
                   id="outlined-number"
-                  sx={{ width: "7rem" }}
+                  sx={{ width: "9rem" }}
+                  onChange={(event) =>
+                    setTransferStanding(event.target.value)
+                  }
                   inputProps={{
                     min: "1",
                     max: "999",
-                    readOnly: true,
                     style: { textAlign: "center" },
                   }}
-                />
+
+                    
+                >
+                  <MenuItem value={"REGULAR"}>REGULAR</MenuItem>
+                  <MenuItem value={"IRREGULAR"}>IRREGULAR</MenuItem>
+                </Select>
+
 
                 <Stack spacing={2} direction="row">
                   <Button
