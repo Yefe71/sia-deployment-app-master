@@ -271,13 +271,17 @@ form{
 }
 
 
+.bottomBuns{
+    outline: 1px solid red;
+}
+
 .left{
     visibility: hidden;
 }
 
 .middle{
     display: flex;
-    transform: translateX(20%);
+    /* transform: translateX(20%); */
 }
 
 /* @media screen and (max-width: 500px) {
@@ -304,4 +308,10 @@ form{
     .tableWrapper{
         height: 70vh;
     }
+
+    .left{
+        display: none;
+    }
+
+
 }
