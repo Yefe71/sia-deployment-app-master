@@ -974,11 +974,16 @@ const BlockManagePage = () => {
             ) : (
               <>
                 <div className={ManageBlockCSS.blkCapacity}>
+
+                  <div className={ManageBlockCSS.firstRowWrapper}>
+                    
+                    <div className={ManageBlockCSS.leftWrapper}>
+                      
                   <p>Student ID</p>
                   <TextField
                   value={editId}
                     id="outlined-number"
-                    sx={{ width: "50%", marginBottom: "10px" }}
+                    sx={{marginBottom: "10px" }}
                     onChange={(event) => setEditId(event.target.value)}
                     inputProps={{
                       min: "1",
@@ -986,6 +991,62 @@ const BlockManagePage = () => {
                       style: { textAlign: "center" },
                     }}
                   />
+                    </div>
+
+
+                    <div className={ManageBlockCSS.rightWrapper}>
+                    <div className={ManageBlockCSS.transferFields}>
+                        <p>Year and Block</p>
+
+                        <div className={ManageBlockCSS.currentNewWrapper}>
+                          <TextField
+                            label="Current"
+                            value={currentEditYearBlock}
+                            id="outlined-number"
+                            sx={{ width: "5rem" }}
+                            // onChange={(event) =>
+                            //   setCurrentEditYearBlock(event.target.value)
+                            // }
+                            inputProps={{
+                              min: "1",
+                              max: "999",
+                              readOnly: true,
+                              style: { textAlign: "center" },
+                            }}
+                            InputLabelProps={{ shrink: true }}
+                          />
+
+                          <div className={ManageBlockCSS.arrowWrapper}>
+                            <EastIcon sx={{ color: "#6d6d6d" }} />
+                          </div>
+
+                          <TextField
+                            label="New"
+                            value={newEditYearBlock}
+                            id="outlined-number"
+                            sx={{ width: "5rem", textAlign: "center" }}
+                            onChange={handleInputChange}
+                            inputProps={{
+                              style: { textAlign: "center" },
+                              maxLength: 4,
+                            }}
+                            InputLabelProps={{ shrink: true }}
+                          />
+                        </div>
+                      </div>               
+                    </div>
+
+                  
+
+
+
+
+                  
+                  </div>
+
+                  
+
+                  
                   <p>Student Name</p>
                   <TextField
                     value={editStudentName}
@@ -1002,45 +1063,7 @@ const BlockManagePage = () => {
 
                 {/* <p className={ManageBlockCSS.yearBlockTitle}>Year and Block</p> */}
 
-                <div className={ManageBlockCSS.transferFields}>
-                  <p>Year and Block</p>
-
-                  <div className={ManageBlockCSS.currentNewWrapper}>
-                    <TextField
-                      label="Current"
-                      value={currentEditYearBlock}
-                      id="outlined-number"
-                      sx={{ width: "5rem" }}
-                      // onChange={(event) =>
-                      //   setCurrentEditYearBlock(event.target.value)
-                      // }
-                      inputProps={{
-                        min: "1",
-                        max: "999",
-                        readOnly: true,
-                        style: { textAlign: "center" },
-                      }}
-                      InputLabelProps={{ shrink: true }}
-                    />
-
-                    <div className={ManageBlockCSS.arrowWrapper}>
-                      <EastIcon sx={{ color: "#6d6d6d" }} />
-                    </div>
-
-                    <TextField
-                      label="New"
-                      value={newEditYearBlock}
-                      id="outlined-number"
-                      sx={{ width: "5rem", textAlign: "center" }}
-                      onChange={handleInputChange}
-                      inputProps={{
-                        style: { textAlign: "center" },
-                        maxLength: 4,
-                      }}
-                      InputLabelProps={{ shrink: true }}
-                    />
-                  </div>
-                </div>
+      
                 <p
                   style={{ marginTop: "25px" }}
                   className={ManageBlockCSS.yearBlockTitle}

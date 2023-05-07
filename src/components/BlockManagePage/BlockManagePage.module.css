@@ -124,11 +124,21 @@
 
 .currentNewWrapper{
     display: flex;
-    gap: 20px;
+    gap: 10px;
     align-items: center;
  
 }
+.firstRowWrapper{
+    display: flex;
+    gap: 20px;
+}
 
+.leftWrapper{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
 .noBlocks{
     display: flex;
     flex-direction: column;
@@ -191,6 +201,7 @@ font-weight: 800 !important;
     justify-content: center;
     align-items: center ;
   width: 100%;
+
 }
 
 .transferFields h3{
