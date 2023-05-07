@@ -281,7 +281,7 @@ form{
 
 .middle{
     display: flex;
-    /* transform: translateX(20%); */
+    transform: translateX(20%);
 }
 
 /* @media screen and (max-width: 500px) {
@@ -313,5 +313,8 @@ form{
         display: none;
     }
 
-
+    .middle{
+        display: flex;
+        transform: translateX(0%);
+    }
 }
