@@ -250,7 +250,9 @@ const BlockManagePage = () => {
     setAddStudentMiddle(null);
     setAddStudentStanding(null);
 
-
+    setEditStudentLast(null);
+    setEditStudentFirst(null);
+    setEditStudentMiddle(null);
   };
   const handleCloseEdit = () => {
     setOpenEdit(false);
@@ -439,10 +441,18 @@ const BlockManagePage = () => {
           }
         );
         const data = await response.json();
-        const fullNames = data.map((student) => student.full_name);
-        const fullNameString = fullNames.join(", ");
-          
-        setEditStudentName(fullNameString);
+
+        if (data && data.length > 0) {
+          const studentData = data[0];
+          const fullNameString = `${studentData.last_name}, ${studentData.first_name} ${studentData.middle_name}`;
+          console.log(fullNameString, "hello")
+          setEditStudentName(fullNameString);
+          setEditStudentLast(studentData.last_name);
+          setEditStudentFirst(studentData.first_name);
+          setEditStudentMiddle(studentData.middle_name);
+        } else {
+          console.log("No student data found for this ID");
+        }
       } catch (error) {
         console.log(error);
       }
@@ -450,6 +460,7 @@ const BlockManagePage = () => {
 
     fetchStudentName();
   }, [editId]);
+
   
  
   
