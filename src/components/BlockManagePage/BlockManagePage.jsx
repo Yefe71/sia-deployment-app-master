@@ -288,6 +288,28 @@ const BlockManagePage = () => {
     }
   };
 
+  const updateStudentNameEdit = async () => {
+    console.log(editId, "me!!");
+    try {
+      const response = await fetch(
+        `http://localhost:3000/transferStudentNameEdit?studentId=${editId}&editStudentLast=${editStudentLast}&editStudentFirst=${editStudentFirst}&editStudentMiddle=${editStudentMiddle}&transferStanding=${transferStanding}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({}),
+        }
+      );
+      const data = await response.json();
+
+        console.log('update success')
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   const addStudent = async () => {
     try {
       const response = await fetch(
@@ -332,6 +354,7 @@ const BlockManagePage = () => {
 
     handleCloseEdit();
     editStudent();
+    updateStudentNameEdit();
     setRefreshData((prevState) => !prevState);
     setYear("");
     setBlock("");
@@ -418,6 +441,7 @@ const BlockManagePage = () => {
         const data = await response.json();
         const fullNames = data.map((student) => student.full_name);
         const fullNameString = fullNames.join(", ");
+          
         setEditStudentName(fullNameString);
       } catch (error) {
         console.log(error);
@@ -426,6 +450,8 @@ const BlockManagePage = () => {
 
     fetchStudentName();
   }, [editId]);
+  
+ 
   
   useEffect(() => {
     console.log("run");
@@ -1231,7 +1257,7 @@ const BlockManagePage = () => {
                     inputProps={{
                       min: "1",
                       max: "999",
-                    
+                      readOnly: true,
                       style: { textAlign: "center" },
                     }}
                   />
