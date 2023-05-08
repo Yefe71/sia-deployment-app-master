@@ -467,6 +467,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
   }
 
   async componentDidMount() {
+
+    
     try {
       const responses = await Promise.all([
         fetch(
@@ -532,9 +534,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     };
 
     if (!this.state.yearField) {
-      this.setState({ yearField: appointmentData.year }, () =>
-        console.log(this.state.yearField, "SET EVERYTIME APPOINTMENT CHANGES")
-      );
+      this.setState({ yearField: appointmentData.year });
     }
 
     const isFormValid = () => {
@@ -664,7 +664,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
     // create a variable based on yearField to determine the current block options
     let currentBlocks;
-    console.log(this.props.appointmentData.year, "after click after refresh");
+   
     if (!yearField) {
       currentBlocks = [];
     } else if (yearField === 1) {
@@ -1138,34 +1138,39 @@ fetchDataButtonsSched = () => {
 
   
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     this.appointmentForm.update();
 
+    console.log('Block:', this.props.block); 
     if (this.props.year !== prevProps.year || this.props.block !== prevProps.block) {
       this.fetchDataButtonsSched();
 
-      if (!this.props.year && !this.props.block) {
+
+      if (!this.props.year && this.props.block.length === 0) {
+        console.log('i ran 1', this.state.data, this.state.newData)
         this.setState({ newData: this.state.data });
       } else if (!this.props.year) {
+        console.log('i ran 2', this.state.data, this.state.newData)
         const filteredData = this.state.data.filter(item => item.block === this.props.block);
         this.setState({ newData: filteredData });
-      } else if (!this.props.block) {
+      } else if (this.props.block.length === 0) {
+         console.log('i ran 3', this.state.data, this.state.newData)
         const filteredData = this.state.data.filter(item => item.year === this.props.year);
         this.setState({ newData: filteredData });
-      } else {
+      } 
+      
+      else {
+        console.log(this.props.year, this.props.block, 'i ran 4')
         const filteredData = this.state.data.filter(item => item.year === this.props.year && item.block === this.props.block);
+        console.log(this.state.data, filteredData, 'wtf')
+        
         this.setState({ newData: filteredData });
+         
       }
     }
   }
 
   async componentDidMount() {
-
-
-
-
-
-
 
     
     try {
@@ -1192,7 +1197,6 @@ fetchDataButtonsSched = () => {
       this.setState({ data: rows }, () => {
         this.setState({newData: this.state.data}, () => console.log(this.state.newData))
       });
-
 
 
     } catch (error) {
@@ -1354,7 +1358,7 @@ fetchDataButtonsSched = () => {
     } = this.state;
 
 
-    console.log(this.props.year, this.props.setBlockChild, "ahahha")
+    
 
     
     return (
@@ -1368,41 +1372,49 @@ fetchDataButtonsSched = () => {
                 onEditingAppointmentChange={this.onEditingAppointmentChange}
                 onAddedAppointmentChange={this.onAddedAppointmentChange}
                 readOnly
+               
+               
               />
               <WeekView
                 startDayHour={startDayHour}
                 endDayHour={endDayHour}
                 dayScaleCellComponent={dayScaleCell}
                 timeTableCellComponent={CustomTimeTableCell}
+              
               />
 
               <EditRecurrenceMenu />
 
-              <Appointments appointmentComponent={Appointment} />
+              <Appointments appointmentComponent={Appointment}  />
 
+            { this.props.readOnly ?
+              null
+              :
               <AppointmentTooltip
-                showOpenButton
-                showCloseButton
-                showDeleteButton
-                headerComponent={CustomHeader}
-                contentComponent={CustomContent}
-                sx={{ width: "300px" }}
-              />
+              showOpenButton
+              showCloseButton
+              showDeleteButton
+              headerComponent={CustomHeader}
+              contentComponent={CustomContent}
+              sx={{ width: "300px" }}
+       
+            />
+              }
 
               <AppointmentForm
                 overlayComponent={this.appointmentForm}
                 visible={editingFormVisible}
-                onVisibilityChange={this.toggleEditingFormVisibility}
+                onVisibilityChange={this.props.readOnly ? null : this.toggleEditingFormVisibility}
               />
 
               <DragDropProvider allowDrag={allowDrag} allowResize={allowDrag} />
             </Scheduler>
 
             <Dialog open={confirmationVisible} onClose={this.cancelDelete}>
-              <DialogTitle>Delete Appointment</DialogTitle>
+              <DialogTitle>Delete Schedule</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  Are you sure you want to delete this appointment?
+                  Are you sure you want to delete this schedule?
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
