@@ -108,7 +108,7 @@ const BlockManagePage = () => {
   const [editStudentLast, setEditStudentLast] = useState("");
   const [editStudentFirst, setEditStudentFirst] = useState("");
   const [editStudentMiddle, setEditStudentMiddle] = useState("");
-
+  const [editStudentSuffix, setEditStudentSuffix] = useState("");
 
   const handleInputChange = (event) => {
     console.log(blockChild);
@@ -120,7 +120,6 @@ const BlockManagePage = () => {
     if (secondCharIsHyphen && thirdCharIsDigit && fourthCharIsDigit) {
       setNewEditYearBlock(newValue);
     }
-
   };
 
   const handleChangeYear = (event) => {
@@ -145,6 +144,7 @@ const BlockManagePage = () => {
   const [addStudentFirst, setAddStudentFirst] = useState("");
   const [addStudentMiddle, setAddStudentMiddle] = useState("");
   const [addStudentStanding, setAddStudentStanding] = useState("");
+  const [addStudentSuffix, setAddStudentSuffix] = useState("");
 
   const [dropStudentId, setDropStudentId] = useState("");
   
@@ -210,7 +210,7 @@ const BlockManagePage = () => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 450,
+    width: 510,
     maxHeight: 650,
     bgcolor: "#eeeeee",
     borderRadius: "1rem",
@@ -251,6 +251,7 @@ const BlockManagePage = () => {
     setAddStudentFirst(null);
     setAddStudentMiddle(null);
     setAddStudentStanding(null);
+    setAddStudentSuffix(null);
 
     setEditStudentLast(null);
     setEditStudentFirst(null);
@@ -297,7 +298,7 @@ const BlockManagePage = () => {
     console.log(editId, "me!!");
     try {
       const response = await fetch(
-        `http://localhost:3000/transferStudentNameEdit?studentId=${editId}&editStudentLast=${editStudentLast}&editStudentFirst=${editStudentFirst}&editStudentMiddle=${editStudentMiddle}&transferStanding=${transferStanding}`,
+        `http://localhost:3000/transferStudentNameEdit?studentId=${editId}&editStudentLast=${editStudentLast}&editStudentFirst=${editStudentFirst}&editStudentMiddle=${editStudentMiddle}&editStudentSuffix=${editStudentSuffix}&transferStanding=${transferStanding}`,
         {
           method: "PUT",
           headers: {
@@ -318,7 +319,7 @@ const BlockManagePage = () => {
   const addStudent = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/addStudent?addStudentId=${addStudentId}&addStudentYear=${addStudentYear}&addStudentBlock=${addStudentBlock}&addStudentLast=${addStudentLast}&addStudentFirst=${addStudentFirst}&addStudentMiddle=${addStudentMiddle}&addStudentStanding=${addStudentStanding}`,
+        `http://localhost:3000/addStudent?addStudentId=${addStudentId}&addStudentYear=${addStudentYear}&addStudentBlock=${addStudentBlock}&addStudentLast=${addStudentLast}&addStudentFirst=${addStudentFirst}&addStudentMiddle=${addStudentMiddle}&addStudentSuffix=${addStudentSuffix}&addStudentStanding=${addStudentStanding}`,
         {
           method: "PUT",
           headers: {
@@ -451,12 +452,13 @@ const BlockManagePage = () => {
 
         if (data && data.length > 0) {
           const studentData = data[0];
-          const fullNameString = `${studentData.last_name}, ${studentData.first_name} ${studentData.middle_name}`;
+          const fullNameString = `${studentData.last_name}, ${studentData.first_name} ${studentData.middle_name} ${studentData.suffix}`;
           console.log(fullNameString, "hello")
           setEditStudentName(fullNameString);
           setEditStudentLast(studentData.last_name);
           setEditStudentFirst(studentData.first_name);
           setEditStudentMiddle(studentData.middle_name);
+          setEditStudentSuffix(studentData.suffix);
 
         
         } else {
@@ -493,7 +495,7 @@ const BlockManagePage = () => {
 
         if (data && data.length > 0) {
           const studentData = data[0];
-          const fullNameString = `${studentData.last_name}, ${studentData.first_name} ${studentData.middle_name}`;
+          const fullNameString = `${studentData.last_name}, ${studentData.first_name} ${studentData.middle_name} ${studentData.suffix}`;
           console.log(fullNameString, "hello")
           setDropStudentName(fullNameString);
         } else {
@@ -603,6 +605,7 @@ const BlockManagePage = () => {
     console.log("changed");
   };
 
+ 
 
   useEffect(() => {
  
@@ -782,7 +785,7 @@ const BlockManagePage = () => {
                 }}
                 variant="contained"
               >
-                Action
+                Actions
               </Button>
               <Button
                 onClick={handleOpen}
@@ -1065,6 +1068,7 @@ const BlockManagePage = () => {
                         onChange={(event) =>
                           setAddStudentId(event.target.value)
                         }
+                        
                         inputProps={{
                           min: "1",
                           max: "999",
@@ -1079,11 +1083,13 @@ const BlockManagePage = () => {
                           <p className={ManageBlockCSS.yearBlockTitle}>Year</p>
                           <TextField
                             value={addStudentYear}
+                            
                             id="outlined-number"
                             sx={{ width: "5rem" }}
-                            onChange={(event) =>
-                              setAddStudentYear(event.target.value)
+                            onChange={
+                              (event) => setAddStudentYear(event.target.value)
                             }
+                            onKeyPress={onKeyPress}
                             inputProps={{
                               min: "1",
                               max: "999",
@@ -1100,14 +1106,16 @@ const BlockManagePage = () => {
                             value={addStudentBlock}
                             id="outlined-number"
                             sx={{ width: "5rem" }}
-                            onChange={(event) =>
-                              setAddStudentBlock(event.target.value)
+                            onChange={
+                              (event) => setAddStudentBlock(event.target.value)
                             }
+                            onKeyPress={onKeyPress}
                             inputProps={{
                               min: "1",
                               max: "999",
                               // readOnly: true,
                               style: { textAlign: "center" },
+                              pattern: "\\d*" 
                             }}
                           />
                         </div>
@@ -1154,6 +1162,20 @@ const BlockManagePage = () => {
                       sx={{ width: "100%" }}
                       onChange={(event) =>
                         setAddStudentMiddle(event.target.value.toUpperCase())
+                      }
+                      inputProps={{
+                        min: "1",
+                        max: "999",
+                      }}
+                      InputLabelProps={{ shrink: true }}
+                    />
+                    <TextField
+                      label="Suffix"
+                      value={addStudentSuffix}
+                      id="outlined"
+                      sx={{ width: "50%" }}
+                      onChange={(event) =>
+                        setAddStudentSuffix(event.target.value.toUpperCase())
                       }
                       inputProps={{
                         min: "1",
@@ -1352,6 +1374,20 @@ const BlockManagePage = () => {
                       sx={{ width: "100%" }}
                       onChange={(event) =>
                         setEditStudentMiddle(event.target.value.toUpperCase())
+                      }
+                      inputProps={{
+                        min: "1",
+                        max: "999",
+                      }}
+                      InputLabelProps={{ shrink: true }}
+                    />
+                    <TextField
+                      label="Suffix"
+                      value={editStudentSuffix}
+                      id="outlined"
+                      sx={{ width: "50%" }}
+                      onChange={(event) =>
+                        setEditStudentSuffix(event.target.value.toUpperCase())
                       }
                       inputProps={{
                         min: "1",

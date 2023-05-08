@@ -185,6 +185,9 @@ useEffect(() => {
     setPage(0);
   }, [data]);
 
+
+  console.log(data)
+
   return (
     <>
 
@@ -197,6 +200,7 @@ useEffect(() => {
           <StyledTableCell>Last Name</StyledTableCell>
           <StyledTableCell>First Name</StyledTableCell>
           <StyledTableCell>Middle Name</StyledTableCell>
+          <StyledTableCell>Suffix</StyledTableCell>
           <StyledTableCell>Standing</StyledTableCell>
           <StyledTableCell>Year</StyledTableCell>
           <StyledTableCellRight>Block</StyledTableCellRight>
@@ -212,6 +216,7 @@ useEffect(() => {
               <TableCell>{row.last_name}</TableCell>
               <TableCell>{row.first_name}</TableCell>
               <TableCell>{row.middle_name}</TableCell>
+              <TableCell>{row.suffix}</TableCell>
               <TableCell>{row.standing}</TableCell>
               <TableCell>{row.year}</TableCell>
               <TableCell>{row.block}</TableCell>
