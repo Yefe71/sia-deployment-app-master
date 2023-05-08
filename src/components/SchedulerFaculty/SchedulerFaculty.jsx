@@ -1035,6 +1035,7 @@ export default class SchedulerFaculty extends React.PureComponent {
     super(props);
     this.state = {
       data: [],
+      newData: [],
       currentDate: "2023-01-07",
       confirmationVisible: false,
       editingFormVisible: false,
@@ -1140,12 +1141,22 @@ fetchDataButtonsSched = () => {
   componentDidUpdate(prevProps) {
     this.appointmentForm.update();
 
-    if (this.props.year !== prevProps.year) {
+    if (this.props.year !== prevProps.year || this.props.block !== prevProps.block) {
       this.fetchDataButtonsSched();
+
+      if (!this.props.year && !this.props.block) {
+        this.setState({ newData: this.state.data });
+      } else if (!this.props.year) {
+        const filteredData = this.state.data.filter(item => item.block === this.props.block);
+        this.setState({ newData: filteredData });
+      } else if (!this.props.block) {
+        const filteredData = this.state.data.filter(item => item.year === this.props.year);
+        this.setState({ newData: filteredData });
+      } else {
+        const filteredData = this.state.data.filter(item => item.year === this.props.year && item.block === this.props.block);
+        this.setState({ newData: filteredData });
+      }
     }
-
-
-
   }
 
   async componentDidMount() {
@@ -1178,9 +1189,12 @@ fetchDataButtonsSched = () => {
       }));
       console.log(rows, "grab schedules");
 
-      this.setState({ data: rows }, () =>
-        console.log(this.state.data, "hahahhasds")
-      );
+      this.setState({ data: rows }, () => {
+        this.setState({newData: this.state.data}, () => console.log(this.state.newData))
+      });
+
+
+
     } catch (error) {
       console.log(error);
     }
@@ -1332,6 +1346,7 @@ fetchDataButtonsSched = () => {
     const {
       currentDate,
       data,
+      newData,
       confirmationVisible,
       editingFormVisible,
       startDayHour,
@@ -1346,7 +1361,7 @@ fetchDataButtonsSched = () => {
       <div className={SchedulerFacultyCSS.tooltipContainer}>
         <>
           <CustomPaper>
-            <Scheduler data={data} height={"100%"} firstDayOfWeek={1}>
+            <Scheduler data={newData} height={"100%"} firstDayOfWeek={1}>
               <ViewState currentDate={currentDate} />
               <EditingState
                 onCommitChanges={this.commitChanges}
