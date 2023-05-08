@@ -25,7 +25,7 @@ const BlockClassesPage = () => {
     // setFilterRefreshData((prevState) => !prevState);
   };
 
-  const [block, setBlock] = React.useState(null)
+  const [block, setBlock] = React.useState([])
   const handleChangeBlock = (event) => {
     setBlock(event.target.value);
   };
