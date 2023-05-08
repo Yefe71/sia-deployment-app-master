@@ -369,10 +369,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     this.commitAppointment = this.commitAppointment.bind(this);
   }
 
-  // componentDidMount() {
-  //   this.fetchData();
-  //   console.log('i ran')
-  // }
+
 
   handleOpenProf() {
     this.setState({ openProf: true });
@@ -1123,11 +1120,43 @@ export default class SchedulerFaculty extends React.PureComponent {
     });
   }
 
-  componentDidUpdate() {
+
+fetchDataButtonsSched = () => {
+    fetch(`http://localhost:3000/grabStudentsButtons?yearButton=${this.props.year}&blockButton=''`)
+      .then((response) => response.json())
+      .then((data) => {
+        // setData(data);
+        // setDataChild(data);
+        const uniqueBlocks = [...new Set(data.map((student) => student.block))].sort();
+        this.props.setBlockChild(uniqueBlocks);
+          
+      })
+      .catch((error) => console.log(error));
+  };
+
+
+  
+
+  componentDidUpdate(prevProps) {
     this.appointmentForm.update();
+
+    if (this.props.year !== prevProps.year) {
+      this.fetchDataButtonsSched();
+    }
+
+
+
   }
 
   async componentDidMount() {
+
+
+
+
+
+
+
+    
     try {
       const response = await fetch(`http://localhost:3000/grabSchedules`);
       const data = await response.json();
@@ -1297,6 +1326,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       }
     );
   }
+  
 
   render() {
     const {
@@ -1308,6 +1338,10 @@ export default class SchedulerFaculty extends React.PureComponent {
       endDayHour,
     } = this.state;
 
+
+    console.log(this.props.year, this.props.setBlockChild, "ahahha")
+
+    
     return (
       <div className={SchedulerFacultyCSS.tooltipContainer}>
         <>

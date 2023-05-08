@@ -147,9 +147,9 @@ form{
     visibility: hidden;
 }
 
-.topButtons{
+/* .topButtons{
     visibility: hidden;
-}
+} */
 
 .block-unit-wrapper{
     display: flex;

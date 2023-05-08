@@ -25,16 +25,6 @@ const SubjectAssignPage = () => {
   };
 
   const childComponentRef = React.useRef();
-
-
-
-
-
-
-
-
-
-
   
     const isSmallScreen = useMediaQuery("(max-width: 500px)");
     const style = {
@@ -103,13 +93,7 @@ const SubjectAssignPage = () => {
     //Blocks
     const [isOpenBlock, setIsOpenBlock] = useState(false);
     const [isFocusedBlock, setIsFocusedBlock] = useState(false);
-    const [block, setBlock] = React.useState('');
-
-    
-    const handleChangeBlock = (event) => {
-      setBlock(event.target.value);
-    };
-
+ 
     const handleFocusBlock = () => {
       setIsFocusedBlock(true);
     };
@@ -171,6 +155,25 @@ const SubjectAssignPage = () => {
     const handleBlurDay = () => {
       setIsFocusedDay(false);
     };
+
+//sched filters
+
+  const [blockChild, setBlockChild] = useState([])
+  
+  const [year, setYear] = useState([])
+  const handleChangeYear = (event) => {
+    setYear(event.target.value);
+    // setFilterRefreshData((prevState) => !prevState);
+  };
+
+  const [block, setBlock] = React.useState([])
+  const handleChangeBlock = (event) => {
+    setBlock(event.target.value);
+  };
+
+
+
+  
     useLayoutEffect(() => {
       const vh = Math.max(
         document.documentElement.clientHeight || 0,
@@ -185,31 +188,70 @@ const SubjectAssignPage = () => {
     <>
       <div className={SubjectAssignCSS.topTableWrapper}>
         <div className={SubjectAssignCSS.topTable}>
-          <h2>Subject Assignment</h2>
 
+          
+          <h2>Subject Assignment</h2>
           <div className={SubjectAssignCSS.topButtons}>
-            <FormControl sx={{ mr: 1, minWidth: 120 }}>
+            <FormControl
+              sx={{
+                mr: 0.6,
+                minWidth: isSmallScreen ? 90 : 115,
+              }}
+            >
               <Select
+                value={year}
+                onChange={(event) => {
+                  handleChangeYear(event);
+                }}
                 displayEmpty
                 inputProps={{ "aria-label": "Without label" }}
                 sx={{
                   backgroundColor: "white",
                   borderRadius: "0.5rem",
                   fontFamily: "Poppins",
-                  fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+                  fontSize: isSmallScreen ? "0.5rem" : "0.9rem",
                   padding: "0rem",
                   fontWeight: "600",
                 }}
               >
-                <MenuItem value="">Regular</MenuItem>
+                <MenuItem value="">Year</MenuItem>
+                <MenuItem value={1}>1st Year</MenuItem>
+                <MenuItem value={2}>2nd Year</MenuItem>
+                <MenuItem value={3}>3rd Year</MenuItem>
+                <MenuItem value={4}>4th Year</MenuItem>
+                <MenuItem value={5}>5th Year</MenuItem>
+              </Select>
+            </FormControl>
 
-                <MenuItem value={20}>Irregular</MenuItem>
+            <FormControl sx={{ minWidth: isSmallScreen ? 80 : 100 }}>
+              <Select
+                value={block}
+                onChange={handleChangeBlock}
+                displayEmpty
+                inputProps={{ "aria-label": "Without label" }}
+                sx={{
+                  backgroundColor: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.5rem" : "0.9rem",
+                  padding: "0rem",
+                  fontWeight: "600",
+                }}
+              >
+                <MenuItem value="">Block</MenuItem>
+                {blockChild.map((blockNumber) => (
+                  <MenuItem value={blockNumber} key={blockNumber}>
+                    Block {blockNumber}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </div>
+      
+
         </div>
         <div className={SubjectAssignCSS.tableWrapper}>
-          <SchedulerFaculty ref={childComponentRef}/>
+          <SchedulerFaculty ref={childComponentRef} year={year} setBlockChild={setBlockChild}/>
         </div>
         <div className={SubjectAssignCSS.bottomButtons}>
           <div className={SubjectAssignCSS.left}>
