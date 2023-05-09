@@ -346,6 +346,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       roomsNames: [],
       newYear: null,
       yearField: this.props.appointmentData.year,
+      yearPropChild: null,
+      blockPropChild: null
     };
 
     this.getAppointmentData = () => {
@@ -570,6 +572,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     const applyChanges = isNewAppointment
       ? () => { 
         this.commitAppointment("added")
+        this.props.handleDataFromChild(this.state.blockPropChild, false)
+        this.props.handleDataFromChild(this.state.yearPropChild, true)
         this.props.handleClickFromChild("clicked");
       }
       : () => this.commitAppointment("changed");
@@ -604,7 +608,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           field: [field],
           changes: change.value,
         })
-        this.props.handleDataFromChild(change.value, false)
+        this.setState({blockPropChild: change.value})
+      
         },
       value: displayAppointmentData[field] || "",
       className: classes.textField,
@@ -648,7 +653,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           field: [field],
           changes: change.value,
         });
-        this.props.handleDataFromChild(change.value, true)
+
+        this.setState({yearPropChild: change.value})
       },
       value: displayAppointmentData[field] || "",
       label: field[0].toUpperCase() + field.slice(1),
