@@ -1458,7 +1458,7 @@ fetchDataButtonsSched = () => {
   
     return (
       <div className={SchedulerFacultyCSS.tooltipContainer}>
-        <>++++++++++++++{clicked}
+        <>
           <CustomPaper>
             <Scheduler data={newData} height={"100%"} firstDayOfWeek={1} key={this.state.schedulerKey}>
               <ViewState currentDate={currentDate} />
