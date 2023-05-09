@@ -1,4 +1,4 @@
-import React, {useState, useLayoutEffect} from 'react'
+import React, {useState, useLayoutEffect, useEffect} from 'react'
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -159,11 +159,13 @@ const SubjectAssignPage = () => {
 //sched filters
 
   const [blockChild, setBlockChild] = useState([])
-  
   const [year, setYear] = useState([])
+
+
+
+  
   const handleChangeYear = (event) => {
     setYear(event.target.value);
-    // setFilterRefreshData((prevState) => !prevState);
   };
 
   const [block, setBlock] = React.useState([])
@@ -172,6 +174,18 @@ const SubjectAssignPage = () => {
   };
 
 
+
+
+  useEffect(() => {
+    setYear('1');
+    const timeoutId = setTimeout(() => {
+      setYear('');
+    }, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, []);
 
   
     useLayoutEffect(() => {
@@ -184,6 +198,7 @@ const SubjectAssignPage = () => {
         behavior: 'smooth'
       });
     }, []);
+
   return (
     <>
       <div className={SubjectAssignCSS.topTableWrapper}>

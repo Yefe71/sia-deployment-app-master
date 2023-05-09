@@ -1100,6 +1100,22 @@ export default class SchedulerFaculty extends React.PureComponent {
       };
     });
   }
+
+  applyFilter = () => {
+    if (!this.props.year && this.props.block.length === 0) {
+      this.updateNewData(this.state.data);
+    } else if (!this.props.year) {
+      const filteredData = this.state.data.filter(item => item.block === this.props.block);
+      this.updateNewData(filteredData);
+    } else if (this.props.block.length === 0) {
+      const filteredData = this.state.data.filter(item => item.year === this.props.year);
+      this.updateNewData(filteredData);
+    } else {
+      const filteredData = this.state.data.filter(item => item.year === this.props.year && item.block === this.props.block);
+      this.updateNewData(filteredData);
+    }
+  };
+
   handleAppointmentColorChange = (color) => {
     this.setState({ appointmentColor: color });
   };
@@ -1147,25 +1163,14 @@ fetchDataButtonsSched = () => {
     this.appointmentForm.update();
 
     const justClosedForm = prevState.editingFormVisible && !this.state.editingFormVisible;
+    const justClosedConfirm = prevState.confirmationVisible && !this.state.confirmationVisible;
 
     if (
       (this.props.year !== prevProps.year || this.props.block !== prevProps.block) ||
-      justClosedForm
+      justClosedForm || justClosedConfirm
     ) {
       this.fetchDataButtonsSched();
-
-      if (!this.props.year && this.props.block.length === 0) {
-        this.updateNewData(this.state.data);
-      } else if (!this.props.year) {
-        const filteredData = this.state.data.filter(item => item.block === this.props.block);
-        this.updateNewData(filteredData);
-      } else if (this.props.block.length === 0) {
-        const filteredData = this.state.data.filter(item => item.year === this.props.year);
-        this.updateNewData(filteredData);
-      } else {
-        const filteredData = this.state.data.filter(item => item.year === this.props.year && item.block === this.props.block);
-        this.updateNewData(filteredData);
-      }
+      this.applyFilter();
     }
   }
 
@@ -1207,6 +1212,8 @@ fetchDataButtonsSched = () => {
     } catch (error) {
       console.log(error);
     }
+
+   
   }
 
   onEditingAppointmentChange(editingAppointment) {
