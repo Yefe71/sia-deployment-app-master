@@ -592,6 +592,18 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           field: [field],
           changes: change.value,
         })
+        
+        },
+      value: displayAppointmentData[field] || "",
+      className: classes.textField,
+    });
+    const textEditorPropsBlockSpecial = (field) => ({
+      variant: "outlined",
+      onChange: ({ target: change }) => {
+        this.changeAppointment({
+          field: [field],
+          changes: change.value,
+        })
         this.props.handleDataFromChild(change.value, false)
         },
       value: displayAppointmentData[field] || "",
@@ -615,6 +627,20 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       className: classes.textField,
     });
     const textEditorPropsYear = (field) => ({
+      variant: "outlined",
+      onChange: ({ target: change }) => {
+        this.handleCategoryChange(change.value);
+        this.changeAppointment({
+          field: [field],
+          changes: change.value,
+        });
+        
+      },
+      value: displayAppointmentData[field] || "",
+      label: field[0].toUpperCase() + field.slice(1),
+      className: classes.textField,
+    });
+    const textEditorPropsYearSpecial = (field) => ({
       variant: "outlined",
       onChange: ({ target: change }) => {
         this.handleCategoryChange(change.value);
@@ -760,7 +786,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 <InputLabel id="course-category-label">Year</InputLabel>
                 <Select
                   label="course-category-label"
-                  {...textEditorPropsYear("year")}
+                  {...textEditorPropsYearSpecial("year")}
                 >
                   <MenuItem value={1}>1st Year</MenuItem>
                   <MenuItem value={2}>2nd Year</MenuItem>
@@ -781,7 +807,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 className={classes.textField}
               >
                 <InputLabel>Block</InputLabel>
-                <Select label="Block" {...textEditorPropsSpecial("block")}>
+                <Select label="Block" {...textEditorPropsBlockSpecial("block")}>
                   {currentBlocks.map((block) => (
                     <MenuItem key={block} value={block}>
                       Block {block}
@@ -1130,6 +1156,7 @@ export default class SchedulerFaculty extends React.PureComponent {
 
   handleClickFromChild = (isCreateClicked) => {
     this.setState({ clicked: isCreateClicked });
+  
   };
 
   
@@ -1213,7 +1240,11 @@ fetchDataButtonsSched = () => {
     if (this.state.clicked !== prevState.clicked) {
     this.props.handleClickFromChild(this.state.clicked);
     }
+
     
+    if (this.props.clicked !== prevProps.clicked) {
+      this.setState({ clicked: this.props.clicked });
+    }
   }
 
   updateNewData(newData) {

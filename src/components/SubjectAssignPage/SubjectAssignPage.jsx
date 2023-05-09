@@ -200,15 +200,33 @@ const SubjectAssignPage = () => {
   }, []);
 
 
-  // useEffect(() => {
+  useEffect(() => {
     
-  //   const yearArray = [yearProp];
-  //   const blockArray = [blockProp];
+    const yearArray = [yearProp];
+    const blockArray = [blockProp];
 
-  //   setYear(yearArray);
-  //   setBlock(blockArray);
+  
+  if (isCreateClicked === "clicked"){
+    console.log("hello!")
+    handleClickFromChild("notClicked");
+  }
+    // if (yearProp || yearProp){
+    //   console.log('hello')
+    //   setYear('1');
+    //   setBlock('1');
+    //   const timeoutId = setTimeout(() => {
+    //     setYear(yearArray);
+    //     setBlock(blockArray); 
+    //     setIsCreateClicked("notClicked") 
+    //   }, 500);
+
+    //   return () => {
+    //     clearTimeout(timeoutId);
+    //   };
+
+    // }
     
-  // }, [isCreateClicked]);
+  }, [isCreateClicked]);
 
   
     useLayoutEffect(() => {
@@ -289,7 +307,7 @@ const SubjectAssignPage = () => {
 
         </div>
         <div className={SubjectAssignCSS.tableWrapper}>
-          <SchedulerFaculty handleClickFromChild = {handleClickFromChild} onDataReceived={handleDataFromChild} readOnly = {false} ref={childComponentRef} year={year} block={block} setBlockChild={setBlockChild}/>
+          <SchedulerFaculty clicked={isCreateClicked}  handleClickFromChild = {handleClickFromChild} onDataReceived={handleDataFromChild} readOnly = {false} ref={childComponentRef} year={year} block={block} setBlockChild={setBlockChild}/>
         </div>
         <div className={SubjectAssignCSS.bottomButtons}>
           <div className={SubjectAssignCSS.left}>
