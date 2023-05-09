@@ -242,7 +242,7 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, actionRefreshData, 
             <StyledTableRow      key={row.id}
             style={{
               backgroundColor:
-                row.student_id === blinkStudentId ? "#e2e2e2" : "white",
+                row.student_id === blinkStudentId ? "#98c1ff" : "white",
             }}>
               <TableCell>{page * rowsPerPage + index + 1}</TableCell>
               <TableCell>{row.student_id}</TableCell>
