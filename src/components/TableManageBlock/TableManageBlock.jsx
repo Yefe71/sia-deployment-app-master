@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useState, useImperativeHandle } from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, TablePagination } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import jsPDF from 'jspdf';
@@ -52,9 +52,22 @@ const StyleTable = styled(Table)({
     zIndex: 1,
   });
 
-const TableManageBlock = ({yearForm, blockForm, refreshData, actionRefreshData, yearButton, refreshDataTransfer, blockButton, filterRefreshData, setDataChild, setBlockChild, setNumYearBlock, addStudentId}) => {
+const TableManageBlock = forwardRef(({addStudentId,yearForm, blockForm, refreshData, actionRefreshData, yearButton, refreshDataTransfer, blockButton, filterRefreshData, setDataChild, setBlockChild, setNumYearBlock}, ref) => {
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+  
   const [data, setData] = useState([])
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -135,35 +148,43 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, actionRefreshData, 
         .catch((error) => console.log(error));
   };
 
-  const fetchDataAction = () => {
-
- 
-      fetch(`http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=${blockButton}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setData(data);
-          setDataChild(data);
-
-          const index = data.findIndex(
-            (student) => student.student_id === addStudentId
-          );
-
-          console.log(index)
-          console.log(data[index])
-          console.log('page', Math.floor(index / rowsPerPage))
-          setPage(Math.floor(index / rowsPerPage));
 
 
-          // Set the blinkStudentId and clear it after 1 second
-          setBlinkStudentId(addStudentId);
-          setTimeout(() => {
-            setBlinkStudentId(null);
-          }, 1000);
 
-        })
+  useImperativeHandle(ref, () => ({
+    fetchDataAction
+  }));
 
-        
-        .catch((error) => console.log(error));
+
+  const fetchDataAction = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=${blockButton}`);
+      const data = await response.json();
+
+      setData(data);
+      setDataChild(data);
+
+      const index = data.findIndex(
+        (student) => {
+          
+         return student.student_id === addStudentId;
+         
+        }
+      );
+
+      console.log(index); //console logs -1
+      console.log(data[index]); //console logs undefined
+
+      console.log('page', Math.floor(index / rowsPerPage));
+      setPage(Math.floor(index / rowsPerPage));
+
+      setBlinkStudentId(addStudentId);
+      setTimeout(() => {
+        setBlinkStudentId(null);
+      }, 1000);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
 
@@ -196,9 +217,6 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, actionRefreshData, 
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  // useEffect(() => {
-  //   setPage(0); // Set the page state to 0
-  // }, [data]); // Watch for changes in the data state
 
   useEffect(() => {
     fetchData();
@@ -212,10 +230,10 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, actionRefreshData, 
   }, [filterRefreshData]);
   
   
-  useEffect(() => {
-    fetchDataAction();
-    console.log("TUMAKBO AKO!")
-  }, [actionRefreshData]);
+  // useEffect(() => {
+  //   fetchDataAction();
+  //   console.log("TUMAKBO AKO!")
+  // }, [actionRefreshData]);
   
   return (
     <>
@@ -269,7 +287,7 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, actionRefreshData, 
       />
     </>
   );
-};
+});
 
 export default TableManageBlock;
 

@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useEffect } from "react";
+import React, { useState, useLayoutEffect, useEffect, useRef } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -186,6 +186,10 @@ const BlockManagePage = () => {
       setErrorYear(true);
     }
   };
+
+
+  const childRef = useRef(null);
+
   const [nameIsFocused, setNameIsFocused] = useState(false);
   
   const [refreshData, setRefreshData] = useState(false);
@@ -375,7 +379,7 @@ const BlockManagePage = () => {
 
   };
 
-  const handleSubmitAdd = (event) => {
+  const handleSubmitAdd = async (event) => {
     event.preventDefault();
     console.log(
       addStudentId,
@@ -387,8 +391,9 @@ const BlockManagePage = () => {
       addStudentStanding
     );
     handleCloseEdit();
-    addStudent();
-    setActionRefreshData((prevState) => !prevState);
+    await addStudent();
+
+    childRef.current.fetchDataAction();
     // setYear("1");
     // setBlock("1");
     // setYear("");
@@ -689,6 +694,7 @@ const BlockManagePage = () => {
 
         <div className={ManageBlockCSS.tableWrapper}>
           <TableManageBlock
+            ref={childRef}
             actionRefreshData = {actionRefreshData}
             setNumYearBlock={setNumYearBlock}
             setBlockChild={setBlockChild}
