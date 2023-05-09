@@ -174,7 +174,10 @@ const SubjectAssignPage = () => {
   };
 
 
-
+  const handleDataFromChild = (yearData, blockData) => {
+    setYear(yearData);
+    setBlock(blockData);
+  };
 
   useEffect(() => {
     setYear('1');
@@ -266,7 +269,7 @@ const SubjectAssignPage = () => {
 
         </div>
         <div className={SubjectAssignCSS.tableWrapper}>
-          <SchedulerFaculty  readOnly = {false} ref={childComponentRef} year={year} block={block} setBlockChild={setBlockChild}/>
+          <SchedulerFaculty onDataReceived={handleDataFromChild} readOnly = {false} ref={childComponentRef} year={year} block={block} setBlockChild={setBlockChild}/>
         </div>
         <div className={SubjectAssignCSS.bottomButtons}>
           <div className={SubjectAssignCSS.left}>

@@ -363,6 +363,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     this.handleNameToCodeChange = (event) => {
       this.setState({ courseCode: event });
     };
+    
 
     this.handleOpenProf = this.handleOpenProf.bind(this);
     this.handleCloseProf = this.handleCloseProf.bind(this);
@@ -372,7 +373,13 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     this.commitAppointment = this.commitAppointment.bind(this);
   }
 
-
+  handleChange = (value, isYear) => {
+    if (isYear) {
+      this.props.handleDataFromChild(value, this.props.block);
+    } else {
+      this.props.handleDataFromChild(this.props.year, value);
+    }
+  };
 
   handleOpenProf() {
     this.setState({ openProf: true });
@@ -577,11 +584,13 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     });
     const textEditorPropsSpecial = (field) => ({
       variant: "outlined",
-      onChange: ({ target: change }) =>
+      onChange: ({ target: change }) => {
         this.changeAppointment({
           field: [field],
           changes: change.value,
-        }),
+        })
+        
+        },
       value: displayAppointmentData[field] || "",
       className: classes.textField,
     });
@@ -1053,6 +1062,8 @@ export default class SchedulerFaculty extends React.PureComponent {
       appointmentColor: {},
       isUpdatingSchedules: false,
       schedulerKey: 0,
+      year: null,
+      block: null,
     };
 
     this.toggleConfirmationVisible = this.toggleConfirmationVisible.bind(this);
@@ -1097,9 +1108,16 @@ export default class SchedulerFaculty extends React.PureComponent {
         onEditingAppointmentChange: this.onEditingAppointmentChange,
         cancelAppointment,
         data: data,
+        handleDataFromChild: this.handleDataFromChild,
       };
     });
   }
+  handleDataFromChild = (yearData, blockData) => {
+    this.setState({
+      year: yearData,
+      block: blockData,
+    });
+  };
 
   applyFilter = () => {
     if (!this.props.year && this.props.block.length === 0) {
@@ -1373,9 +1391,7 @@ fetchDataButtonsSched = () => {
     } = this.state;
 
 
-    
-
-    
+  
     return (
       <div className={SchedulerFacultyCSS.tooltipContainer}>
         <>
