@@ -173,10 +173,19 @@ const SubjectAssignPage = () => {
     setBlock(event.target.value);
   };
 
+  const [yearProp, setYearProp] = useState(null)
+  const [blockProp, setBlockProp] = useState(null)
 
+  
   const handleDataFromChild = (yearData, blockData) => {
-    setYear(yearData);
-    setBlock(blockData);
+    setYearProp(yearData);
+    setBlockProp(blockData);
+  };
+
+  const [isCreateClicked, setIsCreateClicked] = useState("notClicked")
+  
+  const handleClickFromChild = (isCreateClicked) => {
+    setIsCreateClicked(isCreateClicked);
   };
 
   useEffect(() => {
@@ -189,6 +198,17 @@ const SubjectAssignPage = () => {
       clearTimeout(timeoutId);
     };
   }, []);
+
+
+  // useEffect(() => {
+    
+  //   const yearArray = [yearProp];
+  //   const blockArray = [blockProp];
+
+  //   setYear(yearArray);
+  //   setBlock(blockArray);
+    
+  // }, [isCreateClicked]);
 
   
     useLayoutEffect(() => {
@@ -208,7 +228,7 @@ const SubjectAssignPage = () => {
         <div className={SubjectAssignCSS.topTable}>
 
           
-          <h2>Subject Assignment</h2>
+          <h2>{`Subject Assignment ${yearProp} ${blockProp} ${isCreateClicked}`}</h2>
           <div className={SubjectAssignCSS.topButtons}>
             <FormControl
               sx={{
@@ -269,7 +289,7 @@ const SubjectAssignPage = () => {
 
         </div>
         <div className={SubjectAssignCSS.tableWrapper}>
-          <SchedulerFaculty onDataReceived={handleDataFromChild} readOnly = {false} ref={childComponentRef} year={year} block={block} setBlockChild={setBlockChild}/>
+          <SchedulerFaculty handleClickFromChild = {handleClickFromChild} onDataReceived={handleDataFromChild} readOnly = {false} ref={childComponentRef} year={year} block={block} setBlockChild={setBlockChild}/>
         </div>
         <div className={SubjectAssignCSS.bottomButtons}>
           <div className={SubjectAssignCSS.left}>

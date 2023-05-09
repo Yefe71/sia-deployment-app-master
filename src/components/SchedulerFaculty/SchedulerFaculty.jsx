@@ -568,7 +568,10 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     const isNewAppointment = appointmentData.id === undefined;
 
     const applyChanges = isNewAppointment
-      ? () => this.commitAppointment("added")
+      ? () => { 
+        this.commitAppointment("added")
+        this.props.handleClickFromChild("clicked");
+      }
       : () => this.commitAppointment("changed");
 
     const textEditorProps = (field) => ({
@@ -1065,6 +1068,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       schedulerKey: 0,
       year: null,
       block: null,
+      clicked: "notClicked",
     };
 
     this.toggleConfirmationVisible = this.toggleConfirmationVisible.bind(this);
@@ -1110,9 +1114,12 @@ export default class SchedulerFaculty extends React.PureComponent {
         cancelAppointment,
         data: data,
         handleDataFromChild: this.handleDataFromChild,
+        handleClickFromChild: this.handleClickFromChild
       };
     });
   }
+
+  
   handleDataFromChild = (value, isYear) => {
     if (isYear) {
       this.setState({ year: value });
@@ -1121,6 +1128,11 @@ export default class SchedulerFaculty extends React.PureComponent {
     }
   };
 
+  handleClickFromChild = (isCreateClicked) => {
+    this.setState({ clicked: isCreateClicked });
+  };
+
+  
   applyFilter = () => {
     if (!this.props.year && this.props.block.length === 0) {
       this.updateNewData(this.state.data);
@@ -1192,6 +1204,16 @@ fetchDataButtonsSched = () => {
       this.fetchDataButtonsSched();
       this.applyFilter();
     }
+
+    
+    if (this.state.year !== prevState.year || this.state.block !== prevState.block) {
+    this.props.onDataReceived(this.state.year, this.state.block);
+    }
+    
+    if (this.state.clicked !== prevState.clicked) {
+    this.props.handleClickFromChild(this.state.clicked);
+    }
+    
   }
 
   updateNewData(newData) {
@@ -1391,14 +1413,15 @@ fetchDataButtonsSched = () => {
       startDayHour,
       endDayHour,
       block,
-      year
+      year,
+      clicked
     } = this.state;
 
 
   
     return (
       <div className={SchedulerFacultyCSS.tooltipContainer}>
-        <> 
+        <>++++++++++++++{clicked}
           <CustomPaper>
             <Scheduler data={newData} height={"100%"} firstDayOfWeek={1} key={this.state.schedulerKey}>
               <ViewState currentDate={currentDate} />
