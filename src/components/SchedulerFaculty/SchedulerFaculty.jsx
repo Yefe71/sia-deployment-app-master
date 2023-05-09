@@ -1250,6 +1250,7 @@ fetchDataButtonsSched = () => {
     
     if (this.props.clicked !== prevProps.clicked) {
       this.setState({ clicked: this.props.clicked });
+      this.applyFilter();
     }
   }
 

@@ -201,32 +201,18 @@ const SubjectAssignPage = () => {
 
 
   useEffect(() => {
-    
     const yearArray = [yearProp];
     const blockArray = [blockProp];
 
-  
-  if (isCreateClicked === "clicked"){
-    console.log("hello!")
-    handleClickFromChild("notClicked");
-  }
-    // if (yearProp || yearProp){
-    //   console.log('hello')
-    //   setYear('1');
-    //   setBlock('1');
-    //   const timeoutId = setTimeout(() => {
-    //     setYear(yearArray);
-    //     setBlock(blockArray); 
-    //     setIsCreateClicked("notClicked") 
-    //   }, 500);
+    if (isCreateClicked === "clicked") {
+      console.log("hello!");
+      handleClickFromChild("notClicked");
+      setYear(yearArray);
+      setBlock(blockArray);
 
-    //   return () => {
-    //     clearTimeout(timeoutId);
-    //   };
-
-    // }
-    
+    }
   }, [isCreateClicked]);
+
 
   
     useLayoutEffect(() => {
