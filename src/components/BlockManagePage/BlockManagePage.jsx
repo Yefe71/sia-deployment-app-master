@@ -396,8 +396,8 @@ const BlockManagePage = () => {
 
   const handleSubmitDrop = (event) => {
     event.preventDefault();
-    handleCloseEdit();
     dropStudent();
+    handleCloseEdit();
     childRef.current.fetchDataAction(0);
   
   };
@@ -969,7 +969,10 @@ const BlockManagePage = () => {
                       <TextField
                         value={dropStudentId}
                         sx={{ marginBottom: "10px" }}
-                        onChange={(event) => setDropStudentId(event.target.value)}
+                        onChange={(event) =>{ 
+                          const trimmedValue = event.target.value.trim();
+                          setDropStudentId(trimmedValue)
+                          }}
                         inputProps={{
                           min: "1",
                           max: "999",
@@ -1071,8 +1074,10 @@ const BlockManagePage = () => {
                       <TextField
                         value={addStudentId}
                         sx={{ marginBottom: "10px" }}
-                        onChange={(event) =>
-                          setAddStudentId(event.target.value)
+                        onChange={(event) =>{
+                          const trimmedValue = event.target.value.trim();
+                          setAddStudentId(trimmedValue)
+                          }
                         }
                         
                         inputProps={{
@@ -1258,7 +1263,8 @@ const BlockManagePage = () => {
                         id="outlined-number"
                         sx={{ marginBottom: "10px" }}
                         onChange={(event) => {
-                          setEditId(event.target.value)
+                          const trimmedValue = event.target.value.trim();
+                          setEditId(trimmedValue);
                           setAddStudentId("")
                           setDropStudentId("");
                           setDropStudentName("");

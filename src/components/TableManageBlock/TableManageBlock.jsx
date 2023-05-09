@@ -153,7 +153,7 @@ const TableManageBlock = forwardRef(({yearForm, blockForm, refreshData, actionRe
     fetchDataAction
   }));
 
-
+  const [refreshKey, setRefreshKey] = useState(0);
   const fetchDataAction = async (actionId) => {
     try {
       const response = await fetch(`http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=${blockButton}`);
@@ -161,12 +161,14 @@ const TableManageBlock = forwardRef(({yearForm, blockForm, refreshData, actionRe
 
       setData(data);
       setDataChild(data);
-
-
+      
+      if (actionId.length > 4 && actionId.charAt(4) !== '-') {
+        const newStudentId = actionId.slice(0, 4) + '-' + actionId.slice(4);
+        actionId = newStudentId;
+      }
+   
       if (!actionId){
-
-          setPage(8)
-
+        setRefreshKey((prevKey) => prevKey + 1); 
       }else{
       const index = data.findIndex(
         (student) => {
@@ -227,14 +229,15 @@ const TableManageBlock = forwardRef(({yearForm, blockForm, refreshData, actionRe
   useEffect(() => {
     fetchData();
   }, [refreshData]);
-
+  
   useEffect(() => {
     fetchDataButtons();
     setPage(0);
     console.log('i ran buttons')
-  }, [filterRefreshData]);
+  }, [filterRefreshData, refreshKey]);
   
-  
+
+
   // useEffect(() => {
   //   fetchDataAction();
   //   console.log("TUMAKBO AKO!")
