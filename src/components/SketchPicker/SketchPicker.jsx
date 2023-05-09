@@ -4,14 +4,30 @@ import React from 'react'
 import reactCSS from 'reactcss'
 import { SketchPicker } from 'react-color'
 import SketchPickerCSS from './SketchPicker.module.css'
+
+
+
+
+const randomDarkColor = () => {
+  const randomValue = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+  return {
+    r: randomValue(0, 128),
+    g: randomValue(0, 128),
+    b: randomValue(0, 128),
+    a: 1,
+  };
+};
+
+
 class SketchExample extends React.Component {
   state = {
     displayColorPicker: false,
     color: {
-      r: this.props.defaultColor ? this.props.defaultColor.r : '66',
-      g: this.props.defaultColor ? this.props.defaultColor.g : '165',
-      b: this.props.defaultColor ? this.props.defaultColor.b : '245',
-      a: this.props.defaultColor ? this.props.defaultColor.a : '1',
+      r: this.props.defaultColor ? randomDarkColor().r : this.props.defaultColor.r, 
+      g: this.props.defaultColor ? randomDarkColor().g : this.props.defaultColor.g, 
+      b: this.props.defaultColor ? randomDarkColor().b : this.props.defaultColor.b,
+      a: this.props.defaultColor ? randomDarkColor().a : this.props.defaultColor.a
     },
   };
   
@@ -31,28 +47,13 @@ class SketchExample extends React.Component {
       });
   };
 
-
+  
+  componentDidMount() {
+    this.handleChange({ rgb: newColor });
+  }
 
   render() {
-    
-
-
-    
-    // Object { r: 9, g: 71, b: 136, a: 1 }
-    // ​
-    // a: 1
-    // ​
-    // b: 136
-    // ​
-    // g: 71
-    // ​
-    // r: 9
-
-
-
-
-
-
+  
     
     const styles = reactCSS({
       'default': {
