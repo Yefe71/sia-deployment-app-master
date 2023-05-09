@@ -49,12 +49,15 @@ class SketchExample extends React.Component {
 
   
   componentDidMount() {
-    this.handleChange({ rgb: newColor });
+    const defaultColor = this.props.defaultColor;
+    const defaultColorIsEqual = defaultColor && defaultColor.r === 66 && defaultColor.g === 165 && defaultColor.b === 245 && defaultColor.a === 1;
+
+    this.handleChange({ rgb: defaultColorIsEqual ? this.state.color : (defaultColor || this.state.color) });
   }
+
 
   render() {
   
-    
     const styles = reactCSS({
       'default': {
         color: {

@@ -370,6 +370,8 @@ const BlockManagePage = () => {
     handleCloseEdit();
 
     editStudent();
+    setYear("")
+    setBlock("")
     await updateStudentNameEdit();
 
     childRef.current.fetchDataAction(editId);
@@ -389,6 +391,8 @@ const BlockManagePage = () => {
       addStudentStanding
     );
     handleCloseEdit();
+    setYear("")
+    setBlock("")
     await addStudent();
 
     childRef.current.fetchDataAction(addStudentId);
