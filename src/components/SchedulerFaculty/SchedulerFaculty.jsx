@@ -124,6 +124,9 @@ const styleRoom = {
   background: "#f6f6f6",
 };
 
+
+
+
 const FormOverlay = React.forwardRef(({ visible, children }, ref) => {
   return (
     <Modal open={visible} ref={ref}>
@@ -685,7 +688,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     const randomNumber = Math.floor(Math.random() * 100) + 1;
 
     return (
-      <FormOverlay visible={visible} ref={this.overlayRef}>
+      <FormOverlay visible={visible}  ref={this.overlayRef}>
         <StyledDiv>
           <div className={classes.header}>
             <IconButton
@@ -1049,6 +1052,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       isNewAppointment: false,
       appointmentColor: {},
       isUpdatingSchedules: false,
+      schedulerKey: 0,
     };
 
     this.toggleConfirmationVisible = this.toggleConfirmationVisible.bind(this);
@@ -1142,31 +1146,32 @@ fetchDataButtonsSched = () => {
   componentDidUpdate(prevProps, prevState) {
     this.appointmentForm.update();
 
+    const justClosedForm = prevState.editingFormVisible && !this.state.editingFormVisible;
 
-    if (this.props.year !== prevProps.year || this.props.block !== prevProps.block) {
-      this.fetchDataButtonsSched()
+    if (
+      (this.props.year !== prevProps.year || this.props.block !== prevProps.block) ||
+      justClosedForm
+    ) {
+      this.fetchDataButtonsSched();
 
       if (!this.props.year && this.props.block.length === 0) {
-        console.log('i ran 1', this.state.data, this.state.newData)
-        this.setState({ newData: this.state.data });
+        this.updateNewData(this.state.data);
       } else if (!this.props.year) {
-        console.log('i ran 2', this.state.data, this.state.newData)
         const filteredData = this.state.data.filter(item => item.block === this.props.block);
-        this.setState({ newData: filteredData });
+        this.updateNewData(filteredData);
       } else if (this.props.block.length === 0) {
-         console.log('i ran 3', this.state.data, this.state.newData)
         const filteredData = this.state.data.filter(item => item.year === this.props.year);
-        this.setState({ newData: filteredData });
-      } 
-      
-      else {
-        console.log(this.props.year, this.props.block, 'i ran 4')
+        this.updateNewData(filteredData);
+      } else {
         const filteredData = this.state.data.filter(item => item.year === this.props.year && item.block === this.props.block);
-        console.log(this.state.data, filteredData, 'wtf')
-        
-        this.setState({ newData: filteredData });
-         
+        this.updateNewData(filteredData);
       }
+    }
+  }
+
+  updateNewData(newData) {
+    if (JSON.stringify(this.state.newData) !== JSON.stringify(newData)) {
+      this.setState({ newData });
     }
   }
 
@@ -1228,6 +1233,7 @@ fetchDataButtonsSched = () => {
     this.setState({
       editingFormVisible: !editingFormVisible,
     });
+   
   }
 
   toggleConfirmationVisible() {
@@ -1367,7 +1373,7 @@ fetchDataButtonsSched = () => {
       <div className={SchedulerFacultyCSS.tooltipContainer}>
         <>
           <CustomPaper>
-            <Scheduler data={newData} height={"100%"} firstDayOfWeek={1}>
+            <Scheduler data={newData} height={"100%"} firstDayOfWeek={1} key={this.state.schedulerKey}>
               <ViewState currentDate={currentDate} />
               <EditingState
                 onCommitChanges={this.commitChanges}
