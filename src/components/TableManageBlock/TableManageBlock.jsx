@@ -52,7 +52,7 @@ const StyleTable = styled(Table)({
     zIndex: 1,
   });
 
-const TableManageBlock = forwardRef(({addStudentId,yearForm, blockForm, refreshData, actionRefreshData, yearButton, refreshDataTransfer, blockButton, filterRefreshData, setDataChild, setBlockChild, setNumYearBlock}, ref) => {
+const TableManageBlock = forwardRef(({yearForm, blockForm, refreshData, actionRefreshData, yearButton, refreshDataTransfer, blockButton, filterRefreshData, setDataChild, setBlockChild, setNumYearBlock}, ref) => {
 
 
 
@@ -137,8 +137,6 @@ const TableManageBlock = forwardRef(({addStudentId,yearForm, blockForm, refreshD
   }, [yearButton]);
 
   const fetchDataButtons = () => {
-
- 
       fetch(`http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=${blockButton}`)
         .then((response) => response.json())
         .then((data) => {
@@ -156,7 +154,7 @@ const TableManageBlock = forwardRef(({addStudentId,yearForm, blockForm, refreshD
   }));
 
 
-  const fetchDataAction = async () => {
+  const fetchDataAction = async (actionId) => {
     try {
       const response = await fetch(`http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=${blockButton}`);
       const data = await response.json();
@@ -167,7 +165,7 @@ const TableManageBlock = forwardRef(({addStudentId,yearForm, blockForm, refreshD
       const index = data.findIndex(
         (student) => {
           
-         return student.student_id === addStudentId;
+         return student.student_id === actionId;
          
         }
       );
@@ -178,7 +176,7 @@ const TableManageBlock = forwardRef(({addStudentId,yearForm, blockForm, refreshD
       console.log('page', Math.floor(index / rowsPerPage));
       setPage(Math.floor(index / rowsPerPage));
 
-      setBlinkStudentId(addStudentId);
+      setBlinkStudentId(actionId);
       setTimeout(() => {
         setBlinkStudentId(null);
       }, 1000);

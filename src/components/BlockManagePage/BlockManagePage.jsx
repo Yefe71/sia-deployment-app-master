@@ -363,19 +363,16 @@ const BlockManagePage = () => {
   };
 
 
-  const handleSubmitEdit = (event) => {
+  const handleSubmitEdit = async (event) => {
     event.preventDefault();
     // setRefreshDataTransfer((prevState) => !prevState);
 
     handleCloseEdit();
-    editStudent();
-    updateStudentNameEdit();
-    
-    setRefreshData((prevState) => !prevState);
 
-   setYear("")
-   setBlock("")
-    
+    editStudent();
+    await updateStudentNameEdit();
+ 
+
 
   };
 
@@ -393,12 +390,7 @@ const BlockManagePage = () => {
     handleCloseEdit();
     await addStudent();
 
-    childRef.current.fetchDataAction();
-    // setYear("1");
-    // setBlock("1");
-    // setYear("");
-    // setBlock("");
-    // console.log("i ran");
+    childRef.current.fetchDataAction(addStudentId);
   };
 
   const handleSubmitDrop = (event) => {
@@ -424,7 +416,6 @@ const BlockManagePage = () => {
     });
   }, []);
 
-  //reblock modal || year and block
 
   useEffect(() => {
     const fetchDataButtons = () => {
