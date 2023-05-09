@@ -43,6 +43,7 @@ const StyleTable = styled(Table)({
   
   const StyledTableRow = styled(TableRow)({
     backgroundColor: '#ffffff',
+    transition: 'background-color 0.5s ease',
   });
   
   const StyledTableHead = styled(TableHead)({
@@ -51,7 +52,7 @@ const StyleTable = styled(Table)({
     zIndex: 1,
   });
 
-const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, refreshDataTransfer, blockButton, filterRefreshData, setDataChild, setBlockChild, setNumYearBlock}) => {
+const TableManageBlock = ({yearForm, blockForm, refreshData, actionRefreshData, yearButton, refreshDataTransfer, blockButton, filterRefreshData, setDataChild, setBlockChild, setNumYearBlock, addStudentId}) => {
 
 
   const [data, setData] = useState([])
@@ -59,21 +60,14 @@ const TableManageBlock = ({yearForm, blockForm, refreshData, yearButton, refresh
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [refreshWholePage, setRefreshWholePage] = useState(false);
 
-
-
   const [yearBlock1, setYearBlock1] = useState([])
   const [yearBlock2, setYearBlock2] = useState([])
   const [yearBlock3, setYearBlock3] = useState([])
   const [yearBlock4, setYearBlock4] = useState([])
   const [yearBlock5, setYearBlock5] = useState([])
+  const [blinkStudentId, setBlinkStudentId] = useState(null);
 
 
-
-useEffect(() => {
-  console.log(refreshWholePage, 1)
-  setRefreshWholePage((prevState) => !prevState);
-  console.log(refreshWholePage, 2)
-}, [refreshDataTransfer]);
 
   useEffect(() => {
     const fetchDataButtons = async () => {
@@ -141,6 +135,37 @@ useEffect(() => {
         .catch((error) => console.log(error));
   };
 
+  const fetchDataAction = () => {
+
+ 
+      fetch(`http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=${blockButton}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setData(data);
+          setDataChild(data);
+
+          const index = data.findIndex(
+            (student) => student.student_id === addStudentId
+          );
+
+          console.log(index)
+          console.log(data[index])
+          console.log('page', Math.floor(index / rowsPerPage))
+          setPage(Math.floor(index / rowsPerPage));
+
+
+          // Set the blinkStudentId and clear it after 1 second
+          setBlinkStudentId(addStudentId);
+          setTimeout(() => {
+            setBlinkStudentId(null);
+          }, 1000);
+
+        })
+
+        
+        .catch((error) => console.log(error));
+  };
+
 
   const fetchData = () => {
 
@@ -149,11 +174,13 @@ useEffect(() => {
       fetch(`http://localhost:3000/grabStudents?year=${yearForm}&numBlock=${blockForm}&yearButton=${yearButton}&blockButton=${blockButton}`)
         .then((response) => response.json())
         .then((data) => {
+          
           setData(data);
           setDataChild(data);
           const uniqueBlocks = [...new Set(data.map((student) => student.block))].sort();  
           console.log(uniqueBlocks)
           setBlockChild(uniqueBlocks);
+
         })
         .catch((error) => console.log(error));
         
@@ -169,25 +196,27 @@ useEffect(() => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  useEffect(() => {
-    setPage(0); // Set the page state to 0
-  }, [data]); // Watch for changes in the data state
+  // useEffect(() => {
+  //   setPage(0); // Set the page state to 0
+  // }, [data]); // Watch for changes in the data state
 
   useEffect(() => {
     fetchData();
+    console.log('i ran form')
   }, [refreshData]);
 
   useEffect(() => {
     fetchDataButtons();
-  }, [filterRefreshData]);
-
-  useEffect(() => {
     setPage(0);
-  }, [data]);
-
-
-  console.log(data)
-
+    console.log('i ran buttons')
+  }, [filterRefreshData]);
+  
+  
+  useEffect(() => {
+    fetchDataAction();
+    console.log("TUMAKBO AKO!")
+  }, [actionRefreshData]);
+  
   return (
     <>
 
@@ -210,7 +239,11 @@ useEffect(() => {
       {data
           .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
           .map((row, index) => (
-            <StyledTableRow key={row.id}>
+            <StyledTableRow      key={row.id}
+            style={{
+              backgroundColor:
+                row.student_id === blinkStudentId ? "#e2e2e2" : "white",
+            }}>
               <TableCell>{page * rowsPerPage + index + 1}</TableCell>
               <TableCell>{row.student_id}</TableCell>
               <TableCell>{row.last_name}</TableCell>
@@ -239,3 +272,6 @@ useEffect(() => {
 };
 
 export default TableManageBlock;
+
+
+  

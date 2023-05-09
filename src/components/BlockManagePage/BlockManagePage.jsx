@@ -192,6 +192,9 @@ const BlockManagePage = () => {
   const [refreshDataTransfer, setRefreshDataTransfer] = useState(true);
   const [filterRefreshData, setFilterRefreshData] = useState(false);
 
+
+  const [actionRefreshData, setActionRefreshData] = useState(false);
+
   const isSmallScreen = useMediaQuery("(max-width: 500px)");
   const style = {
     position: "absolute",
@@ -270,6 +273,8 @@ const BlockManagePage = () => {
     setRefreshData((prevState) => !prevState);
     console.log(refreshData, 2);
     handleClose();
+    setYear("1");
+    setBlock("1");
     setYear("");
     setBlock("");
   };
@@ -353,6 +358,7 @@ const BlockManagePage = () => {
     }
   };
 
+
   const handleSubmitEdit = (event) => {
     event.preventDefault();
     // setRefreshDataTransfer((prevState) => !prevState);
@@ -360,9 +366,13 @@ const BlockManagePage = () => {
     handleCloseEdit();
     editStudent();
     updateStudentNameEdit();
+    
     setRefreshData((prevState) => !prevState);
-    setYear("");
-    setBlock("");
+
+   setYear("")
+   setBlock("")
+    
+
   };
 
   const handleSubmitAdd = (event) => {
@@ -378,12 +388,12 @@ const BlockManagePage = () => {
     );
     handleCloseEdit();
     addStudent();
-    setRefreshData((prevState) => !prevState);
-    setYear("1");
-    setBlock("1");
-    setYear("");
-    setBlock("");
-    console.log("i ran");
+    setActionRefreshData((prevState) => !prevState);
+    // setYear("1");
+    // setBlock("1");
+    // setYear("");
+    // setBlock("");
+    // console.log("i ran");
   };
 
   const handleSubmitDrop = (event) => {
@@ -679,6 +689,7 @@ const BlockManagePage = () => {
 
         <div className={ManageBlockCSS.tableWrapper}>
           <TableManageBlock
+            actionRefreshData = {actionRefreshData}
             setNumYearBlock={setNumYearBlock}
             setBlockChild={setBlockChild}
             setDataChild={setDataChild}
@@ -689,6 +700,7 @@ const BlockManagePage = () => {
             filterRefreshData={filterRefreshData}
             refreshData={refreshData}
             refreshDataTransfer={refreshDataTransfer}
+            addStudentId = {addStudentId}
           />
         </div>
         <div className={ManageBlockCSS.bottomButtons}>
