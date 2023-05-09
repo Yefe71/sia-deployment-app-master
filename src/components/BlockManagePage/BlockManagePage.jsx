@@ -239,23 +239,22 @@ const BlockManagePage = () => {
     setEditType("edit");
 
     setEditId(null);
-    setEditStudentName(null);
+    setEditStudentName('');
     setCurrentEditYearBlock(null);
     setNewEditYearBlock(null);
 
-
     setAddStudentId(null);
-    setAddStudentYear(null);
-    setAddStudentBlock(null);
-    setAddStudentLast(null);
-    setAddStudentFirst(null);
-    setAddStudentMiddle(null);
-    setAddStudentStanding(null);
-    setAddStudentSuffix(null);
+    setAddStudentYear('');
+    setAddStudentBlock('');
+    setAddStudentLast('');
+    setAddStudentFirst('');
+    setAddStudentMiddle('');
+    setAddStudentStanding('');
+    setAddStudentSuffix('');
 
-    setEditStudentLast(null);
-    setEditStudentFirst(null);
-    setEditStudentMiddle(null);
+    setEditStudentLast('');
+    setEditStudentFirst('');
+    setEditStudentMiddle('');
     setNameIsFocused(false)
   };
   const handleCloseEdit = () => {

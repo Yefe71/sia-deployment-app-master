@@ -425,6 +425,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
     if (type === "deleted") {
       commitChanges({ [type]: appointment.id });
+ 
     } else if (type === "changed") {
       commitChanges({ [type]: { [appointment.id]: appointment } });
     } else {
@@ -1141,10 +1142,9 @@ fetchDataButtonsSched = () => {
   componentDidUpdate(prevProps, prevState) {
     this.appointmentForm.update();
 
-    console.log('Block:', this.props.block); 
-    if (this.props.year !== prevProps.year || this.props.block !== prevProps.block) {
-      this.fetchDataButtonsSched();
 
+    if (this.props.year !== prevProps.year || this.props.block !== prevProps.block) {
+      this.fetchDataButtonsSched()
 
       if (!this.props.year && this.props.block.length === 0) {
         console.log('i ran 1', this.state.data, this.state.newData)
@@ -1248,6 +1248,7 @@ fetchDataButtonsSched = () => {
       () => {
         console.log("me delete");
         this.updateSchedules(this.state.data);
+        
       }
     );
     this.toggleConfirmationVisible();
@@ -1341,6 +1342,7 @@ fetchDataButtonsSched = () => {
       () => {
         console.log("i ran");
         this.updateSchedules(this.state.data);
+
       }
     );
   }
