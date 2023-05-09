@@ -589,7 +589,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           field: [field],
           changes: change.value,
         })
-        
+        this.props.handleDataFromChild(change.value, false)
         },
       value: displayAppointmentData[field] || "",
       className: classes.textField,
@@ -619,6 +619,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           field: [field],
           changes: change.value,
         });
+        this.props.handleDataFromChild(change.value, true)
       },
       value: displayAppointmentData[field] || "",
       label: field[0].toUpperCase() + field.slice(1),
@@ -1112,11 +1113,12 @@ export default class SchedulerFaculty extends React.PureComponent {
       };
     });
   }
-  handleDataFromChild = (yearData, blockData) => {
-    this.setState({
-      year: yearData,
-      block: blockData,
-    });
+  handleDataFromChild = (value, isYear) => {
+    if (isYear) {
+      this.setState({ year: value });
+    } else {
+      this.setState({ block: value });
+    }
   };
 
   applyFilter = () => {
@@ -1388,13 +1390,15 @@ fetchDataButtonsSched = () => {
       editingFormVisible,
       startDayHour,
       endDayHour,
+      block,
+      year
     } = this.state;
 
 
   
     return (
       <div className={SchedulerFacultyCSS.tooltipContainer}>
-        <>
+        <> 
           <CustomPaper>
             <Scheduler data={newData} height={"100%"} firstDayOfWeek={1} key={this.state.schedulerKey}>
               <ViewState currentDate={currentDate} />
