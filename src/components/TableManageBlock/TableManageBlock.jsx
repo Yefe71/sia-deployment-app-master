@@ -162,9 +162,16 @@ const TableManageBlock = forwardRef(({yearForm, blockForm, refreshData, actionRe
       setData(data);
       setDataChild(data);
 
+
+      if (!actionId){
+
+          setPage(8)
+
+      }else{
       const index = data.findIndex(
         (student) => {
           
+          console.log(student.student_id+ " bruh " + actionId)
          return student.student_id === actionId;
          
         }
@@ -180,6 +187,7 @@ const TableManageBlock = forwardRef(({yearForm, blockForm, refreshData, actionRe
       setTimeout(() => {
         setBlinkStudentId(null);
       }, 1000);
+    }
     } catch (error) {
       console.log(error);
     }
@@ -218,7 +226,6 @@ const TableManageBlock = forwardRef(({yearForm, blockForm, refreshData, actionRe
 
   useEffect(() => {
     fetchData();
-    console.log('i ran form')
   }, [refreshData]);
 
   useEffect(() => {

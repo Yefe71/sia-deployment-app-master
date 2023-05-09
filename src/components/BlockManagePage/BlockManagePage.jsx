@@ -371,7 +371,8 @@ const BlockManagePage = () => {
 
     editStudent();
     await updateStudentNameEdit();
- 
+
+    childRef.current.fetchDataAction(editId);
 
 
   };
@@ -397,12 +398,8 @@ const BlockManagePage = () => {
     event.preventDefault();
     handleCloseEdit();
     dropStudent();
-    setRefreshData((prevState) => !prevState);
-    setYear("1");
-    setBlock("1");
-    setYear("");
-    setBlock("");
-    console.log("i ran");
+    childRef.current.fetchDataAction(0);
+  
   };
 
   useLayoutEffect(() => {
@@ -503,6 +500,7 @@ const BlockManagePage = () => {
           const fullNameString = `${studentData.last_name}, ${studentData.first_name} ${studentData.middle_name} ${studentData.suffix}`;
           console.log(fullNameString, "hello")
           setDropStudentName(fullNameString);
+          
         } else {
           console.log("No student data found for this ID");
           setDropStudentName("");
