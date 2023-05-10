@@ -345,7 +345,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       professorsNames: [],
       roomsNames: [],
       newYear: null,
-      yearField:  this.props.appointmentData.year,
+      yearField: this.props.appointmentData.year,
       yearPropChild: null,
       blockPropChild: null
     };
@@ -417,11 +417,9 @@ class AppointmentFormContainerBasic extends React.PureComponent {
   }
   changeAppointmentYearCode({ name, pair }) {
     const nextChanges = {
-      
       ...this.getAppointmentChanges(),
       courseName: name,
       courseCode: pair,
-      
     };
 
     this.setState({
@@ -479,14 +477,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     if (prevState.openRoom !== this.state.openRoom && !this.state.openRoom) {
       this.fetchDataRoom();
     }
-
-    //yearfield shi
-
-    if (this.state.yearField !== prevState.yearField) {
-      this.setState({ yearField: this.state.yearField });
-      } else {
-          this.setState({ yearField: this.props.appointmentData.year });
-      }
   }
 
   async componentDidMount() {
@@ -550,16 +540,15 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     } = this.props;
     const { appointmentChanges } = this.state;
     const { yearField } = this.state;
-   
     const filteredCourseNames = yearField ? courseNames[yearField] : [];
     const displayAppointmentData = {
       ...appointmentData,
       ...appointmentChanges,
     };
 
-  
-  
-
+    if (!this.state.yearField) {
+      this.setState({ yearField: appointmentData.year });
+    }
 
     const isFormValid = () => {
       const requiredFields = [
@@ -650,6 +639,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           field: [field],
           changes: change.value,
         });
+        
       },
       value: displayAppointmentData[field] || "",
       label: field[0].toUpperCase() + field.slice(1),
@@ -765,18 +755,9 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   Professor Name
                 </InputLabel>
                 <Select
-                    label="professor-name-label"
-                    {...textEditorProps("professorName")}
-                    MenuProps={{
-                      PaperProps: {
-                        style: {
-                          maxHeight: 48 * 4.5, // where 48 is the item height
-                          width: '20ch',
-                          overflow: 'auto',
-                        },
-                      },
-                    }}
-                  >
+                  label="professor-name-label"
+                  {...textEditorProps("professorName")}
+                >
                   {this.state.professorsNames.map((name, index) => (
                     <MenuItem key={index} value={name.full_name}>
                       {name.full_name}
@@ -832,15 +813,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 className={classes.textField}
               >
                 <InputLabel>Block</InputLabel>
-                <Select                     MenuProps={{
-                    PaperProps: {
-                      style: {
-                        maxHeight: 48 * 4.5, // where 48 is the item height
-                        width: '20ch',
-                        overflow: 'auto',
-                      },
-                    },
-                  }} label="Block" {...textEditorPropsBlockSpecial("block")}>
+                <Select label="Block" {...textEditorPropsBlockSpecial("block")}>
                   {currentBlocks.map((block) => (
                     <MenuItem key={block} value={block}>
                       Block {block}
@@ -899,6 +872,15 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                     readOnly: true,
                   }}
                   label="Course Code"
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+                        maxHeight: 48 * 4.5, // where 48 is the item height
+                        width: '20ch',
+                        overflow: 'auto',
+                      },
+                    },
+                  }}
                   {...textEditorPropsReadOnly("courseCode")}
                 ></TextField>
               </FormControl>
@@ -1164,8 +1146,6 @@ export default class SchedulerFaculty extends React.PureComponent {
             editingAppointment && appointment.id === editingAppointment.id
         )[0] || addedAppointment;
 
-
-        console.log(currentAppointment, "im being edited")
       const cancelAppointment = () => {
         if (isNewAppointment) {
           this.setState({
@@ -1445,7 +1425,7 @@ fetchDataButtonsSched = () => {
       
    
       
-      if(added  ){
+      if(added){
         
       this.applyFilterUpdate(this.state.year, this.state.block, added, changed, deleted);
       }else{
