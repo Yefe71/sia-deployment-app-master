@@ -1205,6 +1205,10 @@ export default class SchedulerFaculty extends React.PureComponent {
       const filteredData = this.state.data.filter(item => item.year === year && item.block === block);
       this.updateNewData(filteredData);
     }
+
+
+    this.props.setYearParent(year)
+    this.props.setBlockParent(block)
   };
 
   handleAppointmentColorChange = (color) => {
