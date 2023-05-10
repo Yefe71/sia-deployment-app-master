@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useState,
   useImperativeHandle,
+  useRef
 } from "react";
 import {
   Table,
@@ -249,15 +250,24 @@ const TableManageBlock = forwardRef(
       setRowsPerPage(parseInt(event.target.value, 10));
       setPage(0);
     };
+    const isInitialMount = useRef(true);
 
     useEffect(() => {
-      fetchData();
+      if (isInitialMount.current) {
+        isInitialMount.current = false;
+      } else {
+        fetchData();
+      }
     }, [refreshData]);
 
     useEffect(() => {
-      fetchDataButtons();
-      setPage(0);
-      console.log("i ran buttons");
+      if (isInitialMount.current) {
+        isInitialMount.current = false;
+      } else {
+        fetchDataButtons();
+        setPage(0);
+        console.log("i ran buttons");
+      }
     }, [filterRefreshData, refreshKey]);
 
 
