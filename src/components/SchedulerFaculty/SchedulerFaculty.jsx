@@ -1,5 +1,6 @@
 /* eslint-disable max-classes-per-file */
 /* eslint-disable react/no-unused-state */
+
 import * as React from "react";
 import { DayView } from "@devexpress/dx-react-scheduler";
 import { styled } from "@mui/material/styles";
@@ -52,6 +53,8 @@ import SketchExample from "../SketchPicker/SketchPicker";
 import addPerson from "../../assets/edit.svg";
 import ProfessorTable from "../ProfessorTable/ProfessorTable";
 import RoomTable from "../RoomTable/RoomTable";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { v4 as uuidv4 } from "uuid";
 
 const tooltipStyle = {
@@ -591,7 +594,10 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         this.props.handleDataFromChild(this.state.yearPropChild, true)
         this.props.handleClickFromChild("clicked");
       }
-      : () => this.commitAppointment("changed");
+      : () => {
+        this.props.handleClickFromChild("clicked");
+       this.commitAppointment("changed")
+      };
 
     const textEditorProps = (field) => ({
       variant: "outlined",
@@ -1134,8 +1140,11 @@ export default class SchedulerFaculty extends React.PureComponent {
       year: null,
       block: null,
       clicked: "notClicked",
+      isConflict: false
     };
+  
 
+    
     this.toggleConfirmationVisible = this.toggleConfirmationVisible.bind(this);
     this.commitDeletedAppointment = this.commitDeletedAppointment.bind(this);
     this.toggleEditingFormVisibility =
@@ -1291,10 +1300,6 @@ fetchDataButtonsSched = () => {
 
   componentDidUpdate(prevProps, prevState) {
     this.appointmentForm.update();
-
-    // const justClosedForm = prevState.editingFormVisible && !this.state.editingFormVisible;
-    // const justClosedConfirm = prevState.confirmationVisible && !this.state.confirmationVisible;
-
     if (
       (this.props.year !== prevProps.year || this.props.block !== prevProps.block)
     ) {
@@ -1302,20 +1307,22 @@ fetchDataButtonsSched = () => {
       this.applyFilter();
     }
 
-    
-    // if (this.state.year !== prevState.year || this.state.block !== prevState.block) {
-    // this.props.onDataReceived(this.state.year, this.state.block);
-    // }
-    
-    // if (this.state.clicked !== prevState.clicked) {
-    // this.props.handleClickFromChild(this.state.clicked);
-    // }
+    if (!prevState.isConflict && this.state.isConflict) {
+      toast.error('Conflict found. No changes made.', {
+        position: toast.POSITION.TOP_CENTER,
+        className:  SchedulerFacultyCSS['custom-toast'],
+        style: {
+          borderRadius: '10px',
+          background: '#ffffff',
+          color: '#0b0b0b',
+          fontFamily: 'Roboto',
+          fontSize: "15px"
+        }
+      });
+      this.setState({ isConflict: false });
+    }
 
-    
-    // if (this.props.clicked !== prevProps.clicked) {
-    //   this.setState({ clicked: this.props.clicked });
-    // }
-    
+
   }
 
   updateNewData(newData) {
@@ -1451,14 +1458,53 @@ fetchDataButtonsSched = () => {
     }
   }
 
+  isTimeOverlap(time1, time2) {
+    let start1 = dayjs(time1.startDate);
+    let end1 = dayjs(time1.endDate);
+    let start2 = dayjs(time2.startDate);
+    let end2 = dayjs(time2.endDate);
+
+    return start1.isBefore(end2) && end1.isAfter(start2);
+  }
+
+  
+doesScheduleOverlap(newSchedule, existingSchedules, isUpdate = false) {
+  if (newSchedule.classType !== 'F2F') return false;
+
+  for (let existing of existingSchedules) {
+    if (
+      existing.classType === 'F2F' &&
+      existing.room === newSchedule.room && 
+      existing.day === newSchedule.day &&
+      this.isTimeOverlap(existing, newSchedule)
+    ) {
+      if (
+        isUpdate &&
+        existing.room === newSchedule.room &&
+        existing.startDate === newSchedule.startDate &&
+        existing.endDate === newSchedule.endDate
+      ) {
+        continue;
+      }
+      return true;
+    }
+  }
+  
+  return false;
+}
+
+
+
+
+
   commitChanges({ added, changed, deleted }) {
+    
     this.setState(
       (state) => {
         let { data, appointmentColor } = state;
         if (added) {
           const fixedDateAppointment = {
             ...added,
-
             startDate: dayjs(added.day)
               .set("hour", dayjs(added.startDate).hour())
               .set("minute", dayjs(added.startDate).minute())
@@ -1468,9 +1514,17 @@ fetchDataButtonsSched = () => {
               .set("minute", dayjs(added.endDate).minute())
               .toDate(),
           };
+
+          if (this.doesScheduleOverlap(fixedDateAppointment, data)) {
+            this.setState({ isConflict: true });
+            return { data, addedAppointment: {} }; 
+          }
+
           const maxId =
             data.length > 0 ? Math.max(...data.map((item) => item.id)) : -1;
           const newId = maxId + 1;
+
+          console.log(data)
           data = [
             ...data,
             { id: newId, color: appointmentColor, ...fixedDateAppointment },
@@ -1494,12 +1548,21 @@ fetchDataButtonsSched = () => {
                   .set("minute", dayjs(updatedAppointment.endDate).minute())
                   .toDate();
               }
+
+              const otherAppointments = data.filter(a => a.id !== appointment.id);
+
+              if (this.doesScheduleOverlap(updatedAppointment, otherAppointments, true)) {
+                this.setState({ isConflict: true });
+                return appointment;  // Skip the update if there is a conflict
+              }
               return updatedAppointment;
             } else {
               return appointment;
             }
           });
         }
+
+
         if (deleted !== undefined) {
           this.setDeletedAppointmentId(deleted);
           this.toggleConfirmationVisible();
@@ -1532,6 +1595,7 @@ fetchDataButtonsSched = () => {
     } = this.state;
 
 
+   
   
     return (
       <div className={SchedulerFacultyCSS.tooltipContainer}>
@@ -1607,7 +1671,9 @@ fetchDataButtonsSched = () => {
               </DialogActions>
             </Dialog>
           </CustomPaper>
+          <ToastContainer />
         </>
+        
       </div>
     );
   }

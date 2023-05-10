@@ -264,6 +264,7 @@ const BlockManagePage = () => {
     setEditStudentMiddle('');
     setNameIsFocused(false)
   };
+  
   const handleCloseEdit = () => {
     setOpenEdit(false);
   };
@@ -275,7 +276,6 @@ const BlockManagePage = () => {
   const handleSubmit = (event) => {
   
     setRefreshData((prevState) => !prevState);
- 
     handleClose();
     setYear(yearForm);
 
