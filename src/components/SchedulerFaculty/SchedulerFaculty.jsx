@@ -590,12 +590,17 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     const applyChanges = isNewAppointment
       ? () => { 
         this.commitAppointment("added")
+
+
+ 
+     
         this.props.handleDataFromChild(this.state.blockPropChild, false)
         this.props.handleDataFromChild(this.state.yearPropChild, true)
+   
+        
         this.props.handleClickFromChild("clicked");
       }
       : () => {
-        this.props.handleClickFromChild("clicked");
        this.commitAppointment("changed")
       };
 
@@ -1060,6 +1065,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 onClick={() => {
                   visibleChange();
                   applyChanges();
+                  this.props.setIsNewSched(isNewAppointment)
                 }}
                 style={{ textTransform: "none" }}
                 sx={{
@@ -1140,7 +1146,8 @@ export default class SchedulerFaculty extends React.PureComponent {
       year: null,
       block: null,
       clicked: "notClicked",
-      isConflict: false
+      isConflict: false,
+  
     };
   
 
@@ -1188,18 +1195,26 @@ export default class SchedulerFaculty extends React.PureComponent {
         cancelAppointment,
         data: data,
         handleDataFromChild: this.handleDataFromChild,
-        handleClickFromChild: this.handleClickFromChild
+        handleClickFromChild: this.handleClickFromChild,
+        setIsNewSched: this.props.setIsNewSched,
+        isConflict: this.state.isConflict
       };
     });
   }
 
   
   handleDataFromChild = (value, isYear) => {
-    if (isYear) {
-      this.setState({ year: value });
-    } else {
-      this.setState({ block: value });
-    }
+
+    
+      if (isYear) {
+        this.setState({ year: value });
+      } else {
+        this.setState({ block: value });
+      }
+
+    
+
+    
   };
 
   handleClickFromChild = (isCreateClicked) => {
@@ -1232,6 +1247,7 @@ export default class SchedulerFaculty extends React.PureComponent {
   
   applyFilterUpdate = (year, block, added, changed, deleted) => {
 
+  
     
     if (!year && !block) {
       console.log(`i ran 1 ${year} ${block}`)
@@ -1249,10 +1265,8 @@ export default class SchedulerFaculty extends React.PureComponent {
       const filteredData = this.state.data.filter(item => item.year === year && item.block === block);
       this.updateNewData(filteredData);
     }
-
-
-    this.props.setYearParent(year)
-    this.props.setBlockParent(block)
+    
+    
   };
 
   handleAppointmentColorChange = (color) => {
@@ -1308,6 +1322,9 @@ fetchDataButtonsSched = () => {
     }
 
     if (!prevState.isConflict && this.state.isConflict) {
+
+      this.props.setIsEditConflict(this.state.isConflict)
+      
       toast.error('Conflict found. No changes made.', {
         position: toast.POSITION.TOP_CENTER,
         className:  SchedulerFacultyCSS['custom-toast'],
@@ -1446,10 +1463,16 @@ fetchDataButtonsSched = () => {
       console.log(this.state.year, this.state.block)
       
    
-      
+  
+
+//DITO MO ICHECK: IF CONFLICT WAG MO RUN RONG FILTERupdate
+
+  
       if(added){
+      
         
       this.applyFilterUpdate(this.state.year, this.state.block, added, changed, deleted);
+      
       }else{
       this.applyFilter();
       }

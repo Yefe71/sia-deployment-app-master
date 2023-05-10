@@ -178,16 +178,42 @@ const SubjectAssignPage = () => {
 
   
   const handleDataFromChild = (yearData, blockData) => {
-    setYearProp(yearData);
-    setBlockProp(blockData);
+
+    if (isCreateClicked === "clicked" && isNewSched === true && isEditConflict === true){
+      setYearProp(yearData);
+      setBlockProp(blockData);
+      setIsNewSched(false);
+      setIsCreateClicked(false);
+    }else{
+      setIsNewSched(false);
+      setIsCreateClicked(false);
+    }
   };
 
   const [isCreateClicked, setIsCreateClicked] = useState("notClicked")
+  const [isNewSched, setIsNewSched] = useState(false)
+  const [isEditConflict, setIsEditConflict] = useState(false)
   
   const handleClickFromChild = (isCreateClicked) => {
+    
     setIsCreateClicked(isCreateClicked);
+
   };
 
+
+const handleYearBlockAdd = (year, block) => {
+
+    if (!isEditConflict){
+
+      console.log(isEditConflict, "i still ran :(")
+        setYear(year)
+        setBlock(block)
+        
+    }
+  
+}
+
+  
   useEffect(() => {
     setYear('1');
     const timeoutId = setTimeout(() => {
@@ -204,13 +230,19 @@ const SubjectAssignPage = () => {
     const yearArray = [yearProp];
     const blockArray = [blockProp];
 
-    if (isCreateClicked === "clicked") {
-      console.log("hello!");
+    if (isCreateClicked === "clicked" && isNewSched === true && isEditConflict === true) {
+      console.log("I RAN WTF!");
       handleClickFromChild("notClicked");
       setYear(yearArray);
       setBlock(blockArray);
-
+      setIsNewSched(false);
+      setIsCreateClicked(false);
+    }else{
+      setIsNewSched(false);
+      setIsCreateClicked(false);
     }
+    
+ 
   }, [isCreateClicked]);
 
 
@@ -232,7 +264,7 @@ const SubjectAssignPage = () => {
         <div className={SubjectAssignCSS.topTable}>
 
           
-          <h2>{`Subject Assignment`}</h2>
+          <h2>{`Subject Assignment ${isNewSched} ${isEditConflict}`}</h2>
           <div className={SubjectAssignCSS.topButtons}>
             <FormControl
               sx={{
@@ -293,7 +325,7 @@ const SubjectAssignPage = () => {
 
         </div>
         <div className={SubjectAssignCSS.tableWrapper}>
-          <SchedulerFaculty setYearParent={setYear} setBlockParent={setBlock}clicked={isCreateClicked}  handleClickFromChild = {handleClickFromChild} onDataReceived={handleDataFromChild} readOnly = {false} ref={childComponentRef} year={year} block={block} setBlockChild={setBlockChild}/>
+          <SchedulerFaculty handleYearBlockAdd = {handleYearBlockAdd} setIsEditConflict = {setIsEditConflict} setIsNewSched = {setIsNewSched} setYearParent={setYear} setBlockParent={setBlock}clicked={isCreateClicked}  handleClickFromChild = {handleClickFromChild} onDataReceived={handleDataFromChild} readOnly = {false} ref={childComponentRef} year={year} block={block} setBlockChild={setBlockChild}/>
         </div>
         <div className={SubjectAssignCSS.bottomButtons}>
           <div className={SubjectAssignCSS.left}>
