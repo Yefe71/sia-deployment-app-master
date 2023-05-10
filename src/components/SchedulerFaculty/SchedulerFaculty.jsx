@@ -477,6 +477,23 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     if (prevState.openRoom !== this.state.openRoom && !this.state.openRoom) {
       this.fetchDataRoom();
     }
+
+
+
+    if(prevProps.visible !== this.props.visible){
+      this.setState({ yearField: 0 });
+    }
+
+    
+
+    console.log(this.state.yearField, "yearfield update")
+    
+    if (!this.state.yearField) {
+      this.setState({ yearField: this.props.appointmentData.year });
+       console.log(this.state.yearField, "when no yearfield, apptdata is yearfield")
+    }
+
+   
   }
 
   async componentDidMount() {
@@ -546,9 +563,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       ...appointmentChanges,
     };
 
-    if (!this.state.yearField) {
-      this.setState({ yearField: appointmentData.year });
-    }
+
 
     const isFormValid = () => {
       const requiredFields = [
