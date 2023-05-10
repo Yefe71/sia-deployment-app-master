@@ -1147,6 +1147,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       block: null,
       clicked: "notClicked",
       isConflict: false,
+      isConflictProp: false,
   
     };
   
@@ -1197,7 +1198,8 @@ export default class SchedulerFaculty extends React.PureComponent {
         handleDataFromChild: this.handleDataFromChild,
         handleClickFromChild: this.handleClickFromChild,
         setIsNewSched: this.props.setIsNewSched,
-        isConflict: this.state.isConflict
+        isConflict: this.state.isConflict,
+        isConflictProp: this.state.isConflictProp
       };
     });
   }
@@ -1242,31 +1244,6 @@ export default class SchedulerFaculty extends React.PureComponent {
       const filteredData = this.state.data.filter(item => item.year === this.props.year && item.block === this.props.block);
       this.updateNewData(filteredData);
     }
-  };
-
-  
-  applyFilterUpdate = (year, block, added, changed, deleted) => {
-
-  
-    
-    if (!year && !block) {
-      console.log(`i ran 1 ${year} ${block}`)
-      this.updateNewData(this.state.data);
-    } else if (!year) {
-      console.log(`i ran 2 ${year} ${block}`)
-      const filteredData = this.state.data.filter(item => item.block === block);
-      this.updateNewData(filteredData);
-    } else if (!block) {
-      console.log(`i ran 3 ${year} ${block}`)
-      const filteredData = this.state.data.filter(item => item.year === year);
-      this.updateNewData(filteredData);
-    } else {
-      console.log(`i ran 4 ${year} ${block}`)
-      const filteredData = this.state.data.filter(item => item.year === year && item.block === block);
-      this.updateNewData(filteredData);
-    }
-    
-    
   };
 
   handleAppointmentColorChange = (color) => {
@@ -1323,6 +1300,7 @@ fetchDataButtonsSched = () => {
 
     if (!prevState.isConflict && this.state.isConflict) {
 
+      this.setState({isConflictProp: this.state.isConflict})
       this.props.setIsEditConflict(this.state.isConflict)
       
       toast.error('Conflict found. No changes made.', {
@@ -1469,8 +1447,8 @@ fetchDataButtonsSched = () => {
 
   
       if(added){
-      
-        
+    
+      console.log(this.state.isConflictProp, "TANGINA GUMANA KA PARANG AWA")
       this.applyFilterUpdate(this.state.year, this.state.block, added, changed, deleted);
       
       }else{
@@ -1517,6 +1495,31 @@ doesScheduleOverlap(newSchedule, existingSchedules, isUpdate = false) {
 }
 
 
+
+  
+applyFilterUpdate = (year, block, added, changed, deleted) => {
+
+  console.log("tangina naman", this.state.isConflict)
+    
+  if (!year && !block) {
+    console.log(`i ran 1 ${year} ${block}`)
+    this.updateNewData(this.state.data);
+  } else if (!year) {
+    console.log(`i ran 2 ${year} ${block}`)
+    const filteredData = this.state.data.filter(item => item.block === block);
+    this.updateNewData(filteredData);
+  } else if (!block) {
+    console.log(`i ran 3 ${year} ${block}`)
+    const filteredData = this.state.data.filter(item => item.year === year);
+    this.updateNewData(filteredData);
+  } else {
+    console.log(`i ran 4 ${year} ${block}`)
+    const filteredData = this.state.data.filter(item => item.year === year && item.block === block);
+    this.updateNewData(filteredData);
+  }
+  
+  
+};
 
 
 
