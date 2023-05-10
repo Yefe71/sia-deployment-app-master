@@ -1188,7 +1188,9 @@ export default class SchedulerFaculty extends React.PureComponent {
   };
 
   
-  applyFilterUpdate = (year, block) => {
+  applyFilterUpdate = (year, block, added, changed, deleted) => {
+
+    
     if (!year && !block) {
       console.log(`i ran 1 ${year} ${block}`)
       this.updateNewData(this.state.data);
@@ -1376,7 +1378,7 @@ fetchDataButtonsSched = () => {
     this.toggleConfirmationVisible();
   }
 
-  async updateSchedules(dataLatest) {
+  async updateSchedules(dataLatest, added, changed, deleted) {
     this.setState({ isUpdatingSchedules: true });
 
     try {
@@ -1402,9 +1404,15 @@ fetchDataButtonsSched = () => {
     } finally {
       console.log('done updating, applying filters')
       console.log(this.state.year, this.state.block)
-      this.applyFilterUpdate(this.state.year, this.state.block);
-
       
+   
+      
+      if(added){
+        
+      this.applyFilterUpdate(this.state.year, this.state.block, added, changed, deleted);
+      }else{
+      this.applyFilter();
+      }
       this.setState({ isUpdatingSchedules: false });
       
     }
@@ -1467,9 +1475,10 @@ fetchDataButtonsSched = () => {
         return { data, addedAppointment: {} };
       },
       () => {
-        console.log("i ran");
-        this.updateSchedules(this.state.data);
+   
 
+        this.updateSchedules(this.state.data, added,changed,deleted);
+        
       }
     );
   }
