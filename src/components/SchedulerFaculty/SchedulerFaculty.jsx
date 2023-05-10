@@ -1504,6 +1504,8 @@ doesScheduleOverlap(newSchedule, existingSchedules, isUpdate = false) {
 applyFilterUpdate = (year, block, added, changed, deleted) => {
 
   console.log("tangina naman", this.state.isConflict)
+  
+
     
   if (!year && !block) {
     console.log(`i ran 1 ${year} ${block}`)
@@ -1521,6 +1523,8 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
     const filteredData = this.state.data.filter(item => item.year === year && item.block === block);
     this.updateNewData(filteredData);
   }
+
+  this.setState({isConflictProp: false})
   
   
 };
