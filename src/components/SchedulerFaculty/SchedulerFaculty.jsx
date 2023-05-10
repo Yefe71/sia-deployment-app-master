@@ -1449,7 +1449,11 @@ fetchDataButtonsSched = () => {
       if(added){
     
       console.log(this.state.isConflictProp, "TANGINA GUMANA KA PARANG AWA")
-      this.applyFilterUpdate(this.state.year, this.state.block, added, changed, deleted);
+
+      if (!this.state.isConflictProp){
+        this.applyFilterUpdate(this.state.year, this.state.block, added, changed, deleted);
+        this.setState({isConflictProp: false})
+      }
       
       }else{
       this.applyFilter();
