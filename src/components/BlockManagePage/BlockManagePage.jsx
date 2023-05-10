@@ -277,10 +277,8 @@ const BlockManagePage = () => {
     setRefreshData((prevState) => !prevState);
  
     handleClose();
-    setYear("1");
-    setBlock("1");
-    setYear("");
-    setBlock("");
+    setYear(yearForm);
+
   };
 
   const editStudent = async () => {

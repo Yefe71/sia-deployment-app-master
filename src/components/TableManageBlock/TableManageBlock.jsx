@@ -139,31 +139,62 @@ const TableManageBlock = forwardRef(
       fetchDataButtons();
     }, []);
 
-    useEffect(() => {
-      if (isInitialMount.current) {
-        isInitialMount.current = false;
-      } else {
-        const fetchDataButtons = () => {
-          fetch(
-            `http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=''`
-          )
-            .then((response) => response.json())
-            .then((data) => {
-              setData(data);
-              setDataChild(data);
-              const uniqueBlocks = [
-                ...new Set(data.map((student) => student.block)),
-              ].sort();
-              setBlockChild(uniqueBlocks);
-            })
-            .catch((error) => console.log(error));
-        };
+    // // //YEAR BUTTON
+    // useEffect(() => {
+    //   if (isInitialMount.current) {
+    //     isInitialMount.current = false;
+    //   } else {
+    //     const fetchDataButtons = () => {
+    //       fetch(
+    //         `http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=''`
+    //       )
+    //         .then((response) => response.json())
+    //         .then((data) => {
+              // setData(data);
+              // setDataChild(data);
+              // const uniqueBlocks = [
+              //   ...new Set(data.map((student) => student.block)),
+              // ].sort();
 
-        fetchDataButtons();
-      }
-    }, [yearButton]);
+              // console.log('i ran buttons')
+              // setBlockChild(uniqueBlocks);
+    //         })
+    //         .catch((error) => console.log(error));
+    //     };
 
-    const fetchDataButtons = () => {
+    //     fetchDataButtons();
+    //   }
+    // }, [yearButton]);
+
+
+
+    // useEffect(() => {
+    //   if (isInitialMount.current) {
+    //     isInitialMount.current = false;
+    //   } else {
+    //     const fetchDataButtons = () => {
+    //       fetch(
+    //         `http://localhost:3000/grabStudentsButtons?yearButton=''&blockButton=${blockButton}`
+    //       )
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //           setData(data);
+    //           setDataChild(data);
+    //           const uniqueBlocks = [
+    //             ...new Set(data.map((student) => student.block)),
+    //           ].sort();
+
+    //           console.log('i ran buttons')
+    //           setBlockChild(uniqueBlocks);
+    //         })
+    //         .catch((error) => console.log(error));
+    //     };
+
+    //     fetchDataButtons();
+    //   }
+    // }, [blockButton]);
+
+    const fetchDataButtonsYear = () => {
       fetch(
         `http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=${blockButton}`
       )
@@ -171,6 +202,50 @@ const TableManageBlock = forwardRef(
         .then((data) => {
           setData(data);
           setDataChild(data);
+
+        })
+        .catch((error) => console.log(error));
+    };
+
+    useImperativeHandle(ref, () => ({
+      fetchDataAction,
+    }));
+
+
+    const fetchDataButtonsBlock = () => {
+      fetch(
+        `http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=${blockButton}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setData(data);
+          setDataChild(data);
+
+          console.log("hoho block", data)
+
+        })
+        .catch((error) => console.log(error));
+    };
+
+    useImperativeHandle(ref, () => ({
+      fetchDataAction,
+    }));
+
+
+    const fetchDataBlocks = () => {
+      fetch(
+        `http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=''`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          const uniqueBlocks = [
+            ...new Set(data.map((student) => student.block)),
+          ].sort();
+          console.log("FETCH DATA BLOCKS", uniqueBlocks)
+       
+          setBlockChild(uniqueBlocks);
+       
+
         })
         .catch((error) => console.log(error));
     };
@@ -180,6 +255,7 @@ const TableManageBlock = forwardRef(
     }));
 
     const [refreshKey, setRefreshKey] = useState(0);
+
     const fetchDataAction = async (actionId) => {
       try {
         const response = await fetch(
@@ -234,6 +310,8 @@ const TableManageBlock = forwardRef(
             ].sort();
          
             setBlockChild(uniqueBlocks);
+
+            console.log("IM THE ONE BITHD")
           })
           .catch((error) => console.log(error));
       }
@@ -255,17 +333,49 @@ const TableManageBlock = forwardRef(
       } else {
         fetchData();
       }
+      console.log("i ran buttons/mount data");
     }, [refreshData]);
 
     useEffect(() => {
       if (isInitialMount.current) {
         isInitialMount.current = false;
       } else {
-        fetchDataButtons();
         setPage(0);
         console.log("i ran buttons/mount data");
       }
     }, [filterRefreshData, refreshKey]);
+
+
+
+    useEffect(() => {
+      if (isInitialMount.current) {
+        isInitialMount.current = false;
+      } else {
+        fetchDataButtonsYear();
+        setPage(0);
+        console.log("i ran year  data");
+      }
+    }, [yearButton]);
+
+    useEffect(() => {
+      if (isInitialMount.current) {
+        isInitialMount.current = false;
+      } else {
+        fetchDataButtonsBlock();
+        setPage(0);
+        console.log("i ran block data");
+      }
+    }, [blockButton]);
+
+    useEffect(() => {
+      if (isInitialMount.current) {
+        isInitialMount.current = false;
+      } else {
+        fetchDataBlocks();
+        setPage(0);
+        console.log("i ran unique blocks");
+      }
+    }, [yearButton, blockButton]);
 
 
     return (
