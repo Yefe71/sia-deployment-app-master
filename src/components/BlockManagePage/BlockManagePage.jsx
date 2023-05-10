@@ -111,7 +111,7 @@ const BlockManagePage = () => {
   const [editStudentSuffix, setEditStudentSuffix] = useState("");
 
   const handleInputChange = (event) => {
-    console.log(blockChild);
+   
     const newValue = event.target.value;
     const length = newValue.length;
     const secondCharIsHyphen = length >= 2 && newValue.charAt(1) === "-";
@@ -273,9 +273,9 @@ const BlockManagePage = () => {
   };
 
   const handleSubmit = (event) => {
-    console.log(refreshData, 1);
+  
     setRefreshData((prevState) => !prevState);
-    console.log(refreshData, 2);
+ 
     handleClose();
     setYear("1");
     setBlock("1");
@@ -296,14 +296,14 @@ const BlockManagePage = () => {
         }
       );
       const data = await response.json();
-      console.log(data, "data updated");
+      
     } catch (error) {
       console.log(error);
     }
   };
 
   const updateStudentNameEdit = async () => {
-    console.log(editId, "me!!");
+
     try {
       const response = await fetch(
         `http://localhost:3000/transferStudentNameEdit?studentId=${editId}&editStudentLast=${editStudentLast}&editStudentFirst=${editStudentFirst}&editStudentMiddle=${editStudentMiddle}&editStudentSuffix=${editStudentSuffix}&transferStanding=${transferStanding}`,
@@ -317,7 +317,7 @@ const BlockManagePage = () => {
       );
       const data = await response.json();
 
-        console.log('update success')
+       
     } catch (error) {
       console.log(error);
     }
@@ -337,7 +337,7 @@ const BlockManagePage = () => {
         }
       );
       const data = await response.json();
-      console.log(data, "data updated");
+    
     } catch (error) {
       console.log(error);
     }
@@ -356,7 +356,7 @@ const BlockManagePage = () => {
         }
       );
       const data = await response.json();
-      console.log(data, "data dropped/failed");
+  
     } catch (error) {
       console.log(error);
     }
@@ -381,15 +381,6 @@ const BlockManagePage = () => {
 
   const handleSubmitAdd = async (event) => {
     event.preventDefault();
-    console.log(
-      addStudentId,
-      addStudentYear,
-      addStudentBlock,
-      addStudentLast,
-      addStudentFirst,
-      addStudentMiddle,
-      addStudentStanding
-    );
     handleCloseEdit();
     setYear("")
     setBlock("")
@@ -420,7 +411,7 @@ const BlockManagePage = () => {
 
   useEffect(() => {
     const fetchDataButtons = () => {
-      console.log(year, "me!!");
+    
       fetch(
         `http://localhost:3000/grabStudentsButtons?yearButton=${yearForm}&blockButton=''`
       )
@@ -440,9 +431,9 @@ const BlockManagePage = () => {
   }, [yearForm]);
 
   useEffect(() => {
-    console.log("run");
+  
     const fetchStudentName = async () => {
-      console.log(editId, "me!!");
+   
       try {
         const response = await fetch(
           `http://localhost:3000/transferStudentName?studentId=${editId}`,
@@ -459,7 +450,7 @@ const BlockManagePage = () => {
         if (data && data.length > 0) {
           const studentData = data[0];
           const fullNameString = `${studentData.last_name}, ${studentData.first_name} ${studentData.middle_name} ${studentData.suffix}`;
-          console.log(fullNameString, "hello")
+        
           setEditStudentName(fullNameString);
           setEditStudentLast(studentData.last_name);
           setEditStudentFirst(studentData.first_name);
@@ -468,7 +459,7 @@ const BlockManagePage = () => {
 
         
         } else {
-          console.log("No student data found for this ID");
+          
           setEditStudentName("");
         }
       } catch (error) {
@@ -483,9 +474,9 @@ const BlockManagePage = () => {
  
 
   useEffect(() => {
-    console.log("run");
+
     const fetchStudentName = async () => {
-      console.log(editId, "me!!");
+    
       try {
         const response = await fetch(
           `http://localhost:3000/transferStudentName?studentId=${dropStudentId}`,
@@ -502,11 +493,11 @@ const BlockManagePage = () => {
         if (data && data.length > 0) {
           const studentData = data[0];
           const fullNameString = `${studentData.last_name}, ${studentData.first_name} ${studentData.middle_name} ${studentData.suffix}`;
-          console.log(fullNameString, "hello")
+       
           setDropStudentName(fullNameString);
           
         } else {
-          console.log("No student data found for this ID");
+      
           setDropStudentName("");
         }
       } catch (error) {
@@ -522,7 +513,7 @@ const BlockManagePage = () => {
   
 
   useEffect(() => {
-    console.log("run");
+   
     const fetchStudentYearBlock = async () => {
       try {
         const response = await fetch(
@@ -558,7 +549,7 @@ const BlockManagePage = () => {
 
 
   useEffect(() => {
-    console.log("run");
+  
     const fetchStudentYearBlock = async () => {
       try {
         const response = await fetch(
@@ -609,7 +600,7 @@ const BlockManagePage = () => {
       setErrorYear(true);
     }
 
-    console.log("changed");
+
   };
 
  

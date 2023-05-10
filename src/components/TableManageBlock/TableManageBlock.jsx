@@ -24,16 +24,7 @@ const StyledTableCellID = styled(TableCell)({
 });
 
 const StyleTable = styled(Table)({
-  // borderCollapse: 'collapse',
-  // '& th': {
-  //   fontWeight: 'bold',
-  //   backgroundColor: '#f2f2f2',
-  //   padding: '8px',
-  // },
-  // '& td': {
-  //   border: '1px solid #ddd',
-  //   padding: '8px',
-  // },
+
 });
 
 const StyledTableCellLeft = styled(TableCell)({
@@ -95,6 +86,7 @@ const TableManageBlock = forwardRef(
     const [blinkStudentId, setBlinkStudentId] = useState(null);
 
     useEffect(() => {
+      console.log('i ran')
       const fetchDataButtons = async () => {
         try {
           const responses = await Promise.all([
@@ -119,7 +111,8 @@ const TableManageBlock = forwardRef(
           const allData = await Promise.all(dataPromises);
 
           allData.forEach((data, index) => {
-            setData(data);
+            // setData(data);
+            console.log("check", data)
             setDataChild(data);
             const uniqueBlocks = [
               ...new Set(data.map((student) => student.block)),
@@ -147,23 +140,27 @@ const TableManageBlock = forwardRef(
     }, []);
 
     useEffect(() => {
-      const fetchDataButtons = () => {
-        fetch(
-          `http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=''`
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            setData(data);
-            setDataChild(data);
-            const uniqueBlocks = [
-              ...new Set(data.map((student) => student.block)),
-            ].sort();
-            setBlockChild(uniqueBlocks);
-          })
-          .catch((error) => console.log(error));
-      };
+      if (isInitialMount.current) {
+        isInitialMount.current = false;
+      } else {
+        const fetchDataButtons = () => {
+          fetch(
+            `http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=''`
+          )
+            .then((response) => response.json())
+            .then((data) => {
+              setData(data);
+              setDataChild(data);
+              const uniqueBlocks = [
+                ...new Set(data.map((student) => student.block)),
+              ].sort();
+              setBlockChild(uniqueBlocks);
+            })
+            .catch((error) => console.log(error));
+        };
 
-      fetchDataButtons();
+        fetchDataButtons();
+      }
     }, [yearButton]);
 
     const fetchDataButtons = () => {
@@ -191,6 +188,8 @@ const TableManageBlock = forwardRef(
         const data = await response.json();
 
         setData(data);
+
+       
         setDataChild(data);
 
         if (actionId.length > 4 && actionId.charAt(4) !== "-") {
@@ -202,14 +201,12 @@ const TableManageBlock = forwardRef(
           setRefreshKey((prevKey) => prevKey + 1);
         } else {
           const index = data.findIndex((student) => {
-            console.log(student.student_id + " bruh " + actionId);
+           
             return student.student_id === actionId;
           });
 
-          console.log(index); //console logs -1
-          console.log(data[index]); //console logs undefined
+     
 
-          console.log("page", Math.floor(index / rowsPerPage));
           setPage(Math.floor(index / rowsPerPage));
 
           setBlinkStudentId(actionId);
@@ -223,7 +220,7 @@ const TableManageBlock = forwardRef(
     };
 
     const fetchData = () => {
-      console.log("i ran too helo", yearForm, blockForm);
+  
       if (yearForm && blockForm) {
         fetch(
           `http://localhost:3000/grabStudents?year=${yearForm}&numBlock=${blockForm}&yearButton=${yearButton}&blockButton=${blockButton}`
@@ -235,7 +232,7 @@ const TableManageBlock = forwardRef(
             const uniqueBlocks = [
               ...new Set(data.map((student) => student.block)),
             ].sort();
-            console.log(uniqueBlocks);
+         
             setBlockChild(uniqueBlocks);
           })
           .catch((error) => console.log(error));
@@ -266,7 +263,7 @@ const TableManageBlock = forwardRef(
       } else {
         fetchDataButtons();
         setPage(0);
-        console.log("i ran buttons");
+        console.log("i ran buttons/mount data");
       }
     }, [filterRefreshData, refreshKey]);
 
