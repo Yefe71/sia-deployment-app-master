@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -24,7 +24,6 @@ const BlockClassesPage = () => {
     setYear(event.target.value);
     // setFilterRefreshData((prevState) => !prevState);
   };
-
   const [block, setBlock] = React.useState([])
   const handleChangeBlock = (event) => {
     setBlock(event.target.value);
@@ -37,6 +36,19 @@ const BlockClassesPage = () => {
   };
 
   const childComponentRef = React.useRef();
+
+  useEffect(() => {
+    setYear('1');
+    const timeoutId = setTimeout(() => {
+      setYear('');
+    }, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, []);
+
+  
   return (
     <>
       {/* <div className={BlockClassessCSS.topTableWrapper}>
