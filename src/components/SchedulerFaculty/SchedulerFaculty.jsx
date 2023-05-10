@@ -1166,17 +1166,43 @@ export default class SchedulerFaculty extends React.PureComponent {
   };
 
   
-  applyFilter = () => {
+  applyFilter = (year, block) => {
+
+
     if (!this.props.year && this.props.block.length === 0) {
+      console.log(`i ran 1 ${this.props.year} ${this.props.block}`)
       this.updateNewData(this.state.data);
     } else if (!this.props.year) {
+      console.log(`i ran 2 ${this.props.year} ${this.props.block}`)
       const filteredData = this.state.data.filter(item => item.block === this.props.block);
       this.updateNewData(filteredData);
     } else if (this.props.block.length === 0) {
+      console.log(`i ran 3 ${this.props.year} ${this.props.block}`)
       const filteredData = this.state.data.filter(item => item.year === this.props.year);
       this.updateNewData(filteredData);
     } else {
+      console.log(`i ran 4 ${this.props.year} ${this.props.block}`)
       const filteredData = this.state.data.filter(item => item.year === this.props.year && item.block === this.props.block);
+      this.updateNewData(filteredData);
+    }
+  };
+
+  
+  applyFilterUpdate = (year, block) => {
+    if (!year && !block) {
+      console.log(`i ran 1 ${year} ${block}`)
+      this.updateNewData(this.state.data);
+    } else if (!year) {
+      console.log(`i ran 2 ${year} ${block}`)
+      const filteredData = this.state.data.filter(item => item.block === block);
+      this.updateNewData(filteredData);
+    } else if (!block) {
+      console.log(`i ran 3 ${year} ${block}`)
+      const filteredData = this.state.data.filter(item => item.year === year);
+      this.updateNewData(filteredData);
+    } else {
+      console.log(`i ran 4 ${year} ${block}`)
+      const filteredData = this.state.data.filter(item => item.year === year && item.block === block);
       this.updateNewData(filteredData);
     }
   };
@@ -1227,31 +1253,30 @@ fetchDataButtonsSched = () => {
   componentDidUpdate(prevProps, prevState) {
     this.appointmentForm.update();
 
-    const justClosedForm = prevState.editingFormVisible && !this.state.editingFormVisible;
-    const justClosedConfirm = prevState.confirmationVisible && !this.state.confirmationVisible;
+    // const justClosedForm = prevState.editingFormVisible && !this.state.editingFormVisible;
+    // const justClosedConfirm = prevState.confirmationVisible && !this.state.confirmationVisible;
 
     if (
-      (this.props.year !== prevProps.year || this.props.block !== prevProps.block) ||
-      justClosedForm || justClosedConfirm
+      (this.props.year !== prevProps.year || this.props.block !== prevProps.block)
     ) {
       this.fetchDataButtonsSched();
       this.applyFilter();
     }
 
     
-    if (this.state.year !== prevState.year || this.state.block !== prevState.block) {
-    this.props.onDataReceived(this.state.year, this.state.block);
-    }
+    // if (this.state.year !== prevState.year || this.state.block !== prevState.block) {
+    // this.props.onDataReceived(this.state.year, this.state.block);
+    // }
     
-    if (this.state.clicked !== prevState.clicked) {
-    this.props.handleClickFromChild(this.state.clicked);
-    }
+    // if (this.state.clicked !== prevState.clicked) {
+    // this.props.handleClickFromChild(this.state.clicked);
+    // }
 
     
-    if (this.props.clicked !== prevProps.clicked) {
-      this.setState({ clicked: this.props.clicked });
-      this.applyFilter();
-    }
+    // if (this.props.clicked !== prevProps.clicked) {
+    //   this.setState({ clicked: this.props.clicked });
+    // }
+    
   }
 
   updateNewData(newData) {
@@ -1285,7 +1310,7 @@ fetchDataButtonsSched = () => {
       console.log(rows, "grab schedules");
 
       this.setState({ data: rows }, () => {
-        this.setState({newData: this.state.data}, () => console.log(this.state.newData))
+        this.setState({newData: this.state.data}, () => this.applyFilter())
       });
 
 
@@ -1362,7 +1387,6 @@ fetchDataButtonsSched = () => {
         requestOptions
       );
       const data = await response.json();
-
       console.log(data, "updating scheds, should be latest");
       if (data.success) {
         console.log(data, "guds");
@@ -1372,7 +1396,13 @@ fetchDataButtonsSched = () => {
     } catch (error) {
       console.log(error);
     } finally {
+      console.log('done updating, applying filters')
+      console.log(this.state.year, this.state.block)
+      this.applyFilterUpdate(this.state.year, this.state.block);
+
+      
       this.setState({ isUpdatingSchedules: false });
+      
     }
   }
 
