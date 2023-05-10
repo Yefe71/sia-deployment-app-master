@@ -101,7 +101,7 @@ const BlockClassesPage = () => {
         <div className={BlockClassessCSS.topTable}>
 
           
-          <h2>Subject Assignment</h2>
+          <h2>Schedule</h2>
           <div className={BlockClassessCSS.topButtons}>
             <FormControl
               sx={{
@@ -162,7 +162,7 @@ const BlockClassesPage = () => {
 
         </div>
         <div className={BlockClassessCSS.tableWrapper}>
-          <SchedulerFaculty ref={childComponentRef} readOnly = {true} year={year} block={block} setBlockChild={setBlockChild}/>
+          <SchedulerFaculty isBlockClassess = {true} ref={childComponentRef} readOnly = {true} year={year} block={block} setBlockChild={setBlockChild}/>
         </div>
 
       </div>
