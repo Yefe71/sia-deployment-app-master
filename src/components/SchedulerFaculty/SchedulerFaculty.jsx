@@ -1473,34 +1473,47 @@ fetchDataButtonsSched = () => {
     return start1.isBefore(end2) && end1.isAfter(start2);
   }
 
+  doesScheduleOverlap(newSchedule, existingSchedules, isUpdate = false) {
+    if (newSchedule.classType !== 'F2F') return false;
   
-doesScheduleOverlap(newSchedule, existingSchedules, isUpdate = false) {
-  if (newSchedule.classType !== 'F2F') return false;
-
-  for (let existing of existingSchedules) {
-    if (
-      existing.classType === 'F2F' &&
-      existing.room === newSchedule.room && 
-      existing.day === newSchedule.day &&
-      this.isTimeOverlap(existing, newSchedule)
-    ) {
-      if (
-        isUpdate &&
-        existing.room === newSchedule.room &&
-        existing.startDate === newSchedule.startDate &&
-        existing.endDate === newSchedule.endDate
-      ) {
-        continue;
+    for (let existing of existingSchedules) {
+      // Check if the schedules conflict due to the same room, day, and time
+      let isRoomDayTimeConflict = existing.classType === 'F2F' &&
+        existing.room === newSchedule.room && 
+        existing.day === newSchedule.day &&
+        this.isTimeOverlap(existing, newSchedule);
+  
+      // Check if the schedules conflict due to the same year, block, day, and time
+      let isYearBlockDayTimeConflict = existing.classType === 'F2F' &&
+        existing.year === newSchedule.year &&
+        existing.block === newSchedule.block &&
+        existing.day === newSchedule.day &&
+        this.isTimeOverlap(existing, newSchedule);
+  
+      // Check if the schedules conflict due to the same professor, day, and time
+      let isProfDayTimeConflict = existing.classType === 'F2F' &&
+        existing.professorName === newSchedule.professorName &&
+        existing.day === newSchedule.day &&
+        this.isTimeOverlap(existing, newSchedule);
+  
+      if (isRoomDayTimeConflict || isYearBlockDayTimeConflict || isProfDayTimeConflict) {
+        if (
+          isUpdate &&
+          existing.room === newSchedule.room &&
+          existing.startDate === newSchedule.startDate &&
+          existing.endDate === newSchedule.endDate
+        ) {
+          continue;
+        }
+        return true;
       }
-      return true;
     }
+    
+    return false;
   }
   
-  return false;
-}
-
-
-
+  
+  
   
 applyFilterUpdate = (year, block, added, changed, deleted) => {
 
