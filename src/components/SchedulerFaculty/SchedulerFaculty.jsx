@@ -1523,6 +1523,8 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
     this.updateNewData(filteredData);
   }
 
+
+  this.props.handleYearBlockAdd(year, block)
   
   
 };

@@ -203,13 +203,10 @@ const SubjectAssignPage = () => {
 
 const handleYearBlockAdd = (year, block) => {
 
-    if (!isEditConflict){
 
-      console.log(isEditConflict, "i still ran :(")
         setYear(year)
         setBlock(block)
-        
-    }
+
   
 }
 
