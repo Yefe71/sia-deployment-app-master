@@ -1321,6 +1321,7 @@ fetchDataButtonsSched = () => {
   }
 
   updateNewData(newData) {
+    console.log("AKO RIN AJAJJAJAHA")
     if (JSON.stringify(this.state.newData) !== JSON.stringify(newData)) {
       this.setState({ newData });
     }
@@ -1413,7 +1414,7 @@ fetchDataButtonsSched = () => {
     this.toggleConfirmationVisible();
   }
 
-  async updateSchedules(dataLatest, added, changed, deleted) {
+  async updateSchedules(dataLatest, added, changed, deleted, conflict) {
     this.setState({ isUpdatingSchedules: true });
 
     try {
@@ -1448,11 +1449,11 @@ fetchDataButtonsSched = () => {
   
       if(added){
     
-      console.log(this.state.isConflictProp, "TANGINA GUMANA KA PARANG AWA")
+      console.log(conflict, "TANGINA GUMANA KA PARANG AWA")
 
-      if (!this.state.isConflictProp){
+      if (!conflict){
+        console.log(conflict, "nag run ako")
         this.applyFilterUpdate(this.state.year, this.state.block, added, changed, deleted);
-        this.setState({isConflictProp: false})
       }
       
       }else{
@@ -1503,9 +1504,7 @@ doesScheduleOverlap(newSchedule, existingSchedules, isUpdate = false) {
   
 applyFilterUpdate = (year, block, added, changed, deleted) => {
 
-  console.log("tangina naman", this.state.isConflict)
-  
-
+  console.log("NAG RUN RIN AKO MGA TANGA")
     
   if (!year && !block) {
     console.log(`i ran 1 ${year} ${block}`)
@@ -1524,7 +1523,6 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
     this.updateNewData(filteredData);
   }
 
-  this.setState({isConflictProp: false})
   
   
 };
@@ -1543,7 +1541,7 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
               .set("hour", dayjs(added.startDate).hour())
               .set("minute", dayjs(added.startDate).minute())
               .toDate(),
-            endDate: dayjs(added.day)
+            endDate: dayjs(added.day) 
               .set("hour", dayjs(added.endDate).hour())
               .set("minute", dayjs(added.endDate).minute())
               .toDate(),
@@ -1606,8 +1604,8 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
       },
       () => {
    
-
-        this.updateSchedules(this.state.data, added,changed,deleted);
+        console.log(this.state.isConflict, "UPDATE SHEEEE")
+        this.updateSchedules(this.state.data, added,changed,deleted, this.state.isConflict);
         
       }
     );
