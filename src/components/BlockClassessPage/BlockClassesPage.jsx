@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -21,39 +21,16 @@ import ReactToPrint from "react-to-print";
 const BlockClassesPage = () => {
   let componentRef = React.useRef();
 
-  async function printDocument() {
-    // Get the element and its container
-    const element = document.getElementById("mydiv");
-    const container = element.parentElement;
-
-    // Store the container's original size
-    const originalSize = {
-      width: container.style.width,
-      height: container.style.height,
-      overflow: container.style.overflow,
-    };
-
-    // Expand the container to fit its contents
-    container.style.width = `${element.scrollWidth}px`;
-    container.style.height = `${element.scrollHeight}px`;
-    container.style.overflow = "visible";
-
-    // Wait for the browser to render the changes
-    await new Promise((resolve) => setTimeout(resolve, 0));
-
-    // Capture the element
-    const canvas = await html2canvas(element);
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF();
-    pdf.addImage(imgData, "JPEG", 0, 0);
-    pdf.save("download.pdf");
-
-    // Restore the container's original size
-    container.style.width = originalSize.width;
-    container.style.height = originalSize.height;
-    container.style.overflow = originalSize.overflow;
-  }
-
+  useLayoutEffect(() => {
+    const vh = Math.max(
+      document.documentElement.clientHeight || 0,
+      window.innerHeight || 0
+    );
+    window.scrollTo({
+      top: vh * 0.11,
+      behavior: "smooth",
+    });
+  }, []);
   const exportAsPDF = (data) => {
     const doc = new jsPDF();
     const head = [
@@ -287,7 +264,7 @@ const BlockClassesPage = () => {
       </div>
 
       <div className={BlockClassessCSS.topTableWrapper}>
-        <div className={BlockClassessCSS.topTable}>
+        <div className={BlockClassessCSS.topTableBottom}>
           <h2>Class List</h2>
         </div>
         <div className={BlockClassessCSS.tableWrapper}>
