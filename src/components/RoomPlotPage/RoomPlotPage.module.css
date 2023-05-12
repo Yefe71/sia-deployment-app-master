@@ -147,9 +147,8 @@ form{
 }
 
 .topButtons{
-    visibility: hidden;
+    margin-bottom: 0.5rem;
 }
-
 /* @media screen and (max-width: 500px) {
     .topTable h2{
         color: rgb(62, 61, 61);

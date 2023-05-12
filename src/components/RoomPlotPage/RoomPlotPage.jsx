@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -12,9 +12,9 @@ import { TextField } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { useMediaQuery } from "@mui/material";
+import SchedulerFaculty from '../SchedulerFaculty/SchedulerFaculty';
 const RoomPlotPage = () => {
-    const [year, setYear] = React.useState("");
-    const [block, setBlock] = React.useState("");
+
     const isSmallScreen = useMediaQuery("(max-width: 500px)");
     const style = {
       position: "absolute",
@@ -28,57 +28,116 @@ const RoomPlotPage = () => {
       boxShadow: 24,
       p: 4,
     };
-  
-    const handleChangeStatus = (event) => {
-      setYear(event.target.value);
-    };
-    const handleChangeBlock = (event) => {
-      setBlock(event.target.value);
-    };
-
-
+    const childComponentRef = React.useRef();
+    const [blockChild, setBlockChild] = useState([])
+    const [year, setYear] = useState([])
+    const [block, setBlock] = React.useState([])
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [roomNames, setRoomNames] = useState([])
+    
 
-  
+    
     const handleSubmit = (event) => {
       event.preventDefault();
       handleClose();
     }
+    useEffect(() => {
+      setYear('1');
+      const timeoutId = setTimeout(() => {
+        setYear('');
+      }, 100);
+  
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }, []);
+
+
+    useEffect(() => {
+      const fetchDataRoom = async () => {
+        try {
+          const response = await fetch("http://localhost:3000/grabRoomsNames");
+          const data = await response.json();
+          setRoomNames(data)
+          console.log(data)
+        } catch (error) {
+          console.error("Error fetching rooms names:", error);
+        }
+      }
+
+      fetchDataRoom();
+    }, [])
+
+    const [selectedRoom, setSelectedRoom] = React.useState("");
+    const handleChangeRoom = (event) => {
+      setSelectedRoom(event.target.value);
+    };
+  
+    
   return (
    <>
     <div className={RoomPlotCSS.topTableWrapper}>
     <div className={RoomPlotCSS.topTable}>
       <h2>Room Plotting</h2>
       <div className={RoomPlotCSS.topButtons}>
-      
-        <FormControl sx={{ mr: 1, minWidth: 120 }}>
+        <FormControl
+          sx={{
+            mr: 0.6,
+            minWidth: isSmallScreen ? 90 : 120,
+          }}
+        >
           <Select
-            value={year}
-            onChange={handleChangeStatus}
+            value={selectedRoom}
+            onChange={handleChangeRoom}
             displayEmpty
             inputProps={{ "aria-label": "Without label" }}
             sx={{
               backgroundColor: "white",
               borderRadius: "0.5rem",
               fontFamily: "Poppins",
-              fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+              fontSize: isSmallScreen ? "0.5rem" : "0.9rem",
               padding: "0rem",
-              fontWeight: "600"
+              fontWeight: "600",
             }}
           >
-     
-            <MenuItem value="">Regular</MenuItem>
-            
-            <MenuItem value={20}>Irregular</MenuItem>
+            <MenuItem value="">Room</MenuItem>
+            {roomNames.map((room, index) => (
+              <MenuItem key={index} value={room.room_name}>
+                {room.room_name}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
 
+        {/* <FormControl sx={{ minWidth: isSmallScreen ? 80 : 100 }}>
+          <Select
+            value={block}
+            onChange={handleChangeBlock}
+            displayEmpty
+            inputProps={{ "aria-label": "Without label" }}
+            sx={{
+              backgroundColor: "white",
+              borderRadius: "0.5rem",
+              fontFamily: "Poppins",
+              fontSize: isSmallScreen ? "0.5rem" : "0.9rem",
+              padding: "0rem",
+              fontWeight: "600",
+            }}
+          >
+            <MenuItem value="">Block</MenuItem>
+            {blockChild.map((blockNumber) => (
+              <MenuItem value={blockNumber} key={blockNumber}>
+                Block {blockNumber}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl> */}
       </div>
     </div>
     <div className={RoomPlotCSS.tableWrapper}>
-      <MyTable />
+    <SchedulerFaculty room = {selectedRoom} isBlockClassess = {true} ref={childComponentRef} readOnly = {true} year={year} block={block} setBlockChild={setBlockChild}/>
     </div>
     <div className={RoomPlotCSS.bottomButtons}>
 
@@ -129,7 +188,7 @@ const RoomPlotPage = () => {
           }}
           variant="contained"
         >
-          Print Reblock List
+          Print Schedule
         </Button>
       </Stack>
     </div>

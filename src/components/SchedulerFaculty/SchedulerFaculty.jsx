@@ -1231,6 +1231,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       oldYearParent: null,
       oldBlockParent: null,
   
+  
     };
   
 
@@ -1312,7 +1313,7 @@ export default class SchedulerFaculty extends React.PureComponent {
   };
 
   
-  applyFilter = (year, block) => {
+  applyFilter = () => {
 
 
     if (!this.props.year && this.props.block.length === 0) {
@@ -1330,6 +1331,16 @@ export default class SchedulerFaculty extends React.PureComponent {
       console.log(`i ran 4 ${this.props.year} ${this.props.block}`)
       const filteredData = this.state.data.filter(item => item.year === this.props.year && item.block === this.props.block);
       this.updateNewData(filteredData);
+    }
+  };
+  
+  applyFilterRoom = () => {
+   if (this.props.room) {
+      console.log("i ran room")
+      const filteredData = this.state.data.filter(item => item.room === this.props.room);
+      this.updateNewData(filteredData);
+    }else if (!this.props.room) {
+      this.updateNewData(this.state.data);
     }
   };
 
@@ -1383,6 +1394,11 @@ fetchDataButtonsSched = () => {
     ) {
       this.fetchDataButtonsSched();
       this.applyFilter();
+    }
+    if (
+      (this.props.room !== prevProps.room)
+    ) {
+      this.applyFilterRoom();
     }
 
     if (!prevState.isConflict && this.state.isConflict) {

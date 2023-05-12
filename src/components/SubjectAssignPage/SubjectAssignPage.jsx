@@ -211,16 +211,16 @@ const handleYearBlockAdd = (year, block) => {
 }
 
   
-  useEffect(() => {
-    setYear('1');
-    const timeoutId = setTimeout(() => {
-      setYear('');
-    }, 100);
+  // useEffect(() => {
+  //   setYear('1');
+  //   const timeoutId = setTimeout(() => {
+  //     setYear('');
+  //   }, 100);
 
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, []);
+  //   return () => {
+  //     clearTimeout(timeoutId);
+  //   };
+  // }, []);
 
 
   useEffect(() => {
