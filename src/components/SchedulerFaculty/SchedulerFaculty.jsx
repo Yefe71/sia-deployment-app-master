@@ -379,7 +379,9 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       newYear: null,
       yearField: this.props.appointmentData.year,
       yearPropChild: null,
-      blockPropChild: null
+      blockPropChild: null,
+      oldYear: null,
+      oldBlock: null
     };
 
     
@@ -528,8 +530,13 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
     if(prevProps.visible !== this.props.visible){
       this.setState({ yearField: 0 });
+      
       this.setState({yearPropChild: this.props.appointmentData.year })
       this.setState({blockPropChild: this.props.appointmentData.block })
+      
+      this.setState({oldYear: this.props.appointmentData.year })
+      this.setState({oldBlock: this.props.appointmentData.block })
+
     }
 
 
@@ -644,8 +651,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       : () => {
         console.log("AKOY NAGLAKAD", this.state.yearPropChild, this.state.blockPropChild)
         this.commitAppointment("changed")
-        this.props.handleDataFromChild(this.state.blockPropChild, false)
-        this.props.handleDataFromChild(this.state.yearPropChild, true)
+        this.props.handleDataFromChild(this.state.blockPropChild, false, this.state.oldYear, this.state.oldBlock)
+        this.props.handleDataFromChild(this.state.yearPropChild, true, this.state.oldYear, this.state.oldBlock)
       };
 
     const textEditorProps = (field) => ({
@@ -1221,6 +1228,8 @@ export default class SchedulerFaculty extends React.PureComponent {
       clicked: "notClicked",
       isConflict: false,
       isConflictProp: false,
+      oldYearParent: null,
+      oldBlockParent: null,
   
     };
   
@@ -1279,14 +1288,18 @@ export default class SchedulerFaculty extends React.PureComponent {
   }
 
   
-  handleDataFromChild = (value, isYear) => {
+  handleDataFromChild = (value, isYear, oldYear, oldBlock) => {
 
+    
     
       if (isYear) {
         this.setState({ year: value });
       } else {
         this.setState({ block: value });
       }
+
+      this.setState({oldYearParent: oldYear})
+      this.setState({oldBlockParent: oldBlock})
 
     
 
@@ -1524,12 +1537,23 @@ fetchDataButtonsSched = () => {
       
   
       if(added || changed){
-    
-      console.log(conflict, "TANGINA GUMANA KA PARANG AWA")
+
 
       if (!conflict){
         console.log(conflict, "nag run ako")
-        this.applyFilterUpdate(this.state.year, this.state.block, added, changed, deleted);
+        
+        if (this.state.year && this.state.block ){
+
+          console.log("CHECK")
+          console.log(this.state.year, this.state.block)
+          console.log(this.state.oldYearParent, this.state.oldBlockParent)
+          if (this.state.year !== this.state.oldYearParent || this.state.block !== this.state.oldBlockParent){
+            this.applyFilterUpdate(this.state.year, this.state.block, added, changed, deleted);
+              }else{
+                this.applyFilter();
+              }
+        }
+
       }
       
       }else{
