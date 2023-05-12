@@ -51,58 +51,10 @@ const StyleTable = styled(Table)({
     zIndex: 1,
   });
 
-const TableStudentsList = ({standing, setDataChild}) => {
-
-
+const TableStudentsList = ({standing, setDataChild, yearButton, blockButton}) => {
   const [data, setData] = useState([])
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
-
-
-
-  const [yearBlock1, setYearBlock1] = useState([])
-  const [yearBlock2, setYearBlock2] = useState([])
-  const [yearBlock3, setYearBlock3] = useState([])
-  const [yearBlock4, setYearBlock4] = useState([])
-  const [yearBlock5, setYearBlock5] = useState([])
-
-
-
-  // useEffect(() => {
-  //   const fetchDataButtons = async () => {
-  //     try {
-  //       const responses = await Promise.all([
-  //         fetch(`http://localhost:3000/grabStudentsButtons?yearButton=1&blockButton=''`),
-  //         fetch(`http://localhost:3000/grabStudentsButtons?yearButton=2&blockButton=''`),
-  //         fetch(`http://localhost:3000/grabStudentsButtons?yearButton=3&blockButton=''`),
-  //         fetch(`http://localhost:3000/grabStudentsButtons?yearButton=4&blockButton=''`),
-  //         fetch(`http://localhost:3000/grabStudentsButtons?yearButton=5&blockButton=''`),
-  //       ]);
-
-  //       const dataPromises = responses.map((response) => response.json());
-  //       const allData = await Promise.all(dataPromises);
-
-  //       allData.forEach((data, index) => {
-  //         setData(data);
-  //         // setDataChild(data);
-  //         const uniqueBlocks = [...new Set(data.map((student) => student.block))].sort();
-  //         if (index === 0) setYearBlock1(uniqueBlocks);
-  //         else if (index === 1) setYearBlock2(uniqueBlocks);
-  //         else if (index === 2) setYearBlock3(uniqueBlocks);
-  //         else if (index === 3) setYearBlock4(uniqueBlocks);
-  //         else if (index === 4) setYearBlock5(uniqueBlocks);
-  //       });
-
-  //       setNumYearBlock(yearBlock1, yearBlock2, yearBlock3, yearBlock4, yearBlock5);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   fetchDataButtons();
-  // }, []);
-
 
   useEffect(() => {
     const fetchDataButtons = () => {
@@ -112,7 +64,7 @@ const TableStudentsList = ({standing, setDataChild}) => {
         .then((data) => {
           setData(data);
           setDataChild(data);
-          console.log('HAHAH');
+          console.log(data);
         })
         .catch((error) => console.log(error));
     };
@@ -120,35 +72,37 @@ const TableStudentsList = ({standing, setDataChild}) => {
     fetchDataButtons();
   }, [standing]);
 
-  // const fetchDataButtons = () => {
+  const fetchDataButtonsYear = () => {
+    fetch(
+      `http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=${blockButton}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data);
+        setDataChild(data);
+
+      })
+      .catch((error) => console.log(error));
+  };
+
+
+
+  const fetchDataButtonsBlock = () => {
+    fetch(
+      `http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=${blockButton}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data);
+        setDataChild(data);
+
+        console.log("hoho block", data)
+
+      })
+      .catch((error) => console.log(error));
+  };
 
  
-  //     fetch(`http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=${blockButton}`)
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         setData(data);
-  //         setDataChild(data);
-  //       })
-  //       .catch((error) => console.log(error));
-  // };
-
-
-  // const fetchData = () => {
-  //   if (yearForm && blockForm) {
-  //     fetch(`http://localhost:3000/grabStudents?year=${yearForm}&numBlock=${blockForm}&yearButton=${yearButton}&blockButton=${blockButton}`)
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         setData(data);
-  //         setDataChild(data);
-  //         const uniqueBlocks = [...new Set(data.map((student) => student.block))].sort();  
-  //         console.log(uniqueBlocks)
-  //         setBlockChild(uniqueBlocks);
-  //       })
-  //       .catch((error) => console.log(error));
-        
-  //   }
-  // };
-
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -158,21 +112,29 @@ const TableStudentsList = ({standing, setDataChild}) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+
+  useEffect(() => {
+
+      fetchDataButtonsYear();
+      setPage(0);
+      console.log("i ran year  data");
+   
+  }, [yearButton]);
+
+  useEffect(() => {
+ 
+      fetchDataButtonsBlock();
+      setPage(0);
+      console.log("i ran block data");
+    
+  }, [blockButton]);
+
   useEffect(() => {
     setPage(0); // Set the page state to 0
   }, [data]); // Watch for changes in the data state
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, [refreshData]);
-
-  // useEffect(() => {
-  //   fetchDataButtons();
-  // }, [filterRefreshData]);
-
-  useEffect(() => {
-    setPage(0);
-  }, [data]);
+  
 
   return (
     <>

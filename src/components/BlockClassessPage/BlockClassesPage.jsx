@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -12,23 +12,22 @@ import Scheduler from "../Scheduler/Scheduler";
 import { useMediaQuery } from "@mui/material";
 import SchedulerStudent from "../SchedulerStudent/SchedulerStudent";
 import SchedulerFaculty from "../SchedulerFaculty/SchedulerFaculty";
+import TableStudentsList from "../TableStudentsList/TableStudentsList";
 
 const BlockClassesPage = () => {
-
   const isSmallScreen = useMediaQuery("(max-width: 500px)");
 
-  const [blockChild, setBlockChild] = useState([])
-  
-  const [year, setYear] = useState([])
+  const [blockChild, setBlockChild] = useState([]);
+
+  const [year, setYear] = useState([]);
   const handleChangeYear = (event) => {
     setYear(event.target.value);
     // setFilterRefreshData((prevState) => !prevState);
   };
-  const [block, setBlock] = React.useState([])
+  const [block, setBlock] = React.useState([]);
   const handleChangeBlock = (event) => {
     setBlock(event.target.value);
   };
-
 
   const handleClick = () => {
     // Call the function in the child component
@@ -36,13 +35,14 @@ const BlockClassesPage = () => {
   };
 
   const childComponentRef = React.useRef();
-
+  const [standing, setStanding] = React.useState("");
+  const [dataChild, setDataChild] = useState([])
   useEffect(() => {
-    setYear('0');
-    setBlock('0');
+    setYear("0");
+    setBlock("0");
     const timeoutId = setTimeout(() => {
-      setYear('');
-      setBlock('');
+      setYear("");
+      setBlock("");
     }, 100);
 
     return () => {
@@ -50,71 +50,10 @@ const BlockClassesPage = () => {
     };
   }, []);
 
-  
   return (
     <>
-      {/* <div className={BlockClassessCSS.topTableWrapper}>
+      <div className={BlockClassessCSS.topTableWrapper}>
         <div className={BlockClassessCSS.topTable}>
-          <h2>Schedule</h2>
-          <div className={BlockClassessCSS.topButtons}>
-            <FormControl
-              sx={{
-                mr: 0.6,
-                minWidth: isSmallScreen ? 90 : 115,
-              }}
-            >
-              <Select
-                value={year}
-                onChange={handleChangeYear}
-                displayEmpty
-                inputProps={{ "aria-label": "Without label" }}
-                sx={{
-                  backgroundColor: "white",
-                  borderRadius: "0.5rem",
-                  fontFamily: "Poppins",
-                  fontSize: isSmallScreen ? "0.5rem" : "0.9rem",
-                  padding: "0rem",
-                  fontWeight: "600",
-                }}
-              >
-                <MenuItem value="">1st Year</MenuItem>
-                <MenuItem value={10}>2nd Year</MenuItem>
-                <MenuItem value={20}>3rd Year</MenuItem>
-              </Select>
-            </FormControl>
-
-            <FormControl sx={{minWidth: isSmallScreen ? 80 : 100}}>
-              <Select
-                value={block}
-                onChange={handleChangeBlock}
-                displayEmpty
-                inputProps={{ "aria-label": "Without label" }}
-                sx={{
-                  backgroundColor: "white",
-                  borderRadius: "0.5rem",
-                  fontFamily: "Poppins",
-                  fontSize: isSmallScreen ? "0.5rem" : "0.9rem",
-                  padding: "0rem",
-                  fontWeight: "600",
-                }}
-              >
-                <MenuItem value="">Block 1</MenuItem>
-                <MenuItem value={10}>Block 2</MenuItem>
-                <MenuItem value={20}>Block 3</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-        </div>
-
-        <div className={`${BlockClassessCSS.tableWrapper} ${BlockClassessCSS.sched}`}>
-        <SchedulerStudent  ref={childComponentRef}/>
-        </div>
-      </div> */}
-
-<div className={BlockClassessCSS.topTableWrapper}>
-        <div className={BlockClassessCSS.topTable}>
-
-          
           <h2>Schedule</h2>
           <div className={BlockClassessCSS.topButtons}>
             <FormControl
@@ -172,13 +111,17 @@ const BlockClassesPage = () => {
               </Select>
             </FormControl>
           </div>
-      
-
         </div>
         <div className={BlockClassessCSS.tableWrapper}>
-          <SchedulerFaculty isBlockClassess = {true} ref={childComponentRef} readOnly = {true} year={year} block={block} setBlockChild={setBlockChild}/>
+          <SchedulerFaculty
+            isBlockClassess={true}
+            ref={childComponentRef}
+            readOnly={true}
+            year={year}
+            block={block}
+            setBlockChild={setBlockChild}
+          />
         </div>
-
       </div>
 
       <div className={BlockClassessCSS.topTableWrapper}>
@@ -186,17 +129,15 @@ const BlockClassesPage = () => {
           <h2>Class List</h2>
         </div>
         <div className={BlockClassessCSS.tableWrapper}>
-          <MyTable />
+        <TableStudentsList standing = {standing} yearButton = {year} blockButton = {block} setDataChild = {setDataChild}/>
         </div>
       </div>
       <div className={BlockClassessCSS.bottomButtons}>
-
         <div className={BlockClassessCSS.middle}>
           <Stack spacing={2} direction="row">
             <Button
               style={{ textTransform: "none" }}
               sx={{
-                
                 backgroundColor: "#424242",
 
                 color: "white",
@@ -215,7 +156,6 @@ const BlockClassesPage = () => {
             </Button>
           </Stack>
         </div>
-   
       </div>
     </>
   );
