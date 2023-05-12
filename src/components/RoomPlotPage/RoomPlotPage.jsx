@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useLayoutEffect} from 'react'
+import React, {useState, useEffect, useLayoutEffect, useRef} from 'react'
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -13,9 +13,10 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { useMediaQuery } from "@mui/material";
 import SchedulerFaculty from '../SchedulerFaculty/SchedulerFaculty';
+import ReactToPrint from "react-to-print";
+
 const RoomPlotPage = () => {
-
-
+  let componentRef = React.useRef();
   useLayoutEffect(() => {
     const vh = Math.max(
       document.documentElement.clientHeight || 0,
@@ -148,7 +149,9 @@ const RoomPlotPage = () => {
       </div>
     </div>
     <div className={RoomPlotCSS.tableWrapper}>
+    <div ref={componentRef} className={RoomPlotCSS.printContainer}>
     <SchedulerFaculty room = {selectedRoom} isBlockClassess = {true} ref={childComponentRef} readOnly = {true} year={year} block={block} setBlockChild={setBlockChild}/>
+    </div>
     </div>
     <div className={RoomPlotCSS.bottomButtons}>
 
@@ -177,32 +180,38 @@ const RoomPlotPage = () => {
         </Button>
       </Stack>
     </div>
+  
     <div className={RoomPlotCSS.middle}>
-    <Stack spacing={2} direction="row">
-        <Button
-          style={{ textTransform: "none" }}
-          sx={{ 
+        <ReactToPrint
+          trigger={() => (
+            <Stack spacing={2} direction="row">
+              <Button
+                style={{ textTransform: "none" }}
+                sx={{
+                  marginRight: "1rem",
+                  backgroundColor: "#424242",
 
-            marginRight: "1rem",
-            backgroundColor: "#424242",
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+                  padding: "0rem",
+                  padding: "0.9rem",
+                  "&:hover": {
+                    backgroundColor: "#313131",
+                    // Change the hover background color here
+                  },
+                }}
+                variant="contained"
+              >
+                Print as PDF
+              </Button>
+            </Stack>
+          )}
+          content={() => componentRef.current}
+        />
+      </div>
 
-            color: "white",
-            borderRadius: "0.5rem",
-            fontFamily: "Poppins",
-            fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
-            padding: "0rem",
-            padding: "0.9rem",
-            "&:hover": {
-              backgroundColor: "#313131",
-               // Change the hover background color here
-            },
-          }}
-          variant="contained"
-        >
-          Print Schedule
-        </Button>
-      </Stack>
-    </div>
     <div className={RoomPlotCSS.right}>
       
       

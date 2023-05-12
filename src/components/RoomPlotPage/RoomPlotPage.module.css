@@ -174,3 +174,26 @@ form{
         height: 70vh;
     }
 }
+@media print {
+    body * {
+      visibility: hidden;
+    }
+  
+    .printContainer,
+    .printContainer * {
+      visibility: visible;
+    
+    }
+  
+    .printContainer {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 380mm;
+      
+      page-break-after: always;
+      page-break-inside: avoid;
+      overflow: hidden;
+    }
+  }
+  

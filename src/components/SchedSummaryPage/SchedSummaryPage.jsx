@@ -1,18 +1,9 @@
 import React, {useLayoutEffect} from "react";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import SchedSumCSS from "./SchedSummaryPage.module.css";
-import MyTable from "../Table/Table";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
-import Scheduler from "../Scheduler/Scheduler";
 import { useMediaQuery } from "@mui/material";
-import SchedulerFaculty from "../SchedulerFaculty/SchedulerFaculty";
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
 const SchedSummaryPage = () => {
   const [year, setYear] = React.useState("");
   const [block, setBlock] = React.useState("");
