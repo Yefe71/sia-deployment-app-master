@@ -286,7 +286,7 @@ const courseNames = {
 
 
 const courseColors = {
-  "EIT 0121": "#2c3e50",
+  "EIT 0121": "#2c3e50", //"Introduction to Computer Human Interaction (lec)"
   "EIT 0121.1": "#1a2734",
   "EIT 0122": "#3c4f5a",
   "EIT 0123": "#4e606c",
@@ -296,10 +296,10 @@ const courseColors = {
   "EIT 0212": "#10524b",
   "ICC 0105": "#1c5e37",
   "ICC 0105.1": "#206547",
-  "EIT 0221": "#1e5a8c",
+  "EIT 0221": "#21649a",
   "EIT 0222": "#1a4a70",
   "EIT 0222.1": "#612d8a",
-  "EIT Elective 2": "#702d91",
+  "EIT Elective 2": "#7a339d",
   "EIT 0321": "#b55d18",
   "EIT 0321.1": "#9e4900",
   "EIT 0322": "#b23228",
@@ -457,11 +457,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       [field]: changes,
     };
 
-    console.log(nextChanges)
 
     this.setState({
       appointmentChanges: nextChanges,
-    });
+    },);
+
   }
   changeAppointmentYearCode({ name, pair }) {
     const nextChanges = {
@@ -526,13 +526,12 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       this.fetchDataRoom();
     }
 
-
-
     if(prevProps.visible !== this.props.visible){
       this.setState({ yearField: 0 });
+      this.setState({yearPropChild: this.props.appointmentData.year })
+      this.setState({blockPropChild: this.props.appointmentData.block })
     }
 
-    
 
     console.log(this.state.yearField, "yearfield update")
     
@@ -541,12 +540,13 @@ class AppointmentFormContainerBasic extends React.PureComponent {
        console.log(this.state.yearField, "when no yearfield, apptdata is yearfield")
     }
 
+ 
    
   }
 
   async componentDidMount() {
 
-    
+ 
     try {
       const responses = await Promise.all([
         fetch(
@@ -635,10 +635,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     const applyChanges = isNewAppointment
       ? () => { 
         this.commitAppointment("added")
-
-
- 
-     
         this.props.handleDataFromChild(this.state.blockPropChild, false)
         this.props.handleDataFromChild(this.state.yearPropChild, true)
    
@@ -646,7 +642,10 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         this.props.handleClickFromChild("clicked");
       }
       : () => {
-       this.commitAppointment("changed")
+        console.log("AKOY NAGLAKAD", this.state.yearPropChild, this.state.blockPropChild)
+        this.commitAppointment("changed")
+        this.props.handleDataFromChild(this.state.blockPropChild, false)
+        this.props.handleDataFromChild(this.state.yearPropChild, true)
       };
 
     const textEditorProps = (field) => ({
@@ -680,7 +679,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           changes: change.value,
         })
         this.setState({blockPropChild: change.value})
-      
         },
       value: displayAppointmentData[field] || "",
       className: classes.textField,
@@ -1274,7 +1272,8 @@ export default class SchedulerFaculty extends React.PureComponent {
         handleClickFromChild: this.handleClickFromChild,
         setIsNewSched: this.props.setIsNewSched,
         isConflict: this.state.isConflict,
-        isConflictProp: this.state.isConflictProp
+        isConflictProp: this.state.isConflictProp,
+        handleEditYearChange: this.state.handleEditYearChange
       };
     });
   }
@@ -1489,6 +1488,11 @@ fetchDataButtonsSched = () => {
     this.toggleConfirmationVisible();
   }
 
+  handleEditYearChange(yearEdit, blockEdit){
+    this.setState({year: yearEdit})
+    this.setState({block: blockEdit})
+  }
+
   async updateSchedules(dataLatest, added, changed, deleted, conflict) {
     this.setState({ isUpdatingSchedules: true });
 
@@ -1517,12 +1521,9 @@ fetchDataButtonsSched = () => {
       console.log(this.state.year, this.state.block)
       
    
+      
   
-
-//DITO MO ICHECK: IF CONFLICT WAG MO RUN RONG FILTERupdate
-
-  
-      if(added){
+      if(added || changed){
     
       console.log(conflict, "TANGINA GUMANA KA PARANG AWA")
 
