@@ -24,10 +24,10 @@ class SketchExample extends React.Component {
   state = {
     displayColorPicker: false,
     color: {
-      r: this.props.defaultColor ? randomDarkColor().r : this.props.defaultColor.r, 
-      g: this.props.defaultColor ? randomDarkColor().g : this.props.defaultColor.g, 
-      b: this.props.defaultColor ? randomDarkColor().b : this.props.defaultColor.b,
-      a: this.props.defaultColor ? randomDarkColor().a : this.props.defaultColor.a
+      r: this.props.defaultColor ? 66 : this.props.defaultColor.r, 
+      g: this.props.defaultColor ? 165 : this.props.defaultColor.g, 
+      b: this.props.defaultColor ? 245 : this.props.defaultColor.b,
+      a: this.props.defaultColor ? 1 : this.props.defaultColor.a
     },
   };
   
