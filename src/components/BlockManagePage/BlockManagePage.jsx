@@ -691,7 +691,123 @@ const BlockManagePage = () => {
             addStudentId = {addStudentId}
           />
         </div>
+        <div className={ManageBlockCSS.bottomButtons}>
+          <div className={ManageBlockCSS.left}>
+            <Stack spacing={2} direction="row">
+              <Button
+                onClick={handleOpen}
+                style={{ textTransform: "none" }}
+                sx={{
+                  backgroundColor: "#007bff",
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+                  padding: "0rem",
+                  padding: "0.9rem",
+                  "&:hover": {
+                    backgroundColor: "#0070e7", // Change the hover background color here
+                  },
+                }}
+                variant="contained"
+              >
+                Reblock
+              </Button>
+            </Stack>
+          </div>
+          <div className={ManageBlockCSS.middle}>
+            <Stack spacing={2} direction="row">
+              <Button
+                style={{ textTransform: "none" }}
+                onClick={() => exportAsPDF(dataChild)}
+                sx={{
+                  marginRight: "1rem",
+                  backgroundColor: "#424242",
 
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+                  padding: "0rem",
+                  padding: "0.9rem",
+                  "&:hover": {
+                    backgroundColor: "#313131",
+                    // Change the hover background color here
+                  },
+                }}
+                variant="contained"
+              >
+                Print as PDF
+              </Button>
+            </Stack>
+            <Stack spacing={2} direction="row">
+              <Button
+                style={{ textTransform: "none" }}
+                onClick={() => exportAsExcel(dataChild)}
+                sx={{
+                  marginRight: "1rem",
+                  backgroundColor: "#424242",
+
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+                  padding: "0rem",
+                  padding: "0.9rem",
+                  "&:hover": {
+                    backgroundColor: "#313131",
+                    // Change the hover background color here
+                  },
+                }}
+                variant="contained"
+              >
+                Export as Excel
+              </Button>
+            </Stack>
+          </div>
+          <div className={ManageBlockCSS.right}>
+            <Stack spacing={2} direction="row">
+              <Button
+                onClick={handleOpenEdit}
+                style={{ textTransform: "none" }}
+                sx={{
+                  backgroundColor: "#007bff",
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+                  padding: "0rem",
+                  padding: "0.9rem",
+                  "&:hover": {
+                    backgroundColor: "#0070e7", // Change the hover background color here
+                  },
+                }}
+                variant="contained"
+              >
+                Actions
+              </Button>
+              <Button
+                onClick={handleOpen}
+                style={{ textTransform: "none" }}
+                sx={{
+                  backgroundColor: "#007bff",
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+                  padding: "0rem",
+                  padding: "0.9rem",
+                  "&:hover": {
+                    backgroundColor: "#0070e7", // Change the hover background color here
+                  },
+                }}
+                variant="contained"
+              >
+                Reblock
+              </Button>
+            </Stack>
+          </div>
+        </div>
       </div>
 
       <Modal

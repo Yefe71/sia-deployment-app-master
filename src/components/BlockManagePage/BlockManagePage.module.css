@@ -39,11 +39,13 @@
     height: 70vh;
     background: #f1f1f1;
     border-radius: 1rem  ;
-    margin-bottom: 3rem;
-  
+   
 }
 
 
+.middle{
+    visibility: hidden;
+}
 .tableWrapper{
 
 

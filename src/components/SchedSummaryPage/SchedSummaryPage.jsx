@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useLayoutEffect} from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -17,6 +17,16 @@ const SchedSummaryPage = () => {
   const [year, setYear] = React.useState("");
   const [block, setBlock] = React.useState("");
 
+  useLayoutEffect(() => {
+    const vh = Math.max(
+      document.documentElement.clientHeight || 0,
+      window.innerHeight || 0
+    );
+    window.scrollTo({
+      top: vh * 0.11,
+      behavior: "smooth",
+    });
+  }, []);
   const isSmallScreen = useMediaQuery("(max-width: 500px)");
   const handleChangeYear = (event) => {
     setYear(event.target.value);
@@ -85,41 +95,6 @@ const SchedSummaryPage = () => {
         </div>
       </div>
 
-      <div className={SchedSumCSS.topTableWrapper}>
-        <div className={SchedSumCSS.topTable}>
-          <h2>Class List</h2>
-        </div>
-        <div className={SchedSumCSS.tableWrapper}>
-          <MyTable />
-        </div>
-      </div>
-      <div className={SchedSumCSS.bottomButtons}>
-        <div className={SchedSumCSS.middle}>
-          <Stack spacing={2} direction="row">
-            <Button
-              style={{ textTransform: "none" }}
-              sx={{
-                backgroundColor: "#424242",
-
-                color: "white",
-                borderRadius: "0.5rem",
-                fontFamily: "Poppins",
-                fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
-                padding: "0.9rem",
-                "&:hover": {
-                  backgroundColor: "#313131",
-                  // Change the hover background color here
-                },
-              }}
-              variant="contained"
-            >
-              Print Blockclassess
-            </Button>
-          </Stack>
-
-
-        </div>
-      </div>
     </>
   );
 };

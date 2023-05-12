@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useLayoutEffect} from 'react'
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -15,6 +15,17 @@ import { useMediaQuery } from "@mui/material";
 import SchedulerFaculty from '../SchedulerFaculty/SchedulerFaculty';
 const RoomPlotPage = () => {
 
+
+  useLayoutEffect(() => {
+    const vh = Math.max(
+      document.documentElement.clientHeight || 0,
+      window.innerHeight || 0
+    );
+    window.scrollTo({
+      top: vh * 0.11,
+      behavior: "smooth",
+    });
+  }, []);
     const isSmallScreen = useMediaQuery("(max-width: 500px)");
     const style = {
       position: "absolute",
