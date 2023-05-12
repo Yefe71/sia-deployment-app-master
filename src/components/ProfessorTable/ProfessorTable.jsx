@@ -408,6 +408,9 @@ function ProfessorTable({onCloseProp}) {
                                 <MenuItem   style= {{ fontSize: "15px" }}value={"Full-pledge"}>
                                   Full-pledge
                                 </MenuItem>
+                                <MenuItem   style= {{ fontSize: "15px" }}value={"TBA"}>
+                                  TBA
+                                </MenuItem>
                               </TextField>
                             </FormControl>
                           </TableCell>
