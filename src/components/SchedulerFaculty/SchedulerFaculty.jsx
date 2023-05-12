@@ -284,6 +284,34 @@ const courseNames = {
   },
 };
 
+
+const courseColors = {
+  "EIT 0121": "#2c3e50",
+  "EIT 0121.1": "#1a2734",
+  "EIT 0122": "#3c4f5a",
+  "EIT 0123": "#4e606c",
+  "EIT 0123.1": "#384b54",
+  "ICC 0103": "#243443",
+  "ICC 0103.1": "#1a2530",
+  "EIT 0212": "#10524b",
+  "ICC 0105": "#1c5e37",
+  "ICC 0105.1": "#206547",
+  "EIT 0221": "#1e5a8c",
+  "EIT 0222": "#1a4a70",
+  "EIT 0222.1": "#612d8a",
+  "EIT Elective 2": "#702d91",
+  "EIT 0321": "#b55d18",
+  "EIT 0321.1": "#9e4900",
+  "EIT 0322": "#b23228",
+  "EIT 0322.1": "#932321",
+  "EIT 0323": "#b5770e",
+  "EIT 0323.1": "#9e650a",
+  "IIP 0101": "#137f6a",
+  "IIP 0102": "#249a51"
+};
+
+
+
 // #FOLD_BLOCK
 const StyledDiv = styled("div")(({ theme }) => ({
   [`& .${classes.icon}`]: {
@@ -332,6 +360,7 @@ const CustomPaper = styled(Paper)({
 });
 
 class AppointmentFormContainerBasic extends React.PureComponent {
+
   constructor(props) {
     super(props);
     this.overlayRef = React.createRef();
@@ -353,6 +382,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       blockPropChild: null
     };
 
+    
     this.getAppointmentData = () => {
       const { appointmentData } = this.props;
       return appointmentData;
@@ -376,7 +406,18 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     this.handleCloseRoom = this.handleCloseRoom.bind(this);
     this.changeAppointment = this.changeAppointment.bind(this);
     this.commitAppointment = this.commitAppointment.bind(this);
+
+    this.childRef = React.createRef();
   }
+
+
+  triggerChildFunction = (colorParent) => {
+
+    console.log(colorParent)
+    if(this.childRef.current) {
+        this.childRef.current.handleChange(colorParent);
+    }
+}
 
   handleChange = (value, isYear) => {
     if (isYear) {
@@ -406,6 +447,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       field: "color",
       changes: color,
     });
+
+    console.log(color)
   };
 
   changeAppointment({ field, changes }) {
@@ -413,6 +456,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       ...this.getAppointmentChanges(),
       [field]: changes,
     };
+
+    console.log(nextChanges)
 
     this.setState({
       appointmentChanges: nextChanges,
@@ -640,17 +685,46 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       value: displayAppointmentData[field] || "",
       className: classes.textField,
     });
+
+
+    function hexToRGBA(hex) {
+      // Remove the '#' character if present
+      hex = hex.replace("#", "");
+
+      // Split the hex value into red, green, blue, and alpha components
+      var r = parseInt(hex.substr(0, 2), 16);
+      var g = parseInt(hex.substr(2, 2), 16);
+      var b = parseInt(hex.substr(4, 2), 16);
+      var a = 1; // Assuming alpha value of 1 (fully opaque)
+
+      // Create and return the RGBA object
+      var rgba = {
+        r: r,
+        g: g,
+        b: b,
+        a: a
+      };
+
+      return rgba;
+    }
+
+
     const textEditorPropsCourseName = (field) => ({
       variant: "outlined",
 
       onChange: ({ target: change }) => {
         const name = change.value.split(":")[0];
         const pair = change.value.split(":")[1];
+        this.triggerChildFunction(hexToRGBA(courseColors[pair]))
+        // this.handleColorChange(hexToRGBA(courseColors[pair]))
         this.handleNameToCodeChange(pair);
         this.changeAppointmentYearCode({
           name: name,
           pair: pair,
         });
+
+    
+
       },
 
       value: `${displayAppointmentData.courseName}:${displayAppointmentData.courseCode}`,
@@ -831,6 +905,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 defaultColor={displayAppointmentData["color"]}
                 className={`${SchedulerFacultyCSS.ripple}`}
                 onColorChange={this.handleColorChange}
+                ref={this.childRef}
               />
 
               <FormControl
@@ -1474,6 +1549,9 @@ fetchDataButtonsSched = () => {
   }
 
   doesScheduleOverlap(newSchedule, existingSchedules, isUpdate = false) {
+
+    
+
     if (newSchedule.classType !== 'F2F') return false;
   
     for (let existing of existingSchedules) {

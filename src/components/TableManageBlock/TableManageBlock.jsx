@@ -404,6 +404,8 @@ const TableManageBlock = forwardRef(
                     style={{
                       backgroundColor:
                         row.student_id === blinkStudentId ? "#98c1ff" : "white",
+                      color: 
+                        row.student_id === blinkStudentId ? "#ffffff" : "black",
                     }}
                   >
                     <TableCell>{page * rowsPerPage + index + 1}</TableCell>

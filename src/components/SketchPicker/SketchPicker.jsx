@@ -40,12 +40,13 @@ class SketchExample extends React.Component {
   };
 
   handleChange = (color) => {
-    this.setState({ color: color.rgb }, () => {
+    const rgbColor = color.rgb ? color.rgb : color;
+    this.setState({ color: rgbColor }, () => {
         if (this.props.onColorChange) {
-          this.props.onColorChange(color.rgb);
+            this.props.onColorChange(rgbColor);
         }
-      });
-  };
+    });
+};
 
   
   componentDidMount() {
