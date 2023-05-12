@@ -38,9 +38,11 @@ const BlockClassesPage = () => {
   const childComponentRef = React.useRef();
 
   useEffect(() => {
-    setYear('1');
+    setYear('0');
+    setBlock('0');
     const timeoutId = setTimeout(() => {
       setYear('');
+      setBlock('');
     }, 100);
 
     return () => {
