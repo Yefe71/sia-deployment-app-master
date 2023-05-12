@@ -55,16 +55,27 @@
     overflow-y: scroll;
     height: 66vh;
 }
-
+.middle{
+    display: flex;
+}
 .topButtons{
     margin-top: -1rem;
-}.bottomButtons{
+}
 
+.bottomButtons{
     display: flex;
     justify-content: center;
     align-items: center;
     margin-right: 0rem;
     margin-bottom: 2rem;
+    margin-top: 1.5rem;
+}
+.bottomButtonsTop{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 0rem;
+
     margin-top: 1.5rem;
 }
 
@@ -105,3 +116,27 @@
         height: 70vh;
     }
 } */
+
+@media print {
+    body * {
+      visibility: hidden;
+    }
+  
+    .printContainer,
+    .printContainer * {
+      visibility: visible;
+    
+    }
+  
+    .printContainer {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 380mm;
+      
+      page-break-after: always;
+      page-break-inside: avoid;
+      overflow: hidden;
+    }
+  }
+  

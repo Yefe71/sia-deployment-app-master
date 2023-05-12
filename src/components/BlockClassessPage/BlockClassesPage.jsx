@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -13,8 +13,91 @@ import { useMediaQuery } from "@mui/material";
 import SchedulerStudent from "../SchedulerStudent/SchedulerStudent";
 import SchedulerFaculty from "../SchedulerFaculty/SchedulerFaculty";
 import TableStudentsList from "../TableStudentsList/TableStudentsList";
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import * as XLSX from 'xlsx';
+import ReactToPrint from 'react-to-print';
 
 const BlockClassesPage = () => {
+  let componentRef = React.useRef();
+
+  async function printDocument() {
+    // Get the element and its container
+    const element = document.getElementById('mydiv');
+    const container = element.parentElement;
+
+    // Store the container's original size
+    const originalSize = {
+        width: container.style.width,
+        height: container.style.height,
+        overflow: container.style.overflow,
+    };
+
+    // Expand the container to fit its contents
+    container.style.width = `${element.scrollWidth}px`;
+    container.style.height = `${element.scrollHeight}px`;
+    container.style.overflow = 'visible';
+
+    // Wait for the browser to render the changes
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    // Capture the element
+    const canvas = await html2canvas(element);
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF();
+    pdf.addImage(imgData, 'JPEG', 0, 0);
+    pdf.save("download.pdf");
+
+    // Restore the container's original size
+    container.style.width = originalSize.width;
+    container.style.height = originalSize.height;
+    container.style.overflow = originalSize.overflow;
+}
+
+
+  const exportAsPDF = (data) => {
+    const doc = new jsPDF();
+    const head = [["ID", "Student ID", "Last Name", "First Name", "Middle Name", "Standing", "Year", "Block"]];
+
+    const body = data.map((row, index) => [
+      index + 1,
+      row.student_id,
+      row.last_name,
+      row.first_name,
+      row.middle_name,
+      row.standing,
+      row.year,
+      row.block,
+    ]);
+
+    doc.autoTable({
+      head: head,
+      body: body,
+    });
+
+    doc.save("students.pdf");
+  };
+  const exportAsExcel = (data) => {
+    const headers = ["ID", "Student ID", "Last Name", "First Name", "Middle Name", "Standing", "Year", "Block"];
+
+    const dataArray = data.map((row, index) => [
+      index + 1,
+      row.student_id,
+      row.last_name,
+      row.first_name,
+      row.middle_name,
+      row.standing,
+      row.year,
+      row.block,
+    ]);
+
+    const ws = XLSX.utils.aoa_to_sheet([headers, ...dataArray]);
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Students");
+    XLSX.writeFile(wb, "students.xlsx");
+  };
+
   const isSmallScreen = useMediaQuery("(max-width: 500px)");
 
   const [blockChild, setBlockChild] = useState([]);
@@ -50,9 +133,12 @@ const BlockClassesPage = () => {
     };
   }, []);
 
+
+  
   return (
     <>
       <div className={BlockClassessCSS.topTableWrapper}>
+     
         <div className={BlockClassessCSS.topTable}>
           <h2>Schedule</h2>
           <div className={BlockClassessCSS.topButtons}>
@@ -113,6 +199,11 @@ const BlockClassesPage = () => {
           </div>
         </div>
         <div className={BlockClassessCSS.tableWrapper}>
+        <ReactToPrint
+            trigger={() => <button>Print Scheduler</button>}
+            content={() => componentRef.current}
+          />
+       
           <SchedulerFaculty
             isBlockClassess={true}
             ref={childComponentRef}
@@ -121,7 +212,64 @@ const BlockClassesPage = () => {
             block={block}
             setBlockChild={setBlockChild}
           />
+     
         </div>
+        <div className={BlockClassessCSS.bottomButtonsTop}>
+          
+        <div className={BlockClassessCSS.middle}>
+          <Stack spacing={2} direction="row">
+                <Button
+                  style={{ textTransform: "none" }}
+                  onClick={() => exportAsPDF(dataChild)}
+                  sx={{ 
+
+                    marginRight: "1rem",
+                    backgroundColor: "#424242",
+
+                    color: "white",
+                    borderRadius: "0.5rem",
+                    fontFamily: "Poppins",
+                    fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+                    padding: "0rem",
+                    padding: "0.9rem",
+                    "&:hover": {
+                      backgroundColor: "#313131",
+                       // Change the hover background color here
+                    },
+                  }}
+                  variant="contained"
+                >
+                  Print as PDF
+                </Button>
+              </Stack>
+            <Stack spacing={2} direction="row">
+                <Button
+                  style={{ textTransform: "none" }}
+                  onClick={() => exportAsExcel(dataChild)}
+                  sx={{ 
+
+                    marginRight: "1rem",
+                    backgroundColor: "#424242",
+
+                    color: "white",
+                    borderRadius: "0.5rem",
+                    fontFamily: "Poppins",
+                    fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+                    padding: "0rem",
+                    padding: "0.9rem",
+                    "&:hover": {
+                      backgroundColor: "#313131",
+                       // Change the hover background color here
+                    },
+                  }}
+                  variant="contained"
+                >
+                  Export as Excel
+                </Button>
+              </Stack>
+          </div>
+        </div>
+        
       </div>
 
       <div className={BlockClassessCSS.topTableWrapper}>
@@ -133,28 +281,57 @@ const BlockClassesPage = () => {
         </div>
       </div>
       <div className={BlockClassessCSS.bottomButtons}>
-        <div className={BlockClassessCSS.middle}>
-          <Stack spacing={2} direction="row">
-            <Button
-              style={{ textTransform: "none" }}
-              sx={{
-                backgroundColor: "#424242",
+      <div className={BlockClassessCSS.middle}>
+        <Stack spacing={2} direction="row">
+              <Button
+                style={{ textTransform: "none" }}
+                onClick={() => exportAsPDF(dataChild)}
+                sx={{ 
 
-                color: "white",
-                borderRadius: "0.5rem",
-                fontFamily: "Poppins",
-                fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
-                padding: "0.9rem",
-                "&:hover": {
-                  backgroundColor: "#313131",
-                  // Change the hover background color here
-                },
-              }}
-              variant="contained"
-            >
-              Print Blockclassess
-            </Button>
-          </Stack>
+                  marginRight: "1rem",
+                  backgroundColor: "#424242",
+
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+                  padding: "0rem",
+                  padding: "0.9rem",
+                  "&:hover": {
+                    backgroundColor: "#313131",
+                     // Change the hover background color here
+                  },
+                }}
+                variant="contained"
+              >
+                Print as PDF
+              </Button>
+            </Stack>
+          <Stack spacing={2} direction="row">
+              <Button
+                style={{ textTransform: "none" }}
+                onClick={() => exportAsExcel(dataChild)}
+                sx={{ 
+
+                  marginRight: "1rem",
+                  backgroundColor: "#424242",
+
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+                  padding: "0rem",
+                  padding: "0.9rem",
+                  "&:hover": {
+                    backgroundColor: "#313131",
+                     // Change the hover background color here
+                  },
+                }}
+                variant="contained"
+              >
+                Export as Excel
+              </Button>
+            </Stack>
         </div>
       </div>
     </>
