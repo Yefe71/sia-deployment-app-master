@@ -1407,12 +1407,8 @@ fetchDataButtonsSched = () => {
   
 
   componentDidUpdate(prevProps, prevState) {
-
-      
-    this.fetchAllProfData()
     this.appointmentForm.update();
-    
-
+   
     if (
       (this.props.year !== prevProps.year || this.props.block !== prevProps.block)
     ) {
@@ -1428,6 +1424,7 @@ fetchDataButtonsSched = () => {
     if (this.state.editingFormVisible !== prevState.editingFormVisible) {
       console.log("CHANGE")
       this.updateCurrentUnits() 
+      this.fetchAllProfData()
 
     }
     
@@ -1613,8 +1610,8 @@ fetchDataButtonsSched = () => {
     } finally {
       console.log('done updating units')
       this.updateCurrentUnits() 
-      
-   
+      this.fetchAllProfData()
+     
       
   
       if(added || changed){

@@ -1393,16 +1393,16 @@ fetchDataButtonsSched = () => {
   };
 
   
-  async fetchAllProfData() {
-    try {
-      console.log("i ran prof");
-      const response = await fetch("http://localhost:3000/grabProfessors");
-      const data = await response.json();
-      this.setState({ professorsData: data });
-    } catch (error) {
-      console.error("Error fetching professor names:", error);
-    }
-  }
+//   async fetchAllProfData() {
+//     try {
+  
+//       const response = await fetch("http://localhost:3000/grabProfessors");
+//       const data = await response.json();
+//       this.setState({ professorsData: data });
+//     } catch (error) {
+//       console.error("Error fetching professor names:", error);
+//     }
+//   }
   
 
   componentDidUpdate(prevProps, prevState) {
@@ -1668,7 +1668,7 @@ fetchDataButtonsSched = () => {
   }
 
 
-  doesUnitsExceed(newSchedule) {
+  doesUnitsExceed(newSchedule, changed) {
     const professorName = newSchedule.professorName;
     let conflictDescription = '';
     console.log(professorName)
@@ -1691,12 +1691,26 @@ fetchDataButtonsSched = () => {
     console.log(professor.current_units)
     console.log(professor.max_units)
 
-    let doesUnitsExceedCheck = parseInt(newSchedule.units) + professor.current_units > professor.max_units;
-    if (doesUnitsExceedCheck) {
-        conflictDescription = `Max Units Exceeded: ${parseInt(newSchedule.units) + professor.current_units} > ${professor.max_units} `;
-        console.log(parseInt(newSchedule.units) + professor.current_units, "is greater than max units:", professor.max_units)
-        return  { conflict: true, description: conflictDescription }
-    }
+    if (!changed){
+        console.log("NOT CHANGED")
+        let doesUnitsExceedCheck = parseInt(newSchedule.units) + professor.current_units > professor.max_units;
+        if (doesUnitsExceedCheck) {
+            conflictDescription = `Max Units Exceeded: ${parseInt(newSchedule.units) + professor.current_units} > ${professor.max_units} `;
+            console.log(parseInt(newSchedule.units) + professor.current_units, "is greater than max units:", professor.max_units)
+            return  { conflict: true, description: conflictDescription }
+        }
+        
+    }else if (changed){
+        
+        console.log("CHANGED")
+        let doesUnitsExceedCheck = parseInt(newSchedule.units) > professor.max_units;
+        if (doesUnitsExceedCheck) {
+            conflictDescription = `Max Units Exceeded: ${parseInt(newSchedule.units)} > ${professor.max_units} `;
+            console.log(parseInt(newSchedule.units), "is greater than max units:", professor.max_units)
+            return  { conflict: true, description: conflictDescription }
+        }
+        
+    }   
 
     return  { conflict: false, description: conflictDescription }
 }
@@ -1763,7 +1777,7 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
             return { data, addedAppointment: {} }; 
           }
 
-          let resultUnit = this.doesUnitsExceed(fixedDateAppointment, this.state.professorsData)
+          let resultUnit = this.doesUnitsExceed(fixedDateAppointment, false)
           if (resultUnit) {
             this.setState({ conflictDesc: resultUnit.description })
             this.setState({ isConflict: resultUnit.conflict });
@@ -1811,7 +1825,7 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
                 return appointment; 
               }
 
-              let resultUnit = this.doesUnitsExceed(updatedAppointment);
+              let resultUnit = this.doesUnitsExceed(updatedAppointment, true);
               if (resultUnit) {
                 this.setState({ conflictDesc: resultUnit.description });
                 this.setState({ isConflict: resultUnit.conflict });
