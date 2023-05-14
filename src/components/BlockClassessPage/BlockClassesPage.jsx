@@ -290,8 +290,8 @@ const BlockClassesPage = () => {
                 borderRadius: "0.5rem",
                 fontFamily: "Poppins",
                 fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
-                padding: "0rem",
-                padding: "0.9rem",
+               
+                padding: "0.9rem 1.25rem",
                 "&:hover": {
                   backgroundColor: "#313131",
                   // Change the hover background color here
@@ -323,7 +323,7 @@ const BlockClassesPage = () => {
               }}
               variant="contained"
             >
-              Export as Excel
+              Save as XLSX
             </Button>
           </Stack>
         </div>

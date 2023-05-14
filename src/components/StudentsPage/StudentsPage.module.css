@@ -155,9 +155,12 @@ form{
     justify-content: center; 
     margin-right: 0rem;
     margin-top: 1.5rem;
-    margin-top: 2rem;
-}
 
+}
+.icon{
+    width: 2.5rem;
+    height: 2.5rem;
+}
 /* 
 @media screen and (max-width: 500px) {
     .topTable h2{
