@@ -545,7 +545,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     }
 
 
-    console.log(this.state.yearField, "yearfield update")
+
     
     if (!this.state.yearField) {
       this.setState({ yearField: this.props.appointmentData.year });
@@ -1152,6 +1152,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   visibleChange();
                   applyChanges();
                   this.props.setIsNewSched(isNewAppointment)
+
                 }}
                 style={{ textTransform: "none" }}
                 sx={{
@@ -1406,8 +1407,12 @@ fetchDataButtonsSched = () => {
   
 
   componentDidUpdate(prevProps, prevState) {
+
+      
+    this.fetchAllProfData()
     this.appointmentForm.update();
-    // this.fetchAllProfData()
+    
+
     if (
       (this.props.year !== prevProps.year || this.props.block !== prevProps.block)
     ) {
@@ -1420,6 +1425,12 @@ fetchDataButtonsSched = () => {
       this.applyFilterRoom();
     }
 
+    if (this.state.editingFormVisible !== prevState.editingFormVisible) {
+      console.log("CHANGE")
+      this.updateCurrentUnits() 
+
+    }
+    
     if (!prevState.isConflict && this.state.isConflict) {
 
       this.setState({isConflictProp: this.state.isConflict})
@@ -1453,6 +1464,8 @@ fetchDataButtonsSched = () => {
 
 
   async componentDidMount() {
+    this.updateCurrentUnits()    
+    this.fetchAllProfData()
     try {
       console.log("i ran prof data");
       const response = await fetch("http://localhost:3000/grabProfessors");
@@ -1552,6 +1565,8 @@ fetchDataButtonsSched = () => {
   }
 
   async updateCurrentUnits() {
+
+    console.log("TINRY KO NAMAN HA")
     try {
         const response = await fetch('http://localhost:3000/updateProfessorsUnits', {
             method: 'PUT',
@@ -1597,7 +1612,7 @@ fetchDataButtonsSched = () => {
       console.log(error);
     } finally {
       console.log('done updating units')
-
+      this.updateCurrentUnits() 
       
    
       
@@ -1625,6 +1640,8 @@ fetchDataButtonsSched = () => {
       }else{
       this.applyFilter();
       }
+      console.log("ahhahahahha hulihin moko!")
+
       this.setState({ isUpdatingSchedules: false });
       
     }
@@ -1869,7 +1886,7 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
    
         console.log(this.state.isConflict, "UPDATE SHEEEE")
         this.updateSchedules(this.state.data, added,changed,deleted, this.state.isConflict);
-        this.updateCurrentUnits()
+        
       }
     );
   }
