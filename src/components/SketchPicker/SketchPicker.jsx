@@ -21,13 +21,16 @@ const randomDarkColor = () => {
 
 
 class SketchExample extends React.Component {
+
+
+  
   state = {
     displayColorPicker: false,
     color: {
-      r: this.props.defaultColor ? 66 : this.props.defaultColor.r, 
-      g: this.props.defaultColor ? 165 : this.props.defaultColor.g, 
-      b: this.props.defaultColor ? 245 : this.props.defaultColor.b,
-      a: this.props.defaultColor ? 1 : this.props.defaultColor.a
+      r: this.props.defaultColor ? this.props.defaultColor.r : 66, 
+      g: this.props.defaultColor ? this.props.defaultColor.g : 165,
+      b: this.props.defaultColor ? this.props.defaultColor.b : 245,
+      a: this.props.defaultColor ? this.props.defaultColor.a : 1
     },
   };
   

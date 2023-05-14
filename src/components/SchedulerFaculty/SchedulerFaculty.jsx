@@ -1128,16 +1128,21 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               {!isNewAppointment && (
                 <Button
                   sx={{
-                    color: "white",
+                    color: "red",
                     borderRadius: "0.5rem",
                     fontFamily: "Poppins",
                     fontSize: "0.9rem",
                     padding: "0.7rem",
                     width: "100%",
                     margin: "15px 7px",
+                    border: "1.95px solid red",
+                    "&:hover": {
+                      border: "1.98px solid red",
+                      // Change the hover background color here
+                    },
                   }}
-                  variant="contained"
-                  color="error"
+                  variant="outlined"
+               
                   onClick={() => {
                     visibleChange();
                     this.commitAppointment("deleted");
@@ -1163,6 +1168,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   padding: "0.7rem",
                   width: "100%",
                   margin: "15px 7px",
+        
                   backgroundColor: "#2196F3",
                 }}
                 disabled={!isFormValid()}
@@ -1219,7 +1225,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       newData: [],
       currentDate: "2023-01-07",
       confirmationVisible: false,
-      editingFormVisible: false,
+      editingFormVisible: true,
       deletedAppointmentId: undefined,
       editingAppointment: undefined,
       previousAppointment: undefined,
