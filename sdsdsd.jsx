@@ -1763,9 +1763,8 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
             return { data, addedAppointment: {} }; 
           }
 
-          
           let resultUnit = this.doesUnitsExceed(fixedDateAppointment, this.state.professorsData)
-          if (resultUnit.conflict) {
+          if (resultUnit) {
             this.setState({ conflictDesc: resultUnit.description })
             this.setState({ isConflict: resultUnit.conflict });
             return { data, addedAppointment: {} }; 
@@ -1802,30 +1801,22 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
 
               const otherAppointments = data.filter(a => a.id !== appointment.id);
 
-              // if (this.doesScheduleOverlap(updatedAppointment, otherAppointments, true)) {
-              //   this.setState({ isConflict: true });
-              //   return appointment;  // Skip the update if there is a conflict
-              // }
 
               let result = this.doesScheduleOverlap(updatedAppointment, otherAppointments, true);
               if (result.conflict) {
                 console.log(result)
                 this.setState({ conflictDesc: result.description })
-                this.setState({ isConflict: true })
+                this.setState({ isConflict: result.conflict })
             
                 return appointment; 
               }
 
               let resultUnit = this.doesUnitsExceed(updatedAppointment);
-              if (resultUnit.conflict) {
+              if (resultUnit) {
                 this.setState({ conflictDesc: resultUnit.description });
                 this.setState({ isConflict: resultUnit.conflict });
                 return appointment;  // Skip the update if there is a conflict
               }
-              // if (this.doesUnitsExceed(updatedAppointment)) {
-              //   this.setState({ isConflict: true });
-              //   return appointment;  // Skip the update if there is a conflict
-              // }
               return updatedAppointment;
             } else {
               return appointment;
