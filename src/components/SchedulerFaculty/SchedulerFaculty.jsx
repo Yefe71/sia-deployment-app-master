@@ -381,7 +381,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       yearPropChild: null,
       blockPropChild: null,
       oldYear: null,
-      oldBlock: null
+      oldBlock: null,
+  
     };
 
     
@@ -509,6 +510,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     }
   }
 
+
+
   async fetchDataRoom() {
     try {
       const response = await fetch("http://localhost:3000/grabRoomsNames");
@@ -520,6 +523,9 @@ class AppointmentFormContainerBasic extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
+
+ 
+
     if (prevState.openProf !== this.state.openProf && !this.state.openProf) {
       this.fetchDataProf();
     }
@@ -530,7 +536,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
     if(prevProps.visible !== this.props.visible){
       this.setState({ yearField: 0 });
-      
       this.setState({yearPropChild: this.props.appointmentData.year })
       this.setState({blockPropChild: this.props.appointmentData.block })
       
@@ -552,7 +557,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
   }
 
   async componentDidMount() {
-
  
     try {
       const responses = await Promise.all([
@@ -577,6 +581,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
       const dataPromises = responses.map((response) => response.json());
       const allData = await Promise.all(dataPromises);
+
+      //Process fetched Professors data
 
       // Process the fetched rooms names
       const roomsNamesData = allData.pop();
@@ -1230,6 +1236,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       isConflictProp: false,
       oldYearParent: null,
       oldBlockParent: null,
+      professorsData: [],
   
   
     };
@@ -1384,11 +1391,22 @@ fetchDataButtonsSched = () => {
       .catch((error) => console.log(error));
   };
 
-
+  
+  async fetchAllProfData() {
+    try {
+      console.log("i ran prof");
+      const response = await fetch("http://localhost:3000/grabProfessors");
+      const data = await response.json();
+      this.setState({ professorsData: data });
+    } catch (error) {
+      console.error("Error fetching professor names:", error);
+    }
+  }
   
 
   componentDidUpdate(prevProps, prevState) {
     this.appointmentForm.update();
+    // this.fetchAllProfData()
     if (
       (this.props.year !== prevProps.year || this.props.block !== prevProps.block)
     ) {
@@ -1430,8 +1448,18 @@ fetchDataButtonsSched = () => {
     }
   }
 
-  async componentDidMount() {
 
+
+
+  async componentDidMount() {
+    try {
+      console.log("i ran prof data");
+      const response = await fetch("http://localhost:3000/grabProfessors");
+      const data = await response.json();
+      this.setState({ professorsData: data });
+    } catch (error) {
+      console.error("Error fetching professor names:", error);
+    }
     
     try {
       const response = await fetch(`http://localhost:3000/grabSchedules`);
@@ -1591,45 +1619,79 @@ fetchDataButtonsSched = () => {
 
   doesScheduleOverlap(newSchedule, existingSchedules, isUpdate = false) {
 
+      if (newSchedule.classType !== 'F2F') return false;
+      for (let existing of existingSchedules) {
+        // Check if the schedules conflict due to the same room, day, and time
+        let isRoomDayTimeConflict = existing.classType === 'F2F' &&
+          existing.room === newSchedule.room && 
+          existing.day === newSchedule.day &&
+          this.isTimeOverlap(existing, newSchedule);
     
-
-    if (newSchedule.classType !== 'F2F') return false;
-  
-    for (let existing of existingSchedules) {
-      // Check if the schedules conflict due to the same room, day, and time
-      let isRoomDayTimeConflict = existing.classType === 'F2F' &&
-        existing.room === newSchedule.room && 
-        existing.day === newSchedule.day &&
-        this.isTimeOverlap(existing, newSchedule);
-  
-      // Check if the schedules conflict due to the same year, block, day, and time
-      let isYearBlockDayTimeConflict = existing.classType === 'F2F' &&
-        existing.year === newSchedule.year &&
-        existing.block === newSchedule.block &&
-        existing.day === newSchedule.day &&
-        this.isTimeOverlap(existing, newSchedule);
-  
-      // Check if the schedules conflict due to the same professor, day, and time
-      let isProfDayTimeConflict = existing.classType === 'F2F' &&
-        existing.professorName === newSchedule.professorName &&
-        existing.day === newSchedule.day &&
-        this.isTimeOverlap(existing, newSchedule);
-  
-      if (isRoomDayTimeConflict || isYearBlockDayTimeConflict || isProfDayTimeConflict) {
-        if (
-          isUpdate &&
-          existing.room === newSchedule.room &&
-          existing.startDate === newSchedule.startDate &&
-          existing.endDate === newSchedule.endDate
-        ) {
-          continue;
+        // Check if the schedules conflict due to the same year, block, day, and time
+        let isYearBlockDayTimeConflict = existing.classType === 'F2F' &&
+          existing.year === newSchedule.year &&
+          existing.block === newSchedule.block &&
+          existing.day === newSchedule.day &&
+          this.isTimeOverlap(existing, newSchedule);
+    
+        // Check if the schedules conflict due to the same professor, day, and time
+        let isProfDayTimeConflict = existing.classType === 'F2F' &&
+          existing.professorName === newSchedule.professorName &&
+          existing.day === newSchedule.day &&
+          this.isTimeOverlap(existing, newSchedule);
+    
+        if (isRoomDayTimeConflict || isYearBlockDayTimeConflict || isProfDayTimeConflict) {
+          if (
+            isUpdate &&
+            existing.room === newSchedule.room &&
+            existing.startDate === newSchedule.startDate &&
+            existing.endDate === newSchedule.endDate
+          ) {
+            continue;
+          }
+          return true;
         }
-        return true;
       }
-    }
-    
-    return false;
+      
+      return false;
+
   }
+  
+
+  doesUnitsExceed(newSchedule) {
+    const professorName = newSchedule.professorName;
+    
+    console.log(professorName)
+    console.log(this.state.professorsData)
+
+    // Find the professor object in the array that matches professorName
+    const professor = this.state.professorsData.find(professor => {
+        const fullName = `${professor.last_name}, ${professor.first_name} ${professor.middle_name}`;
+        return fullName === professorName;
+    });
+
+    console.log(professor, "MATCH")
+    // If professor not found, return false or handle the error
+    if(!professor) {
+        console.log("Professor not found")
+        return false;
+    }
+
+    console.log(newSchedule.units)
+    console.log(professor.current_units)
+    console.log(professor.max_units)
+
+    // Check if the units exceed the max units
+    if(parseInt(newSchedule.units) + professor.current_units > professor.max_units){
+        console.log(parseInt(newSchedule.units) + professor.current_units, "is greater than max units:", professor.max_units)
+        return true
+    }
+
+    return false
+}
+
+  
+ 
   
   
   
@@ -1685,6 +1747,10 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
             this.setState({ isConflict: true });
             return { data, addedAppointment: {} }; 
           }
+          if (this.doesUnitsExceed(fixedDateAppointment, this.state.professorsData)) {
+            this.setState({ isConflict: true });
+            return { data, addedAppointment: {} }; 
+          }
 
           const maxId =
             data.length > 0 ? Math.max(...data.map((item) => item.id)) : -1;
@@ -1718,6 +1784,11 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
               const otherAppointments = data.filter(a => a.id !== appointment.id);
 
               if (this.doesScheduleOverlap(updatedAppointment, otherAppointments, true)) {
+                this.setState({ isConflict: true });
+                return appointment;  // Skip the update if there is a conflict
+              }
+              
+              if (this.doesUnitsExceed(updatedAppointment)) {
                 this.setState({ isConflict: true });
                 return appointment;  // Skip the update if there is a conflict
               }
