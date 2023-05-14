@@ -1765,14 +1765,14 @@ fetchDataButtonsSched = () => {
     }
   }
 
-  doesUnitsExceed(newSchedule) {
+  doesUnitsExceed(newSchedule, changed, professorsData) {
     const professorName = newSchedule.professorName;
     let conflictDescription = '';
     console.log(professorName)
-    console.log(this.state.professorsData)
+    console.log(professorsData)
 
     // Find the professor object in the array that matches professorName
-    const professor = this.state.professorsData.find(professor => {
+    const professor = professorsData.find(professor => {
         const fullName = `${professor.last_name}, ${professor.first_name} ${professor.middle_name}`;
         return fullName === professorName;
     });
@@ -1788,14 +1788,29 @@ fetchDataButtonsSched = () => {
     console.log(professor.current_units)
     console.log(professor.max_units)
 
-    let doesUnitsExceedCheck = parseInt(newSchedule.units) + professor.current_units > professor.max_units;
+if (!changed){
+  let doesUnitsExceedCheck = parseInt(newSchedule.units) + professor.current_units > professor.max_units;
     
-    console.log(doesUnitsExceedCheck, "NIASDASD")
-    if (doesUnitsExceedCheck) {
-        conflictDescription = `Max Units Exceeded: ${parseInt(newSchedule.units) + professor.current_units} > ${professor.max_units} `;
-        console.log(parseInt(newSchedule.units) + professor.current_units, "is greater than max units:", professor.max_units)
-        return  { conflict: true, description: conflictDescription }
-    }
+  console.log(doesUnitsExceedCheck, "NIASDASD")
+  if (doesUnitsExceedCheck) {
+      conflictDescription = `Max Units Exceeded: ${parseInt(newSchedule.units) + professor.current_units} > ${professor.max_units} `;
+      console.log(parseInt(newSchedule.units) + professor.current_units, "is greater than max units:", professor.max_units)
+      return  { conflict: true, description: conflictDescription }
+  }
+}else if(changed){
+
+  let doesUnitsExceedCheck = parseInt(newSchedule.units) > professor.max_units;
+    
+  console.log(doesUnitsExceedCheck, "NIASDASD")
+  if (doesUnitsExceedCheck) {
+      conflictDescription = `Max Units Exceeded: ${parseInt(newSchedule.units)} > ${professor.max_units} `;
+      console.log(parseInt(newSchedule.units), "is greater than max units:", professor.max_units)
+      return  { conflict: true, description: conflictDescription }
+  }
+  
+}
+    
+
 
     return  { conflict: false, description: conflictDescription }
 }
@@ -1835,8 +1850,10 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
 
 
 
-  commitChanges({ added, changed, deleted }) {
-    
+  async commitChanges({ added, changed, deleted }) {
+    try {
+      const response = await fetch("http://localhost:3000/grabProfessors");
+      const professorsData = await response.json();
     this.setState(
       (state) => {
         let { data, appointmentColor } = state;
@@ -1863,7 +1880,7 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
           }
 
           
-          let resultUnit = this.doesUnitsExceedUpdate(fixedDateAppointment, false)
+          let resultUnit = this.doesUnitsExceed(fixedDateAppointment, false, professorsData)
           if (resultUnit.conflict) {
             this.setState({ conflictDesc: resultUnit.description })
             this.setState({ isConflict: resultUnit.conflict });
@@ -1918,7 +1935,7 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
 
               //IF UNITS IS UNTOUCHED, Don't run unit exceed check
               if (oldAppointment[0].units !== updatedAppointment.units){
-              let resultUnit = this.doesUnitsExceedUpdate(updatedAppointment, true);
+              let resultUnit = this.doesUnitsExceed(updatedAppointment, true, professorsData);
               if (resultUnit.conflict) {
                 this.setState({ conflictDesc: resultUnit.description });
                 this.setState({ isConflict: resultUnit.conflict });
@@ -1948,9 +1965,14 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
         
       }
     );
-  }
-  
 
+    }catch (error) {
+      console.error("Error fetching professor names:", error);
+    }
+  }
+
+
+  
   render() {
     const {
       currentDate,
