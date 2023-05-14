@@ -1551,6 +1551,27 @@ fetchDataButtonsSched = () => {
     this.setState({block: blockEdit})
   }
 
+  async updateCurrentUnits() {
+    try {
+        const response = await fetch('http://localhost:3000/updateProfessorsUnits', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        console.log('Request succeeded');
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+    }
+}
+
+
+
   async updateSchedules(dataLatest, added, changed, deleted, conflict) {
     this.setState({ isUpdatingSchedules: true });
 
@@ -1575,8 +1596,8 @@ fetchDataButtonsSched = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      console.log('done updating, applying filters')
-      console.log(this.state.year, this.state.block)
+      console.log('done updating units')
+
       
    
       
@@ -1692,6 +1713,8 @@ fetchDataButtonsSched = () => {
     console.log(professor.max_units)
 
     let doesUnitsExceedCheck = parseInt(newSchedule.units) + professor.current_units > professor.max_units;
+    
+    console.log(doesUnitsExceedCheck, "NIASDASD")
     if (doesUnitsExceedCheck) {
         conflictDescription = `Max Units Exceeded: ${parseInt(newSchedule.units) + professor.current_units} > ${professor.max_units} `;
         console.log(parseInt(newSchedule.units) + professor.current_units, "is greater than max units:", professor.max_units)
@@ -1801,12 +1824,9 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
               }
 
               const otherAppointments = data.filter(a => a.id !== appointment.id);
+              const oldAppointment = data.filter(a => a.id === appointment.id);
 
-              // if (this.doesScheduleOverlap(updatedAppointment, otherAppointments, true)) {
-              //   this.setState({ isConflict: true });
-              //   return appointment;  // Skip the update if there is a conflict
-              // }
-
+             
               let result = this.doesScheduleOverlap(updatedAppointment, otherAppointments, true);
               if (result.conflict) {
                 console.log(result)
@@ -1816,16 +1836,20 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
                 return appointment; 
               }
 
+
+               console.log("FOUND IT", parseInt(oldAppointment[0].units))
+              console.log("FOUND IT NEW", updatedAppointment.units)
+
+              //IF UNITS IS UNTOUCHED, Don't run unit exceed check
+              if (oldAppointment[0].units !== updatedAppointment.units){
               let resultUnit = this.doesUnitsExceed(updatedAppointment);
               if (resultUnit.conflict) {
                 this.setState({ conflictDesc: resultUnit.description });
                 this.setState({ isConflict: resultUnit.conflict });
-                return appointment;  // Skip the update if there is a conflict
+                return appointment; 
               }
-              // if (this.doesUnitsExceed(updatedAppointment)) {
-              //   this.setState({ isConflict: true });
-              //   return appointment;  // Skip the update if there is a conflict
-              // }
+              }
+              
               return updatedAppointment;
             } else {
               return appointment;
@@ -1845,7 +1869,7 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
    
         console.log(this.state.isConflict, "UPDATE SHEEEE")
         this.updateSchedules(this.state.data, added,changed,deleted, this.state.isConflict);
-        
+        this.updateCurrentUnits()
       }
     );
   }
