@@ -57,10 +57,6 @@
     
 }
 
-.custom-toast {
-  z-index: 9999 !important;
-}
-
 /* Ripple effect */
 .ripple {
   background-position: center;

@@ -257,9 +257,6 @@ fieldset {
 .MuiPopover-paper.Layout-popover {
   width: inherit !important;
 }
-.Toastify__toast-container {
-  z-index: 9999 !important;
-}
 
 legend {
   box-sizing: border-box; /* 1 */

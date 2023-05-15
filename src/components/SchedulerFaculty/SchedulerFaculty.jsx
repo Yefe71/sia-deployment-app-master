@@ -133,7 +133,7 @@ const styleRoom = {
 
 const FormOverlay = React.forwardRef(({ visible, children }, ref) => {
   return (
-    <Modal open={visible} ref={ref}>
+    <Modal open={visible} ref={ref} sx={{zIndex: 2}}>
       <Paper
         sx={{
           width: "27rem",
@@ -144,6 +144,7 @@ const FormOverlay = React.forwardRef(({ visible, children }, ref) => {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
+          
         }}
       >
         {children}
@@ -552,6 +553,22 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
 
 
+    if (prevProps.triggerToast !== this.props.triggerToast){
+
+      toast.error(`${this.props.conflictDesc}`, {
+        position: toast.POSITION.TOP_CENTER,
+        className:  SchedulerFacultyCSS['custom-toast'],
+        style: {
+          borderRadius: '10px',
+          background: '#ffffff',
+          color: '#0b0b0b',
+          fontFamily: 'Roboto',
+          fontSize: "15px",
+          zIndex: 3
+        }
+      });
+
+    }
 
       if (prevState.appointmentChanges !== this.state.appointmentChanges){
         this.props.handleChangeFields()
@@ -1295,7 +1312,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       professorsData: [],
       conflictDesc: "",
       isConflictForm: true,
-      
+      triggerToast: false
     };
   
 
@@ -1349,7 +1366,9 @@ export default class SchedulerFaculty extends React.PureComponent {
         isConflictProp: this.state.isConflictProp,
         handleEditYearChange: this.state.handleEditYearChange,
         isConflictForm: this.state.isConflictForm,
-        handleChangeFields: this.handleChangeFields
+        handleChangeFields: this.handleChangeFields,
+        triggerToast: this.state.triggerToast,
+        conflictDesc: this.state.conflictDesc
       };
     });
   }
@@ -1489,19 +1508,7 @@ fetchDataButtonsSched = () => {
 
       this.setState({isConflictProp: this.state.isConflict})
       this.props.setIsEditConflict(this.state.isConflict)
-      
-      toast.error(`${this.state.conflictDesc}`, {
-        position: toast.POSITION.TOP_CENTER,
-        className:  SchedulerFacultyCSS['custom-toast'],
-        style: {
-          borderRadius: '10px',
-          background: '#ffffff',
-          color: '#0b0b0b',
-          fontFamily: 'Roboto',
-          fontSize: "15px",
-          zIndex: 999
-        }
-      });
+      this.setState({ triggerToast: !this.state.triggerToast });
       this.setState({ isConflict: false });
     }
 
@@ -1732,26 +1739,29 @@ fetchDataButtonsSched = () => {
 
     for (let existing of existingSchedules) {
       // Check if the schedules conflict due to the same room, day, and time
-      let isRoomDayTimeConflict = existing.classType === 'F2F' &&
+      let isRoomDayTimeConflict = 
+   
         existing.room === newSchedule.room && 
         existing.day === newSchedule.day &&
         this.isTimeOverlap(existing, newSchedule);
     
       // Check if the schedules conflict due to the same year, block, day, and time
-      let isYearBlockDayTimeConflict = existing.classType === 'F2F' &&
+      let isYearBlockDayTimeConflict = 
+     
         existing.year === newSchedule.year &&
         existing.block === newSchedule.block &&
         existing.day === newSchedule.day &&
         this.isTimeOverlap(existing, newSchedule);
     
       // Check if the schedules conflict due to the same professor, day, and time
-      let isProfDayTimeConflict = existing.classType === 'F2F' &&
+      let isProfDayTimeConflict = 
+     
         existing.professorName === newSchedule.professorName &&
         existing.day === newSchedule.day &&
         this.isTimeOverlap(existing, newSchedule);
     
       if (isRoomDayTimeConflict) {
-        conflictDescription = 'Conflict due to the same room, day, and time';
+        conflictDescription = 'Conflict in any of the following: same room, day, and time';
       } else if (isYearBlockDayTimeConflict) {
         conflictDescription = 'Conflict due to the same year, block, day, and time';
       } else if (isProfDayTimeConflict) {
@@ -2163,7 +2173,7 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
               </DialogActions>
             </Dialog>
           </CustomPaper>
-          <ToastContainer />
+          
         </>
         
       </div>
