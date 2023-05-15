@@ -541,17 +541,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       this.setState({ yearField: 0 });
       this.setState({yearPropChild: this.props.appointmentData.year })
       this.setState({blockPropChild: this.props.appointmentData.block })
+      
       this.setState({oldYear: this.props.appointmentData.year })
       this.setState({oldBlock: this.props.appointmentData.block })
+     
     }
-
-    // if(this.props.visible){
-    //   if (prevState.appointmentChanges !== this.state.appointmentChanges){
-    //     this.props.changeDetected()
-    //   }
-
-    // }
-  
 
 
 
@@ -1470,7 +1464,9 @@ fetchDataButtonsSched = () => {
       console.log("CHANGE")
       this.updateCurrentUnits() 
       this.fetchAllProfData()
-      this.setState({isConflictForm: true})
+     
+     
+
     }
     
     if (!prevState.isConflict && this.state.isConflict) {
