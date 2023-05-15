@@ -1671,47 +1671,30 @@ export default class SchedulerFaculty extends React.PureComponent {
   }
 
   doesScheduleOverlap(newSchedule, existingSchedules, isUpdate = false) {
-    let conflictDescription = "";
+    let conflictDescriptions = [];
 
     if (newSchedule.classType !== "F2F")
-      return { conflict: false, description: conflictDescription };
+      return { conflict: false, description: conflictDescriptions.join(', ') };
 
     for (let existing of existingSchedules) {
-      // Check if the schedules conflict due to the same room, day, and time
-      let isRoomDayTimeConflict =
-        existing.room === newSchedule.room &&
-        existing.day === newSchedule.day &&
-        this.isTimeOverlap(existing, newSchedule);
+      let conflicts = [];
+      let isTimeConflict = this.isTimeOverlap(existing, newSchedule) && existing.day === newSchedule.day;
+      
+      if (isTimeConflict && existing.professorName === newSchedule.professorName) {
+        conflicts.push('professor');
+      }
+      if (isTimeConflict && existing.year === newSchedule.year && existing.block === newSchedule.block) {
+        conflicts.push('year and block');
+      } 
+      if (isTimeConflict && existing.room === newSchedule.room) {
+        conflicts.push('room');
+      } 
 
-      // Check if the schedules conflict due to the same year, block, day, and time
-      let isYearBlockDayTimeConflict =
-        existing.year === newSchedule.year &&
-        existing.block === newSchedule.block &&
-        existing.day === newSchedule.day &&
-        this.isTimeOverlap(existing, newSchedule);
-
-      // Check if the schedules conflict due to the same professor, day, and time
-      let isProfDayTimeConflict =
-        existing.professorName === newSchedule.professorName &&
-        existing.day === newSchedule.day &&
-        this.isTimeOverlap(existing, newSchedule);
-
-      if (isRoomDayTimeConflict) {
-        conflictDescription =
-          "Conflict in any of the following: same room, day, and time";
-      } else if (isYearBlockDayTimeConflict) {
-        conflictDescription =
-          "Conflict due to the same year, block, day, and time";
-      } else if (isProfDayTimeConflict) {
-        conflictDescription =
-          "Conflict due to the same professor, day, and time";
+      if (conflicts.length) {
+        conflictDescriptions.push(`Conflict due to same ${conflicts.join(', ')} and day and time overlap.`);
       }
 
-      if (
-        isRoomDayTimeConflict ||
-        isYearBlockDayTimeConflict ||
-        isProfDayTimeConflict
-      ) {
+      if (conflicts.length) {
         if (
           isUpdate &&
           existing.room === newSchedule.room &&
@@ -1720,12 +1703,14 @@ export default class SchedulerFaculty extends React.PureComponent {
         ) {
           continue;
         }
-        return { conflict: true, description: conflictDescription };
+        return { conflict: true, description: conflictDescriptions.join(' ') };
       }
     }
 
-    return { conflict: false, description: conflictDescription };
+    return { conflict: false, description: conflictDescriptions.join(' ') };
   }
+
+
 
   async doesUnitsExceedUpdate(newSchedule, changed) {
     try {
@@ -1764,9 +1749,9 @@ export default class SchedulerFaculty extends React.PureComponent {
             parseInt(newSchedule.units) + professor.current_units >
             professor.max_units;
           if (doesUnitsExceedCheck) {
-            conflictDescription = `Max Units Exceeded: ${
-              parseInt(newSchedule.units) + professor.current_units
-            } > ${professor.max_units} `;
+            conflictDescription = `Max Units Exceeded: 
+              ${professor.current_units} + ${parseInt(newSchedule.units)}
+             > ${professor.max_units} `;
             console.log(
               parseInt(newSchedule.units) + professor.current_units,
               "is greater than max units:",
@@ -1779,9 +1764,9 @@ export default class SchedulerFaculty extends React.PureComponent {
           let doesUnitsExceedCheck =
             parseInt(newSchedule.units) > professor.max_units;
           if (doesUnitsExceedCheck) {
-            conflictDescription = `Max Units Exceeded: ${parseInt(
-              newSchedule.units
-            )} > ${professor.max_units} `;
+            conflictDescription = `Max Units Exceeded: 
+            ${professor.current_units} + ${parseInt(newSchedule.units)}
+           > ${professor.max_units} `;
             console.log(
               parseInt(newSchedule.units),
               "is greater than max units:",
@@ -1832,9 +1817,9 @@ export default class SchedulerFaculty extends React.PureComponent {
 
       console.log(doesUnitsExceedCheck, "NIASDASD");
       if (doesUnitsExceedCheck) {
-        conflictDescription = `Max Units Exceeded: ${
-          parseInt(newSchedule.units) + professor.current_units
-        } > ${professor.max_units} `;
+        conflictDescription = `Max Units Exceeded: 
+        ${professor.current_units} + ${parseInt(newSchedule.units)}
+       > ${professor.max_units} `;
         console.log(
           parseInt(newSchedule.units) + professor.current_units,
           "is greater than max units:",
@@ -1848,9 +1833,9 @@ export default class SchedulerFaculty extends React.PureComponent {
 
       console.log(doesUnitsExceedCheck, "NIASDASD");
       if (doesUnitsExceedCheck) {
-        conflictDescription = `Max Units Exceeded: ${parseInt(
-          newSchedule.units
-        )} > ${professor.max_units} `;
+         conflictDescription = `Max Units Exceeded: 
+          ${professor.current_units} + ${parseInt(newSchedule.units)}
+         > ${professor.max_units} `;
         console.log(
           parseInt(newSchedule.units),
           "is greater than max units:",
