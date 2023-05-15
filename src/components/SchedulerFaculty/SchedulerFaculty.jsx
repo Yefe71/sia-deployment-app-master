@@ -384,7 +384,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       blockPropChild: null,
       oldYear: null,
       oldBlock: null,
-      isConflict: true,
       
   
     };
@@ -1162,7 +1161,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   // visibleChange();
                   applyChanges(false);
                   this.props.setIsNewSched(isNewAppointment)
-
+                    
                 }}
                 style={{ textTransform: "none" }}
                 sx={{
@@ -1180,7 +1179,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                     // Change the hover background color here
                   },
                 }}
-                disabled={!isFormValid()}
+                disabled={this.props.isConflictForm ? !isFormValid() : false}
                 variant="contained"
               >
                 Verify
@@ -1204,7 +1203,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   margin: "15px 7px",
                   backgroundColor: "#2196F3",
                 }}
-                disabled = {this.state.isConflict}
+                disabled = {this.props.isConflictForm}
                 variant="contained"
               >
                 {isNewAppointment ? "Create" : "Save"}
@@ -1277,9 +1276,8 @@ export default class SchedulerFaculty extends React.PureComponent {
       oldYearParent: null,
       oldBlockParent: null,
       professorsData: [],
-      conflictDesc: ""
-  
-  
+      conflictDesc: "",
+      isConflictForm: true,
     };
   
 
@@ -1331,7 +1329,8 @@ export default class SchedulerFaculty extends React.PureComponent {
         setIsNewSched: this.props.setIsNewSched,
         isConflict: this.state.isConflict,
         isConflictProp: this.state.isConflictProp,
-        handleEditYearChange: this.state.handleEditYearChange
+        handleEditYearChange: this.state.handleEditYearChange,
+        isConflictForm: this.state.isConflictForm
       };
     });
   }
@@ -1480,7 +1479,8 @@ fetchDataButtonsSched = () => {
           background: '#ffffff',
           color: '#0b0b0b',
           fontFamily: 'Roboto',
-          fontSize: "15px"
+          fontSize: "15px",
+          zIndex: 999
         }
       });
       this.setState({ isConflict: false });
@@ -1914,8 +1914,9 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
 
             this.setState({ conflictDesc: result.description })
             this.setState({ isConflict: result.conflict })
+            this.setState({isConflictForm: true})
+            return isConfirm ? { data, addedAppointment: {} } : null; //this one
             
-            return { data, addedAppointment: {} }; //this one
           }
 
           
@@ -1923,7 +1924,15 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
           if (resultUnit.conflict) {
             this.setState({ conflictDesc: resultUnit.description })
             this.setState({ isConflict: resultUnit.conflict });
-            return { data, addedAppointment: {} };  //this one
+             this.setState({isConflictForm: true})
+             console.log("YES CONFLICT 1")
+            return isConfirm ?  { data, addedAppointment: {} } : null;  //this one
+          }
+
+          if (result.conflict === false && resultUnit.conflict === false){
+            console.log("NO CONFLICT 1")
+            
+            this.setState({isConflictForm: false})
           }
 
           const maxId =
@@ -1964,7 +1973,7 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
                 console.log(result)
                 this.setState({ conflictDesc: result.description })
                 this.setState({ isConflict: true })
-            
+                this.setState({ isConflictForm: true })
                 return appointment;  
               }
 
@@ -1973,16 +1982,25 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
               console.log("FOUND IT NEW", updatedAppointment.units)
 
               //IF UNITS IS UNTOUCHED, Don't run unit exceed check
-              if (oldAppointment[0].units !== updatedAppointment.units){
               let resultUnit = this.doesUnitsExceed(updatedAppointment, true, professorsData);
+              if (oldAppointment[0].units !== updatedAppointment.units){
               if (resultUnit.conflict) {
                 this.setState({ conflictDesc: resultUnit.description });
                 this.setState({ isConflict: resultUnit.conflict });
+                console.log("YES CONFLICT 2")
+                this.setState({isConflictForm: true})
                 return appointment; 
               }
               }
               
-              return updatedAppointment; //this one
+              console.log("ETO RESULTA", result.conflict, resultUnit.conflict)
+                if (result.conflict === false && resultUnit.conflict === false){
+                  console.log("NO CONFLICT 2")
+                  this.setState({isConflictForm: false})
+                }
+ 
+
+              return isConfirm ? updatedAppointment : null; //this one
             } else {
               return appointment;
             }
@@ -1993,9 +2011,12 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
         if (deleted !== undefined) {
           this.setDeletedAppointmentId(deleted);
           this.toggleConfirmationVisible();
+        }else{
+   
         }
-
-        return { data, addedAppointment: {} };
+        
+        
+        return isConfirm ? { data, addedAppointment: {} } : null;
       },
       () => {
    
