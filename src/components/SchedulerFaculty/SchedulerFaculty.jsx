@@ -549,6 +549,12 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
 
 
+
+      if (prevState.appointmentChanges !== this.state.appointmentChanges){
+        this.props.handleChangeFields()
+      }
+ 
+
     
     if (!this.state.yearField) {
       this.setState({ yearField: this.props.appointmentData.year });
@@ -665,7 +671,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
     const textEditorProps = (field) => ({
       variant: "outlined",
-      onChange: ({ target: change }) =>
+      onChange: ({ target: change }) => 
         this.changeAppointment({
           field: [field],
           changes: change.value,
@@ -1287,7 +1293,7 @@ export default class SchedulerFaculty extends React.PureComponent {
     this.commitDeletedAppointment = this.commitDeletedAppointment.bind(this);
     this.toggleEditingFormVisibility =
       this.toggleEditingFormVisibility.bind(this);
-
+      this.handleChangeFields = this.handleChangeFields.bind(this);
     this.commitChanges = this.commitChanges.bind(this);
     this.onEditingAppointmentChange =
       this.onEditingAppointmentChange.bind(this);
@@ -1331,7 +1337,8 @@ export default class SchedulerFaculty extends React.PureComponent {
         isConflict: this.state.isConflict,
         isConflictProp: this.state.isConflictProp,
         handleEditYearChange: this.state.handleEditYearChange,
-        isConflictForm: this.state.isConflictForm
+        isConflictForm: this.state.isConflictForm,
+        handleChangeFields: this.handleChangeFields
       };
     });
   }
@@ -1464,9 +1471,6 @@ fetchDataButtonsSched = () => {
       console.log("CHANGE")
       this.updateCurrentUnits() 
       this.fetchAllProfData()
-     
-     
-
     }
     
     if (!prevState.isConflict && this.state.isConflict) {
@@ -1626,7 +1630,7 @@ fetchDataButtonsSched = () => {
 
 
 
-  async updateSchedules(dataLatest, added, changed, deleted, conflict) {
+  async updateSchedules(dataLatest, added, changed, deleted, conflict, isConfirm) {
     this.setState({ isUpdatingSchedules: true });
 
     try {
@@ -1655,7 +1659,7 @@ fetchDataButtonsSched = () => {
       this.fetchAllProfData()
      
       
-  
+
       if(added || changed){
 
 
@@ -1667,10 +1671,23 @@ fetchDataButtonsSched = () => {
           console.log("CHECK")
           console.log(this.state.year, this.state.block)
           console.log(this.state.oldYearParent, this.state.oldBlockParent)
+          
           if (this.state.year !== this.state.oldYearParent || this.state.block !== this.state.oldBlockParent){
+
+          
+            console.log(isConfirm, "APPLY FILTER DECISION")
+            if(isConfirm){
             this.applyFilterUpdate(this.state.year, this.state.block, added, changed, deleted);
+            
+            }
+              
+           
+
+            
               }else{
+                 if(isConfirm){
                 this.applyFilter();
+                 }
               }
         }
 
@@ -1679,6 +1696,7 @@ fetchDataButtonsSched = () => {
       }else{
       this.applyFilter();
       }
+    
       console.log("ahhahahahha hulihin moko!")
 
       this.setState({ isUpdatingSchedules: false });
@@ -1807,6 +1825,10 @@ fetchDataButtonsSched = () => {
     }
   }
 
+  handleChangeFields(){
+    this.setState({isConflictForm: true})
+  }
+  
   doesUnitsExceed(newSchedule, changed, professorsData) {
     const professorName = newSchedule.professorName;
     let conflictDescription = '';
@@ -2024,7 +2046,7 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
       () => {
    
         console.log(this.state.isConflict, "UPDATE SHEEEE")
-        this.updateSchedules(this.state.data, added,changed,deleted, this.state.isConflict);
+        this.updateSchedules(this.state.data, added,changed,deleted, this.state.isConflict, isConfirm);
         
       }
     );
