@@ -56,6 +56,7 @@ import RoomTable from "../RoomTable/RoomTable";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { v4 as uuidv4 } from "uuid";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const tooltipStyle = {
   width: "300px !important",
@@ -137,6 +138,7 @@ const FormOverlay = React.forwardRef(({ visible, children }, ref) => {
         sx={{
           width: "27rem",
           padding: 1,
+          paddingBottom: "0px",
           borderRadius: "15px",
           position: "absolute",
           top: "50%",
@@ -382,6 +384,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       blockPropChild: null,
       oldYear: null,
       oldBlock: null,
+      isConflict: true,
+      
   
     };
 
@@ -478,7 +482,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     });
   }
 
-  commitAppointment(type) {
+  commitAppointment(type, isConfirm) {
     const { commitChanges } = this.props;
 
     const appointment = {
@@ -487,16 +491,16 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     };
 
     if (type === "deleted") {
-      commitChanges({ [type]: appointment.id });
+      commitChanges({ [type]: appointment.id }, isConfirm);
  
     } else if (type === "changed") {
-      commitChanges({ [type]: { [appointment.id]: appointment } });
+      commitChanges({ [type]: { [appointment.id]: appointment } }, isConfirm);
     } else {
-      commitChanges({ [type]: appointment });
+      commitChanges({ [type]: appointment }, isConfirm);
     }
-    this.setState({
-      appointmentChanges: {},
-    });
+    // this.setState({
+    //   appointmentChanges: {},
+    // });
   }
 
   async fetchDataProf() {
@@ -645,21 +649,20 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
     const isNewAppointment = appointmentData.id === undefined;
 
-    const applyChanges = isNewAppointment
-      ? () => { 
-        this.commitAppointment("added")
-        this.props.handleDataFromChild(this.state.blockPropChild, false)
-        this.props.handleDataFromChild(this.state.yearPropChild, true)
-   
-        
+    const applyChanges = (isConfirm) => {
+      if (isNewAppointment) {
+        this.commitAppointment("added", isConfirm);
+        this.props.handleDataFromChild(this.state.blockPropChild, false);
+        this.props.handleDataFromChild(this.state.yearPropChild, true);
         this.props.handleClickFromChild("clicked");
+      } else {
+        console.log("AKOY NAGLAKAD", this.state.yearPropChild, this.state.blockPropChild);
+        this.commitAppointment("changed", isConfirm);
+        this.props.handleDataFromChild(this.state.blockPropChild, false, param1, param2);
+        this.props.handleDataFromChild(this.state.yearPropChild, true, param1, param2);
       }
-      : () => {
-        console.log("AKOY NAGLAKAD", this.state.yearPropChild, this.state.blockPropChild)
-        this.commitAppointment("changed")
-        this.props.handleDataFromChild(this.state.blockPropChild, false, this.state.oldYear, this.state.oldBlock)
-        this.props.handleDataFromChild(this.state.yearPropChild, true, this.state.oldYear, this.state.oldBlock)
-      };
+    };
+
 
     const textEditorProps = (field) => ({
       variant: "outlined",
@@ -842,7 +845,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     }
 
     const randomNumber = Math.floor(Math.random() * 100) + 1;
-
+  
     return (
       <FormOverlay visible={visible}  ref={this.overlayRef}>
         <StyledDiv>
@@ -1127,35 +1130,37 @@ class AppointmentFormContainerBasic extends React.PureComponent {
             <div className={SchedulerFacultyCSS.buttonWrapper}>
               {!isNewAppointment && (
                 <Button
+            
                   sx={{
-                    color: "red",
+                    textTransform: "none",
+                    color: "white",
                     borderRadius: "0.5rem",
                     fontFamily: "Poppins",
                     fontSize: "0.9rem",
                     padding: "0.7rem",
-                    width: "100%",
-                    margin: "15px 7px",
-                    border: "1.95px solid red",
+                    minWidth: "3rem",
+                    height: "100%",
+                    margin: "15px 5px",
+                    background: "#ca302e",
                     "&:hover": {
-                      border: "1.98px solid red",
+                      background: "#ab2927",
                       // Change the hover background color here
                     },
                   }}
-                  variant="outlined"
+                  variant="contained"
                
                   onClick={() => {
                     visibleChange();
                     this.commitAppointment("deleted");
                   }}
                 >
-                  Delete
+                  <DeleteIcon/>
                 </Button>
               )}
-
               <Button
                 onClick={() => {
-                  visibleChange();
-                  applyChanges();
+                  // visibleChange();
+                  applyChanges(false);
                   this.props.setIsNewSched(isNewAppointment)
 
                 }}
@@ -1167,11 +1172,39 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   fontSize: "0.9rem",
                   padding: "0.7rem",
                   width: "100%",
-                  margin: "15px 7px",
+                  margin: "15px 2px",
         
-                  backgroundColor: "#2196F3",
+                  backgroundColor: "#3a9b51 ",
+                  "&:hover": {
+                    background: "#2b773d",
+                    // Change the hover background color here
+                  },
                 }}
                 disabled={!isFormValid()}
+                variant="contained"
+              >
+                Verify
+              </Button>
+              <Button
+            
+                onClick={() => {
+                  visibleChange();
+                  // applyChanges(true);
+                  // this.props.setIsNewSched(isNewAppointment)
+
+                }}
+                style={{ textTransform: "none" }}
+                sx={{
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: "0.9rem",
+                  padding: "0.7rem",
+                  width: "100%",
+                  margin: "15px 7px",
+                  backgroundColor: "#2196F3",
+                }}
+                disabled = {this.state.isConflict}
                 variant="contained"
               >
                 {isNewAppointment ? "Create" : "Save"}
@@ -1856,7 +1889,7 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
 
 
 
-  async commitChanges({ added, changed, deleted }) {
+  async commitChanges({ added, changed, deleted }, isConfirm) {
     try {
       const response = await fetch("http://localhost:3000/grabProfessors");
       const professorsData = await response.json();
@@ -1882,7 +1915,7 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
             this.setState({ conflictDesc: result.description })
             this.setState({ isConflict: result.conflict })
             
-            return { data, addedAppointment: {} }; 
+            return { data, addedAppointment: {} }; //this one
           }
 
           
@@ -1890,7 +1923,7 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
           if (resultUnit.conflict) {
             this.setState({ conflictDesc: resultUnit.description })
             this.setState({ isConflict: resultUnit.conflict });
-            return { data, addedAppointment: {} }; 
+            return { data, addedAppointment: {} };  //this one
           }
 
           const maxId =
@@ -1932,7 +1965,7 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
                 this.setState({ conflictDesc: result.description })
                 this.setState({ isConflict: true })
             
-                return appointment; 
+                return appointment;  
               }
 
 
@@ -1949,7 +1982,7 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
               }
               }
               
-              return updatedAppointment;
+              return updatedAppointment; //this one
             } else {
               return appointment;
             }
