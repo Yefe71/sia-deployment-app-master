@@ -53,10 +53,10 @@ import SketchExample from "../SketchPicker/SketchPicker";
 import addPerson from "../../assets/edit.svg";
 import ProfessorTable from "../ProfessorTable/ProfessorTable";
 import RoomTable from "../RoomTable/RoomTable";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { v4 as uuidv4 } from "uuid";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const tooltipStyle = {
   width: "300px !important",
@@ -128,12 +128,9 @@ const styleRoom = {
   background: "#f6f6f6",
 };
 
-
-
-
 const FormOverlay = React.forwardRef(({ visible, children }, ref) => {
   return (
-    <Modal open={visible} ref={ref} sx={{zIndex: 2}}>
+    <Modal open={visible} ref={ref} sx={{ zIndex: 2 }}>
       <Paper
         sx={{
           width: "27rem",
@@ -144,7 +141,6 @@ const FormOverlay = React.forwardRef(({ visible, children }, ref) => {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          
         }}
       >
         {children}
@@ -287,7 +283,6 @@ const courseNames = {
   },
 };
 
-
 const courseColors = {
   "EIT 0121": "#2c3e50", //"Introduction to Computer Human Interaction (lec)"
   "EIT 0121.1": "#1a2734",
@@ -310,10 +305,8 @@ const courseColors = {
   "EIT 0323": "#b5770e",
   "EIT 0323.1": "#9e650a",
   "IIP 0101": "#137f6a",
-  "IIP 0102": "#249a51"
+  "IIP 0102": "#249a51",
 };
-
-
 
 // #FOLD_BLOCK
 const StyledDiv = styled("div")(({ theme }) => ({
@@ -363,7 +356,6 @@ const CustomPaper = styled(Paper)({
 });
 
 class AppointmentFormContainerBasic extends React.PureComponent {
-
   constructor(props) {
     super(props);
     this.overlayRef = React.createRef();
@@ -385,13 +377,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       blockPropChild: null,
       oldYear: null,
       oldBlock: null,
-
-      
-      
-  
     };
 
-    
     this.getAppointmentData = () => {
       const { appointmentData } = this.props;
       return appointmentData;
@@ -407,7 +394,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     this.handleNameToCodeChange = (event) => {
       this.setState({ courseCode: event });
     };
-    
 
     this.handleOpenProf = this.handleOpenProf.bind(this);
     this.handleCloseProf = this.handleCloseProf.bind(this);
@@ -419,14 +405,12 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     this.childRef = React.createRef();
   }
 
-
   triggerChildFunction = (colorParent) => {
-
-    console.log(colorParent)
-    if(this.childRef.current) {
-        this.childRef.current.handleChange(colorParent);
+    console.log(colorParent);
+    if (this.childRef.current) {
+      this.childRef.current.handleChange(colorParent);
     }
-}
+  };
 
   handleChange = (value, isYear) => {
     if (isYear) {
@@ -457,7 +441,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       changes: color,
     });
 
-    console.log(color)
+    console.log(color);
   };
 
   changeAppointment({ field, changes }) {
@@ -466,11 +450,9 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       [field]: changes,
     };
 
-
     this.setState({
       appointmentChanges: nextChanges,
-    },);
-
+    });
   }
   changeAppointmentYearCode({ name, pair }) {
     const nextChanges = {
@@ -494,7 +476,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
     if (type === "deleted") {
       commitChanges({ [type]: appointment.id }, isConfirm);
- 
     } else if (type === "changed") {
       commitChanges({ [type]: { [appointment.id]: appointment } }, isConfirm);
     } else {
@@ -516,8 +497,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     }
   }
 
-
-
   async fetchDataRoom() {
     try {
       const response = await fetch("http://localhost:3000/grabRoomsNames");
@@ -529,9 +508,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-
     if (this.state.isFirstRender) {
-      
     }
 
     if (prevState.openProf !== this.state.openProf && !this.state.openProf) {
@@ -542,51 +519,43 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       this.fetchDataRoom();
     }
 
-    if(prevProps.visible !== this.props.visible){
+    if (prevProps.visible !== this.props.visible) {
       this.setState({ yearField: 0 });
-      this.setState({yearPropChild: this.props.appointmentData.year })
-      this.setState({blockPropChild: this.props.appointmentData.block })
-      this.setState({oldYear: this.props.appointmentData.year })
-      this.setState({oldBlock: this.props.appointmentData.block })
-     
+      this.setState({ yearPropChild: this.props.appointmentData.year });
+      this.setState({ blockPropChild: this.props.appointmentData.block });
+      this.setState({ oldYear: this.props.appointmentData.year });
+      this.setState({ oldBlock: this.props.appointmentData.block });
     }
 
-
-
-    if (prevProps.triggerToast !== this.props.triggerToast){
-
+    if (prevProps.triggerToast !== this.props.triggerToast) {
       toast.error(`${this.props.conflictDesc}`, {
         position: toast.POSITION.TOP_CENTER,
-        className:  SchedulerFacultyCSS['custom-toast'],
+        className: SchedulerFacultyCSS["custom-toast"],
         style: {
-          borderRadius: '10px',
-          background: '#ffffff',
-          color: '#0b0b0b',
-          fontFamily: 'Roboto',
+          borderRadius: "10px",
+          background: "#ffffff",
+          color: "#0b0b0b",
+          fontFamily: "Roboto",
           fontSize: "15px",
-          zIndex: 3
-        }
+          zIndex: 3,
+        },
       });
-
     }
 
-      if (prevState.appointmentChanges !== this.state.appointmentChanges){
-        this.props.handleChangeFields()
-      }
- 
+    if (prevState.appointmentChanges !== this.state.appointmentChanges) {
+      this.props.handleChangeFields();
+    }
 
-    
     if (!this.state.yearField) {
       this.setState({ yearField: this.props.appointmentData.year });
-       console.log(this.state.yearField, "when no yearfield, apptdata is yearfield")
+      console.log(
+        this.state.yearField,
+        "when no yearfield, apptdata is yearfield"
+      );
     }
-
- 
-   
   }
 
   async componentDidMount() {
- 
     try {
       const responses = await Promise.all([
         fetch(
@@ -636,10 +605,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     }
   }
 
-  
-
-
-
   render() {
     const {
       visible,
@@ -657,8 +622,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       ...appointmentData,
       ...appointmentChanges,
     };
-
-
 
     const isFormValid = () => {
       const requiredFields = [
@@ -680,24 +643,25 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     const isNewAppointment = appointmentData.id === undefined;
 
     const applyChanges = (isConfirm) => {
-      if (isNewAppointment) {
-        this.commitAppointment("added", isConfirm);
-        this.props.handleDataFromChild(this.state.blockPropChild, false);
-        this.props.handleDataFromChild(this.state.yearPropChild, true);
-        this.props.handleClickFromChild("clicked");
-      } else {
-        console.log("AKOY NAGLAKAD", this.state.yearPropChild, this.state.blockPropChild);
-        this.commitAppointment("changed", isConfirm);
-        this.props.handleDataFromChild(this.state.blockPropChild, false, param1, param2);
-        this.props.handleDataFromChild(this.state.yearPropChild, true, param1, param2);
-      }
+      return isNewAppointment
+        ? () => { 
+          this.commitAppointment("added", isConfirm);
+          this.props.handleDataFromChild(this.state.blockPropChild, false);
+          this.props.handleDataFromChild(this.state.yearPropChild, true);
+          this.props.handleClickFromChild("clicked");
+        }
+        : () => {
+          console.log("AKOY NAGLAKAD", this.state.yearPropChild, this.state.blockPropChild);
+          this.commitAppointment("changed", isConfirm);
+          this.props.handleDataFromChild(this.state.blockPropChild, false, this.state.oldYear, this.state.oldBlock);
+          this.props.handleDataFromChild(this.state.yearPropChild, true, this.state.oldYear, this.state.oldBlock);
+        };
     };
 
 
-  
     const textEditorProps = (field) => ({
       variant: "outlined",
-      onChange: ({ target: change }) => 
+      onChange: ({ target: change }) =>
         this.changeAppointment({
           field: [field],
           changes: change.value,
@@ -712,9 +676,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         this.changeAppointment({
           field: [field],
           changes: change.value,
-        })
-        
-        },
+        });
+      },
       value: displayAppointmentData[field] || "",
       className: classes.textField,
     });
@@ -724,13 +687,12 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         this.changeAppointment({
           field: [field],
           changes: change.value,
-        })
-        this.setState({blockPropChild: change.value})
-        },
+        });
+        this.setState({ blockPropChild: change.value });
+      },
       value: displayAppointmentData[field] || "",
       className: classes.textField,
     });
-
 
     function hexToRGBA(hex) {
       // Remove the '#' character if present
@@ -747,12 +709,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         r: r,
         g: g,
         b: b,
-        a: a
+        a: a,
       };
 
       return rgba;
     }
-
 
     const textEditorPropsCourseName = (field) => ({
       variant: "outlined",
@@ -760,16 +721,13 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       onChange: ({ target: change }) => {
         const name = change.value.split(":")[0];
         const pair = change.value.split(":")[1];
-        this.triggerChildFunction(hexToRGBA(courseColors[pair]))
+        this.triggerChildFunction(hexToRGBA(courseColors[pair]));
         // this.handleColorChange(hexToRGBA(courseColors[pair]))
         this.handleNameToCodeChange(pair);
         this.changeAppointmentYearCode({
           name: name,
           pair: pair,
         });
-
-    
-
       },
 
       value: `${displayAppointmentData.courseName}:${displayAppointmentData.courseCode}`,
@@ -784,7 +742,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           field: [field],
           changes: change.value,
         });
-        
       },
       value: displayAppointmentData[field] || "",
       label: field[0].toUpperCase() + field.slice(1),
@@ -799,7 +756,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           changes: change.value,
         });
 
-        this.setState({yearPropChild: change.value})
+        this.setState({ yearPropChild: change.value });
       },
       value: displayAppointmentData[field] || "",
       label: field[0].toUpperCase() + field.slice(1),
@@ -858,7 +815,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
     // create a variable based on yearField to determine the current block options
     let currentBlocks;
-   
+
     if (!yearField) {
       currentBlocks = [];
     } else if (yearField === 1) {
@@ -875,11 +832,10 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       currentBlocks = [];
     }
 
-   
     const randomNumber = Math.floor(Math.random() * 100) + 1;
-  
+
     return (
-      <FormOverlay visible={visible}  ref={this.overlayRef}>
+      <FormOverlay visible={visible} ref={this.overlayRef}>
         <StyledDiv>
           <div className={classes.header}>
             <IconButton
@@ -985,8 +941,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                     PaperProps: {
                       style: {
                         maxHeight: 48 * 4.5, // where 48 is the item height
-                        width: '20ch',
-                        overflow: 'auto',
+                        width: "20ch",
+                        overflow: "auto",
                       },
                     },
                   }}
@@ -1023,8 +979,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                     PaperProps: {
                       style: {
                         maxHeight: 48 * 4.5, // where 48 is the item height
-                        width: '20ch',
-                        overflow: 'auto',
+                        width: "20ch",
+                        overflow: "auto",
                       },
                     },
                   }}
@@ -1162,7 +1118,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
             <div className={SchedulerFacultyCSS.buttonWrapper}>
               {!isNewAppointment && (
                 <Button
-            
                   sx={{
                     textTransform: "none",
                     color: "white",
@@ -1180,21 +1135,19 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                     },
                   }}
                   variant="contained"
-               
                   onClick={() => {
                     visibleChange();
                     this.commitAppointment("deleted");
                   }}
                 >
-                  <DeleteIcon/>
+                  <DeleteIcon />
                 </Button>
               )}
               <Button
                 onClick={() => {
                   // visibleChange();
-                  applyChanges(false);
-                  this.props.setIsNewSched(isNewAppointment)
-                    
+                  applyChanges(false)();
+                  this.props.setIsNewSched(isNewAppointment);
                 }}
                 style={{ textTransform: "none" }}
                 sx={{
@@ -1205,7 +1158,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   padding: "0.7rem",
                   width: "100%",
                   margin: "15px 2px",
-        
+
                   backgroundColor: "#3a9b51 ",
                   "&:hover": {
                     background: "#2b773d",
@@ -1218,13 +1171,10 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 Verify
               </Button>
               <Button
-            
                 onClick={() => {
-                  
                   visibleChange();
-                  applyChanges(true);
+                  applyChanges(true)();
                   // this.props.setIsNewSched(isNewAppointment)
-
                 }}
                 style={{ textTransform: "none" }}
                 sx={{
@@ -1312,16 +1262,14 @@ export default class SchedulerFaculty extends React.PureComponent {
       professorsData: [],
       conflictDesc: "",
       isConflictForm: true,
-      triggerToast: false
+      triggerToast: false,
     };
-  
 
-    
     this.toggleConfirmationVisible = this.toggleConfirmationVisible.bind(this);
     this.commitDeletedAppointment = this.commitDeletedAppointment.bind(this);
     this.toggleEditingFormVisibility =
       this.toggleEditingFormVisibility.bind(this);
-      this.handleChangeFields = this.handleChangeFields.bind(this);
+    this.handleChangeFields = this.handleChangeFields.bind(this);
     this.commitChanges = this.commitChanges.bind(this);
     this.onEditingAppointmentChange =
       this.onEditingAppointmentChange.bind(this);
@@ -1368,63 +1316,63 @@ export default class SchedulerFaculty extends React.PureComponent {
         isConflictForm: this.state.isConflictForm,
         handleChangeFields: this.handleChangeFields,
         triggerToast: this.state.triggerToast,
-        conflictDesc: this.state.conflictDesc
+        conflictDesc: this.state.conflictDesc,
       };
     });
   }
 
-  
   handleDataFromChild = (value, isYear, oldYear, oldBlock) => {
 
-    
-    
-      if (isYear) {
-        this.setState({ year: value });
-      } else {
-        this.setState({ block: value });
-      }
+    console.log("NAG SET AKO!!!")
 
-      this.setState({oldYearParent: oldYear})
-      this.setState({oldBlockParent: oldBlock})
+    if (isYear) {
+      this.setState({ year: value });
+    } else {
+      this.setState({ block: value });
+    }
 
-    
-
-    
+    this.setState({ oldYearParent: oldYear });
+    this.setState({ oldBlockParent: oldBlock });
   };
 
   handleClickFromChild = (isCreateClicked) => {
     this.setState({ clicked: isCreateClicked });
-  
   };
 
-  
   applyFilter = () => {
-
-
     if (!this.props.year && this.props.block.length === 0) {
-      console.log(`i ran 1 ${this.props.year} ${this.props.block}`)
+      console.log(`i ran 1 ${this.props.year} ${this.props.block}`);
       this.updateNewData(this.state.data);
     } else if (!this.props.year) {
-      console.log(`i ran 2 ${this.props.year} ${this.props.block}`)
-      const filteredData = this.state.data.filter(item => item.block === this.props.block);
+      console.log(`i ran 2 ${this.props.year} ${this.props.block}`);
+      const filteredData = this.state.data.filter(
+        (item) => item.block === this.props.block
+      );
       this.updateNewData(filteredData);
     } else if (this.props.block.length === 0) {
-      console.log(`i ran 3 ${this.props.year} ${this.props.block}`)
-      const filteredData = this.state.data.filter(item => item.year === this.props.year);
+      console.log(`i ran 3 ${this.props.year} ${this.props.block}`);
+      const filteredData = this.state.data.filter(
+        (item) => item.year === this.props.year
+      );
       this.updateNewData(filteredData);
     } else {
-      console.log(`i ran 4 ${this.props.year} ${this.props.block}`)
-      const filteredData = this.state.data.filter(item => item.year === this.props.year && item.block === this.props.block);
+      console.log(`i ran 4 ${this.props.year} ${this.props.block}`);
+      const filteredData = this.state.data.filter(
+        (item) =>
+          item.year === this.props.year && item.block === this.props.block
+      );
       this.updateNewData(filteredData);
     }
   };
-  
+
   applyFilterRoom = () => {
-   if (this.props.room) {
-      console.log("i ran room")
-      const filteredData = this.state.data.filter(item => item.room === this.props.room);
+    if (this.props.room) {
+      console.log("i ran room");
+      const filteredData = this.state.data.filter(
+        (item) => item.room === this.props.room
+      );
       this.updateNewData(filteredData);
-    }else if (!this.props.room) {
+    } else if (!this.props.room) {
       this.updateNewData(this.state.data);
     }
   };
@@ -1455,21 +1403,22 @@ export default class SchedulerFaculty extends React.PureComponent {
     });
   }
 
-
-fetchDataButtonsSched = () => {
-    fetch(`http://localhost:3000/grabStudentsButtons?yearButton=${this.props.year}&blockButton=''`)
+  fetchDataButtonsSched = () => {
+    fetch(
+      `http://localhost:3000/grabStudentsButtons?yearButton=${this.props.year}&blockButton=''`
+    )
       .then((response) => response.json())
       .then((data) => {
         // setData(data);
         // setDataChild(data);
-        const uniqueBlocks = [...new Set(data.map((student) => student.block))].sort();
+        const uniqueBlocks = [
+          ...new Set(data.map((student) => student.block)),
+        ].sort();
         this.props.setBlockChild(uniqueBlocks);
-          
       })
       .catch((error) => console.log(error));
   };
 
-  
   async fetchAllProfData() {
     try {
       console.log("i ran prof");
@@ -1480,54 +1429,45 @@ fetchDataButtonsSched = () => {
       console.error("Error fetching professor names:", error);
     }
   }
-  
 
   componentDidUpdate(prevProps, prevState) {
     this.appointmentForm.update();
-   
+
     if (
-      (this.props.year !== prevProps.year || this.props.block !== prevProps.block)
+      this.props.year !== prevProps.year ||
+      this.props.block !== prevProps.block
     ) {
       this.fetchDataButtonsSched();
       this.applyFilter();
     }
-    if (
-      (this.props.room !== prevProps.room)
-    ) {
+    if (this.props.room !== prevProps.room) {
       this.applyFilterRoom();
     }
 
     if (this.state.editingFormVisible !== prevState.editingFormVisible) {
-      console.log("CHANGE")
-      this.updateCurrentUnits() 
-      this.fetchAllProfData()
-    
+      console.log("CHANGE");
+      this.updateCurrentUnits();
+      this.fetchAllProfData();
     }
-    
-    if (!prevState.isConflict && this.state.isConflict) {
 
-      this.setState({isConflictProp: this.state.isConflict})
-      this.props.setIsEditConflict(this.state.isConflict)
+    if (!prevState.isConflict && this.state.isConflict) {
+      this.setState({ isConflictProp: this.state.isConflict });
+      this.props.setIsEditConflict(this.state.isConflict);
       this.setState({ triggerToast: !this.state.triggerToast });
       this.setState({ isConflict: false });
     }
-
-
   }
 
   updateNewData(newData) {
-    console.log("AKO RIN AJAJJAJAHA")
+    console.log("AKO RIN AJAJJAJAHA");
     if (JSON.stringify(this.state.newData) !== JSON.stringify(newData)) {
       this.setState({ newData });
     }
   }
 
-
-
-
   async componentDidMount() {
-    this.updateCurrentUnits()    
-    this.fetchAllProfData()
+    this.updateCurrentUnits();
+    this.fetchAllProfData();
     try {
       console.log("i ran prof data");
       const response = await fetch("http://localhost:3000/grabProfessors");
@@ -1536,7 +1476,7 @@ fetchDataButtonsSched = () => {
     } catch (error) {
       console.error("Error fetching professor names:", error);
     }
-    
+
     try {
       const response = await fetch(`http://localhost:3000/grabSchedules`);
       const data = await response.json();
@@ -1559,15 +1499,11 @@ fetchDataButtonsSched = () => {
       console.log(rows, "grab schedules");
 
       this.setState({ data: rows }, () => {
-        this.setState({newData: this.state.data}, () => this.applyFilter())
+        this.setState({ newData: this.state.data }, () => this.applyFilter());
       });
-
-
     } catch (error) {
       console.log(error);
     }
-
-   
   }
 
   onEditingAppointmentChange(editingAppointment) {
@@ -1594,7 +1530,6 @@ fetchDataButtonsSched = () => {
     this.setState({
       editingFormVisible: !editingFormVisible,
     });
-   
   }
 
   toggleConfirmationVisible() {
@@ -1615,43 +1550,49 @@ fetchDataButtonsSched = () => {
       () => {
         console.log("me delete");
         this.updateSchedules(this.state.data);
-        
       }
     );
     this.toggleConfirmationVisible();
   }
 
-  handleEditYearChange(yearEdit, blockEdit){
-    this.setState({year: yearEdit})
-    this.setState({block: blockEdit})
+  handleEditYearChange(yearEdit, blockEdit) {
+    this.setState({ year: yearEdit });
+    this.setState({ block: blockEdit });
   }
 
   async updateCurrentUnits() {
-
-    console.log("TINRY KO NAMAN HA")
+    console.log("TINRY KO NAMAN HA");
     try {
-        const response = await fetch('http://localhost:3000/updateProfessorsUnits', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+      const response = await fetch(
+        "http://localhost:3000/updateProfessorsUnits",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
+      );
 
-        console.log('Request succeeded');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      console.log("Request succeeded");
     } catch (error) {
-        console.error('There was a problem with the fetch operation:', error);
+      console.error("There was a problem with the fetch operation:", error);
     }
-}
+  }
 
-
-
-  async updateSchedules(dataLatest, added, changed, deleted, conflict, isConfirm) {
+  async updateSchedules(
+    dataLatest,
+    added,
+    changed,
+    deleted,
+    conflict,
+    isConfirm
+  ) {
     this.setState({ isUpdatingSchedules: true });
-
+    console.log(isConfirm, added, changed, "confirm check")
     try {
       const requestOptions = {
         method: "PUT",
@@ -1673,53 +1614,50 @@ fetchDataButtonsSched = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      console.log('done updating units')
-      this.updateCurrentUnits() 
-      this.fetchAllProfData()
-     
-      
+      console.log("done updating units");
+      this.updateCurrentUnits();
+      this.fetchAllProfData();
 
-      if(added || changed){
+      if (added || changed) {
 
+        console.log("IM CHANGED!!!", this.state.year, this.state.block)
+       
+        if (!conflict) {
+          console.log(conflict, "nag run ako");
 
-      if (!conflict){
-        console.log(conflict, "nag run ako")
-        
-        if (this.state.year && this.state.block ){
+          if (this.state.year && this.state.block) {
+            console.log("CHECK");
+            console.log(this.state.year, this.state.block);
+            console.log(this.state.oldYearParent, this.state.oldBlockParent);
 
-          console.log("CHECK")
-          console.log(this.state.year, this.state.block)
-          console.log(this.state.oldYearParent, this.state.oldBlockParent)
-          
-          if (this.state.year !== this.state.oldYearParent || this.state.block !== this.state.oldBlockParent){
-
-          
-            console.log(isConfirm, "APPLY FILTER DECISION")
-            if(isConfirm){
-            this.applyFilterUpdate(this.state.year, this.state.block, added, changed, deleted);
-            
-            }
-              
-           
-
-            
-              }else{
-                 if(isConfirm){
-                this.applyFilter();
-                 }
+            if (
+              this.state.year !== this.state.oldYearParent ||
+              this.state.block !== this.state.oldBlockParent
+            ) {
+              console.log(isConfirm, "APPLY FILTER DECISION");
+              if (isConfirm) {
+                this.applyFilterUpdate(
+                  this.state.year,
+                  this.state.block,
+                  added,
+                  changed,
+                  deleted
+                );
               }
+            } else {
+              if (isConfirm) {
+                this.applyFilter();
+              }
+            }
+          }
         }
+      } else {
+        this.applyFilter();
+      }
 
-      }
-      
-      }else{
-      this.applyFilter();
-      }
-    
-      console.log("ahhahahahha hulihin moko!")
+      console.log("ahhahahahha hulihin moko!");
 
       this.setState({ isUpdatingSchedules: false });
-      
     }
   }
 
@@ -1733,42 +1671,47 @@ fetchDataButtonsSched = () => {
   }
 
   doesScheduleOverlap(newSchedule, existingSchedules, isUpdate = false) {
-    let conflictDescription = '';
+    let conflictDescription = "";
 
-    if (newSchedule.classType !== 'F2F') return { conflict: false, description: conflictDescription };
+    if (newSchedule.classType !== "F2F")
+      return { conflict: false, description: conflictDescription };
 
     for (let existing of existingSchedules) {
       // Check if the schedules conflict due to the same room, day, and time
-      let isRoomDayTimeConflict = 
-   
-        existing.room === newSchedule.room && 
+      let isRoomDayTimeConflict =
+        existing.room === newSchedule.room &&
         existing.day === newSchedule.day &&
         this.isTimeOverlap(existing, newSchedule);
-    
+
       // Check if the schedules conflict due to the same year, block, day, and time
-      let isYearBlockDayTimeConflict = 
-     
+      let isYearBlockDayTimeConflict =
         existing.year === newSchedule.year &&
         existing.block === newSchedule.block &&
         existing.day === newSchedule.day &&
         this.isTimeOverlap(existing, newSchedule);
-    
+
       // Check if the schedules conflict due to the same professor, day, and time
-      let isProfDayTimeConflict = 
-     
+      let isProfDayTimeConflict =
         existing.professorName === newSchedule.professorName &&
         existing.day === newSchedule.day &&
         this.isTimeOverlap(existing, newSchedule);
-    
+
       if (isRoomDayTimeConflict) {
-        conflictDescription = 'Conflict in any of the following: same room, day, and time';
+        conflictDescription =
+          "Conflict in any of the following: same room, day, and time";
       } else if (isYearBlockDayTimeConflict) {
-        conflictDescription = 'Conflict due to the same year, block, day, and time';
+        conflictDescription =
+          "Conflict due to the same year, block, day, and time";
       } else if (isProfDayTimeConflict) {
-        conflictDescription = 'Conflict due to the same professor, day, and time';
+        conflictDescription =
+          "Conflict due to the same professor, day, and time";
       }
 
-      if (isRoomDayTimeConflict || isYearBlockDayTimeConflict || isProfDayTimeConflict) {
+      if (
+        isRoomDayTimeConflict ||
+        isYearBlockDayTimeConflict ||
+        isProfDayTimeConflict
+      ) {
         if (
           isUpdate &&
           existing.room === newSchedule.room &&
@@ -1780,10 +1723,9 @@ fetchDataButtonsSched = () => {
         return { conflict: true, description: conflictDescription };
       }
     }
-  
+
     return { conflict: false, description: conflictDescription };
   }
-
 
   async doesUnitsExceedUpdate(newSchedule, changed) {
     try {
@@ -1791,297 +1733,326 @@ fetchDataButtonsSched = () => {
       const response = await fetch("http://localhost:3000/grabProfessors");
       const data = await response.json();
       this.setState({ professorsData: data }, () => {
-        
-
         const professorName = newSchedule.professorName;
-        let conflictDescription = '';
-        console.log(professorName)
-        console.log(this.state.professorsData)
+        let conflictDescription = "";
+        console.log(professorName);
+        console.log(this.state.professorsData);
 
         // Find the professor object in the array that matches professorName
-        const professor = data.find(professor => {
-            const fullName = `${professor.last_name}, ${professor.first_name} ${professor.middle_name}`;
-            return fullName === professorName;
+        const professor = data.find((professor) => {
+          const fullName = `${professor.last_name}, ${professor.first_name} ${professor.middle_name}`;
+          return fullName === professorName;
         });
 
-        console.log(professor, "MATCH")
+        console.log(professor, "MATCH");
         // If professor not found, return false or handle the error
-        if(!professor) {
-            console.log("Professor not found")
-            return  { conflict: false, description: conflictDescription };
+        if (!professor) {
+          console.log("Professor not found");
+          return { conflict: false, description: conflictDescription };
         }
 
-        console.log(newSchedule.units)
-        console.log(professor.current_units)
-        console.log(professor.max_units)
+        console.log(newSchedule.units);
+        console.log(professor.current_units);
+        console.log(professor.max_units);
 
-        let doesUnitsExceedCheck = parseInt(newSchedule.units) > professor.max_units;
-        console.log(doesUnitsExceedCheck, "NIASDASD")
-        if (!changed){
-          console.log("NOT CHANGED")
-          let doesUnitsExceedCheck = parseInt(newSchedule.units) + professor.current_units > professor.max_units;
+        let doesUnitsExceedCheck =
+          parseInt(newSchedule.units) > professor.max_units;
+        console.log(doesUnitsExceedCheck, "NIASDASD");
+        if (!changed) {
+          console.log("NOT CHANGED");
+          let doesUnitsExceedCheck =
+            parseInt(newSchedule.units) + professor.current_units >
+            professor.max_units;
           if (doesUnitsExceedCheck) {
-              conflictDescription = `Max Units Exceeded: ${parseInt(newSchedule.units) + professor.current_units} > ${professor.max_units} `;
-              console.log(parseInt(newSchedule.units) + professor.current_units, "is greater than max units:", professor.max_units)
-              return  { conflict: true, description: conflictDescription }
+            conflictDescription = `Max Units Exceeded: ${
+              parseInt(newSchedule.units) + professor.current_units
+            } > ${professor.max_units} `;
+            console.log(
+              parseInt(newSchedule.units) + professor.current_units,
+              "is greater than max units:",
+              professor.max_units
+            );
+            return { conflict: true, description: conflictDescription };
           }
-    
-      }else if (changed){
-    
-          console.log("CHANGED")
-          let doesUnitsExceedCheck = parseInt(newSchedule.units) > professor.max_units;
+        } else if (changed) {
+          console.log("CHANGED");
+          let doesUnitsExceedCheck =
+            parseInt(newSchedule.units) > professor.max_units;
           if (doesUnitsExceedCheck) {
-              conflictDescription = `Max Units Exceeded: ${parseInt(newSchedule.units)} > ${professor.max_units} `;
-              console.log(parseInt(newSchedule.units), "is greater than max units:", professor.max_units)
-              return  { conflict: true, description: conflictDescription }
+            conflictDescription = `Max Units Exceeded: ${parseInt(
+              newSchedule.units
+            )} > ${professor.max_units} `;
+            console.log(
+              parseInt(newSchedule.units),
+              "is greater than max units:",
+              professor.max_units
+            );
+            return { conflict: true, description: conflictDescription };
           }
-    
-      }   
+        }
 
-        return  { conflict: false, description: conflictDescription }
-
-
+        return { conflict: false, description: conflictDescription };
       });
     } catch (error) {
       console.error("Error fetching professor names:", error);
     }
   }
 
-  handleChangeFields(){
-    this.setState({isConflictForm: true})
+  handleChangeFields() {
+    this.setState({ isConflictForm: true });
   }
-  
+
   doesUnitsExceed(newSchedule, changed, professorsData) {
     const professorName = newSchedule.professorName;
-    let conflictDescription = '';
-    console.log(professorName)
-    console.log(professorsData)
+    let conflictDescription = "";
+    console.log(professorName);
+    console.log(professorsData);
 
     // Find the professor object in the array that matches professorName
-    const professor = professorsData.find(professor => {
-        const fullName = `${professor.last_name}, ${professor.first_name} ${professor.middle_name}`;
-        return fullName === professorName;
+    const professor = professorsData.find((professor) => {
+      const fullName = `${professor.last_name}, ${professor.first_name} ${professor.middle_name}`;
+      return fullName === professorName;
     });
 
-    console.log(professor, "MATCH")
+    console.log(professor, "MATCH");
     // If professor not found, return false or handle the error
-    if(!professor) {
-        console.log("Professor not found")
-        return  { conflict: false, description: conflictDescription };
+    if (!professor) {
+      console.log("Professor not found");
+      return { conflict: false, description: conflictDescription };
     }
 
-    console.log(newSchedule.units)
-    console.log(professor.current_units)
-    console.log(professor.max_units)
+    console.log(newSchedule.units);
+    console.log(professor.current_units);
+    console.log(professor.max_units);
 
-if (!changed){
-  let doesUnitsExceedCheck = parseInt(newSchedule.units) + professor.current_units > professor.max_units;
-    
-  console.log(doesUnitsExceedCheck, "NIASDASD")
-  if (doesUnitsExceedCheck) {
-      conflictDescription = `Max Units Exceeded: ${parseInt(newSchedule.units) + professor.current_units} > ${professor.max_units} `;
-      console.log(parseInt(newSchedule.units) + professor.current_units, "is greater than max units:", professor.max_units)
-      return  { conflict: true, description: conflictDescription }
-  }
-}else if(changed){
+    if (!changed) {
+      let doesUnitsExceedCheck =
+        parseInt(newSchedule.units) + professor.current_units >
+        professor.max_units;
 
-  let doesUnitsExceedCheck = parseInt(newSchedule.units) > professor.max_units;
-    
-  console.log(doesUnitsExceedCheck, "NIASDASD")
-  if (doesUnitsExceedCheck) {
-      conflictDescription = `Max Units Exceeded: ${parseInt(newSchedule.units)} > ${professor.max_units} `;
-      console.log(parseInt(newSchedule.units), "is greater than max units:", professor.max_units)
-      return  { conflict: true, description: conflictDescription }
-  }
-  
-}
-    
+      console.log(doesUnitsExceedCheck, "NIASDASD");
+      if (doesUnitsExceedCheck) {
+        conflictDescription = `Max Units Exceeded: ${
+          parseInt(newSchedule.units) + professor.current_units
+        } > ${professor.max_units} `;
+        console.log(
+          parseInt(newSchedule.units) + professor.current_units,
+          "is greater than max units:",
+          professor.max_units
+        );
+        return { conflict: true, description: conflictDescription };
+      }
+    } else if (changed) {
+      let doesUnitsExceedCheck =
+        parseInt(newSchedule.units) > professor.max_units;
 
+      console.log(doesUnitsExceedCheck, "NIASDASD");
+      if (doesUnitsExceedCheck) {
+        conflictDescription = `Max Units Exceeded: ${parseInt(
+          newSchedule.units
+        )} > ${professor.max_units} `;
+        console.log(
+          parseInt(newSchedule.units),
+          "is greater than max units:",
+          professor.max_units
+        );
+        return { conflict: true, description: conflictDescription };
+      }
+    }
 
-    return  { conflict: false, description: conflictDescription }
-}
-
-  
- 
-  
-  
-  
-  
-applyFilterUpdate = (year, block, added, changed, deleted) => {
-
-  console.log("NAG RUN RIN AKO MGA TANGA")
-    
-  if (!year && !block) {
-    console.log(`i ran 1 ${year} ${block}`)
-    this.updateNewData(this.state.data);
-  } else if (!year) {
-    console.log(`i ran 2 ${year} ${block}`)
-    const filteredData = this.state.data.filter(item => item.block === block);
-    this.updateNewData(filteredData);
-  } else if (!block) {
-    console.log(`i ran 3 ${year} ${block}`)
-    const filteredData = this.state.data.filter(item => item.year === year);
-    this.updateNewData(filteredData);
-  } else {
-    console.log(`i ran 4 ${year} ${block}`)
-    const filteredData = this.state.data.filter(item => item.year === year && item.block === block);
-    this.updateNewData(filteredData);
+    return { conflict: false, description: conflictDescription };
   }
 
+  applyFilterUpdate = (year, block, added, changed, deleted) => {
+    console.log("NAG RUN RIN AKO MGA TANGA");
 
-  this.props.handleYearBlockAdd(year, block)
-  
-  
-};
+    if (!year && !block) {
+      console.log(`i ran 1 ${year} ${block}`);
+      this.updateNewData(this.state.data);
+    } else if (!year) {
+      console.log(`i ran 2 ${year} ${block}`);
+      const filteredData = this.state.data.filter(
+        (item) => item.block === block
+      );
+      this.updateNewData(filteredData);
+    } else if (!block) {
+      console.log(`i ran 3 ${year} ${block}`);
+      const filteredData = this.state.data.filter((item) => item.year === year);
+      this.updateNewData(filteredData);
+    } else {
+      console.log(`i ran 4 ${year} ${block}`);
+      const filteredData = this.state.data.filter(
+        (item) => item.year === year && item.block === block
+      );
+      this.updateNewData(filteredData);
+    }
 
-
+    this.props.handleYearBlockAdd(year, block);
+  };
 
   async commitChanges({ added, changed, deleted }, isConfirm) {
+
+    console.log("TYPES!!!!!!!!", added, changed, deleted)
     try {
       const response = await fetch("http://localhost:3000/grabProfessors");
       const professorsData = await response.json();
-    this.setState(
-      (state) => {
-        let { data, appointmentColor } = state;
-        if (added) {
-          const fixedDateAppointment = {
-            ...added,
-            startDate: dayjs(added.day)
-              .set("hour", dayjs(added.startDate).hour())
-              .set("minute", dayjs(added.startDate).minute())
-              .toDate(),
-            endDate: dayjs(added.day) 
-              .set("hour", dayjs(added.endDate).hour())
-              .set("minute", dayjs(added.endDate).minute())
-              .toDate(),
-          };
+      this.setState(
+        (state) => {
+          let { data, appointmentColor } = state;
+          if (added) {
+            const fixedDateAppointment = {
+              ...added,
+              startDate: dayjs(added.day)
+                .set("hour", dayjs(added.startDate).hour())
+                .set("minute", dayjs(added.startDate).minute())
+                .toDate(),
+              endDate: dayjs(added.day)
+                .set("hour", dayjs(added.endDate).hour())
+                .set("minute", dayjs(added.endDate).minute())
+                .toDate(),
+            };
 
-          let result = this.doesScheduleOverlap(fixedDateAppointment, data);
-          if (result.conflict) {
-
-            this.setState({ conflictDesc: result.description })
-            this.setState({ isConflict: result.conflict })
-            this.setState({isConflictForm: true})
-            return isConfirm ? { data, addedAppointment: {} } : null; //this one
-            
-          }
-
-          
-          let resultUnit = this.doesUnitsExceed(fixedDateAppointment, false, professorsData)
-          if (resultUnit.conflict) {
-            this.setState({ conflictDesc: resultUnit.description })
-            this.setState({ isConflict: resultUnit.conflict });
-             this.setState({isConflictForm: true})
-             console.log("YES CONFLICT 1")
-            return isConfirm ?  { data, addedAppointment: {} } : null;  //this one
-          }
-
-          if (result.conflict === false && resultUnit.conflict === false){
-            console.log("NO CONFLICT 1")
-            
-            this.setState({isConflictForm: false})
-          }
-
-          const maxId =
-            data.length > 0 ? Math.max(...data.map((item) => item.id)) : -1;
-          const newId = maxId + 1;
-
-          console.log(data)
-          data = [
-            ...data,
-            { id: newId, color: appointmentColor, ...fixedDateAppointment },
-          ];
-        }
-
-        if (changed) {
-          data = data.map((appointment) => {
-            if (changed[appointment.id]) {
-              const updatedAppointment = {
-                ...appointment,
-                ...changed[appointment.id],
-              };
-              if (updatedAppointment.day) {
-                updatedAppointment.startDate = dayjs(updatedAppointment.day)
-                  .set("hour", dayjs(updatedAppointment.startDate).hour())
-                  .set("minute", dayjs(updatedAppointment.startDate).minute())
-                  .toDate();
-                updatedAppointment.endDate = dayjs(updatedAppointment.day)
-                  .set("hour", dayjs(updatedAppointment.endDate).hour())
-                  .set("minute", dayjs(updatedAppointment.endDate).minute())
-                  .toDate();
-              }
-
-              const otherAppointments = data.filter(a => a.id !== appointment.id);
-              const oldAppointment = data.filter(a => a.id === appointment.id);
-
-             
-              let result = this.doesScheduleOverlap(updatedAppointment, otherAppointments, true);
-              if (result.conflict) {
-                console.log(result)
-                this.setState({ conflictDesc: result.description })
-                this.setState({ isConflict: true })
-                this.setState({ isConflictForm: true })
-                return appointment;  
-              }
-
-
-               console.log("FOUND IT", parseInt(oldAppointment[0].units))
-              console.log("FOUND IT NEW", updatedAppointment.units)
-
-              //IF UNITS IS UNTOUCHED, Don't run unit exceed check
-              let resultUnit = this.doesUnitsExceed(updatedAppointment, true, professorsData);
-              if (oldAppointment[0].units !== updatedAppointment.units){
-              if (resultUnit.conflict) {
-                this.setState({ conflictDesc: resultUnit.description });
-                this.setState({ isConflict: resultUnit.conflict });
-                console.log("YES CONFLICT 2")
-                this.setState({isConflictForm: true})
-                return appointment; 
-              }
-              }
-              
-              console.log("ETO RESULTA", result.conflict, resultUnit.conflict)
-                if (result.conflict === false && resultUnit.conflict === false){
-                  console.log("NO CONFLICT 2")
-                  this.setState({isConflictForm: false})
-                }
- 
-
-              return isConfirm ? updatedAppointment : null; //this one
-            } else {
-              return appointment;
+            let result = this.doesScheduleOverlap(fixedDateAppointment, data);
+            if (result.conflict) {
+              this.setState({ conflictDesc: result.description });
+              this.setState({ isConflict: result.conflict });
+              this.setState({ isConflictForm: true });
+              return isConfirm ? { data, addedAppointment: {} } : null; //this one
             }
-          });
+
+            let resultUnit = this.doesUnitsExceed(
+              fixedDateAppointment,
+              false,
+              professorsData
+            );
+            if (resultUnit.conflict) {
+              this.setState({ conflictDesc: resultUnit.description });
+              this.setState({ isConflict: resultUnit.conflict });
+              this.setState({ isConflictForm: true });
+              console.log("YES CONFLICT 1");
+              return isConfirm ? { data, addedAppointment: {} } : null; //this one
+            }
+
+            if (result.conflict === false && resultUnit.conflict === false) {
+              console.log("NO CONFLICT 1");
+
+              this.setState({ isConflictForm: false });
+            }
+
+            const maxId =
+              data.length > 0 ? Math.max(...data.map((item) => item.id)) : -1;
+            const newId = maxId + 1;
+
+            console.log(data);
+            data = [
+              ...data,
+              { id: newId, color: appointmentColor, ...fixedDateAppointment },
+            ];
+          }
+
+          if (changed) {
+            data = data.map((appointment) => {
+              if (changed[appointment.id]) {
+                const updatedAppointment = {
+                  ...appointment,
+                  ...changed[appointment.id],
+                };
+                if (updatedAppointment.day) {
+                  updatedAppointment.startDate = dayjs(updatedAppointment.day)
+                    .set("hour", dayjs(updatedAppointment.startDate).hour())
+                    .set("minute", dayjs(updatedAppointment.startDate).minute())
+                    .toDate();
+                  updatedAppointment.endDate = dayjs(updatedAppointment.day)
+                    .set("hour", dayjs(updatedAppointment.endDate).hour())
+                    .set("minute", dayjs(updatedAppointment.endDate).minute())
+                    .toDate();
+                }
+
+                const otherAppointments = data.filter(
+                  (a) => a.id !== appointment.id
+                );
+                const oldAppointment = data.filter(
+                  (a) => a.id === appointment.id
+                );
+
+                let result = this.doesScheduleOverlap(
+                  updatedAppointment,
+                  otherAppointments,
+                  true
+                );
+                if (result.conflict) {
+                  console.log(result);
+                  this.setState({ conflictDesc: result.description });
+                  this.setState({ isConflict: true });
+                  this.setState({ isConflictForm: true });
+                  return appointment;
+                }
+
+                console.log("FOUND IT", parseInt(oldAppointment[0].units));
+                console.log("FOUND IT NEW", updatedAppointment.units);
+
+                //IF UNITS IS UNTOUCHED, Don't run unit exceed check
+                let resultUnit = this.doesUnitsExceed(
+                  updatedAppointment,
+                  true,
+                  professorsData
+                );
+                if (oldAppointment[0].units !== updatedAppointment.units) {
+                  if (resultUnit.conflict) {
+                    this.setState({ conflictDesc: resultUnit.description });
+                    this.setState({ isConflict: resultUnit.conflict });
+                    console.log("YES CONFLICT 2");
+                    this.setState({ isConflictForm: true });
+                    return appointment;
+                  }
+                }
+
+                console.log(
+                  "ETO RESULTA",
+                  result.conflict,
+                  resultUnit.conflict
+                );
+                if (
+                  result.conflict === false &&
+                  resultUnit.conflict === false
+                ) {
+                  console.log("NO CONFLICT 2");
+                  this.setState({ isConflictForm: false });
+                }
+
+                return isConfirm ? updatedAppointment : null; //this one
+              } else {
+                return appointment;
+              }
+            });
+          }
+
+          if (deleted !== undefined) {
+            this.setDeletedAppointmentId(deleted);
+            this.toggleConfirmationVisible();
+          } else {
+          }
+
+          return isConfirm ? { data, addedAppointment: {} } : null;
+        },
+        () => {
+          console.log(this.state.isConflict, "UPDATE SHEEEE");
+          console.log(this.state.data + "=" + added + "=" + changed  + "=" + deleted  + "=" +this.state.isConflict + "=" + isConfirm    )
+          this.updateSchedules(
+            this.state.data,
+            added,
+            changed,
+            deleted,
+            this.state.isConflict,
+            isConfirm
+          );
         }
-
-
-        if (deleted !== undefined) {
-          this.setDeletedAppointmentId(deleted);
-          this.toggleConfirmationVisible();
-        }else{
-   
-        }
-        
-        
-        return isConfirm ? { data, addedAppointment: {} } : null;
-      },
-      () => {
-   
-        console.log(this.state.isConflict, "UPDATE SHEEEE")
-        this.updateSchedules(this.state.data, added,changed,deleted, this.state.isConflict, isConfirm);
-        
-      }
-    );
-
-    }catch (error) {
+      );
+    } catch (error) {
       console.error("Error fetching professor names:", error);
     }
   }
 
-
-
-
-  
   render() {
     const {
       currentDate,
@@ -2093,56 +2064,54 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
       endDayHour,
       block,
       year,
-      clicked
+      clicked,
     } = this.state;
 
-
-   
-  
     return (
       <div className={SchedulerFacultyCSS.tooltipContainer}>
         <>
           <CustomPaper>
-            <Scheduler data={newData} height={"100%"} firstDayOfWeek={1} key={this.state.schedulerKey}>
+            <Scheduler
+              data={newData}
+              height={"100%"}
+              firstDayOfWeek={1}
+              key={this.state.schedulerKey}
+            >
               <ViewState currentDate={currentDate} />
               <EditingState
                 onCommitChanges={this.commitChanges}
                 onEditingAppointmentChange={this.onEditingAppointmentChange}
                 onAddedAppointmentChange={this.onAddedAppointmentChange}
                 readOnly
-               
-               
               />
               <WeekView
                 startDayHour={startDayHour}
                 endDayHour={endDayHour}
                 dayScaleCellComponent={dayScaleCell}
                 timeTableCellComponent={CustomTimeTableCell}
-              
               />
 
               <EditRecurrenceMenu />
 
-              <Appointments appointmentComponent={Appointment}  />
+              <Appointments appointmentComponent={Appointment} />
 
-            { this.props.readOnly ?
-              null
-              :
-              <AppointmentTooltip
-              showOpenButton
-              showCloseButton
-              showDeleteButton
-              headerComponent={CustomHeader}
-              contentComponent={CustomContent}
-              sx={{ width: "300px" }}
-       
-            />
-              }
+              {this.props.readOnly ? null : (
+                <AppointmentTooltip
+                  showOpenButton
+                  showCloseButton
+                  showDeleteButton
+                  headerComponent={CustomHeader}
+                  contentComponent={CustomContent}
+                  sx={{ width: "300px" }}
+                />
+              )}
 
               <AppointmentForm
                 overlayComponent={this.appointmentForm}
                 visible={editingFormVisible}
-                onVisibilityChange={this.props.readOnly ? null : this.toggleEditingFormVisibility}
+                onVisibilityChange={
+                  this.props.readOnly ? null : this.toggleEditingFormVisibility
+                }
               />
 
               <DragDropProvider allowDrag={allowDrag} allowResize={allowDrag} />
@@ -2173,9 +2142,7 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
               </DialogActions>
             </Dialog>
           </CustomPaper>
-          
         </>
-        
       </div>
     );
   }

@@ -545,7 +545,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     }
 
 
-    console.log(this.state.yearField, "yearfield update")
+
     
     if (!this.state.yearField) {
       this.setState({ yearField: this.props.appointmentData.year });
@@ -1128,16 +1128,21 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               {!isNewAppointment && (
                 <Button
                   sx={{
-                    color: "white",
+                    color: "red",
                     borderRadius: "0.5rem",
                     fontFamily: "Poppins",
                     fontSize: "0.9rem",
                     padding: "0.7rem",
                     width: "100%",
                     margin: "15px 7px",
+                    border: "1.95px solid red",
+                    "&:hover": {
+                      border: "1.98px solid red",
+                      // Change the hover background color here
+                    },
                   }}
-                  variant="contained"
-                  color="error"
+                  variant="outlined"
+               
                   onClick={() => {
                     visibleChange();
                     this.commitAppointment("deleted");
@@ -1152,6 +1157,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   visibleChange();
                   applyChanges();
                   this.props.setIsNewSched(isNewAppointment)
+
                 }}
                 style={{ textTransform: "none" }}
                 sx={{
@@ -1162,6 +1168,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   padding: "0.7rem",
                   width: "100%",
                   margin: "15px 7px",
+        
                   backgroundColor: "#2196F3",
                 }}
                 disabled={!isFormValid()}
@@ -1218,7 +1225,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       newData: [],
       currentDate: "2023-01-07",
       confirmationVisible: false,
-      editingFormVisible: false,
+      editingFormVisible: true,
       deletedAppointmentId: undefined,
       editingAppointment: undefined,
       previousAppointment: undefined,
@@ -1393,21 +1400,21 @@ fetchDataButtonsSched = () => {
   };
 
   
-//   async fetchAllProfData() {
-//     try {
-  
-//       const response = await fetch("http://localhost:3000/grabProfessors");
-//       const data = await response.json();
-//       this.setState({ professorsData: data });
-//     } catch (error) {
-//       console.error("Error fetching professor names:", error);
-//     }
-//   }
+  async fetchAllProfData() {
+    try {
+      console.log("i ran prof");
+      const response = await fetch("http://localhost:3000/grabProfessors");
+      const data = await response.json();
+      this.setState({ professorsData: data });
+    } catch (error) {
+      console.error("Error fetching professor names:", error);
+    }
+  }
   
 
   componentDidUpdate(prevProps, prevState) {
     this.appointmentForm.update();
-    // this.fetchAllProfData()
+   
     if (
       (this.props.year !== prevProps.year || this.props.block !== prevProps.block)
     ) {
@@ -1420,6 +1427,13 @@ fetchDataButtonsSched = () => {
       this.applyFilterRoom();
     }
 
+    if (this.state.editingFormVisible !== prevState.editingFormVisible) {
+      console.log("CHANGE")
+      this.updateCurrentUnits() 
+      this.fetchAllProfData()
+
+    }
+    
     if (!prevState.isConflict && this.state.isConflict) {
 
       this.setState({isConflictProp: this.state.isConflict})
@@ -1453,6 +1467,8 @@ fetchDataButtonsSched = () => {
 
 
   async componentDidMount() {
+    this.updateCurrentUnits()    
+    this.fetchAllProfData()
     try {
       console.log("i ran prof data");
       const response = await fetch("http://localhost:3000/grabProfessors");
@@ -1551,6 +1567,29 @@ fetchDataButtonsSched = () => {
     this.setState({block: blockEdit})
   }
 
+  async updateCurrentUnits() {
+
+    console.log("TINRY KO NAMAN HA")
+    try {
+        const response = await fetch('http://localhost:3000/updateProfessorsUnits', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        console.log('Request succeeded');
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+    }
+}
+
+
+
   async updateSchedules(dataLatest, added, changed, deleted, conflict) {
     this.setState({ isUpdatingSchedules: true });
 
@@ -1575,10 +1614,10 @@ fetchDataButtonsSched = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      console.log('done updating, applying filters')
-      console.log(this.state.year, this.state.block)
-      
-   
+      console.log('done updating units')
+      this.updateCurrentUnits() 
+      this.fetchAllProfData()
+     
       
   
       if(added || changed){
@@ -1604,6 +1643,8 @@ fetchDataButtonsSched = () => {
       }else{
       this.applyFilter();
       }
+      console.log("ahhahahahha hulihin moko!")
+
       this.setState({ isUpdatingSchedules: false });
       
     }
@@ -1668,14 +1709,76 @@ fetchDataButtonsSched = () => {
   }
 
 
-  doesUnitsExceed(newSchedule, changed) {
+  async doesUnitsExceedUpdate(newSchedule, changed) {
+    try {
+      console.log("i ran prof");
+      const response = await fetch("http://localhost:3000/grabProfessors");
+      const data = await response.json();
+      this.setState({ professorsData: data }, () => {
+        
+
+        const professorName = newSchedule.professorName;
+        let conflictDescription = '';
+        console.log(professorName)
+        console.log(this.state.professorsData)
+
+        // Find the professor object in the array that matches professorName
+        const professor = data.find(professor => {
+            const fullName = `${professor.last_name}, ${professor.first_name} ${professor.middle_name}`;
+            return fullName === professorName;
+        });
+
+        console.log(professor, "MATCH")
+        // If professor not found, return false or handle the error
+        if(!professor) {
+            console.log("Professor not found")
+            return  { conflict: false, description: conflictDescription };
+        }
+
+        console.log(newSchedule.units)
+        console.log(professor.current_units)
+        console.log(professor.max_units)
+
+        let doesUnitsExceedCheck = parseInt(newSchedule.units) > professor.max_units;
+        console.log(doesUnitsExceedCheck, "NIASDASD")
+        if (!changed){
+          console.log("NOT CHANGED")
+          let doesUnitsExceedCheck = parseInt(newSchedule.units) + professor.current_units > professor.max_units;
+          if (doesUnitsExceedCheck) {
+              conflictDescription = `Max Units Exceeded: ${parseInt(newSchedule.units) + professor.current_units} > ${professor.max_units} `;
+              console.log(parseInt(newSchedule.units) + professor.current_units, "is greater than max units:", professor.max_units)
+              return  { conflict: true, description: conflictDescription }
+          }
+    
+      }else if (changed){
+    
+          console.log("CHANGED")
+          let doesUnitsExceedCheck = parseInt(newSchedule.units) > professor.max_units;
+          if (doesUnitsExceedCheck) {
+              conflictDescription = `Max Units Exceeded: ${parseInt(newSchedule.units)} > ${professor.max_units} `;
+              console.log(parseInt(newSchedule.units), "is greater than max units:", professor.max_units)
+              return  { conflict: true, description: conflictDescription }
+          }
+    
+      }   
+
+        return  { conflict: false, description: conflictDescription }
+
+
+      });
+    } catch (error) {
+      console.error("Error fetching professor names:", error);
+    }
+  }
+
+  doesUnitsExceed(newSchedule, changed, professorsData) {
     const professorName = newSchedule.professorName;
     let conflictDescription = '';
     console.log(professorName)
-    console.log(this.state.professorsData)
+    console.log(professorsData)
 
     // Find the professor object in the array that matches professorName
-    const professor = this.state.professorsData.find(professor => {
+    const professor = professorsData.find(professor => {
         const fullName = `${professor.last_name}, ${professor.first_name} ${professor.middle_name}`;
         return fullName === professorName;
     });
@@ -1691,26 +1794,29 @@ fetchDataButtonsSched = () => {
     console.log(professor.current_units)
     console.log(professor.max_units)
 
-    if (!changed){
-        console.log("NOT CHANGED")
-        let doesUnitsExceedCheck = parseInt(newSchedule.units) + professor.current_units > professor.max_units;
-        if (doesUnitsExceedCheck) {
-            conflictDescription = `Max Units Exceeded: ${parseInt(newSchedule.units) + professor.current_units} > ${professor.max_units} `;
-            console.log(parseInt(newSchedule.units) + professor.current_units, "is greater than max units:", professor.max_units)
-            return  { conflict: true, description: conflictDescription }
-        }
-        
-    }else if (changed){
-        
-        console.log("CHANGED")
-        let doesUnitsExceedCheck = parseInt(newSchedule.units) > professor.max_units;
-        if (doesUnitsExceedCheck) {
-            conflictDescription = `Max Units Exceeded: ${parseInt(newSchedule.units)} > ${professor.max_units} `;
-            console.log(parseInt(newSchedule.units), "is greater than max units:", professor.max_units)
-            return  { conflict: true, description: conflictDescription }
-        }
-        
-    }   
+if (!changed){
+  let doesUnitsExceedCheck = parseInt(newSchedule.units) + professor.current_units > professor.max_units;
+    
+  console.log(doesUnitsExceedCheck, "NIASDASD")
+  if (doesUnitsExceedCheck) {
+      conflictDescription = `Max Units Exceeded: ${parseInt(newSchedule.units) + professor.current_units} > ${professor.max_units} `;
+      console.log(parseInt(newSchedule.units) + professor.current_units, "is greater than max units:", professor.max_units)
+      return  { conflict: true, description: conflictDescription }
+  }
+}else if(changed){
+
+  let doesUnitsExceedCheck = parseInt(newSchedule.units) > professor.max_units;
+    
+  console.log(doesUnitsExceedCheck, "NIASDASD")
+  if (doesUnitsExceedCheck) {
+      conflictDescription = `Max Units Exceeded: ${parseInt(newSchedule.units)} > ${professor.max_units} `;
+      console.log(parseInt(newSchedule.units), "is greater than max units:", professor.max_units)
+      return  { conflict: true, description: conflictDescription }
+  }
+  
+}
+    
+
 
     return  { conflict: false, description: conflictDescription }
 }
@@ -1750,8 +1856,10 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
 
 
 
-  commitChanges({ added, changed, deleted }) {
-    
+  async commitChanges({ added, changed, deleted }) {
+    try {
+      const response = await fetch("http://localhost:3000/grabProfessors");
+      const professorsData = await response.json();
     this.setState(
       (state) => {
         let { data, appointmentColor } = state;
@@ -1777,8 +1885,9 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
             return { data, addedAppointment: {} }; 
           }
 
-          let resultUnit = this.doesUnitsExceed(fixedDateAppointment, false)
-          if (resultUnit) {
+          
+          let resultUnit = this.doesUnitsExceed(fixedDateAppointment, false, professorsData)
+          if (resultUnit.conflict) {
             this.setState({ conflictDesc: resultUnit.description })
             this.setState({ isConflict: resultUnit.conflict });
             return { data, addedAppointment: {} }; 
@@ -1814,23 +1923,32 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
               }
 
               const otherAppointments = data.filter(a => a.id !== appointment.id);
+              const oldAppointment = data.filter(a => a.id === appointment.id);
 
-
+             
               let result = this.doesScheduleOverlap(updatedAppointment, otherAppointments, true);
               if (result.conflict) {
                 console.log(result)
                 this.setState({ conflictDesc: result.description })
-                this.setState({ isConflict: result.conflict })
+                this.setState({ isConflict: true })
             
                 return appointment; 
               }
 
-              let resultUnit = this.doesUnitsExceed(updatedAppointment, true);
-              if (resultUnit) {
+
+               console.log("FOUND IT", parseInt(oldAppointment[0].units))
+              console.log("FOUND IT NEW", updatedAppointment.units)
+
+              //IF UNITS IS UNTOUCHED, Don't run unit exceed check
+              if (oldAppointment[0].units !== updatedAppointment.units){
+              let resultUnit = this.doesUnitsExceed(updatedAppointment, true, professorsData);
+              if (resultUnit.conflict) {
                 this.setState({ conflictDesc: resultUnit.description });
                 this.setState({ isConflict: resultUnit.conflict });
-                return appointment;  // Skip the update if there is a conflict
+                return appointment; 
               }
+              }
+              
               return updatedAppointment;
             } else {
               return appointment;
@@ -1853,9 +1971,14 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
         
       }
     );
-  }
-  
 
+    }catch (error) {
+      console.error("Error fetching professor names:", error);
+    }
+  }
+
+
+  
   render() {
     const {
       currentDate,
