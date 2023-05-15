@@ -384,6 +384,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       blockPropChild: null,
       oldYear: null,
       oldBlock: null,
+
+      
       
   
     };
@@ -527,7 +529,9 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
 
- 
+    if (this.state.isFirstRender) {
+      
+    }
 
     if (prevState.openProf !== this.state.openProf && !this.state.openProf) {
       this.fetchDataProf();
@@ -541,7 +545,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       this.setState({ yearField: 0 });
       this.setState({yearPropChild: this.props.appointmentData.year })
       this.setState({blockPropChild: this.props.appointmentData.block })
-      
       this.setState({oldYear: this.props.appointmentData.year })
       this.setState({oldBlock: this.props.appointmentData.block })
      
@@ -616,6 +619,10 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     }
   }
 
+  
+
+
+
   render() {
     const {
       visible,
@@ -625,6 +632,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       target,
       onHide,
     } = this.props;
+    const { isFirstRender } = this.state;
     const { appointmentChanges } = this.state;
     const { yearField } = this.state;
     const filteredCourseNames = yearField ? courseNames[yearField] : [];
@@ -669,6 +677,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     };
 
 
+  
     const textEditorProps = (field) => ({
       variant: "outlined",
       onChange: ({ target: change }) => 
@@ -849,6 +858,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       currentBlocks = [];
     }
 
+   
     const randomNumber = Math.floor(Math.random() * 100) + 1;
   
     return (
@@ -1210,7 +1220,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   margin: "15px 7px",
                   backgroundColor: "#2196F3",
                 }}
-                disabled = {this.props.isConflictForm}
+                disabled={this.props.isConflictForm}
                 variant="contained"
               >
                 {isNewAppointment ? "Create" : "Save"}
@@ -1285,6 +1295,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       professorsData: [],
       conflictDesc: "",
       isConflictForm: true,
+      
     };
   
 
@@ -1471,6 +1482,7 @@ fetchDataButtonsSched = () => {
       console.log("CHANGE")
       this.updateCurrentUnits() 
       this.fetchAllProfData()
+    
     }
     
     if (!prevState.isConflict && this.state.isConflict) {
@@ -2055,6 +2067,8 @@ applyFilterUpdate = (year, block, added, changed, deleted) => {
       console.error("Error fetching professor names:", error);
     }
   }
+
+
 
 
   
