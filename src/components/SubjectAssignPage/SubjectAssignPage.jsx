@@ -160,6 +160,7 @@ const SubjectAssignPage = () => {
 
   const [blockChild, setBlockChild] = useState([])
   const [year, setYear] = useState([])
+  const [professor, setProfessor] = useState([])
 
 
 
@@ -245,7 +246,11 @@ const handleYearBlockAdd = (year, block) => {
   }, [isCreateClicked]);
 
 
-  
+  useEffect(() => {
+
+
+  }, [])
+
     useLayoutEffect(() => {
       const vh = Math.max(
         document.documentElement.clientHeight || 0,
@@ -265,6 +270,36 @@ const handleYearBlockAdd = (year, block) => {
           
           <h2>{`Subject Assignment`}</h2>
           <div className={SubjectAssignCSS.topButtons}>
+            <FormControl
+              sx={{
+                mr: 0.6,
+                minWidth: isSmallScreen ? 90 : 115,
+              }}
+            >
+              <Select
+                value={professor}
+                onChange={(event) => {
+                  handleChangeYear(event);
+                }}
+                displayEmpty
+                inputProps={{ "aria-label": "Without label" }}
+                sx={{
+                  backgroundColor: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.5rem" : "0.9rem",
+                  padding: "0rem",
+                  fontWeight: "600",
+                }}
+              >
+                <MenuItem value="">Professor</MenuItem>
+                <MenuItem value={1}>1st Year</MenuItem>
+                <MenuItem value={2}>2nd Year</MenuItem>
+                <MenuItem value={3}>3rd Year</MenuItem>
+                <MenuItem value={4}>4th Year</MenuItem>
+                <MenuItem value={5}>5th Year</MenuItem>
+              </Select>
+            </FormControl>
             <FormControl
               sx={{
                 mr: 0.6,

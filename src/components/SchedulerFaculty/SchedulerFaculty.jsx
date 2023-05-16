@@ -1684,14 +1684,14 @@ export default class SchedulerFaculty extends React.PureComponent {
         conflicts.push('professor');
       }
       if (isTimeConflict && existing.year === newSchedule.year && existing.block === newSchedule.block) {
-        conflicts.push('year and block');
+        conflicts.push('year-block');
       } 
       if (isTimeConflict && existing.room === newSchedule.room) {
         conflicts.push('room');
       } 
 
       if (conflicts.length) {
-        conflictDescriptions.push(`Conflict due to same ${conflicts.join(', ')} and day and time overlap.`);
+        conflictDescriptions.push(`Conflict due to same ${conflicts.join(', ')} and day-time overlap.`);
       }
 
       if (conflicts.length) {
