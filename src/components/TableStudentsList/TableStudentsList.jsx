@@ -5,6 +5,17 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
+const StickyPagination = styled('div')({
+  position: 'sticky',
+  bottom: 0,
+  width: '100%',  // make sure it stretches to full width
+  backgroundColor: '#f7f4f4',
+  zIndex: 1,
+  padding: "2px 0px"
+});
+
+
+
 const StyledTableCellID = styled(TableCell)({
   fontWeight: 'bold',
   backgroundColor: '#f7f4f4',
@@ -171,6 +182,8 @@ const TableStudentsList = ({standing, setDataChild, yearButton, blockButton}) =>
       </TableBody>
     </Table>
     </StyleTable>
+
+<StickyPagination>
     <TablePagination
         component="div"
         count={data.length}
@@ -179,7 +192,9 @@ const TableStudentsList = ({standing, setDataChild, yearButton, blockButton}) =>
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleChangeRowsPerPage}
         rowsPerPageOptions={[10, 25, 50, 100]}
+      
       />
+      </StickyPagination>
     </>
   );
 };

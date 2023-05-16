@@ -22,7 +22,7 @@
 
 .imgWrapper img{
     object-fit: cover;
-    width: 7rem;
+    width: 6.5rem;
 }
 
 .imgWrapper p{
@@ -50,7 +50,7 @@
     color: #0D4FAD;
     font-family: Poppins;
     font-style: italic;
-    font-size: 2rem;
+    font-size: 1.7rem;
 }
 .leftNavText span{
 
@@ -61,7 +61,7 @@
     margin: 0;
     font-family: Poppins;
     white-space: nowrap;
-    font-size: 1rem;
+    font-size: 0.8rem;
 }
 
 .rightNav{

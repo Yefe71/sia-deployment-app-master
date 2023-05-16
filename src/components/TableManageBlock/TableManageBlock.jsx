@@ -56,6 +56,15 @@ const StyledTableHead = styled(TableHead)({
   zIndex: 1,
 });
 
+const StickyPagination = styled('div')({
+  position: 'sticky',
+  bottom: 0,
+  width: '100%',  // make sure it stretches to full width
+  backgroundColor: '#f7f4f4',
+  zIndex: 1,
+  padding: "2px 0px"
+});
+
 const TableManageBlock = forwardRef(
   (
     {
@@ -422,6 +431,7 @@ const TableManageBlock = forwardRef(
             </TableBody>
           </Table>
         </StyleTable>
+        <StickyPagination>
         <TablePagination
           component="div"
           count={data.length}
@@ -431,6 +441,7 @@ const TableManageBlock = forwardRef(
           onRowsPerPageChange={handleChangeRowsPerPage}
           rowsPerPageOptions={[10, 25, 50, 100]}
         />
+        </StickyPagination>
       </>
     );
   }
