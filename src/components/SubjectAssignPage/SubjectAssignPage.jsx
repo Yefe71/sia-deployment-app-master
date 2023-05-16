@@ -219,9 +219,11 @@ const handleYearBlockAdd = (year, block) => {
 
   
   useEffect(() => {
+    setSelectedProfessor('1');
     setYear('0');
     setBlock('0');
     const timeoutId = setTimeout(() => {
+      setSelectedProfessor('');
       setYear('');
       setBlock('');
     }, 100);
@@ -308,10 +310,11 @@ const handleYearBlockAdd = (year, block) => {
               onBlur={handleBlur}
               sx={{
                 mr: 0.6,
-                width: (isFocused || (selectedValue !== "" && selectedValue !== "Professor") || isSmallScreen) ? '240px' : '125px',
-                '&:hover': {
-                  width: '240px',
-                },
+                // width: (isFocused || (selectedValue !== "" && selectedValue !== "Professor") || isSmallScreen) ? '240px' : '125px',
+                // '&:hover': {
+                //   width: '240px',
+                // },
+              width: "200px",
                 transition: 'width 0.1s ease',
               }}
             >
@@ -323,8 +326,8 @@ const handleYearBlockAdd = (year, block) => {
                     style: {
                       maxHeight: 48 * 4.5, // where 48 is the item height
                       width: "5ch",
-                      minWidth: "30ch",
-                      overflowX: "hidden",
+                      minWidth: "25ch",
+                      overflow: "auto",
                     },
                   },
                 }}

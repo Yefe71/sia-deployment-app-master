@@ -428,19 +428,6 @@ function ProfessorTable({onCloseProp}) {
                               sx={{ margin: "5px 7px", fontSize: "13px" }}
                               className={classes.textField}
                             >
-                              {/* <TextField
-                                labelId="course-code-label"
-                                size="small"
-                                type="number"
-                                sx={{ width: "70px", fontSize: "13px" }}
-                                InputLabelProps={{ shrink: true }}
-                                InputProps={{
-                                  style: { fontSize: "13px" },
-                                }}
-                                onChange={(e) => handleInputChange(e, i)}
-                                value={row.maxUnits}
-                                name="maxUnits"
-                              ></TextField> */}
 
                               <TextField
                                 sx={{ width: "70px" }}
