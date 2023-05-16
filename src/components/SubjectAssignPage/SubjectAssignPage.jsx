@@ -160,7 +160,9 @@ const SubjectAssignPage = () => {
 
   const [blockChild, setBlockChild] = useState([])
   const [year, setYear] = useState([])
-  const [professor, setProfessor] = useState([])
+  const [professorNames, setProfessorNames] = useState([])
+  
+  const [selectedProfessor, setSelectedProfessor] = useState([])
 
 
 
@@ -246,8 +248,23 @@ const handleYearBlockAdd = (year, block) => {
   }, [isCreateClicked]);
 
 
-  useEffect(() => {
 
+
+
+  const fetchProfNames = async () => {
+    try {
+      console.log("i ran prof");
+      const response = await fetch("http://localhost:3000/grabProfessorsNames");
+      const data = await response.json();
+      setProfessorNames(data)
+    } catch (error) {
+      console.error("Error fetching professor names:", error);
+    }
+  }
+
+  useEffect( () => {
+
+    fetchProfNames()
 
   }, [])
 
@@ -273,13 +290,23 @@ const handleYearBlockAdd = (year, block) => {
             <FormControl
               sx={{
                 mr: 0.6,
-                minWidth: isSmallScreen ? 90 : 115,
+                minWidth: isSmallScreen ? 90 : 240,
               }}
             >
               <Select
-                value={professor}
+                value={selectedProfessor}
                 onChange={(event) => {
-                  handleChangeYear(event);
+                  setSelectedProfessor(event.target.value)
+                }}
+                MenuProps={{
+                  PaperProps: {
+                    style: {
+                      maxHeight: 48 * 4.5, // where 48 is the item height
+                      width: "5ch",
+                      minWidth: "30ch",
+                      overflowX: "hidden",
+                    },
+                  },
                 }}
                 displayEmpty
                 inputProps={{ "aria-label": "Without label" }}
@@ -293,11 +320,11 @@ const handleYearBlockAdd = (year, block) => {
                 }}
               >
                 <MenuItem value="">Professor</MenuItem>
-                <MenuItem value={1}>1st Year</MenuItem>
-                <MenuItem value={2}>2nd Year</MenuItem>
-                <MenuItem value={3}>3rd Year</MenuItem>
-                <MenuItem value={4}>4th Year</MenuItem>
-                <MenuItem value={5}>5th Year</MenuItem>
+                {professorNames.map((professor, index) => (
+                  <MenuItem value={professor.full_name} key={index}>
+                      {professor.full_name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
             <FormControl
@@ -359,7 +386,7 @@ const handleYearBlockAdd = (year, block) => {
 
         </div>
         <div className={SubjectAssignCSS.tableWrapper}>
-          <SchedulerFaculty handleYearBlockAdd = {handleYearBlockAdd} setIsEditConflict = {setIsEditConflict} setIsNewSched = {setIsNewSched} setYearParent={setYear} setBlockParent={setBlock}clicked={isCreateClicked}  handleClickFromChild = {handleClickFromChild} onDataReceived={handleDataFromChild} readOnly = {false} ref={childComponentRef} year={year} block={block} setBlockChild={setBlockChild}/>
+          <SchedulerFaculty handleYearBlockAdd = {handleYearBlockAdd} setIsEditConflict = {setIsEditConflict} setIsNewSched = {setIsNewSched} setYearParent={setYear} setBlockParent={setBlock} setSelectedProfessor={setSelectedProfessor} clicked={isCreateClicked}  handleClickFromChild = {handleClickFromChild} onDataReceived={handleDataFromChild} readOnly = {false} ref={childComponentRef} selectedProfessor = {setSelectedProfessor} year={year} block={block} setBlockChild={setBlockChild}/>
         </div>
         <div className={SubjectAssignCSS.bottomButtons}>
           <div className={SubjectAssignCSS.left}>

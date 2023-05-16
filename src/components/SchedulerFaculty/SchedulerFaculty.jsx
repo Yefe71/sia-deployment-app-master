@@ -525,6 +525,10 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       this.setState({ blockPropChild: this.props.appointmentData.block });
       this.setState({ oldYear: this.props.appointmentData.year });
       this.setState({ oldBlock: this.props.appointmentData.block });
+
+      // if (this.props.isNewAppointment){
+      //   this.setState({appointmentChange})
+      // }
     }
 
     if (prevProps.triggerToast !== this.props.triggerToast) {
@@ -666,7 +670,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           field: [field],
           changes: change.value,
         }),
-      value: displayAppointmentData[field] || "",
+      value: !this.props.isNewAppointment ? displayAppointmentData[field] || "" : "" || "",
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
@@ -678,7 +682,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           changes: change.value,
         });
       },
-      value: displayAppointmentData[field] || "",
+      value: !this.props.isNewAppointment ? displayAppointmentData[field] || "" : "" || "",
       className: classes.textField,
     });
     const textEditorPropsBlockSpecial = (field) => ({
@@ -690,7 +694,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         });
         this.setState({ blockPropChild: change.value });
       },
-      value: displayAppointmentData[field] || "",
+      value: !this.props.isNewAppointment ? displayAppointmentData[field] || "" : "" || "",
       className: classes.textField,
     });
 
@@ -730,7 +734,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         });
       },
 
-      value: `${displayAppointmentData.courseName}:${displayAppointmentData.courseCode}`,
+      value: !this.props.isNewAppointment ? `${displayAppointmentData.courseName}:${displayAppointmentData.courseCode}` : "",
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
@@ -743,7 +747,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           changes: change.value,
         });
       },
-      value: displayAppointmentData[field] || "",
+      value: !this.props.isNewAppointment ? displayAppointmentData[field] || "" : "" || "",
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
@@ -758,7 +762,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
         this.setState({ yearPropChild: change.value });
       },
-      value: displayAppointmentData[field] || "",
+      value: !this.props.isNewAppointment ? displayAppointmentData[field] || "" : "" || "",
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
@@ -771,7 +775,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           changes: change.value,
         });
       },
-      value: displayAppointmentData[field] || "",
+      value: !this.props.isNewAppointment ? displayAppointmentData[field] || "" : "" || "",
       className: classes.textField,
     });
 
@@ -857,6 +861,15 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   Professor Name
                 </InputLabel>
                 <Select
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+                        maxHeight: 48 * 4.5, // where 48 is the item height
+                        width: "20ch",
+                        overflow: "auto",
+                      },
+                    },
+                  }}
                   label="professor-name-label"
                   {...textEditorProps("professorName")}
                 >
@@ -1317,6 +1330,7 @@ export default class SchedulerFaculty extends React.PureComponent {
         handleChangeFields: this.handleChangeFields,
         triggerToast: this.state.triggerToast,
         conflictDesc: this.state.conflictDesc,
+        isNewAppointment: this.state.isNewAppointment
       };
     });
   }
