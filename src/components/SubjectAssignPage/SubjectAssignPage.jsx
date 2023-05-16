@@ -177,6 +177,7 @@ const SubjectAssignPage = () => {
   };
   const handleChangeProfessorName = (event) => {
     setSelectedProfessor(event.target.value);
+    setSelectedValue(event.target.value);
   };
 
   const [yearProp, setYearProp] = useState(null)
@@ -282,6 +283,18 @@ const handleYearBlockAdd = (year, block) => {
       });
     }, []);
 
+    const [isFocused, setIsFocused] = useState(false);
+    const [selectedValue, setSelectedValue] = useState("");
+  
+    const handleFocus = () => {
+      setIsFocused(true);
+    }
+  
+    const handleBlur = () => {
+      setIsFocused(false);
+    }
+  
+    
   return (
     <>
       <div className={SubjectAssignCSS.topTableWrapper}>
@@ -291,9 +304,15 @@ const handleYearBlockAdd = (year, block) => {
           <h2>{`Subject Assignment`}</h2>
           <div className={SubjectAssignCSS.topButtons}>
             <FormControl
+              onFocus={handleFocus}
+              onBlur={handleBlur}
               sx={{
                 mr: 0.6,
-                minWidth: isSmallScreen ? 90 : 240,
+                width: (isFocused || (selectedValue !== "" && selectedValue !== "Professor") || isSmallScreen) ? '240px' : '125px',
+                '&:hover': {
+                  width: '240px',
+                },
+                transition: 'width 0.1s ease',
               }}
             >
               <Select
