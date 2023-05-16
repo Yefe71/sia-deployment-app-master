@@ -175,6 +175,9 @@ const SubjectAssignPage = () => {
   const handleChangeBlock = (event) => {
     setBlock(event.target.value);
   };
+  const handleChangeProfessorName = (event) => {
+    setSelectedProfessor(event.target.value);
+  };
 
   const [yearProp, setYearProp] = useState(null)
   const [blockProp, setBlockProp] = useState(null)
@@ -295,9 +298,7 @@ const handleYearBlockAdd = (year, block) => {
             >
               <Select
                 value={selectedProfessor}
-                onChange={(event) => {
-                  setSelectedProfessor(event.target.value)
-                }}
+                onChange={handleChangeProfessorName}
                 MenuProps={{
                   PaperProps: {
                     style: {
@@ -386,7 +387,7 @@ const handleYearBlockAdd = (year, block) => {
 
         </div>
         <div className={SubjectAssignCSS.tableWrapper}>
-          <SchedulerFaculty handleYearBlockAdd = {handleYearBlockAdd} setIsEditConflict = {setIsEditConflict} setIsNewSched = {setIsNewSched} setYearParent={setYear} setBlockParent={setBlock} setSelectedProfessor={setSelectedProfessor} clicked={isCreateClicked}  handleClickFromChild = {handleClickFromChild} onDataReceived={handleDataFromChild} readOnly = {false} ref={childComponentRef} selectedProfessor = {setSelectedProfessor} year={year} block={block} setBlockChild={setBlockChild}/>
+          <SchedulerFaculty handleYearBlockAdd = {handleYearBlockAdd} setIsEditConflict = {setIsEditConflict} setIsNewSched = {setIsNewSched} setYearParent={setYear} setBlockParent={setBlock}  clicked={isCreateClicked}  handleClickFromChild = {handleClickFromChild} onDataReceived={handleDataFromChild} readOnly = {false} ref={childComponentRef} selectedProfessorParent = {setSelectedProfessor} professorName = {selectedProfessor} year={year} block={block} setBlockChild={setBlockChild}/>
         </div>
         <div className={SubjectAssignCSS.bottomButtons}>
           <div className={SubjectAssignCSS.left}>

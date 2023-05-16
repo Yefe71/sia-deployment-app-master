@@ -525,11 +525,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       this.setState({ blockPropChild: this.props.appointmentData.block });
       this.setState({ oldYear: this.props.appointmentData.year });
       this.setState({ oldBlock: this.props.appointmentData.block });
-
       this.setState({appointmentChanges: {}})
-      // if (!this.isNewAppointment){
-      //  this.setState({appointmentData: []}) 
-      // }
+
       
     }
 
@@ -1361,30 +1358,68 @@ export default class SchedulerFaculty extends React.PureComponent {
   };
 
   applyFilter = () => {
-    if (!this.props.year && this.props.block.length === 0) {
-      console.log(`i ran 1 ${this.props.year} ${this.props.block}`);
+
+    console.log(this.props.professorName,"I'M THE PROFESSOR")
+
+    console.log(this.state.data, "I'm the data")
+    //if no year and block and professor, show all data
+    if (!this.props.year && this.props.block.length === 0 && !this.props.professorName) {
+      console.log(`i ran 1 ${this.props.year} ${this.props.block} ${this.props.professorName}`);
       this.updateNewData(this.state.data);
-    } else if (!this.props.year) {
-      console.log(`i ran 2 ${this.props.year} ${this.props.block}`);
+    
+     //if no year and block, show professor matches 
+    } else if (!this.props.year && this.props.block.length === 0) {
+      console.log(`i ran 2 ${this.props.year} ${this.props.block} ${this.props.professorName}`);
       const filteredData = this.state.data.filter(
-        (item) => item.block === this.props.block
+        (item) => {
+          return item.professorName === this.props.professorName
+        }
       );
       this.updateNewData(filteredData);
-    } else if (this.props.block.length === 0) {
-      console.log(`i ran 3 ${this.props.year} ${this.props.block}`);
+
+      //if no block and professor, show year matches 
+    } else if (this.props.block.length === 0 && !this.props.professorName) {
+      console.log(`i ran 3 ${this.props.year} ${this.props.block} ${this.props.professorName}`);
       const filteredData = this.state.data.filter(
         (item) => item.year === this.props.year
       );
       this.updateNewData(filteredData);
+    } else if (!this.props.year && !this.props.professorName) { //if no year and professor, show block matches
+      console.log(`i ran 4 ${this.props.year} ${this.props.block} ${this.props.professorName}`);
+      const filteredData = this.state.data.filter(
+        (item) => item.block === this.props.block
+      );
+      this.updateNewData(filteredData);
+    } else if (!this.props.year) { //if there is block and professor, show block and professor matches
+      console.log(`i ran 5 ${this.props.year} ${this.props.block} ${this.props.professorName}`);
+      const filteredData = this.state.data.filter(
+        (item) => item.block === this.props.block && item.professorName === this.props.professorName
+      );
+      this.updateNewData(filteredData);
+    } else if (this.props.block.length === 0) { //if there is year and professor, show year and professor matches
+      console.log(`i ran 6 ${this.props.year} ${this.props.block} ${this.props.professorName}`);
+      const filteredData = this.state.data.filter(
+        (item) => item.year === this.props.year && item.professorName === this.props.professorName
+      );
+      this.updateNewData(filteredData);
+    } else if (!this.props.professorName) { //if there is year and block, show year and block matches
+      console.log(`i ran 7 ${this.props.year} ${this.props.block} ${this.props.professorName}`);
+      const filteredData = this.state.data.filter(
+        (item) => item.year === this.props.year && item.block === this.props.block
+      );
+      this.updateNewData(filteredData);
     } else {
-      console.log(`i ran 4 ${this.props.year} ${this.props.block}`);
+
+      //if there is year, block and professor, show year, block and professor matches
+      console.log(`i ran 8 ${this.props.year} ${this.props.block} ${this.props.professorName}`);
       const filteredData = this.state.data.filter(
         (item) =>
-          item.year === this.props.year && item.block === this.props.block
+          item.year === this.props.year && item.block === this.props.block && item.professorName === this.props.professorName
       );
       this.updateNewData(filteredData);
     }
   };
+
 
   applyFilterRoom = () => {
     if (this.props.room) {
@@ -1456,8 +1491,10 @@ export default class SchedulerFaculty extends React.PureComponent {
 
     if (
       this.props.year !== prevProps.year ||
-      this.props.block !== prevProps.block
+      this.props.block !== prevProps.block ||
+      this.props.professorName !== prevProps.professorName
     ) {
+      console.log("TUMATAKBO BAKO O HINDE")
       this.fetchDataButtonsSched();
       this.applyFilter();
     }
