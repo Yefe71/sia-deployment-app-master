@@ -526,9 +526,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       this.setState({ oldYear: this.props.appointmentData.year });
       this.setState({ oldBlock: this.props.appointmentData.block });
 
-      // if (this.props.isNewAppointment){
-      //   this.setState({appointmentChange})
+      this.setState({appointmentChanges: {}})
+      // if (!this.isNewAppointment){
+      //  this.setState({appointmentData: []}) 
       // }
+      
     }
 
     if (prevProps.triggerToast !== this.props.triggerToast) {
@@ -670,7 +672,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           field: [field],
           changes: change.value,
         }),
-      value: !this.props.isNewAppointment ? displayAppointmentData[field] || "" : "" || "",
+      value: displayAppointmentData[field] || "",
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
@@ -682,7 +684,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           changes: change.value,
         });
       },
-      value: !this.props.isNewAppointment ? displayAppointmentData[field] || "" : "" || "",
+      value: displayAppointmentData[field] || "",
       className: classes.textField,
     });
     const textEditorPropsBlockSpecial = (field) => ({
@@ -694,7 +696,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         });
         this.setState({ blockPropChild: change.value });
       },
-      value: !this.props.isNewAppointment ? displayAppointmentData[field] || "" : "" || "",
+      value: displayAppointmentData[field] || "",
       className: classes.textField,
     });
 
@@ -734,7 +736,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         });
       },
 
-      value: !this.props.isNewAppointment ? `${displayAppointmentData.courseName}:${displayAppointmentData.courseCode}` : "",
+      value: `${displayAppointmentData.courseName}:${displayAppointmentData.courseCode}`,
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
@@ -747,7 +749,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           changes: change.value,
         });
       },
-      value: !this.props.isNewAppointment ? displayAppointmentData[field] || "" : "" || "",
+      value: displayAppointmentData[field] || "",
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
@@ -762,7 +764,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
         this.setState({ yearPropChild: change.value });
       },
-      value: !this.props.isNewAppointment ? displayAppointmentData[field] || "" : "" || "",
+      value: displayAppointmentData[field] || "",
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
@@ -775,7 +777,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           changes: change.value,
         });
       },
-      value: !this.props.isNewAppointment ? displayAppointmentData[field] || "" : "" || "",
+      value: displayAppointmentData[field] || "",
       className: classes.textField,
     });
 
@@ -1335,6 +1337,11 @@ export default class SchedulerFaculty extends React.PureComponent {
     });
   }
 
+
+
+
+
+  
   handleDataFromChild = (value, isYear, oldYear, oldBlock) => {
 
     console.log("NAG SET AKO!!!")
