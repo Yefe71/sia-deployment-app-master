@@ -128,26 +128,48 @@ const styleRoom = {
   background: "#f6f6f6",
 };
 
-const FormOverlay = React.forwardRef(({ visible, children }, ref) => {
+const FormOverlay = React.forwardRef(({ visible, children, otherChildren }, ref) => {
   return (
-    <Modal open={visible} ref={ref} sx={{ zIndex: 2 }}>
+   
+    <Modal open={visible} ref={ref} sx={{ zIndex: 2 }}> 
+    <Box
+      sx={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        display: 'flex',
+        gap: '1rem',
+        justifyContent: 'center',
+      }}
+    >
       <Paper
         sx={{
           width: "27rem",
           padding: 1,
           paddingBottom: "0px",
           borderRadius: "15px",
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
+          // transform: "translate(-50%, -50%)",
         }}
       >
         {children}
       </Paper>
+      <Paper
+          sx={{
+            width: "27rem",
+            padding: 1,
+            paddingBottom: "0px",
+            borderRadius: "15px",
+            // transform: "translate(-50%, -50%)",
+          }}
+        >
+          {otherChildren}
+        </Paper>
+      </Box>
     </Modal>
   );
 });
+
 
 const Appointment = ({ children, style, ...restProps }) => {
   const { data } = restProps; // Destructure data from restProps
@@ -618,7 +640,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           changes: change.value,
         }),
       value: displayAppointmentData[field] || "",
-      label: field[0].toUpperCase() + field.slice(1),
+      label: this.props.isStudent === false ? field[0].toUpperCase() + field.slice(1) : "Professor Name",
       className: classes.textField,
     });
     const textEditorPropsSpecial = (field) => ({
@@ -786,6 +808,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     const randomNumber = Math.floor(Math.random() * 100) + 1;
 
     return (
+      <>
       <FormOverlay visible={visible} ref={this.overlayRef}>
         <StyledDiv>
           <div className={classes.header}>
@@ -803,63 +826,82 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               className={SchedulerFacultyCSS.wrapper}
               style={{ margin: "0px 7px 7px 7px" }}
             >
+
+              
               <FormControl variant="outlined" className={classes.textField}>
-                <InputLabel id="professor-name-label">
-                  Professor Name
-                </InputLabel>
-                <Select
-                  MenuProps={{
-                    PaperProps: {
-                      style: {
-                        maxHeight: 48 * 4.5, // where 48 is the item height
-                        width: "20ch",
-                        overflow: "auto",
-                      },
-                    },
-                  }}
-                  label="professor-name-label"
-                  {...textEditorProps("professorName")}
-                >
-                  {this.state.professorsNames.map((name, index) => (
-                    <MenuItem key={index} value={name.full_name}>
-                      {name.full_name}
-                    </MenuItem>
-                  ))}
-                </Select>
+
+          {this.props.isStudent === false ? 
+          
+          <>
+           <InputLabel id="professor-name-label">
+            Professor Name
+          </InputLabel>
+          <Select
+            MenuProps={{
+              PaperProps: {
+                style: {
+                  maxHeight: 48 * 4.5, // where 48 is the item height
+                  width: "20ch",
+                  overflow: "auto",
+                },
+              },
+            }}
+            label="professor-name-label"
+            {...textEditorProps("professorName")}
+          >
+            {this.state.professorsNames.map((name, index) => (
+              <MenuItem key={index} value={name.full_name}>
+                {name.full_name}
+              </MenuItem>
+            ))}
+          </Select>
+          </>
+          
+          :
+          
+          <TextField
+          id="outlined-helperText"
+          label="Professor Name"
+          {...textEditorProps("professorName")}
+        />
+          
+          
+          }
+                
+ 
+
+
+                
               </FormControl>
 
-{ this.props.isStudent === false ?
 
-<>
-              <div
-                style={{ width: "2rem", height: "2rem" }}
-                onClick={this.handleOpenProf}
-                className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`}
-              >
-                <img
-                  src={addPerson}
-                  style={{
-                    width: "1.8rem",
-                    height: "1.8rem",
-                    marginBottom: "5px",
-                  }}
-                  alt=""
-                />
-              </div>
-              </>  
+              { this.props.isStudent === false ? 
+          
+          
+          <div
+          style={{ width: "2rem", height: "2rem" }}
+          onClick={this.handleOpenProf}
+          className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`}
+        >
+          <img
+            src={addPerson}
+            style={{
+              width: "1.8rem",
+              height: "1.8rem",
+              marginBottom: "5px",
+            }}
+            alt=""
+          />
+        </div>
+
+        : ""
+          
+              }
+
+         
+
+
               
-              :
-
-              <>
-              <div
-                style={{ width: "2rem", height: "2rem" }}
-                onClick={this.handleSwitchField}
-                className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`}
-              >
-                <SwapHorizIcon sx= {{width: "1.8rem", height: "1.8rem", color: "#6f6f6f"}}/>
-              </div>
-  </>
-}
             </div>
 
             <div className={SchedulerFacultyCSS["year-courseWrapper"]}>
@@ -1205,6 +1247,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           </Box>
         </Modal>
       </FormOverlay>
+
+
+
+      </>
+      
     );
   }
 }
