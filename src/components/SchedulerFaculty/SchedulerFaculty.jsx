@@ -57,7 +57,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { v4 as uuidv4 } from "uuid";
 import DeleteIcon from "@mui/icons-material/Delete";
-
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 const tooltipStyle = {
   width: "300px !important",
 };
@@ -320,6 +320,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       blockPropChild: null,
       oldYear: null,
       oldBlock: null,
+      isSelect: true
     };
 
     this.getAppointmentData = () => {
@@ -339,6 +340,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     };
 
     this.handleOpenProf = this.handleOpenProf.bind(this);
+    this.handleSwitchField = this.handleSwitchField.bind(this);
     this.handleCloseProf = this.handleCloseProf.bind(this);
     this.handleOpenRoom = this.handleOpenRoom.bind(this);
     this.handleCloseRoom = this.handleCloseRoom.bind(this);
@@ -365,6 +367,9 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
   handleOpenProf() {
     this.setState({ openProf: true });
+  }
+  handleSwitchField() {
+    this.setState({ isSelect: !this.state.isSelect });
   }
 
   handleCloseProf() {
@@ -823,6 +828,9 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 </Select>
               </FormControl>
 
+{ this.props.isStudent === false ?
+
+<>
               <div
                 style={{ width: "2rem", height: "2rem" }}
                 onClick={this.handleOpenProf}
@@ -838,6 +846,20 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   alt=""
                 />
               </div>
+              </>  
+              
+              :
+
+              <>
+              <div
+                style={{ width: "2rem", height: "2rem" }}
+                onClick={this.handleSwitchField}
+                className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`}
+              >
+                <SwapHorizIcon sx= {{width: "1.8rem", height: "1.8rem", color: "#6f6f6f"}}/>
+              </div>
+  </>
+}
             </div>
 
             <div className={SchedulerFacultyCSS["year-courseWrapper"]}>
@@ -1276,7 +1298,8 @@ export default class SchedulerFaculty extends React.PureComponent {
         conflictDesc: this.state.conflictDesc,
         isNewAppointment: this.state.isNewAppointment,
         majorCourses: this.state.majorCourses,
-        coursesColors: this.state.coursesColors
+        coursesColors: this.state.coursesColors,
+        isStudent: this.props.isStudent
       };
     });
   }

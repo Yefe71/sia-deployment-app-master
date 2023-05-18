@@ -4,6 +4,7 @@ import BlockClassesPage from "../../components/BlockClassessPage/BlockClassesPag
 import BlockManagePage from "../../components/BlockManagePage/BlockManagePage";
 import StudentsPage from "../../components/StudentsPage/StudentsPage";
 import logo from "../../assets/logo.png"
+import SubjectAssignPageStudent from "../../components/SubjectAssignPageStudent/SubjectAssignPageStudent";
 const StudentDeployment = ({setAccess, access, pageSent}) => {
 
   const page = pageSent ;
@@ -17,6 +18,7 @@ const StudentDeployment = ({setAccess, access, pageSent}) => {
           {page === "blockUtil" && <BlockClassesPage />}
           {page === "students" && <StudentsPage />}
           {page === "manage" && <BlockManagePage />}
+          {page === "subjassignStudent" && <SubjectAssignPageStudent />}
         </div>
       </div>
     </>

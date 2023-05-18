@@ -92,6 +92,7 @@ const Navbar = ({ access, setPage, setAccess, page, currentApp, setCurrentApp}) 
                   <h3 className = {`${page === "blockUtil" && NavbarCSS.active}`} onClick={() => setPage("blockUtil")}>Blockclasses Utility</h3>
                   <h3 className = {`${page === "students" && NavbarCSS.active}`} onClick={() => setPage("students")}>Student List</h3>
                   <h3 className = {`${page === "manage" && NavbarCSS.active}`} onClick={() => setPage("manage")}>Block Management</h3>
+                  <h3 className = {`${page === "subjassignStudent" && NavbarCSS.active}`} onClick={() => setPage("subjassignStudent")}>Subject Assignment</h3>
                   <h3 className={NavbarCSS.logout} onClick={() => {setAccess(false)}}>Sign Out</h3>
                 </>
                 :

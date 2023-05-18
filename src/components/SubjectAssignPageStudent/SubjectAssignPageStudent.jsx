@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import SubjectAssignCSS from "./SubjectAssignPage.module.css";
+import SubjectAssignCSS from "./SubjectAssignPageStudent.module.css";
 import MyTable from "../Table/Table";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
@@ -17,7 +17,7 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { OutlinedInput } from '@mui/material';
 import SchedulerFaculty from '../SchedulerFaculty/SchedulerFaculty';
 
-const SubjectAssignPage = () => {
+const SubjectAssignPageStudent = () => {
 
   const handleClick = () => {
     // Call the function in the child component
@@ -301,9 +301,7 @@ const handleYearBlockAdd = (year, block) => {
     <>
       <div className={SubjectAssignCSS.topTableWrapper}>
         <div className={SubjectAssignCSS.topTable}>
-
-          
-          <h2>{`Faculty Assignment`}</h2>
+          <h2>{`Subject Assignment`}</h2>
           <div className={SubjectAssignCSS.topButtons}>
             <FormControl
               onFocus={handleFocus}
@@ -409,7 +407,7 @@ const handleYearBlockAdd = (year, block) => {
 
         </div>
         <div className={SubjectAssignCSS.tableWrapper}>
-          <SchedulerFaculty isStudent = {false} handleYearBlockAdd = {handleYearBlockAdd} setIsEditConflict = {setIsEditConflict} setIsNewSched = {setIsNewSched} setYearParent={setYear} setBlockParent={setBlock}  clicked={isCreateClicked}  handleClickFromChild = {handleClickFromChild} onDataReceived={handleDataFromChild} readOnly = {false} ref={childComponentRef} selectedProfessorParent = {setSelectedProfessor} professorName = {selectedProfessor} year={year} block={block} setBlockChild={setBlockChild}/>
+          <SchedulerFaculty isStudent = {true} handleYearBlockAdd = {handleYearBlockAdd} setIsEditConflict = {setIsEditConflict} setIsNewSched = {setIsNewSched} setYearParent={setYear} setBlockParent={setBlock}  clicked={isCreateClicked}  handleClickFromChild = {handleClickFromChild} onDataReceived={handleDataFromChild} readOnly = {false} ref={childComponentRef} selectedProfessorParent = {setSelectedProfessor} professorName = {selectedProfessor} year={year} block={block} setBlockChild={setBlockChild}/>
         </div>
         <div className={SubjectAssignCSS.bottomButtons}>
           <div className={SubjectAssignCSS.left}>
@@ -492,4 +490,4 @@ const handleYearBlockAdd = (year, block) => {
   );
 }
 
-export default SubjectAssignPage
+export default SubjectAssignPageStudent
