@@ -30,8 +30,6 @@ const StyleTable = styled(Table)({
 const StyledTableCellLeft = styled(TableCell)({
   fontWeight: "bold",
   backgroundColor: "#f7f4f4",
-
-  borderTopLeftRadius: "1rem",
 });
 
 const StyledTableCellRight = styled(TableCell)({

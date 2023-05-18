@@ -58,6 +58,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { v4 as uuidv4 } from "uuid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import TableManageBlock from "../TableManageBlock/TableManageBlock";
+import TableFormStudents from "../TableFormStudents/TableFormStudents";
 const tooltipStyle = {
   width: "300px !important",
 };
@@ -128,7 +130,7 @@ const styleRoom = {
   background: "#f6f6f6",
 };
 
-const FormOverlay = React.forwardRef(({ visible, children, otherChildren }, ref) => {
+const FormOverlay = React.forwardRef(({ visible, contents}, ref) => {
   return (
    
     <Modal open={visible} ref={ref} sx={{ zIndex: 2 }}> 
@@ -149,21 +151,24 @@ const FormOverlay = React.forwardRef(({ visible, children, otherChildren }, ref)
           padding: 1,
           paddingBottom: "0px",
           borderRadius: "15px",
+          height: "36rem"
           // transform: "translate(-50%, -50%)",
         }}
       >
-        {children}
+        {contents.children}
       </Paper>
+      
       <Paper
           sx={{
-            width: "27rem",
+            width: "75rem",
             padding: 1,
             paddingBottom: "0px",
             borderRadius: "15px",
+            height: "36rem"
             // transform: "translate(-50%, -50%)",
           }}
         >
-          {otherChildren}
+          {contents.otherChildren}
         </Paper>
       </Box>
     </Modal>
@@ -809,151 +814,35 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
     return (
       <>
-      <FormOverlay visible={visible} ref={this.overlayRef}>
-        <StyledDiv>
-          <div className={classes.header}>
-            <IconButton
-              className={classes.closeButton}
-              onClick={cancelChanges}
-              size="large"
-            >
-              <Close color="action" />
-            </IconButton>
-          </div>
-          <div className={classes.content}>
-            {/* PROFESSOR NAME FIELD */}
-            <div
-              className={SchedulerFacultyCSS.wrapper}
-              style={{ margin: "0px 7px 7px 7px" }}
-            >
+
+<FormOverlay visible={visible} ref={this.overlayRef} contents={{
+          children: (
+            <div>
+              <StyledDiv>
+                <div className={classes.header}>
+                  <IconButton
+                    className={classes.closeButton}
+                    onClick={cancelChanges}
+                    size="large"
+                  >
+                    <Close color="action" />
+                  </IconButton>
+                </div>
+                <div className={classes.content}>
+                  {/* PROFESSOR NAME FIELD */}
+                  <div
+                    className={SchedulerFacultyCSS.wrapper}
+                    style={{ margin: "0px 7px 7px 7px" }}
+                  >
 
               
-              <FormControl variant="outlined" className={classes.textField}>
+                    <FormControl variant="outlined" className={classes.textField}>
 
-          {this.props.isStudent === false ? 
+                {this.props.isStudent === false ? 
           
-          <>
-           <InputLabel id="professor-name-label">
-            Professor Name
-          </InputLabel>
-          <Select
-            MenuProps={{
-              PaperProps: {
-                style: {
-                  maxHeight: 48 * 4.5, // where 48 is the item height
-                  width: "20ch",
-                  overflow: "auto",
-                },
-              },
-            }}
-            label="professor-name-label"
-            {...textEditorProps("professorName")}
-          >
-            {this.state.professorsNames.map((name, index) => (
-              <MenuItem key={index} value={name.full_name}>
-                {name.full_name}
-              </MenuItem>
-            ))}
-          </Select>
-          </>
-          
-          :
-          
-          <TextField
-          id="outlined-helperText"
-          label="Professor Name"
-          {...textEditorProps("professorName")}
-        />
-          
-          
-          }
-                
- 
-
-
-                
-              </FormControl>
-
-
-              { this.props.isStudent === false ? 
-          
-          
-          <div
-          style={{ width: "2rem", height: "2rem" }}
-          onClick={this.handleOpenProf}
-          className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`}
-        >
-          <img
-            src={addPerson}
-            style={{
-              width: "1.8rem",
-              height: "1.8rem",
-              marginBottom: "5px",
-            }}
-            alt=""
-          />
-        </div>
-
-        : ""
-          
-              }
-
-         
-
-
-              
-            </div>
-
-            <div className={SchedulerFacultyCSS["year-courseWrapper"]}>
-              <FormControl
-                variant="outlined"
-                className={classes.textField}
-                sx={{ margin: "7px 7px" }}
-              >
-                <InputLabel id="course-category-label">Year</InputLabel>
-                <Select
-                  label="course-category-label"
-                  {...textEditorPropsYearSpecial("year")}
-                >
-                  <MenuItem value={1}>1st Year</MenuItem>
-                  <MenuItem value={2}>2nd Year</MenuItem>
-                  <MenuItem value={3}>3rd Year</MenuItem>
-                  <MenuItem value={4}>4th Year</MenuItem>
-                </Select>
-              </FormControl>
-
-              <SketchExample
-                defaultColor={displayAppointmentData["color"]}
-                className={`${SchedulerFacultyCSS.ripple}`}
-                onColorChange={this.handleColorChange}
-                ref={this.childRef}
-              />
-
-              <FormControl
-                variant="outlined"
-                sx={{ margin: "7px 7px" }}
-                className={classes.textField}
-              >
-                <InputLabel>Block</InputLabel>
-                <Select label="Block" {...textEditorPropsBlockSpecial("block")}>
-                  {currentBlocks.map((block) => (
-                    <MenuItem key={block} value={block}>
-                      Block {block}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </div>
-
-            {/* COURSE NAME FIELD */}
-            <div className={classes.wrapper}>
-              <FormControl
-                sx={{ margin: "4px 7px" }}
-                variant="outlined"
-                className={classes.textField}
-              >
-                <InputLabel sx={{ fontSize: "15px" }} id="course-name-label">
-                  Course Name
+                <>
+                 <InputLabel id="professor-name-label">
+                  Professor Name
                 </InputLabel>
                 <Select
                   MenuProps={{
@@ -965,105 +854,41 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                       },
                     },
                   }}
-                  label="course-name-label"
-                  {...textEditorPropsCourseName("courseName")}
-                  sx={{ fontSize: "15px" }}
+                  label="professor-name-label"
+                  {...textEditorProps("professorName")}
                 >
-                  {Object.keys(filteredCourseNames).map((name) => (
-                    <MenuItem
-                      sx={{ fontSize: "15px" }}
-                      key={name}
-                      value={`${name}:${filteredCourseNames[name]}`}
-                    >
-                      {name}
+                  {this.state.professorsNames.map((name, index) => (
+                    <MenuItem key={index} value={name.full_name}>
+                      {name.full_name}
                     </MenuItem>
                   ))}
                 </Select>
-              </FormControl>
-            </div>
-
-            <div className={classes.wrapper}>
-              <FormControl
-                variant="outlined"
-                sx={{ margin: "0px 7px" }}
-                className={classes.textField}
-              >
+                </>
+          
+                :
+          
                 <TextField
-                  InputLabelProps={{ shrink: true }}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  label="Course Code"
-                  MenuProps={{
-                    PaperProps: {
-                      style: {
-                        maxHeight: 48 * 4.5, // where 48 is the item height
-                        width: "20ch",
-                        overflow: "auto",
-                      },
-                    },
-                  }}
-                  {...textEditorPropsReadOnly("courseCode")}
-                ></TextField>
-              </FormControl>
-              <TextField
-                sx={{ margin: "0px 7px", width: "230px" }}
-                label="Units"
-                type="number"
-                InputLabelProps={{ shrink: true }}
-                variant="outlined"
-                {...textEditorPropsSpecial("units")}
+                id="outlined-helperText"
+                label="Professor Name"
+                {...textEditorProps("professorName")}
               />
-              <TextField
-                sx={{ margin: "0px 7px", width: "230px" }}
-                label="Actual Units"
-                InputLabelProps={{ shrink: true }}
-                variant="outlined"
-                type="number"
-                {...textEditorPropsSpecial("actualUnits")}
-              />
-            </div>
+          
+          
+                }
+                
+ 
 
-            {/* 3. Add a Select field that says Class type, and a Select field that says Room */}
-            <div className={classes.wrapper}>
-              <FormControl
-                sx={{ margin: "0px 7px" }}
-                variant="outlined"
-                className={classes.textField}
-              >
-                <InputLabel>Class Type</InputLabel>
-                <Select
-                  label="Class Type"
-                  {...textEditorPropsSpecial("classType")}
-                >
-                  <MenuItem value={"F2F"}>F2F</MenuItem>
-                  <MenuItem value={"Synchronous Online"}>Sync Online</MenuItem>
-                  <MenuItem value={"Asynchronous Online"}>
-                    Async Online
-                  </MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl
-                sx={{ margin: "0px 7px" }}
-                variant="outlined"
-                className={classes.textField}
-              >
-                <InputLabel>Room</InputLabel>
-                <Select label="Room" {...textEditorProps("room")}>
-                  {this.state.roomsNames.map((name, index) => (
-                    <MenuItem key={index} value={name.room_name}>
-                      {name.room_name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <div
-                style={{
-                  width: "2rem",
-                  height: "2rem",
-                  margin: "0px 7px 7px 7px",
-                }}
-                onClick={this.handleOpenRoom}
+
+                
+                    </FormControl>
+
+
+                    { this.props.isStudent === false ? 
+          
+          
+                <div
+                style={{ width: "2rem", height: "2rem" }}
+                onClick={this.handleOpenProf}
                 className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`}
               >
                 <img
@@ -1076,178 +901,373 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   alt=""
                 />
               </div>
-            </div>
 
-            <div className={SchedulerFacultyCSS.wrapper}>
-              <FormControl
-                sx={{ minWidth: 80, margin: "7px 7px" }}
-                variant="outlined"
-              >
-                <InputLabel>Day</InputLabel>
+              : ""
+          
+                    }
 
-                <Select
-                  label="Day"
-                  value={displayAppointmentData["day"]}
-                  onChange={(event) =>
-                    this.changeAppointment({
-                      field: "day",
-                      changes: dayjs(event.target.value).format("YYYY-MM-DD"),
-                    })
-                  }
-                >
-                  {days.map((day) => (
-                    <MenuItem key={day.value} value={day.value}>
-                      {day.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+         
 
-              <LocalizationProvider dateAdapter={AdapterMoment}>
-                <TimePicker
-                  label="Start Time"
-                  format="HH:mm a" // Add this line
-                  renderInput={(props) => (
-                    <TextField
-                      className={classes.picker}
-                      {...props}
+
+              
+                  </div>
+
+                  <div className={SchedulerFacultyCSS["year-courseWrapper"]}>
+                    <FormControl
+                      variant="outlined"
+                      className={classes.textField}
                       sx={{ margin: "7px 7px" }}
+                    >
+                      <InputLabel id="course-category-label">Year</InputLabel>
+                      <Select
+                        label="course-category-label"
+                        {...textEditorPropsYearSpecial("year")}
+                      >
+                        <MenuItem value={1}>1st Year</MenuItem>
+                        <MenuItem value={2}>2nd Year</MenuItem>
+                        <MenuItem value={3}>3rd Year</MenuItem>
+                        <MenuItem value={4}>4th Year</MenuItem>
+                      </Select>
+                    </FormControl>
+
+                    <SketchExample
+                      defaultColor={displayAppointmentData["color"]}
+                      className={`${SchedulerFacultyCSS.ripple}`}
+                      onColorChange={this.handleColorChange}
+                      ref={this.childRef}
                     />
-                  )}
-                  {...startDatePickerProps}
-                  ampm={true}
-                  defaultValue="any"
-                />
-                <TimePicker
-                  label="End Time"
-                  format="HH:mm a" // Add this line
-                  renderInput={(props) => (
-                    <TextField
-                      className={classes.picker}
-                      {...props}
+
+                    <FormControl
+                      variant="outlined"
                       sx={{ margin: "7px 7px" }}
+                      className={classes.textField}
+                    >
+                      <InputLabel>Block</InputLabel>
+                      <Select label="Block" {...textEditorPropsBlockSpecial("block")}>
+                        {currentBlocks.map((block) => (
+                          <MenuItem key={block} value={block}>
+                            Block {block}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </div>
+
+                  {/* COURSE NAME FIELD */}
+                  <div className={classes.wrapper}>
+                    <FormControl
+                      sx={{ margin: "4px 7px" }}
+                      variant="outlined"
+                      className={classes.textField}
+                    >
+                      <InputLabel sx={{ fontSize: "15px" }} id="course-name-label">
+                        Course Name
+                      </InputLabel>
+                      <Select
+                        MenuProps={{
+                          PaperProps: {
+                            style: {
+                              maxHeight: 48 * 4.5, // where 48 is the item height
+                              width: "20ch",
+                              overflow: "auto",
+                            },
+                          },
+                        }}
+                        label="course-name-label"
+                        {...textEditorPropsCourseName("courseName")}
+                        sx={{ fontSize: "15px" }}
+                      >
+                        {Object.keys(filteredCourseNames).map((name) => (
+                          <MenuItem
+                            sx={{ fontSize: "15px" }}
+                            key={name}
+                            value={`${name}:${filteredCourseNames[name]}`}
+                          >
+                            {name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </div>
+
+                  <div className={classes.wrapper}>
+                    <FormControl
+                      variant="outlined"
+                      sx={{ margin: "0px 7px" }}
+                      className={classes.textField}
+                    >
+                      <TextField
+                        InputLabelProps={{ shrink: true }}
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                        label="Course Code"
+                        MenuProps={{
+                          PaperProps: {
+                            style: {
+                              maxHeight: 48 * 4.5, // where 48 is the item height
+                              width: "20ch",
+                              overflow: "auto",
+                            },
+                          },
+                        }}
+                        {...textEditorPropsReadOnly("courseCode")}
+                      ></TextField>
+                    </FormControl>
+                    <TextField
+                      sx={{ margin: "0px 7px", width: "230px" }}
+                      label="Units"
+                      type="number"
+                      InputLabelProps={{ shrink: true }}
+                      variant="outlined"
+                      {...textEditorPropsSpecial("units")}
                     />
-                  )}
-                  {...endDatePickerProps}
-                  ampm={true}
-                />
-              </LocalizationProvider>
-            </div>
+                    <TextField
+                      sx={{ margin: "0px 7px", width: "230px" }}
+                      label="Actual Units"
+                      InputLabelProps={{ shrink: true }}
+                      variant="outlined"
+                      type="number"
+                      {...textEditorPropsSpecial("actualUnits")}
+                    />
+                  </div>
 
-            <div className={SchedulerFacultyCSS.buttonWrapper}>
-              {!isNewAppointment && (
-                <Button
-                  sx={{
-                    textTransform: "none",
-                    color: "white",
-                    borderRadius: "0.5rem",
-                    fontFamily: "Poppins",
-                    fontSize: "0.9rem",
-                    padding: "0.7rem",
-                    minWidth: "3rem",
-                    height: "100%",
-                    margin: "15px 5px",
-                    background: "#ca302e",
-                    "&:hover": {
-                      background: "#ab2927",
-                      // Change the hover background color here
-                    },
-                  }}
-                  variant="contained"
-                  onClick={() => {
-                    visibleChange();
-                    this.commitAppointment("deleted");
-                  }}
+                  {/* 3. Add a Select field that says Class type, and a Select field that says Room */}
+                  <div className={classes.wrapper}>
+                    <FormControl
+                      sx={{ margin: "0px 7px" }}
+                      variant="outlined"
+                      className={classes.textField}
+                    >
+                      <InputLabel>Class Type</InputLabel>
+                      <Select
+                        label="Class Type"
+                        {...textEditorPropsSpecial("classType")}
+                      >
+                        <MenuItem value={"F2F"}>F2F</MenuItem>
+                        <MenuItem value={"Synchronous Online"}>Sync Online</MenuItem>
+                        <MenuItem value={"Asynchronous Online"}>
+                          Async Online
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                    <FormControl
+                      sx={{ margin: "0px 7px" }}
+                      variant="outlined"
+                      className={classes.textField}
+                    >
+                      <InputLabel>Room</InputLabel>
+                      <Select label="Room" {...textEditorProps("room")}>
+                        {this.state.roomsNames.map((name, index) => (
+                          <MenuItem key={index} value={name.room_name}>
+                            {name.room_name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    <div
+                      style={{
+                        width: "2rem",
+                        height: "2rem",
+                        margin: "0px 7px 7px 7px",
+                      }}
+                      onClick={this.handleOpenRoom}
+                      className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`}
+                    >
+                      <img
+                        src={addPerson}
+                        style={{
+                          width: "1.8rem",
+                          height: "1.8rem",
+                          marginBottom: "5px",
+                        }}
+                        alt=""
+                      />
+                    </div>
+                  </div>
+
+                  <div className={SchedulerFacultyCSS.wrapper}>
+                    <FormControl
+                      sx={{ minWidth: 80, margin: "7px 7px" }}
+                      variant="outlined"
+                    >
+                      <InputLabel>Day</InputLabel>
+
+                      <Select
+                        label="Day"
+                        value={displayAppointmentData["day"]}
+                        onChange={(event) =>
+                          this.changeAppointment({
+                            field: "day",
+                            changes: dayjs(event.target.value).format("YYYY-MM-DD"),
+                          })
+                        }
+                      >
+                        {days.map((day) => (
+                          <MenuItem key={day.value} value={day.value}>
+                            {day.label}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+
+                    <LocalizationProvider dateAdapter={AdapterMoment}>
+                      <TimePicker
+                        label="Start Time"
+                        format="HH:mm a" // Add this line
+                        renderInput={(props) => (
+                          <TextField
+                            className={classes.picker}
+                            {...props}
+                            sx={{ margin: "7px 7px" }}
+                          />
+                        )}
+                        {...startDatePickerProps}
+                        ampm={true}
+                        defaultValue="any"
+                      />
+                      <TimePicker
+                        label="End Time"
+                        format="HH:mm a" // Add this line
+                        renderInput={(props) => (
+                          <TextField
+                            className={classes.picker}
+                            {...props}
+                            sx={{ margin: "7px 7px" }}
+                          />
+                        )}
+                        {...endDatePickerProps}
+                        ampm={true}
+                      />
+                    </LocalizationProvider>
+                  </div>
+
+                  <div className={SchedulerFacultyCSS.buttonWrapper}>
+                    {!isNewAppointment && (
+                      <Button
+                        sx={{
+                          textTransform: "none",
+                          color: "white",
+                          borderRadius: "0.5rem",
+                          fontFamily: "Poppins",
+                          fontSize: "0.9rem",
+                          padding: "0.7rem",
+                          minWidth: "3rem",
+                          height: "100%",
+                          margin: "15px 5px",
+                          background: "#ca302e",
+                          "&:hover": {
+                            background: "#ab2927",
+                            // Change the hover background color here
+                          },
+                        }}
+                        variant="contained"
+                        onClick={() => {
+                          visibleChange();
+                          this.commitAppointment("deleted");
+                        }}
+                      >
+                        <DeleteIcon />
+                      </Button>
+                    )}
+                    <Button
+                      onClick={() => {
+                        // visibleChange();
+                        applyChanges(false)();
+                        this.props.setIsNewSched(isNewAppointment);
+                      }}
+                      style={{ textTransform: "none" }}
+                      sx={{
+                        color: "white",
+                        borderRadius: "0.5rem",
+                        fontFamily: "Poppins",
+                        fontSize: "0.9rem",
+                        padding: "0.7rem",
+                        width: "100%",
+                        margin: "15px 2px",
+
+                        backgroundColor: "#3a9b51 ",
+                        "&:hover": {
+                          background: "#2b773d",
+                          // Change the hover background color here
+                        },
+                      }}
+                      disabled={this.props.isConflictForm ? !isFormValid() : false}
+                      variant="contained"
+                    >
+                      Verify
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        visibleChange();
+                        applyChanges(true)();
+                        // this.props.setIsNewSched(isNewAppointment)
+                      }}
+                      style={{ textTransform: "none" }}
+                      sx={{
+                        color: "white",
+                        borderRadius: "0.5rem",
+                        fontFamily: "Poppins",
+                        fontSize: "0.9rem",
+                        padding: "0.7rem",
+                        width: "100%",
+                        margin: "15px 7px",
+                        backgroundColor: "#2196F3",
+                      }}
+                      disabled={this.props.isConflictForm}
+                      variant="contained"
+                    >
+                      {isNewAppointment ? "Create" : "Save"}
+                    </Button>
+                  </div>
+                </div>
+              </StyledDiv>
+
+              {/* PROF MODAL */}
+              <Modal
+                className={SchedulerFacultyCSS.profModal}
+                open={this.state.openProf}
+                onClose={this.handleCloseProf}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box
+                  className={SchedulerFacultyCSS.profModalBoxParent}
+                  sx={styleProf}
                 >
-                  <DeleteIcon />
-                </Button>
-              )}
-              <Button
-                onClick={() => {
-                  // visibleChange();
-                  applyChanges(false)();
-                  this.props.setIsNewSched(isNewAppointment);
-                }}
-                style={{ textTransform: "none" }}
-                sx={{
-                  color: "white",
-                  borderRadius: "0.5rem",
-                  fontFamily: "Poppins",
-                  fontSize: "0.9rem",
-                  padding: "0.7rem",
-                  width: "100%",
-                  margin: "15px 2px",
+                  <ProfessorTable onCloseProp={this.handleCloseProf} />
+                </Box>
+              </Modal>
 
-                  backgroundColor: "#3a9b51 ",
-                  "&:hover": {
-                    background: "#2b773d",
-                    // Change the hover background color here
-                  },
-                }}
-                disabled={this.props.isConflictForm ? !isFormValid() : false}
-                variant="contained"
+              {/* ROOM MODAL */}
+              <Modal
+                className={SchedulerFacultyCSS.profRoom}
+                open={this.state.openRoom}
+                onClose={this.handleCloseRoom}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
               >
-                Verify
-              </Button>
-              <Button
-                onClick={() => {
-                  visibleChange();
-                  applyChanges(true)();
-                  // this.props.setIsNewSched(isNewAppointment)
-                }}
-                style={{ textTransform: "none" }}
-                sx={{
-                  color: "white",
-                  borderRadius: "0.5rem",
-                  fontFamily: "Poppins",
-                  fontSize: "0.9rem",
-                  padding: "0.7rem",
-                  width: "100%",
-                  margin: "15px 7px",
-                  backgroundColor: "#2196F3",
-                }}
-                disabled={this.props.isConflictForm}
-                variant="contained"
-              >
-                {isNewAppointment ? "Create" : "Save"}
-              </Button>
+                <Box
+                  className={SchedulerFacultyCSS.roomModalBoxParent}
+                  sx={styleRoom}
+                >
+                  <RoomTable onCloseProp={this.handleCloseRoom} />
+                </Box>
+              </Modal>
             </div>
-          </div>
-        </StyledDiv>
+          ),
+          otherChildren: (
+            <div className={SchedulerFacultyCSS.minorsFormContainer}>
+              <h2>Minor Subjects</h2>
+              <div className={SchedulerFacultyCSS.tableWrapper}>
 
-        {/* PROF MODAL */}
-        <Modal
-          className={SchedulerFacultyCSS.profModal}
-          open={this.state.openProf}
-          onClose={this.handleCloseProf}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box
-            className={SchedulerFacultyCSS.profModalBoxParent}
-            sx={styleProf}
-          >
-            <ProfessorTable onCloseProp={this.handleCloseProf} />
-          </Box>
-        </Modal>
-
-        {/* ROOM MODAL */}
-        <Modal
-          className={SchedulerFacultyCSS.profRoom}
-          open={this.state.openRoom}
-          onClose={this.handleCloseRoom}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box
-            className={SchedulerFacultyCSS.roomModalBoxParent}
-            sx={styleRoom}
-          >
-            <RoomTable onCloseProp={this.handleCloseRoom} />
-          </Box>
-        </Modal>
-      </FormOverlay>
-
+                
+             <TableFormStudents/>
+              </div>
+            
+            </div>
+          ),
+        }}/>  
 
 
       </>
@@ -1265,7 +1285,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       newData: [],
       currentDate: "2023-01-07",
       confirmationVisible: false,
-      editingFormVisible: false,
+      editingFormVisible: true,
       deletedAppointmentId: undefined,
       editingAppointment: undefined,
       previousAppointment: undefined,
