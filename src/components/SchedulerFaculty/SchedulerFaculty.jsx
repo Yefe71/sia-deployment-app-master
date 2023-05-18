@@ -251,65 +251,6 @@ const classes = {
 };
 
 
-//replace with data from database
-const courseNames = {
-  1: {
-    "Introduction to Computer Human Interaction (lec)": "EIT 0121",
-    "Introduction to Computer Human Interaction (lab)": "EIT 0121.1",
-    "Discrete Mathematics": "EIT 0122",
-    "Web Systems Technology (lec)": "EIT 0123",
-    "Web Systems Technology (lab)": "EIT 0123.1",
-    "Intermediate Programming (lec)": "ICC 0103",
-    "Intermediate Programming (lab)": "ICC 0103.1",
-  },
-  2: {
-    "Platform Technology": "EIT 0212",
-    "Information Management (lec)": "ICC 0105",
-    "Information Management (lab)": "ICC 0105.1",
-    "Quantitative Methods": "EIT 0221",
-    "Networking 1 (lec)": "EIT 0222",
-    "Networking 1 (lab)": "EIT 0222.1",
-    "Professional Elective 2": "EIT Elective 2",
-  },
-  3: {
-    "Information Assurance and Security 1 (lec)": "EIT 0321",
-    "Information Assurance and Security 1 (lab)": "EIT 0321.1",
-    "System Integration and Architecture 1 (lec)": "EIT 0322",
-    "System Integration and Architecture 1 (lab)": "EIT 0322.1",
-    "Integrative Programming and Technologies (lec)": "EIT 0323",
-    "Integrative Programming and Technologies (lab)": "EIT 0323.1",
-  },
-  4: {
-    "Practicum (Lecture)": "IIP 0101",
-    "Practicum (Immersion)": "IIP 0102",
-  },
-};
-
-const courseColors = {
-  "EIT 0121": "#2c3e50", //"Introduction to Computer Human Interaction (lec)"
-  "EIT 0121.1": "#1a2734",
-  "EIT 0122": "#3c4f5a",
-  "EIT 0123": "#4e606c",
-  "EIT 0123.1": "#384b54",
-  "ICC 0103": "#243443",
-  "ICC 0103.1": "#1a2530",
-  "EIT 0212": "#10524b",
-  "ICC 0105": "#1c5e37",
-  "ICC 0105.1": "#206547",
-  "EIT 0221": "#21649a",
-  "EIT 0222": "#1a4a70",
-  "EIT 0222.1": "#612d8a",
-  "EIT Elective 2": "#7a339d",
-  "EIT 0321": "#b55d18",
-  "EIT 0321.1": "#9e4900",
-  "EIT 0322": "#b23228",
-  "EIT 0322.1": "#932321",
-  "EIT 0323": "#b5770e",
-  "EIT 0323.1": "#9e650a",
-  "IIP 0101": "#137f6a",
-  "IIP 0102": "#249a51",
-};
-
 // #FOLD_BLOCK
 const StyledDiv = styled("div")(({ theme }) => ({
   [`& .${classes.icon}`]: {
@@ -622,7 +563,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     const { isFirstRender } = this.state;
     const { appointmentChanges } = this.state;
     const { yearField } = this.state;
-    const filteredCourseNames = yearField ? courseNames[yearField] : [];
+    const filteredCourseNames = yearField ? this.props.majorCourses[yearField] : [];
     const displayAppointmentData = {
       ...appointmentData,
       ...appointmentChanges,
@@ -726,7 +667,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       onChange: ({ target: change }) => {
         const name = change.value.split(":")[0];
         const pair = change.value.split(":")[1];
-        this.triggerChildFunction(hexToRGBA(courseColors[pair]));
+        this.triggerChildFunction(hexToRGBA(this.props.coursesColors[pair]));
         // this.handleColorChange(hexToRGBA(courseColors[pair]))
         this.handleNameToCodeChange(pair);
         this.changeAppointmentYearCode({
@@ -805,9 +746,9 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       visibleChange();
       cancelAppointment();
     };
-    const courseNameOptions = Object.keys(courseNames).map((category) => (
+    const courseNameOptions = Object.keys(this.props.majorCourses).map((category) => (
       <optgroup key={`category-${category}`} label={`Category ${category}`}>
-        {Object.entries(courseNames[category]).map(([name, code]) => (
+        {Object.entries(this.props.majorCourses[category]).map(([name, code]) => (
           <option key={code} value={name}>
             {name}
           </option>
@@ -1277,7 +1218,8 @@ export default class SchedulerFaculty extends React.PureComponent {
       conflictDesc: "",
       isConflictForm: true,
       triggerToast: false,
-      majorCourses: {}
+      majorCourses: {},
+      coursesColors: {}
     };
 
     this.toggleConfirmationVisible = this.toggleConfirmationVisible.bind(this);
@@ -1332,7 +1274,9 @@ export default class SchedulerFaculty extends React.PureComponent {
         handleChangeFields: this.handleChangeFields,
         triggerToast: this.state.triggerToast,
         conflictDesc: this.state.conflictDesc,
-        isNewAppointment: this.state.isNewAppointment
+        isNewAppointment: this.state.isNewAppointment,
+        majorCourses: this.state.majorCourses,
+        coursesColors: this.state.coursesColors
       };
     });
   }
@@ -1543,6 +1487,23 @@ export default class SchedulerFaculty extends React.PureComponent {
         return acc;
       }, {});
       this.setState({ majorCourses: courseNames }, () =>   console.log(this.state.majorCourses, "AKO UNG MAJORS"));
+    
+    
+    } catch (error) {
+      console.error("Error fetching major names:", error);
+    }
+
+
+    try {
+      console.log("i ran course color data");
+      const response = await fetch("http://localhost:3000/grabCoursesColors");
+      const data = await response.json();
+      const coursesColors = data.reduce((acc, course) => {
+        acc[course.course_code] = course.color;
+        return acc;
+      }, {});
+     
+      this.setState({ coursesColors: coursesColors }, () =>   console.log(this.state.coursesColors, "AKO UNG COLORS"));
     
     
     } catch (error) {
