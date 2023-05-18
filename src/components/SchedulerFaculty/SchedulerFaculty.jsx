@@ -250,6 +250,8 @@ const classes = {
   addButton: `${PREFIX}-addButton`,
 };
 
+
+//replace with data from database
 const courseNames = {
   1: {
     "Introduction to Computer Human Interaction (lec)": "EIT 0121",
@@ -1275,6 +1277,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       conflictDesc: "",
       isConflictForm: true,
       triggerToast: false,
+      majorCourses: {}
     };
 
     this.toggleConfirmationVisible = this.toggleConfirmationVisible.bind(this);
@@ -1526,6 +1529,26 @@ export default class SchedulerFaculty extends React.PureComponent {
   async componentDidMount() {
     this.updateCurrentUnits();
     this.fetchAllProfData();
+
+
+    try {
+      console.log("i ran major courses data");
+      const response = await fetch("http://localhost:3000/grabMajorCourses");
+      const data = await response.json();
+      const courseNames = data.reduce((acc, course) => {
+        if (!acc[course.year]) {
+          acc[course.year] = {};
+        }
+        acc[course.year][course.name] = course.code;
+        return acc;
+      }, {});
+      this.setState({ majorCourses: courseNames }, () =>   console.log(this.state.majorCourses, "AKO UNG MAJORS"));
+    
+    
+    } catch (error) {
+      console.error("Error fetching major names:", error);
+    }
+    
     try {
       console.log("i ran prof data");
       const response = await fetch("http://localhost:3000/grabProfessors");

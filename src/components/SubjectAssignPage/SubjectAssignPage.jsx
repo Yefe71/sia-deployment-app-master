@@ -303,7 +303,7 @@ const handleYearBlockAdd = (year, block) => {
         <div className={SubjectAssignCSS.topTable}>
 
           
-          <h2>{`Subject Assignment`}</h2>
+          <h2>{`Faculty Assignment`}</h2>
           <div className={SubjectAssignCSS.topButtons}>
             <FormControl
               onFocus={handleFocus}
