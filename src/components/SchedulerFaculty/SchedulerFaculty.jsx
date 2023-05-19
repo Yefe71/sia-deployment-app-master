@@ -888,6 +888,19 @@ getDayOfWeek = date => {
       value: displayAppointmentData[field] || "",
       className: classes.textField,
     });
+    const TABLEtextEditorPropsBlockSpecial = (field) => ({
+      variant: "outlined",
+      onChange: ({ target: change }) => {
+        this.changeAppointment({
+          field: [field],
+          changes: change.value,
+        });
+        this.setState({ blockPropChild: change.value });
+      },
+      value: "Block" + " " + displayAppointmentData[field] || "",
+      className: classes.textField,
+    });
+
     const TABLEeditorPropsBlockSpecial = (field) => ({
       variant: "outlined",
       onChange: ({ target: change }) => {
@@ -1253,6 +1266,26 @@ getDayOfWeek = date => {
                       </FormControl>
 
 
+                      : this.props.isStudent === true && !isNewAppointment ?
+
+                      <FormControl
+                      variant="outlined"
+                      className={classes.textField}
+                      sx={{ margin: "7px 7px" }}
+                    >
+                      <InputLabel id="course-category-label">Year</InputLabel>
+                      <Select
+                        label="course-category-label"
+                        {...textEditorPropsYearSpecial("year")}
+                      >
+                        <MenuItem value={1}>1st Year</MenuItem>
+                        <MenuItem value={2}>2nd Year</MenuItem>
+                        <MenuItem value={3}>3rd Year</MenuItem>
+                        <MenuItem value={4}>4th Year</MenuItem>
+                      </Select>
+                    </FormControl>
+
+
                       :
                       <FormControl
                       variant="outlined"
@@ -1278,26 +1311,76 @@ getDayOfWeek = date => {
                       ref={this.childRef}
                     />
 
-                    <FormControl
-                      variant="outlined"
-                      sx={{ margin: "7px 7px" }}
-                      className={classes.textField}
+              
+            
+                  {this.props.isStudent === false ? 
+
+                   <FormControl
+                    variant="outlined"
+                    sx={{ margin: "7px 7px" }}
+                    className={classes.textField}
+                  >
+                    <InputLabel>Block</InputLabel>
+                    <Select 
+                    label="Block" 
+                    {...textEditorPropsBlockSpecial("block")}
                     >
-                      <InputLabel>Block</InputLabel>
-                      <Select label="Block" {...textEditorPropsBlockSpecial("block")}>
-                        {currentBlocks.map((block) => (
-                          <MenuItem key={block} value={block}>
-                            Block {block}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
+                      {currentBlocks.map((block) => (
+                        <MenuItem key={block} value={block}>
+                          Block {block}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+
+
+
+                  : this.props.isStudent === true && isNewAppointment ?
+                  
+                  <FormControl
+                  variant="outlined"
+                  sx={{ margin: "7px 7px" }}
+                  className={classes.textField}
+                >
+                  <InputLabel>Block</InputLabel>
+                  <Select 
+                  label="Block" 
+                  {...textEditorPropsBlockSpecial("block")}
+                  >
+                    {currentBlocks.map((block) => (
+                      <MenuItem key={block} value={block}>
+                        Block {block}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                :
+                  <FormControl
+                   sx={{ margin: "7px 7px" }}
+                  variant="outlined"
+                  className={classes.textField}
+                >
+                  <TextField
+                    InputProps={{
+                      readOnly: true,
+                    }}
+             
+                    label="Block"
+                    {...TABLEtextEditorPropsBlockSpecial("block")}
+                  />
+                </FormControl>
+                  
+                  
+                  }
+ 
+
                   </div>
 
                   {/* COURSE NAME FIELD */}
                   <div className={classes.wrapper}>
 
-                  {!this.props.isStudent ?
+                  {this.props.isStudent === false?
                   
                   
                   <FormControl
