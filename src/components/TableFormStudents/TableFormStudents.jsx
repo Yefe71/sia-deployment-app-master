@@ -84,7 +84,7 @@ const TableFormStudents = forwardRef(
         .then((response) => response.json())
         .then((data) => {
           setData(data);
-
+          console.log(data)
         })
         .catch((error) => console.log(error));
     };
@@ -108,7 +108,8 @@ const TableFormStudents = forwardRef(
 
     const getDayLabel = (dateString) => {
       const date = new Date(dateString);
-      const dayOfWeek = date.getDay();
+      date.setUTCDate(date.getUTCDate() + 1);
+      const datePart = date.toISOString().split('T')[0];
 
       const dayLabels = [
         { value: "2023-01-02", label: "Mon" },
@@ -120,8 +121,14 @@ const TableFormStudents = forwardRef(
         { value: "2023-01-08", label: "Sun" }
       ];
 
-      return dayLabels[dayOfWeek].label;
+      const dayLabel = dayLabels.find(day => day.value === datePart);
+
+      return dayLabel ? dayLabel.label : 'Date not found';
     };
+
+
+
+
 
     function formatTime(dateString) {
       const date = new Date(dateString);

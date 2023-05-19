@@ -539,6 +539,19 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     return rgba;
   }
 
+convertDate = (inputDate) => {
+    return new Date(inputDate).toString();
+  }
+  
+// Utility function to convert date string
+convertToDateString = (inputDate) => {
+  const date = new Date(inputDate);
+  return date.toISOString().split('T')[0];
+}
+convertToDayjs = (dateString) => {
+  return dayjs(dateString);
+};
+
  componentDidUpdate = async(prevProps, prevState) => {
 
 
@@ -557,6 +570,9 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         room: this.state.selectedRow.room,
         courseName: this.state.selectedRow.course_name,
         courseCode: this.state.selectedRow.course_code,
+        day: this.state.selectedRow.day,
+        endDate: this.state.selectedRow.end_date,
+        startDate: this.state.selectedRow.start_date,
       };
       
       this.setState({
@@ -583,6 +599,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       this.setState({ oldYear: this.props.appointmentData.year });
       this.setState({ oldBlock: this.props.appointmentData.block });
       this.setState({appointmentChanges: {}})
+
+      console.log("DEFAULT DATA!")
+      console.log(this.props.appointmentData.day)
+      console.log(this.props.appointmentData.startDate)
+      console.log(this.props.appointmentData.endDate)
 
       
     }
@@ -669,7 +690,14 @@ class AppointmentFormContainerBasic extends React.PureComponent {
   handleRowClick = (row) => {
       this.setState({selectedRow: row}, () => console.log(this.state.selectedRow.professor_name, "IM CLICKED ROW"))
   }
-  
+  // getDayLabel(value) {
+  //   const dateObject = new Date(value);
+  //   dateObject.setUTCDate(dateObject.getUTCDate() + 1); // Subtract one day
+  //   const date = dateObject.toISOString().split('T')[0];
+  //   const day = days.find(day => day.value === date);
+  //   return day ? day.label : date;
+  // }
+
   render() {
     const {
       visible,
@@ -959,7 +987,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
     const TABLEpickerEditorProps = (field) => ({
       // keyboard: true,
-      value: "",
+      value: displayAppointmentData[field],
       onChange: (date) =>
         this.changeAppointment({
           field: [field],
@@ -976,13 +1004,14 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     const pickerEditorProps = (field) => ({
       // keyboard: true,
       value: displayAppointmentData[field],
-      onChange: (date) =>
+      onChange: (date) => {
+        console.log("AKO UNG DATE", displayAppointmentData[field])
         this.changeAppointment({
           field: [field],
           changes: date
             ? date.toDate()
             : new Date(displayAppointmentData[field]),
-        }),
+        })},
       // Set minTime and maxTime depending on the field
       minTime: dayjs().hour(6).minute(0),
       maxTime: dayjs().hour(21).minute(0),
@@ -1547,20 +1576,20 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                     variant="outlined"
                     className={classes.textField}
                   >
+
+
+                    
                     <TextField
                       InputProps={{
                         readOnly: true,
                       }}
                       id="outlined-helperText"
                       label="Day"
-                      value={""}
-                      onChange={(event) =>
-                        this.changeAppointment({
-                          field: "day",
-                          changes: dayjs(event.target.value).format("YYYY-MM-DD"),
-                        })
-                      }
+                      value={displayAppointmentData['day']}
                     />
+
+
+                    
                   </FormControl>
                     
                     }
@@ -1603,25 +1632,37 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                       </>
                       :
                       <>
-                      <TextField
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                      sx={{ margin: "7px 7px" }}
-                      id="outlined-helperText"
-                      label="Start Time"
-                    {...TABLEstartDatePickerProps}
-                    />
 
-                    <TextField
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    sx={{ margin: "7px 7px" }}
-                    id="outlined-helperText"
-                    label="End Time"
-                  {...TABLEstartDatePickerProps}
-                  />
+
+
+            <TimePicker
+                            label="Start Time"
+                            format="HH:mm a" // Add this line
+                            renderInput={(props) => (
+                              <TextField
+                                className={classes.picker}
+                                {...props}
+                                sx={{ margin: "7px 7px" }}
+                              />
+                            )}
+                            {...TABLEstartDatePickerProps}
+                            ampm={true}
+                            defaultValue="any"
+                          />
+                      
+                          <TimePicker
+                            label="End Time"
+                            format="HH:mm a" // Add this line
+                            renderInput={(props) => (
+                              <TextField
+                                className={classes.picker}
+                                {...props}
+                                sx={{ margin: "7px 7px" }}
+                              />
+                            )}
+                            {...TABLEendDatePickerProps}
+                            ampm={true}
+                          />
                         </>
                       }
 
