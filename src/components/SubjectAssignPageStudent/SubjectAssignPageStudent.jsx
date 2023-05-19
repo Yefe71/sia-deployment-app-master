@@ -182,7 +182,7 @@ const SubjectAssignPageStudent = () => {
 
   const [yearProp, setYearProp] = useState(null)
   const [blockProp, setBlockProp] = useState(null)
-
+  const [yearTable, setYearTable] = useState(null)
   
   const handleDataFromChild = (yearData, blockData) => {
 

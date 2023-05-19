@@ -66,7 +66,7 @@ const StickyPagination = styled('div')({
 const TableFormStudents = forwardRef(
   (
     {
-      yearButton,
+      yearTableProp,
     },
     ref
   ) => {
@@ -78,7 +78,7 @@ const TableFormStudents = forwardRef(
 
     const fetchDataButtonsYear = () => {
       fetch(
-        `http://localhost:3000/grabMinorsData?yearButton=''`
+        `http://localhost:3000/grabMinorsData?yearButton=${yearTableProp}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -103,7 +103,7 @@ const TableFormStudents = forwardRef(
       fetchDataButtonsYear();
       setPage(0);
       console.log("i ran year data");
-    }, [yearButton]);
+    }, [yearTableProp]);
 
     const getDayLabel = (dateString) => {
       const date = new Date(dateString);

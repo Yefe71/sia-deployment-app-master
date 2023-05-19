@@ -60,6 +60,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import TableManageBlock from "../TableManageBlock/TableManageBlock";
 import TableFormStudents from "../TableFormStudents/TableFormStudents";
+
 const tooltipStyle = {
   width: "300px !important",
 };
@@ -145,18 +146,6 @@ const FormOverlay = React.forwardRef(({ visible, contents}, ref) => {
         justifyContent: 'center',
       }}
     >
-      <Paper
-        sx={{
-          width: "27rem",
-          padding: 1,
-          paddingBottom: "0px",
-          borderRadius: "15px",
-          height: "36rem"
-          // transform: "translate(-50%, -50%)",
-        }}
-      >
-        {contents.children}
-      </Paper>
       
       <Paper
           sx={{
@@ -170,6 +159,19 @@ const FormOverlay = React.forwardRef(({ visible, contents}, ref) => {
         >
           {contents.otherChildren}
         </Paper>
+      <Paper
+        sx={{
+          width: "27rem",
+          padding: 1,
+          paddingBottom: "0px",
+          borderRadius: "15px",
+          height: "36rem"
+          // transform: "translate(-50%, -50%)",
+        }}
+      >
+        {contents.children}
+      </Paper>
+
       </Box>
     </Modal>
   );
@@ -347,7 +349,9 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       blockPropChild: null,
       oldYear: null,
       oldBlock: null,
-      isSelect: true
+      isSelect: true,
+      yearTable: ''
+
     };
 
     this.getAppointmentData = () => {
@@ -868,6 +872,9 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 :
           
                 <TextField
+                InputProps={{
+                  readOnly: true,
+                }}
                 id="outlined-helperText"
                 label="Professor Name"
                 {...textEditorProps("professorName")}
@@ -1258,11 +1265,44 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           ),
           otherChildren: (
             <div className={SchedulerFacultyCSS.minorsFormContainer}>
+              <div className={SchedulerFacultyCSS.topSection}>
+                
               <h2>Minor Subjects</h2>
+              <FormControl
+                sx={{
+                  mr: 0.6,
+                  minWidth: 115,
+                }}
+              >
+                <Select
+                  value={this.state.yearTable}
+                  onChange={(event) => {
+                    this.setState({yearTable: event.target.value})
+                  }}
+                  displayEmpty
+                  inputProps={{ "aria-label": "Without label" }}
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "0.5rem",
+                    fontFamily: "Poppins",
+                    fontSize: "0.9rem",
+                    padding: "0rem",
+                    fontWeight: "600",
+                  }}
+                >
+                  <MenuItem value="">Year</MenuItem>
+                  <MenuItem value={1}>1st Year</MenuItem>
+                  <MenuItem value={2}>2nd Year</MenuItem>
+                  <MenuItem value={3}>3rd Year</MenuItem>
+                  <MenuItem value={4}>4th Year</MenuItem>
+                  <MenuItem value={5}>5th Year</MenuItem>
+                </Select>
+              </FormControl>
+              </div>
               <div className={SchedulerFacultyCSS.tableWrapper}>
 
                 
-             <TableFormStudents/>
+             <TableFormStudents yearTableProp = {this.state.yearTable}/>
               </div>
             
             </div>

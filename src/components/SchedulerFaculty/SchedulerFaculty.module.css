@@ -64,6 +64,11 @@
 
 }
 
+.topSection{
+  display: flex;
+  justify-content: space-between;
+}
+
 .tableWrapper{
   overflow: scroll;
   outline: 1px solid rgb(228, 228, 228);
