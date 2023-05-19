@@ -384,7 +384,9 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       isSelect: true,
       yearTable: '',
       selectedRow: null,
-      yearFieldTable: null
+      yearFieldTable: null,
+      isFormValid: false
+
 
     };
 
@@ -626,6 +628,12 @@ convertToDayjs = (dateString) => {
     if (prevState.appointmentChanges !== this.state.appointmentChanges) {
       console.log("LATEST APPT CHANGES",  this.state.appointmentChanges)
       this.props.handleChangeFields();
+      const isFormValidNow = this.isFormValid();
+    
+      // If form validity has changed, update it in the state
+      if (isFormValidNow !== this.state.isFormValid) {
+        this.setState({ isFormValid: isFormValidNow });
+      }
     }
 
     if (!this.state.yearField) {
@@ -702,7 +710,26 @@ getDayOfWeek = date => {
     return dayjs(date).format('ddd');
   }
 
+  isFormValid = () => {
+    const requiredFields = [
+      "professorName",
+      "year",
+      "block",
+      "courseName",
+      "courseCode",
+      "units",
+      "actualUnits",
+      "classType",
+      "room",
+      "day",
+    ];
+    const displayAppointmentData = {
+      ...this.props.appointmentData,
+      ...this.state.appointmentChanges,
+    };
 
+    return requiredFields.every((field) => displayAppointmentData[field]);
+  };
   render() {
     const {
       visible,
@@ -1724,7 +1751,7 @@ getDayOfWeek = date => {
                           // Change the hover background color here
                         },
                       }}
-                      disabled={this.props.isConflictForm ? !isFormValid() : false}
+                      disabled={this.props.isConflictForm ? !this.state.isFormValid : false}
                       variant="contained"
                     >
                       Verify
