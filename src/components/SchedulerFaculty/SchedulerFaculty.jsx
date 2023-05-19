@@ -1691,6 +1691,35 @@ getDayOfWeek = date => {
                       </Select>
                       
                     </FormControl>
+                    
+                    
+                    : this.props.isStudent === true && !isNewAppointment ? 
+                    
+                    <FormControl
+                    sx={{ minWidth: 80, margin: "7px 7px" }}
+                    variant="outlined"
+                  >
+                    <InputLabel>Day</InputLabel>
+
+                    <Select
+                      label="Day"
+                      value={displayAppointmentData["day"] ? displayAppointmentData["day"] : ""}
+                      onChange={(event) =>
+                        this.changeAppointment({
+                          field: "day",
+                          changes: dayjs(event.target.value).format("YYYY-MM-DD"),
+                        })
+                      }
+                    >
+                      {days.map((day) => (
+                        <MenuItem key={day.value} value={day.value}>
+                          {day.label} 
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    
+                  </FormControl>
+                    
                     :
                     
                     <FormControl
@@ -1756,7 +1785,8 @@ getDayOfWeek = date => {
 
 
 
-            <TimePicker
+                           <TimePicker
+                            readOnly
                             label="Start Time"
                             format="HH:mm a" // Add this line
                             renderInput={(props) => (
@@ -1772,6 +1802,7 @@ getDayOfWeek = date => {
                           />
                       
                           <TimePicker
+                            readOnly
                             label="End Time"
                             format="HH:mm a" // Add this line
                             renderInput={(props) => (
