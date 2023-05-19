@@ -460,7 +460,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
   changeAppointment({ field, changes }) {
     const nextChanges = {
       ...this.getAppointmentChanges(),
-      [field]: changes, //this doesn't work
+      [field]: changes, 
     };
 
     this.setState({
@@ -570,7 +570,7 @@ convertToDayjs = (dateString) => {
         room: this.state.selectedRow.room,
         courseName: this.state.selectedRow.course_name,
         courseCode: this.state.selectedRow.course_code,
-        day: this.state.selectedRow.day,
+        day: dayjs(this.state.selectedRow.day).format("YYYY-MM-DD"),
         endDate: this.state.selectedRow.end_date,
         startDate: this.state.selectedRow.start_date,
       };
@@ -697,6 +697,11 @@ convertToDayjs = (dateString) => {
   //   const day = days.find(day => day.value === date);
   //   return day ? day.label : date;
   // }
+
+getDayOfWeek = date => {
+    return dayjs(date).format('ddd');
+  }
+
 
   render() {
     const {
@@ -1585,7 +1590,7 @@ convertToDayjs = (dateString) => {
                       }}
                       id="outlined-helperText"
                       label="Day"
-                      value={displayAppointmentData['day']}
+                      value={this.getDayOfWeek(displayAppointmentData['day'])}
                     />
 
 
