@@ -582,6 +582,10 @@ convertToDayjs = (dateString) => {
       this.setState({
         appointmentChanges: nextChanges,
       }, () => console.log(this.state.appointmentChanges, "CHECK CONTENT"));
+
+      this.setState({ yearPropChild: this.state.selectedRow.year});
+      
+
     }
     
     if (this.state.isFirstRender) {
