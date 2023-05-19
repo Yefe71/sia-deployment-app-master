@@ -575,11 +575,13 @@ convertToDayjs = (dateString) => {
         day: dayjs(this.state.selectedRow.day).format("YYYY-MM-DD"),
         endDate: this.state.selectedRow.end_date,
         startDate: this.state.selectedRow.start_date,
+        units: this.state.selectedRow.unit,
+        actualUnits: this.state.selectedRow.actual_unit,
       };
       
       this.setState({
         appointmentChanges: nextChanges,
-      });
+      }, () => console.log(this.state.appointmentChanges, "CHECK CONTENT"));
     }
     
     if (this.state.isFirstRender) {
@@ -1586,7 +1588,7 @@ getDayOfWeek = date => {
 
                       <Select
                         label="Day"
-                        value={displayAppointmentData["day"]}
+                        value={displayAppointmentData["day"] ? displayAppointmentData["day"] : ""}
                         onChange={(event) =>
                           this.changeAppointment({
                             field: "day",
@@ -1596,10 +1598,11 @@ getDayOfWeek = date => {
                       >
                         {days.map((day) => (
                           <MenuItem key={day.value} value={day.value}>
-                            {day.label}
+                            {day.label} 
                           </MenuItem>
                         ))}
                       </Select>
+                      
                     </FormControl>
                     :
                     
@@ -1617,9 +1620,8 @@ getDayOfWeek = date => {
                       }}
                       id="outlined-helperText"
                       label="Day"
-                      value={this.getDayOfWeek(displayAppointmentData['day'])}
+                      value={displayAppointmentData['day'] ? this.getDayOfWeek(displayAppointmentData['day']) : ""}
                     />
-
 
                     
                   </FormControl>
@@ -1754,7 +1756,7 @@ getDayOfWeek = date => {
                       disabled={this.props.isConflictForm ? !this.state.isFormValid : false}
                       variant="contained"
                     >
-                      Verify
+                      Verify 
                     </Button>
                     <Button
                       onClick={() => {
