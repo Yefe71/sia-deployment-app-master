@@ -382,7 +382,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       oldYear: null,
       oldBlock: null,
       isSelect: true,
-      yearTable: ''
+      yearTable: '',
+      selectedRow: null
 
     };
 
@@ -619,6 +620,10 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     }
   }
 
+  handleRowClick = (row) => {
+      this.setState({selectedRow: row}, () => console.log(this.state.selectedRow.professor_name, "IM CLICKED ROW"))
+  }
+  
   render() {
     const {
       visible,
@@ -691,7 +696,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           field: [field],
           changes: change.value,
         }),
-      value: displayAppointmentData[field] || "",
+      value: this.state.selectedRow ? this.state.selectedRow.professor_name : "",
       label: "Professor Name",
       className: classes.textField,
     });
@@ -704,8 +709,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           field: [field],
           changes: change.value,
         }),
-      value: displayAppointmentData[field] || "",
-      label: this.props.isStudent === false ? field[0].toUpperCase() + field.slice(1) : "Professor Name",
+        value: this.state.selectedRow ? this.state.selectedRow.room : "",
       className: classes.textField,
     });
     const textEditorPropsSpecial = (field) => ({
@@ -727,9 +731,38 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           changes: change.value,
         });
       },
-      value: displayAppointmentData[field] || "",
+      value: this.state.selectedRow ? this.state.selectedRow.class_type : "",
       className: classes.textField,
     });
+    const TABLEtextEditorPropsSpecialUnits = (field) => ({
+      variant: "outlined",
+      onChange: ({ target: change }) => {
+        this.changeAppointment({
+          field: [field],
+          changes: change.value,
+        });
+      },
+      value: this.state.selectedRow ? this.state.selectedRow.unit : "",
+      className: classes.textField,
+    });
+    const TABLEtextEditorPropsSpecialActUnits = (field) => ({
+      variant: "outlined",
+      onChange: ({ target: change }) => {
+        this.changeAppointment({
+          field: [field],
+          changes: change.value,
+        });
+      },
+      value: this.state.selectedRow ? this.state.selectedRow.actual_unit : "",
+      className: classes.textField,
+    });
+
+
+
+
+
+
+    
     const textEditorPropsBlockSpecial = (field) => ({
       variant: "outlined",
       onChange: ({ target: change }) => {
@@ -853,7 +886,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
         this.setState({ yearPropChild: change.value });
       },
-      value: displayAppointmentData[field] || "",
+      value: this.state.selectedRow ? this.state.selectedRow.year : "",
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
@@ -877,7 +910,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           changes: change.value,
         });
       },
-      value: displayAppointmentData[field] || "",
+      value: this.state.selectedRow ? this.state.selectedRow.course_code : "",
       className: classes.textField,
     });
 
@@ -1287,7 +1320,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                         label="Units"
                         InputLabelProps={{ shrink: true }}
                         variant="outlined"
-                        {...TABLEtextEditorPropsSpecial("units")}
+                        {...TABLEtextEditorPropsSpecialUnits("units")}
                       />
                       <TextField
                         InputProps={{
@@ -1298,7 +1331,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                         label="Actual Units"
                         InputLabelProps={{ shrink: true }}
                         variant="outlined"
-                        {...TABLEtextEditorPropsSpecial("actualUnits")}
+                        {...TABLEtextEditorPropsSpecialActUnits("actualUnits")}
                       />
                     </>
                     
@@ -1378,7 +1411,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                           }}
                           id="outlined-helperText"
                           label="Room"
-                          {...TABLEtextEditorPropsCourseName("room")}
+                          {...TABLEtextEditorPropsRoom("room")}
                         />
                       </FormControl>
                     
@@ -1682,7 +1715,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               <div className={SchedulerFacultyCSS.tableWrapper}>
 
                 
-             <TableFormStudents yearTableProp = {this.state.yearTable}/>
+             <TableFormStudents handleRowClick = {this.handleRowClick} yearTableProp = {this.state.yearTable}/>
               </div>
             
             </div>

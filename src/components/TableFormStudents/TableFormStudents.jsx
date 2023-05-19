@@ -67,6 +67,7 @@ const TableFormStudents = forwardRef(
   (
     {
       yearTableProp,
+      handleRowClick
     },
     ref
   ) => {
@@ -168,6 +169,9 @@ const TableFormStudents = forwardRef(
                 .map((row, index) => (
                   <StyledTableRow
                     key={row.id}
+                    onClick={() => handleRowClick(row)}
+                    hover
+                    style={{ cursor: 'pointer' }}
                   >
                     <TableCell>{page * rowsPerPage + index + 1}</TableCell>
                     <TableCell>{row.professor_name}</TableCell>
