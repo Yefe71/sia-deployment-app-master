@@ -154,8 +154,7 @@ const TableFormStudents = forwardRef(
                 <StyledTableCell>Year</StyledTableCell>
                 <StyledTableCell>Course Name</StyledTableCell>
                 <StyledTableCell>Course Code</StyledTableCell>
-                <StyledTableCell>Units</StyledTableCell>
-                <StyledTableCell>Actual Units</StyledTableCell>
+
                 <StyledTableCell>Room</StyledTableCell>
                 <StyledTableCell>Day</StyledTableCell>
                 <StyledTableCell>Start Time</StyledTableCell>
@@ -175,8 +174,6 @@ const TableFormStudents = forwardRef(
                     <TableCell>{row.year}</TableCell>
                     <TableCell>{row.course_name}</TableCell>
                     <TableCell>{row.course_code}</TableCell>
-                    <TableCell>{row.unit}</TableCell>
-                    <TableCell>{row.actual_unit}</TableCell>
                     <TableCell>{row.room}</TableCell>
                     <TableCell>{getDayLabel(row.day)}</TableCell>
                     <TableCell>{formatTime(row.start_date)}</TableCell>

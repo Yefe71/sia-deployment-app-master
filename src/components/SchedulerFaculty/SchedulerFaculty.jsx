@@ -131,7 +131,7 @@ const styleRoom = {
   background: "#f6f6f6",
 };
 
-const FormOverlay = React.forwardRef(({ visible, contents}, ref) => {
+const FormOverlay = React.forwardRef(({ visible, contents, isStudent}, ref) => {
   return (
    
     <Modal open={visible} ref={ref} sx={{ zIndex: 2 }}> 
@@ -147,9 +147,12 @@ const FormOverlay = React.forwardRef(({ visible, contents}, ref) => {
       }}
     >
       
-      <Paper
+      {
+        isStudent === false ? 
+        
+        <Paper
           sx={{
-            width: "75rem",
+            width: "27rem",
             padding: 1,
             paddingBottom: "0px",
             borderRadius: "15px",
@@ -157,20 +160,49 @@ const FormOverlay = React.forwardRef(({ visible, contents}, ref) => {
             // transform: "translate(-50%, -50%)",
           }}
         >
-          {contents.otherChildren}
+          {contents.children}
         </Paper>
-      <Paper
-        sx={{
-          width: "27rem",
-          padding: 1,
-          paddingBottom: "0px",
-          borderRadius: "15px",
-          height: "36rem"
-          // transform: "translate(-50%, -50%)",
-        }}
-      >
-        {contents.children}
-      </Paper>
+        
+        
+        :
+
+<>
+
+        
+<Paper
+    sx={{
+      width: "75rem",
+      padding: 1,
+      paddingBottom: "0px",
+      borderRadius: "15px",
+      height: "36rem"
+      // transform: "translate(-50%, -50%)",
+    }}
+  >
+    {contents.otherChildren}
+  </Paper>
+
+  
+  <Paper
+    sx={{
+      width: "27rem",
+      padding: 1,
+      paddingBottom: "0px",
+      borderRadius: "15px",
+      height: "36rem"
+      // transform: "translate(-50%, -50%)",
+    }}
+  >
+    {contents.children}
+  </Paper>
+
+        
+
+</>
+      
+      }
+
+  
 
       </Box>
     </Modal>
@@ -649,6 +681,30 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           changes: change.value,
         }),
       value: displayAppointmentData[field] || "",
+      label: field[0].toUpperCase() + field.slice(1),
+      className: classes.textField,
+    });
+    const TABLEtextEditorPropsProf = (field) => ({
+      variant: "outlined",
+      onChange: ({ target: change }) =>
+        this.changeAppointment({
+          field: [field],
+          changes: change.value,
+        }),
+      value: displayAppointmentData[field] || "",
+      label: "Professor Name",
+      className: classes.textField,
+    });
+
+
+    const TABLEtextEditorPropsRoom = (field) => ({
+      variant: "outlined",
+      onChange: ({ target: change }) =>
+        this.changeAppointment({
+          field: [field],
+          changes: change.value,
+        }),
+      value: displayAppointmentData[field] || "",
       label: this.props.isStudent === false ? field[0].toUpperCase() + field.slice(1) : "Professor Name",
       className: classes.textField,
     });
@@ -663,7 +719,30 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       value: displayAppointmentData[field] || "",
       className: classes.textField,
     });
+    const TABLEtextEditorPropsSpecial = (field) => ({
+      variant: "outlined",
+      onChange: ({ target: change }) => {
+        this.changeAppointment({
+          field: [field],
+          changes: change.value,
+        });
+      },
+      value: displayAppointmentData[field] || "",
+      className: classes.textField,
+    });
     const textEditorPropsBlockSpecial = (field) => ({
+      variant: "outlined",
+      onChange: ({ target: change }) => {
+        this.changeAppointment({
+          field: [field],
+          changes: change.value,
+        });
+        this.setState({ blockPropChild: change.value });
+      },
+      value: displayAppointmentData[field] || "",
+      className: classes.textField,
+    });
+    const TABLEeditorPropsBlockSpecial = (field) => ({
       variant: "outlined",
       onChange: ({ target: change }) => {
         this.changeAppointment({
@@ -716,6 +795,25 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
+    const TABLEtextEditorPropsCourseName = (field) => ({
+      variant: "outlined",
+
+      onChange: ({ target: change }) => {
+        const name = change.value.split(":")[0];
+        const pair = change.value.split(":")[1];
+        this.triggerChildFunction(hexToRGBA(this.props.coursesColors[pair]));
+        // this.handleColorChange(hexToRGBA(courseColors[pair]))
+        this.handleNameToCodeChange(pair);
+        this.changeAppointmentYearCode({
+          name: name,
+          pair: pair,
+        });
+      },
+
+      value: ``,
+      // label: field[0].toUpperCase() + field.slice(1),
+      className: classes.textField,
+    });
     const textEditorPropsYear = (field) => ({
       variant: "outlined",
       onChange: ({ target: change }) => {
@@ -744,6 +842,21 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
+    const TABLEtextEditorPropsYearSpecial = (field) => ({
+      variant: "outlined",
+      onChange: ({ target: change }) => {
+        this.handleCategoryChange(change.value);
+        this.changeAppointment({
+          field: [field],
+          changes: change.value,
+        });
+
+        this.setState({ yearPropChild: change.value });
+      },
+      value: displayAppointmentData[field] || "",
+      label: field[0].toUpperCase() + field.slice(1),
+      className: classes.textField,
+    });
 
     const textEditorPropsReadOnly = (field) => ({
       variant: "outlined",
@@ -756,7 +869,34 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       value: displayAppointmentData[field] || "",
       className: classes.textField,
     });
+    const TABLEtextEditorPropsReadOnly = (field) => ({
+      variant: "outlined",
+      onChange: ({ target: change }) => {
+        this.changeAppointment({
+          field: [field],
+          changes: change.value,
+        });
+      },
+      value: displayAppointmentData[field] || "",
+      className: classes.textField,
+    });
 
+    const TABLEpickerEditorProps = (field) => ({
+      // keyboard: true,
+      value: "",
+      onChange: (date) =>
+        this.changeAppointment({
+          field: [field],
+          changes: date
+            ? date.toDate()
+            : new Date(displayAppointmentData[field]),
+        }),
+      // Set minTime and maxTime depending on the field
+      minTime: dayjs().hour(6).minute(0),
+      maxTime: dayjs().hour(21).minute(0),
+      // Update this line to display only the time
+      onError: () => null,
+    });
     const pickerEditorProps = (field) => ({
       // keyboard: true,
       value: displayAppointmentData[field],
@@ -775,6 +915,10 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     });
     const startDatePickerProps = pickerEditorProps("startDate");
     const endDatePickerProps = pickerEditorProps("endDate");
+
+    
+    const TABLEstartDatePickerProps = TABLEpickerEditorProps("startDate");
+    const TABLEendDatePickerProps = TABLEpickerEditorProps("endDate");
     const cancelChanges = () => {
       this.setState({
         appointmentChanges: {},
@@ -819,7 +963,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     return (
       <>
 
-<FormOverlay visible={visible} ref={this.overlayRef} contents={{
+<FormOverlay visible={visible} ref={this.overlayRef} isStudent = {this.props.isStudent} contents={{
           children: (
             <div>
               <StyledDiv>
@@ -877,7 +1021,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                 }}
                 id="outlined-helperText"
                 label="Professor Name"
-                {...textEditorProps("professorName")}
+                {...TABLEtextEditorPropsProf("professorName")}
               />
           
           
@@ -920,22 +1064,45 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                   </div>
 
                   <div className={SchedulerFacultyCSS["year-courseWrapper"]}>
-                    <FormControl
+
+                    {
+                      this.props.isStudent === false  ?   
+
+                       <FormControl
+                        variant="outlined"
+                        className={classes.textField}
+                        sx={{ margin: "7px 7px" }}
+                      >
+                        <InputLabel id="course-category-label">Year</InputLabel>
+                        <Select
+                          label="course-category-label"
+                          {...textEditorPropsYearSpecial("year")}
+                        >
+                          <MenuItem value={1}>1st Year</MenuItem>
+                          <MenuItem value={2}>2nd Year</MenuItem>
+                          <MenuItem value={3}>3rd Year</MenuItem>
+                          <MenuItem value={4}>4th Year</MenuItem>
+                        </Select>
+                      </FormControl>
+
+
+                      :
+                      <FormControl
                       variant="outlined"
                       className={classes.textField}
                       sx={{ margin: "7px 7px" }}
                     >
-                      <InputLabel id="course-category-label">Year</InputLabel>
-                      <Select
-                        label="course-category-label"
-                        {...textEditorPropsYearSpecial("year")}
-                      >
-                        <MenuItem value={1}>1st Year</MenuItem>
-                        <MenuItem value={2}>2nd Year</MenuItem>
-                        <MenuItem value={3}>3rd Year</MenuItem>
-                        <MenuItem value={4}>4th Year</MenuItem>
-                      </Select>
-                    </FormControl>
+                      <TextField
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                        id="outlined-helperText"
+                        label="Year"
+                      {...TABLEtextEditorPropsYearSpecial("year")}
+                      />
+                       </FormControl>
+                    }
+             
 
                     <SketchExample
                       defaultColor={displayAppointmentData["color"]}
@@ -962,102 +1129,228 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
                   {/* COURSE NAME FIELD */}
                   <div className={classes.wrapper}>
-                    <FormControl
-                      sx={{ margin: "4px 7px" }}
-                      variant="outlined"
-                      className={classes.textField}
-                    >
-                      <InputLabel sx={{ fontSize: "15px" }} id="course-name-label">
-                        Course Name
-                      </InputLabel>
-                      <Select
-                        MenuProps={{
-                          PaperProps: {
-                            style: {
-                              maxHeight: 48 * 4.5, // where 48 is the item height
-                              width: "20ch",
-                              overflow: "auto",
-                            },
+
+                  {!this.props.isStudent ?
+                  
+                  
+                  <FormControl
+                    sx={{ margin: "4px 7px" }}
+                    variant="outlined"
+                    className={classes.textField}
+                  >
+                    <InputLabel sx={{ fontSize: "15px" }} id="course-name-label">
+                      Course Name
+                    </InputLabel>
+                    <Select
+                      MenuProps={{
+                        PaperProps: {
+                          style: {
+                            maxHeight: 48 * 4.5, // where 48 is the item height
+                            width: "20ch",
+                            overflow: "auto",
                           },
-                        }}
-                        label="course-name-label"
-                        {...textEditorPropsCourseName("courseName")}
-                        sx={{ fontSize: "15px" }}
-                      >
-                        {Object.keys(filteredCourseNames).map((name) => (
-                          <MenuItem
-                            sx={{ fontSize: "15px" }}
-                            key={name}
-                            value={`${name}:${filteredCourseNames[name]}`}
-                          >
-                            {name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
+                        },
+                      }}
+                      label="course-name-label"
+                      {...textEditorPropsCourseName("courseName")}
+                      sx={{ fontSize: "15px" }}
+                    >
+                      {Object.keys(filteredCourseNames).map((name) => (
+                        <MenuItem
+                          sx={{ fontSize: "15px" }}
+                          key={name}
+                          value={`${name}:${filteredCourseNames[name]}`}
+                        >
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  
+                   :
+                   
+                   <FormControl
+                   sx={{ margin: "4px 7px" }}
+                   variant="outlined"
+                   className={classes.textField}
+                 >
+                   <TextField
+                     InputProps={{
+                       readOnly: true,
+                     }}
+                     id="outlined-helperText"
+                     label="Course Name"
+                     {...TABLEtextEditorPropsCourseName("courseName")}
+                   />
+                 </FormControl>
+                   
+                   }
+                    
+                    
+          
+
+
+                    
                   </div>
 
                   <div className={classes.wrapper}>
-                    <FormControl
-                      variant="outlined"
-                      sx={{ margin: "0px 7px" }}
-                      className={classes.textField}
-                    >
-                      <TextField
-                        InputLabelProps={{ shrink: true }}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                        label="Course Code"
-                        MenuProps={{
-                          PaperProps: {
-                            style: {
-                              maxHeight: 48 * 4.5, // where 48 is the item height
-                              width: "20ch",
-                              overflow: "auto",
+
+
+
+                    {this.props.isStudent === false ? 
+                    
+                    <>
+                    
+                      <FormControl
+                        variant="outlined"
+                        sx={{ margin: "0px 7px" }}
+                        className={classes.textField}
+                      >
+                        <TextField
+                          InputProps={{
+                            readOnly: true
+                          }}
+                          InputLabelProps={{ shrink: true }}
+                          label="Course Code"
+                          MenuProps={{
+                            PaperProps: {
+                              style: {
+                                maxHeight: 48 * 4.5, // where 48 is the item height
+                                width: "20ch",
+                                overflow: "auto",
+                              },
                             },
-                          },
+                          }}
+                          {...textEditorPropsReadOnly("courseCode")}
+                        ></TextField>
+                      </FormControl>
+
+
+                
+                      <TextField
+                        sx={{ margin: "0px 7px", width: "230px" }}
+                        label="Units"
+                        type = "number"
+                        InputLabelProps={{ shrink: true }}
+                        variant="outlined"
+                        {...textEditorPropsSpecial("units")}
+                      />
+                      <TextField
+
+                        sx={{ margin: "0px 7px", width: "230px" }}
+                        label="Actual Units"
+                        InputLabelProps={{ shrink: true }}
+                        variant="outlined"
+                        type = "number"
+                        {...textEditorPropsSpecial("actualUnits")}
+                      />
+                    
+                    
+                    
+                    </>
+                    
+                    :
+                    
+                    <>
+                    
+                      <FormControl
+                        variant="outlined"
+                        sx={{ margin: "0px 7px" }}
+                        className={classes.textField}
+                      >
+                        <TextField
+                          InputLabelProps={{ shrink: true }}
+                          InputProps={{
+                            readOnly: true,
+                          }}
+                          label="Course Code"
+                          MenuProps={{
+                            PaperProps: {
+                              style: {
+                                maxHeight: 48 * 4.5, // where 48 is the item height
+                                width: "20ch",
+                                overflow: "auto",
+                              },
+                            },
+                          }}
+                          {...TABLEtextEditorPropsReadOnly("courseCode")}
+                        ></TextField>
+                      </FormControl>
+
+
+                
+                      <TextField
+                        InputProps={{
+                          readOnly: true
                         }}
-                        {...textEditorPropsReadOnly("courseCode")}
-                      ></TextField>
-                    </FormControl>
-                    <TextField
-                      sx={{ margin: "0px 7px", width: "230px" }}
-                      label="Units"
-                      type="number"
-                      InputLabelProps={{ shrink: true }}
-                      variant="outlined"
-                      {...textEditorPropsSpecial("units")}
-                    />
-                    <TextField
-                      sx={{ margin: "0px 7px", width: "230px" }}
-                      label="Actual Units"
-                      InputLabelProps={{ shrink: true }}
-                      variant="outlined"
-                      type="number"
-                      {...textEditorPropsSpecial("actualUnits")}
-                    />
+                        sx={{ margin: "0px 7px", width: "230px" }}
+                        label="Units"
+                        InputLabelProps={{ shrink: true }}
+                        variant="outlined"
+                        {...TABLEtextEditorPropsSpecial("units")}
+                      />
+                      <TextField
+                        InputProps={{
+                          readOnly:true
+                        }}
+                      
+                        sx={{ margin: "0px 7px", width: "230px" }}
+                        label="Actual Units"
+                        InputLabelProps={{ shrink: true }}
+                        variant="outlined"
+                        {...TABLEtextEditorPropsSpecial("actualUnits")}
+                      />
+                    </>
+                    
+                    }
+
                   </div>
 
                   {/* 3. Add a Select field that says Class type, and a Select field that says Room */}
                   <div className={classes.wrapper}>
-                    <FormControl
-                      sx={{ margin: "0px 7px" }}
-                      variant="outlined"
-                      className={classes.textField}
-                    >
-                      <InputLabel>Class Type</InputLabel>
-                      <Select
-                        label="Class Type"
-                        {...textEditorPropsSpecial("classType")}
-                      >
-                        <MenuItem value={"F2F"}>F2F</MenuItem>
-                        <MenuItem value={"Synchronous Online"}>Sync Online</MenuItem>
-                        <MenuItem value={"Asynchronous Online"}>
-                          Async Online
-                        </MenuItem>
-                      </Select>
-                    </FormControl>
+
+                {this.props.isStudent === false ?
+                <FormControl
+                  sx={{ margin: "0px 7px" }}
+                  variant="outlined"
+                  className={classes.textField}
+                >
+                  <InputLabel>Class Type</InputLabel>
+                  <Select
+                    label="Class Type"
+                    {...textEditorPropsSpecial("classType")}
+                  >
+                    <MenuItem value={"F2F"}>F2F</MenuItem>
+                    <MenuItem value={"Synchronous Online"}>Sync Online</MenuItem>
+                    <MenuItem value={"Asynchronous Online"}>
+                      Async Online
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+                
+                 :
+                  <FormControl
+                  sx={{ margin: "0px 7px" }}
+                    variant="outlined"
+                    className={classes.textField}
+                  >
+                    <TextField
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      id="outlined-helperText"
+                      label="Class Type"
+                      {...TABLEtextEditorPropsSpecial("classType")}
+                    />
+                  </FormControl>
+                 
+                 }
+              
+
+                    
+                    {this.props.isStudent === false ? 
+                    
+                    
                     <FormControl
                       sx={{ margin: "0px 7px" }}
                       variant="outlined"
@@ -1072,29 +1365,59 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                         ))}
                       </Select>
                     </FormControl>
-                    <div
-                      style={{
-                        width: "2rem",
-                        height: "2rem",
-                        margin: "0px 7px 7px 7px",
-                      }}
-                      onClick={this.handleOpenRoom}
-                      className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`}
-                    >
-                      <img
-                        src={addPerson}
-                        style={{
-                          width: "1.8rem",
-                          height: "1.8rem",
-                          marginBottom: "5px",
-                        }}
-                        alt=""
-                      />
-                    </div>
+                    :
+                    
+                      <FormControl
+                        sx={{ margin: "0px 7px" }}
+                        variant="outlined"
+                        className={classes.textField}
+                      >
+                        <TextField
+                          InputProps={{
+                            readOnly: true,
+                          }}
+                          id="outlined-helperText"
+                          label="Room"
+                          {...TABLEtextEditorPropsCourseName("room")}
+                        />
+                      </FormControl>
+                    
+                    }
+          
+          {this.props.isStudentProps === false ? 
+          
+          <div
+            style={{
+              width: "2rem",
+              height: "2rem",
+              margin: "0px 7px 7px 7px",
+            }}
+            onClick={this.handleOpenRoom}
+            className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`}
+          >
+            <img
+              src={addPerson}
+              style={{
+                width: "1.8rem",
+                height: "1.8rem",
+                marginBottom: "5px",
+              }}
+              alt=""
+            />
+          </div>
+          
+          :
+          
+          ""
+          }
+                  
                   </div>
 
                   <div className={SchedulerFacultyCSS.wrapper}>
-                    <FormControl
+
+                    {this.props.isStudent === false ? 
+                    
+                     <FormControl
                       sx={{ minWidth: 80, margin: "7px 7px" }}
                       variant="outlined"
                     >
@@ -1117,8 +1440,38 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                         ))}
                       </Select>
                     </FormControl>
+                    :
+                    
+                    <FormControl
+                    sx={{ width: "120px !important", margin: "7px 7px" }}
+                    variant="outlined"
+                    className={classes.textField}
+                  >
+                    <TextField
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      id="outlined-helperText"
+                      label="Day"
+                      value={""}
+                      onChange={(event) =>
+                        this.changeAppointment({
+                          field: "day",
+                          changes: dayjs(event.target.value).format("YYYY-MM-DD"),
+                        })
+                      }
+                    />
+                  </FormControl>
+                    
+                    }
+   
 
                     <LocalizationProvider dateAdapter={AdapterMoment}>
+
+
+                      {this.props.isStudent === false ? 
+
+                      <>
                       <TimePicker
                         label="Start Time"
                         format="HH:mm a" // Add this line
@@ -1133,6 +1486,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                         ampm={true}
                         defaultValue="any"
                       />
+                      
                       <TimePicker
                         label="End Time"
                         format="HH:mm a" // Add this line
@@ -1146,6 +1500,31 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                         {...endDatePickerProps}
                         ampm={true}
                       />
+                      </>
+                      :
+                      <>
+                      <TextField
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      sx={{ margin: "7px 7px" }}
+                      id="outlined-helperText"
+                      label="Start Time"
+                    {...TABLEstartDatePickerProps}
+                    />
+
+                    <TextField
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    sx={{ margin: "7px 7px" }}
+                    id="outlined-helperText"
+                    label="End Time"
+                  {...TABLEstartDatePickerProps}
+                  />
+                        </>
+                      }
+
                     </LocalizationProvider>
                   </div>
 
@@ -1288,6 +1667,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                     fontSize: "0.9rem",
                     padding: "0rem",
                     fontWeight: "600",
+                  
                   }}
                 >
                   <MenuItem value="">Year</MenuItem>
@@ -1325,7 +1705,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       newData: [],
       currentDate: "2023-01-07",
       confirmationVisible: false,
-      editingFormVisible: true,
+      editingFormVisible: false,
       deletedAppointmentId: undefined,
       editingAppointment: undefined,
       previousAppointment: undefined,
