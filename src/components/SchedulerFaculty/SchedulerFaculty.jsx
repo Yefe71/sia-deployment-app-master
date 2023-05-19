@@ -383,7 +383,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       oldBlock: null,
       isSelect: true,
       yearTable: '',
-      selectedRow: null
+      selectedRow: null,
+      yearFieldTable: null
 
     };
 
@@ -493,9 +494,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     } else {
       commitChanges({ [type]: appointment }, isConfirm);
     }
-    // this.setState({
-    //   appointmentChanges: {},
-    // });
+
   }
 
   async fetchDataProf() {
@@ -545,10 +544,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
     
     if(prevState.selectedRow !== this.state.selectedRow) {
-
+    this.setState({ yearFieldTable: this.state.selectedRow.year});
     //table form student changes on click row
-
+   
       this.triggerChildFunction(this.hexToRGBA(this.props.coursesColors[this.state.selectedRow.course_code]));
+      
       const nextChanges = {
         ...this.getAppointmentChanges(),
         professorName: this.state.selectedRow.professor_name,
@@ -558,11 +558,12 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         courseName: this.state.selectedRow.course_name,
         courseCode: this.state.selectedRow.course_code,
       };
+      
       this.setState({
         appointmentChanges: nextChanges,
       });
     }
-
+    
     if (this.state.isFirstRender) {
     }
 
@@ -576,6 +577,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
     if (prevProps.visible !== this.props.visible) {
       this.setState({ yearField: 0 });
+      this.setState({ yearFieldTable: 0 });
       this.setState({ yearPropChild: this.props.appointmentData.year });
       this.setState({ blockPropChild: this.props.appointmentData.block });
       this.setState({ oldYear: this.props.appointmentData.year });
@@ -680,6 +682,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     const { isFirstRender } = this.state;
     const { appointmentChanges } = this.state;
     const { yearField } = this.state;
+    const { yearFieldTable } = this.state;
     const filteredCourseNames = yearField ? this.props.majorCourses[yearField] : [];
     const displayAppointmentData = {
       ...appointmentData,
@@ -1015,23 +1018,47 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     // create a variable based on yearField to determine the current block options
     let currentBlocks;
 
-    if (!yearField) {
-      currentBlocks = [];
-    } else if (yearField === 1) {
-      currentBlocks = yearBlock1;
-    } else if (yearField === 2) {
-      currentBlocks = yearBlock2;
-    } else if (yearField === 3) {
-      currentBlocks = yearBlock3;
-    } else if (yearField === 4) {
-      currentBlocks = yearBlock4;
-    } else if (yearField === 5) {
-      currentBlocks = yearBlock5;
-    } else {
-      currentBlocks = [];
+    if (this.props.isStudent === false){
+    
+    
+      if (!yearField) {
+        currentBlocks = [];
+      } else if (yearField === 1) {
+        currentBlocks = yearBlock1;
+      } else if (yearField === 2) {
+        currentBlocks = yearBlock2;
+      } else if (yearField === 3) {
+        currentBlocks = yearBlock3;
+      } else if (yearField === 4) {
+        currentBlocks = yearBlock4;
+      } else if (yearField === 5) {
+        currentBlocks = yearBlock5;
+      } else {
+        currentBlocks = [];
+      }
+
+    }else{
+       if (!yearFieldTable) {
+        currentBlocks = [];
+      } else if (yearFieldTable === 1) {
+        currentBlocks = yearBlock1;
+      } else if (yearFieldTable === 2) {
+        currentBlocks = yearBlock2;
+      } else if (yearFieldTable === 3) {
+        currentBlocks = yearBlock3;
+      } else if (yearFieldTable === 4) {
+        currentBlocks = yearBlock4;
+      } else if (yearFieldTable === 5) {
+        currentBlocks = yearBlock5;
+      } else {
+        currentBlocks = [];
+      }
+
     }
 
-    const randomNumber = Math.floor(Math.random() * 100) + 1;
+
+ 
+
 
     return (
       <>
@@ -1457,7 +1484,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                     
                     }
           
-          {this.props.isStudentProps === false ? 
+          {this.props.isStudent === false ? 
           
           <div
             style={{
