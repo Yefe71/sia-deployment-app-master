@@ -809,7 +809,7 @@ getDayOfWeek = date => {
       //     field: [field],
       //     changes: change.value,
       //   }),
-      value: this.state.selectedRow ? this.state.selectedRow.professor_name : "",
+      value: displayAppointmentData[field] ? displayAppointmentData[field] : this.state.selectedRow ? this.state.selectedRow.professor_name : "",
       label: "Professor Name",
       className: classes.textField,
     });
@@ -822,7 +822,7 @@ getDayOfWeek = date => {
           field: [field],
           changes: change.value,
         }),
-        value: this.state.selectedRow ? this.state.selectedRow.room : "",
+        value: displayAppointmentData[field] ? displayAppointmentData[field] : this.state.selectedRow ? this.state.selectedRow.room : "",
       className: classes.textField,
     });
     const textEditorPropsSpecial = (field) => ({
@@ -844,7 +844,7 @@ getDayOfWeek = date => {
           changes: change.value,
         });
       },
-      value: this.state.selectedRow ? this.state.selectedRow.class_type : "",
+      value: displayAppointmentData[field] ? displayAppointmentData[field] : this.state.selectedRow ? this.state.selectedRow.class_type : "",
       className: classes.textField,
     });
     const TABLEtextEditorPropsSpecialUnits = (field) => ({
@@ -855,7 +855,7 @@ getDayOfWeek = date => {
           changes: change.value,
         });
       },
-      value: this.state.selectedRow ? this.state.selectedRow.unit : "",
+      value: displayAppointmentData[field] ? displayAppointmentData[field] : this.state.selectedRow ? this.state.selectedRow.unit : "",
       className: classes.textField,
     });
     const TABLEtextEditorPropsSpecialActUnits = (field) => ({
@@ -866,7 +866,7 @@ getDayOfWeek = date => {
           changes: change.value,
         });
       },
-      value: this.state.selectedRow ? this.state.selectedRow.actual_unit : "",
+      value: displayAppointmentData[field] ? displayAppointmentData[field] : this.state.selectedRow ? this.state.selectedRow.actual_unit : "",
       className: classes.textField,
     });
 
@@ -952,7 +952,7 @@ getDayOfWeek = date => {
       //   });
       // },
 
-      value: this.state.selectedRow ? `${this.state.selectedRow.course_name}` : "",
+      value: displayAppointmentData[field] ? `${displayAppointmentData.courseName}` : this.state.selectedRow ? `${this.state.selectedRow.course_name}` : "",
       // label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
@@ -995,7 +995,7 @@ getDayOfWeek = date => {
 
         this.setState({ yearPropChild: change.value });
       },
-      value: this.state.selectedRow ? this.state.selectedRow.year : "",
+      value: displayAppointmentData[field] ? displayAppointmentData[field] : this.state.selectedRow ? this.state.selectedRow.year : "",
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
@@ -1019,7 +1019,7 @@ getDayOfWeek = date => {
           changes: change.value,
         });
       },
-      value: this.state.selectedRow ? this.state.selectedRow.course_code : "",
+      value: displayAppointmentData[field] ? displayAppointmentData[field] : this.state.selectedRow ? this.state.selectedRow.course_code : "",
       className: classes.textField,
     });
 
@@ -2762,6 +2762,8 @@ export default class SchedulerFaculty extends React.PureComponent {
             this.state.isConflict,
             isConfirm
           );
+
+          // this.setState({appointmentChanges: {}})
         }
       );
     } catch (error) {
