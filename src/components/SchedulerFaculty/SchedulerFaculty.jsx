@@ -459,7 +459,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
   changeAppointment({ field, changes }) {
     const nextChanges = {
       ...this.getAppointmentChanges(),
-      [field]: changes,
+      [field]: changes, //this doesn't work
     };
 
     this.setState({
@@ -519,7 +519,50 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  hexToRGBA = (hex) => {
+    // Remove the '#' character if present
+    hex = hex.replace("#", "");
+
+    // Split the hex value into red, green, blue, and alpha components
+    var r = parseInt(hex.substr(0, 2), 16);
+    var g = parseInt(hex.substr(2, 2), 16);
+    var b = parseInt(hex.substr(4, 2), 16);
+    var a = 1; // Assuming alpha value of 1 (fully opaque)
+
+    // Create and return the RGBA object
+    var rgba = {
+      r: r,
+      g: g,
+      b: b,
+      a: a,
+    };
+
+    return rgba;
+  }
+
+ componentDidUpdate = async(prevProps, prevState) => {
+
+
+    
+    if(prevState.selectedRow !== this.state.selectedRow) {
+
+    //table form student changes on click row
+
+      this.triggerChildFunction(this.hexToRGBA(this.props.coursesColors[this.state.selectedRow.course_code]));
+      const nextChanges = {
+        ...this.getAppointmentChanges(),
+        professorName: this.state.selectedRow.professor_name,
+        year: this.state.selectedRow.year,
+        classType: this.state.selectedRow.class_type,
+        room: this.state.selectedRow.room,
+        courseName: this.state.selectedRow.course_name,
+        courseCode: this.state.selectedRow.course_code,
+      };
+      this.setState({
+        appointmentChanges: nextChanges,
+      });
+    }
+
     if (this.state.isFirstRender) {
     }
 
@@ -558,6 +601,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     }
 
     if (prevState.appointmentChanges !== this.state.appointmentChanges) {
+      console.log("LATEST APPT CHANGES",  this.state.appointmentChanges)
       this.props.handleChangeFields();
     }
 
@@ -691,11 +735,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     });
     const TABLEtextEditorPropsProf = (field) => ({
       variant: "outlined",
-      onChange: ({ target: change }) =>
-        this.changeAppointment({
-          field: [field],
-          changes: change.value,
-        }),
+      // onChange: ({ target: change }) =>
+      //   this.changeAppointment({
+      //     field: [field],
+      //     changes: change.value,
+      //   }),
       value: this.state.selectedRow ? this.state.selectedRow.professor_name : "",
       label: "Professor Name",
       className: classes.textField,
@@ -816,7 +860,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         const name = change.value.split(":")[0];
         const pair = change.value.split(":")[1];
         this.triggerChildFunction(hexToRGBA(this.props.coursesColors[pair]));
-        // this.handleColorChange(hexToRGBA(courseColors[pair]))
         this.handleNameToCodeChange(pair);
         this.changeAppointmentYearCode({
           name: name,
@@ -828,22 +871,19 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
+    
     const TABLEtextEditorPropsCourseName = (field) => ({
       variant: "outlined",
+      // onChange: ({ target: change }) => {
+      //   this.triggerChildFunction(hexToRGBA(this.props.coursesColors[this.state.selectedRow.course_code]));
+      //   this.handleNameToCodeChange(this.state.selectedRow.course_code);
+      //   this.changeAppointmentYearCode({
+      //     name: this.state.selectedRow.course_name,
+      //     pair: this.state.selectedRow.course_code,
+      //   });
+      // },
 
-      onChange: ({ target: change }) => {
-        const name = change.value.split(":")[0];
-        const pair = change.value.split(":")[1];
-        this.triggerChildFunction(hexToRGBA(this.props.coursesColors[pair]));
-        // this.handleColorChange(hexToRGBA(courseColors[pair]))
-        this.handleNameToCodeChange(pair);
-        this.changeAppointmentYearCode({
-          name: name,
-          pair: pair,
-        });
-      },
-
-      value: ``,
+      value: this.state.selectedRow ? `${this.state.selectedRow.course_name}` : "",
       // label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
@@ -1211,7 +1251,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                      InputProps={{
                        readOnly: true,
                      }}
-                     id="outlined-helperText"
+                  
                      label="Course Name"
                      {...TABLEtextEditorPropsCourseName("courseName")}
                    />
