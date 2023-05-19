@@ -2,6 +2,7 @@
 /* eslint-disable react/no-unused-state */
 
 import * as React from "react";
+import { useState, useEffect } from 'react';
 import { DayView } from "@devexpress/dx-react-scheduler";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
@@ -132,6 +133,7 @@ const styleRoom = {
 };
 
 const FormOverlay = React.forwardRef(({ visible, contents, isStudent}, ref) => {
+  
   return (
    
     <Modal open={visible} ref={ref} sx={{ zIndex: 2 }}> 
@@ -210,7 +212,7 @@ const FormOverlay = React.forwardRef(({ visible, contents, isStudent}, ref) => {
 });
 
 
-const Appointment = ({ children, style, ...restProps }) => {
+const Appointment = ({ children, style, isStudent, ...restProps }) => {
   const { data } = restProps; // Destructure data from restProps
   const contentStyle = {
     color: "white",
@@ -219,14 +221,57 @@ const Appointment = ({ children, style, ...restProps }) => {
     margin: "0px",
   };
 
+
+  const [professorNames, setProfessorNames] = useState([]);
+  useEffect(() => {
+    const fetchProfessorsNames = async () => {
+      try {
+        console.log("i ran prof");
+        const response = await fetch("http://localhost:3000/grabProfessorsNames");
+        const data = await response.json();
+        setProfessorNames(data);
+      } catch (error) {
+        console.error("Error fetching professor names:", error);
+      }
+    };
+
+    fetchProfessorsNames();
+  }, []);
+
+  const isMajor = professorNames 
+  ? professorNames.some(professor => professor.full_name === data.professorName) 
+  : false;
+
+
+const interactionProps = isStudent === false
+? (isMajor ? {} : {  
+    onClick: (e) => { 
+      console.log('Condition is false');
+    },
+    onDoubleClick: (e) => { 
+      console.log('Condition is false');
+    }
+  })
+: (!isMajor ? {} : {  
+    onClick: (e) => { 
+      console.log('Condition is false');
+    },
+    onDoubleClick: (e) => { 
+      console.log('Condition is false');
+    }
+  });
   return (
     <Appointments.Appointment
       {...restProps}
       style={{
         overflowY: "scroll",
         backgroundColor: `rgba(${data.color.r}, ${data.color.g}, ${data.color.b}, ${data.color.a})`,
+        cursor: isStudent && isMajor ? "not-allowed" : !isStudent && !isMajor ? "not-allowed" : "pointer"
       }}
-      draggable={false}
+      
+      {...interactionProps}
+      
+
     >
       <p
         style={{
@@ -1980,7 +2025,7 @@ getDayOfWeek = date => {
             
             </div>
           ),
-        }}/>  
+        }} />  
 
 
       </>
@@ -2902,6 +2947,7 @@ export default class SchedulerFaculty extends React.PureComponent {
     return (
       <div className={SchedulerFacultyCSS.tooltipContainer}>
         <>
+        {}
           <CustomPaper>
             <Scheduler
               data={newData}
@@ -2925,8 +2971,10 @@ export default class SchedulerFaculty extends React.PureComponent {
 
               <EditRecurrenceMenu />
 
-              <Appointments appointmentComponent={Appointment} />
+              {/* <Appointments appointmentComponent={Appointment} /> */}
+              <Appointments appointmentComponent={(props) => <Appointment {...props} isStudent={this.props.isStudent} />} />
 
+              
               {this.props.readOnly ? null : (
                 <AppointmentTooltip
                   showOpenButton
