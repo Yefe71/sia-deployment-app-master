@@ -1641,7 +1641,22 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                             </MenuItem>
                           </Select>
                         </FormControl>
-                      ) : (
+                      ) : this.props.isStudent === true && !isNewAppointment ? 
+                      <FormControl
+                      sx={{ margin: "0px 7px" }}
+                      variant="outlined"
+                      className={classes.textField}
+                    >
+                      <TextField
+
+                        id="outlined-helperText"
+                        label="Class Type"
+                        {...TABLEtextEditorPropsSpecial("classType")}
+                      />
+                    </FormControl>
+                      
+                      
+                      : (
                         <FormControl
                           sx={{ margin: "0px 7px" }}
                           variant="outlined"
@@ -1673,7 +1688,21 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                             ))}
                           </Select>
                         </FormControl>
-                      ) : (
+                      ) : this.props.isStudent === true && !isNewAppointment ? 
+                      
+                      <FormControl
+                      sx={{ margin: "0px 7px" }}
+                      variant="outlined"
+                      className={classes.textField}
+                    >
+                      <TextField
+                        id="outlined-helperText"
+                        label="Room"
+                        {...TABLEtextEditorPropsRoom("room")}
+                      />
+                    </FormControl>
+                      
+                      : (
                         <FormControl
                           sx={{ margin: "0px 7px" }}
                           variant="outlined"
