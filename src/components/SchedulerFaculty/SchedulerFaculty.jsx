@@ -1037,7 +1037,12 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       //     pair: this.state.selectedRow.course_code,
       //   });
       // },
-
+      onChange: ({ target: change }) => {
+        this.changeAppointment({
+          field: [field],
+          changes: change.value,
+        });
+      },
       value: displayAppointmentData[field]
         ? `${displayAppointmentData.courseName}`
         : this.state.selectedRow
@@ -1336,6 +1341,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                             <MenuItem value={2}>2nd Year</MenuItem>
                             <MenuItem value={3}>3rd Year</MenuItem>
                             <MenuItem value={4}>4th Year</MenuItem>
+                            <MenuItem value={5}>5th Year</MenuItem>
                           </Select>
                         </FormControl>
                       ) : this.props.isStudent === true && !isNewAppointment ? (
@@ -1355,6 +1361,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                             <MenuItem value={2}>2nd Year</MenuItem>
                             <MenuItem value={3}>3rd Year</MenuItem>
                             <MenuItem value={4}>4th Year</MenuItem>
+                            <MenuItem value={5}>5th Year</MenuItem>
                           </Select>
                         </FormControl>
                       ) : (
@@ -1441,7 +1448,19 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                             ))}
                           </Select>
                         </FormControl>
-                      ) : (
+                      ) : this.props.isStudent === true && !isNewAppointment ? 
+                      <FormControl
+                        sx={{ margin: "4px 7px" }}
+                        variant="outlined"
+                        className={classes.textField}
+                      >
+                        <TextField
+                          label="Course Name"
+                          {...TABLEtextEditorPropsCourseName("courseName")}
+                        />
+                      </FormControl>
+                      
+                      : (
                         <FormControl
                           sx={{ margin: "4px 7px" }}
                           variant="outlined"
@@ -1502,7 +1521,53 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                             {...textEditorPropsSpecial("actualUnits")}
                           />
                         </>
-                      ) : (
+                      ) : this.props.isStudent === true && !isNewAppointment ? 
+                      
+                      <>
+                      <FormControl
+                        variant="outlined"
+                        sx={{ margin: "0px 7px" }}
+                        className={classes.textField}
+                      >
+                        <TextField
+                          InputLabelProps={{ shrink: true }}
+      
+                          label="Course Code"
+                          MenuProps={{
+                            PaperProps: {
+                              style: {
+                                maxHeight: 48 * 4.5, // where 48 is the item height
+                                width: "20ch",
+                                overflow: "auto",
+                              },
+                            },
+                          }}
+                          {...TABLEtextEditorPropsReadOnly("courseCode")}
+                        ></TextField>
+                      </FormControl>
+
+                      <TextField
+         
+                        sx={{ margin: "0px 7px", width: "230px" }}
+                        label="Units"
+                        InputLabelProps={{ shrink: true }}
+                        variant="outlined"
+                        {...TABLEtextEditorPropsSpecialUnits("units")}
+                      />
+                      <TextField
+                    
+                        sx={{ margin: "0px 7px", width: "230px" }}
+                        label="Actual Units"
+                        InputLabelProps={{ shrink: true }}
+                        variant="outlined"
+                        {...TABLEtextEditorPropsSpecialActUnits(
+                          "actualUnits"
+                        )}
+                      />
+                    </>
+                      
+                      
+                      :(
                         <>
                           <FormControl
                             variant="outlined"
@@ -1766,7 +1831,44 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                               ampm={true}
                             />
                           </>
-                        ) : (
+                        ) : this.props.isStudent === true && !isNewAppointment ? 
+                        
+                        
+                        <>
+                          <TimePicker
+                    
+                            label="Start Time"
+                            format="HH:mm a" // Add this line
+                            renderInput={(props) => (
+                              <TextField
+                                className={classes.picker}
+                                {...props}
+                                sx={{ margin: "7px 7px" }}
+                              />
+                            )}
+                            {...TABLEstartDatePickerProps}
+                            ampm={true}
+                            defaultValue="any"
+                          />
+
+                          <TimePicker
+                     
+                            label="End Time"
+                            format="HH:mm a" // Add this line
+                            renderInput={(props) => (
+                              <TextField
+                                className={classes.picker}
+                                {...props}
+                                sx={{ margin: "7px 7px" }}
+                              />
+                            )}
+                            {...TABLEendDatePickerProps}
+                            ampm={true}
+                          />
+                        </>
+                        
+                        
+                        : (
                           <>
                             <TimePicker
                               readOnly
