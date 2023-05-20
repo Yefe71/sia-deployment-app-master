@@ -78,7 +78,7 @@ const StyledTableHead = styled(TableHead)({
 const StickyPagination = styled("div")({
   position: "sticky",
   bottom: 0,
-  width: "100%", // make sure it stretches to full width
+  width: "100%", 
   backgroundColor: "#f7f4f4",
   zIndex: 1,
   padding: "1px 0px",
@@ -200,16 +200,15 @@ const TableFormStudents = forwardRef(
       const hours = date.getHours();
       const minutes = date.getMinutes();
 
-      // Determine if it's AM or PM
+
       const ampm = hours >= 12 ? "PM" : "AM";
 
-      // Convert hours to 12-hour format
+ 
       const formattedHours = hours % 12 || 12;
 
-      // Add leading zeros to minutes if needed
+     
       const formattedMinutes = minutes.toString().padStart(2, "0");
 
-      // Concatenate the formatted time string
       const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
 
       return formattedTime;
@@ -240,7 +239,6 @@ const TableFormStudents = forwardRef(
               .map((row, index) => {
                 const matchingSchedule = schedules.find(schedule => 
                   schedule.year === row.year &&
-                  // schedule.block === row.block &&
                   schedule.courseCode === row.course_code &&
                   schedule.professorName === row.professor_name &&
                   schedule.room === row.room &&
@@ -250,7 +248,7 @@ const TableFormStudents = forwardRef(
                   schedule.endDate === row.end_date
                 );
 
-                const isDisabled = !!matchingSchedule;  // If matchingSchedule exists, isDisabled will be true.
+                const isDisabled = !!matchingSchedule; 
 
                 const dataRowSXDisabled = {
                   ...dataRowSX,
