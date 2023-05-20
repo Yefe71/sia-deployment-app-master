@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unused-state */
 
 import * as React from "react";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { DayView } from "@devexpress/dx-react-scheduler";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
@@ -58,7 +58,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { v4 as uuidv4 } from "uuid";
 import DeleteIcon from "@mui/icons-material/Delete";
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import TableManageBlock from "../TableManageBlock/TableManageBlock";
 import TableFormStudents from "../TableFormStudents/TableFormStudents";
 
@@ -132,85 +132,68 @@ const styleRoom = {
   background: "#f6f6f6",
 };
 
-const FormOverlay = React.forwardRef(({ visible, contents, isStudent}, ref) => {
-  
-  return (
-   
-    <Modal open={visible} ref={ref} sx={{ zIndex: 2 }}> 
-    <Box
-      sx={{
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        display: 'flex',
-        gap: '1rem',
-        justifyContent: 'center',
-      }}
-    >
-      
-      {
-        isStudent === false ? 
-        
-        <Paper
+const FormOverlay = React.forwardRef(
+  ({ visible, contents, isStudent }, ref) => {
+    return (
+      <Modal open={visible} ref={ref} sx={{ zIndex: 2 }}>
+        <Box
           sx={{
-            width: "27rem",
-            padding: 1,
-            paddingBottom: "0px",
-            borderRadius: "15px",
-            height: "36rem"
-            // transform: "translate(-50%, -50%)",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            display: "flex",
+            gap: "1rem",
+            justifyContent: "center",
           }}
         >
-          {contents.children}
-        </Paper>
-        
-        
-        :
+          {isStudent === false ? (
+            <Paper
+              sx={{
+                width: "27rem",
+                padding: 1,
+                paddingBottom: "0px",
+                borderRadius: "15px",
+                height: "36rem",
+                // transform: "translate(-50%, -50%)",
+              }}
+            >
+              {contents.children}
+            </Paper>
+          ) : (
+            <>
+              <Paper
+                sx={{
+                  width: "75rem",
+                  padding: 1,
+                  paddingBottom: "0px",
+                  borderRadius: "15px",
+                  height: "36rem",
+                  // transform: "translate(-50%, -50%)",
+                }}
+              >
+                {contents.otherChildren}
+              </Paper>
 
-<>
-
-        
-<Paper
-    sx={{
-      width: "75rem",
-      padding: 1,
-      paddingBottom: "0px",
-      borderRadius: "15px",
-      height: "36rem"
-      // transform: "translate(-50%, -50%)",
-    }}
-  >
-    {contents.otherChildren}
-  </Paper>
-
-  
-  <Paper
-    sx={{
-      width: "27rem",
-      padding: 1,
-      paddingBottom: "0px",
-      borderRadius: "15px",
-      height: "36rem"
-      // transform: "translate(-50%, -50%)",
-    }}
-  >
-    {contents.children}
-  </Paper>
-
-        
-
-</>
-      
-      }
-
-  
-
-      </Box>
-    </Modal>
-  );
-});
-
+              <Paper
+                sx={{
+                  width: "27rem",
+                  padding: 1,
+                  paddingBottom: "0px",
+                  borderRadius: "15px",
+                  height: "36rem",
+                  // transform: "translate(-50%, -50%)",
+                }}
+              >
+                {contents.children}
+              </Paper>
+            </>
+          )}
+        </Box>
+      </Modal>
+    );
+  }
+);
 
 const Appointment = ({ children, style, isStudent, ...restProps }) => {
   const { data } = restProps; // Destructure data from restProps
@@ -221,13 +204,14 @@ const Appointment = ({ children, style, isStudent, ...restProps }) => {
     margin: "0px",
   };
 
-
   const [professorNames, setProfessorNames] = useState([]);
   useEffect(() => {
     const fetchProfessorsNames = async () => {
       try {
         console.log("i ran prof");
-        const response = await fetch("http://localhost:3000/grabProfessorsNames");
+        const response = await fetch(
+          "http://localhost:3000/grabProfessorsNames"
+        );
         const data = await response.json();
         setProfessorNames(data);
       } catch (error) {
@@ -238,40 +222,48 @@ const Appointment = ({ children, style, isStudent, ...restProps }) => {
     fetchProfessorsNames();
   }, []);
 
-  const isMajor = professorNames 
-  ? professorNames.some(professor => professor.full_name === data.professorName) 
-  : false;
+  const isMajor = professorNames
+    ? professorNames.some(
+        (professor) => professor.full_name === data.professorName
+      )
+    : false;
 
-
-const interactionProps = isStudent === false
-? (isMajor ? {} : {  
-    onClick: (e) => { 
-      console.log('Condition is false');
-    },
-    onDoubleClick: (e) => { 
-      console.log('Condition is false');
-    }
-  })
-: (!isMajor ? {} : {  
-    onClick: (e) => { 
-      console.log('Condition is false');
-    },
-    onDoubleClick: (e) => { 
-      console.log('Condition is false');
-    }
-  });
+  const interactionProps =
+    isStudent === false
+      ? isMajor
+        ? {}
+        : {
+            onClick: (e) => {
+              console.log("Condition is false");
+            },
+            onDoubleClick: (e) => {
+              console.log("Condition is false");
+            },
+          }
+      : !isMajor
+      ? {}
+      : {
+          onClick: (e) => {
+            console.log("Condition is false");
+          },
+          onDoubleClick: (e) => {
+            console.log("Condition is false");
+          },
+        };
   return (
     <Appointments.Appointment
       {...restProps}
       style={{
         overflowY: "scroll",
         backgroundColor: `rgba(${data.color.r}, ${data.color.g}, ${data.color.b}, ${data.color.a})`,
-        cursor: isStudent && isMajor ? "not-allowed" : !isStudent && !isMajor ? "not-allowed" : "pointer"
+        cursor:
+          isStudent && isMajor
+            ? "not-allowed"
+            : !isStudent && !isMajor
+            ? "not-allowed"
+            : "pointer",
       }}
-      
       {...interactionProps}
-      
-
     >
       <p
         style={{
@@ -356,7 +348,6 @@ const classes = {
   addButton: `${PREFIX}-addButton`,
 };
 
-
 // #FOLD_BLOCK
 const StyledDiv = styled("div")(({ theme }) => ({
   [`& .${classes.icon}`]: {
@@ -427,12 +418,10 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       oldYear: null,
       oldBlock: null,
       isSelect: true,
-      yearTable: '',
+      yearTable: "",
       selectedRow: null,
       yearFieldTable: null,
-      isFormValid: false
-
-
+      isFormValid: false,
     };
 
     this.getAppointmentData = () => {
@@ -507,7 +496,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
   changeAppointment({ field, changes }) {
     const nextChanges = {
       ...this.getAppointmentChanges(),
-      [field]: changes, 
+      [field]: changes,
     };
 
     this.setState({
@@ -541,7 +530,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     } else {
       commitChanges({ [type]: appointment }, isConfirm);
     }
-
   }
 
   async fetchDataProf() {
@@ -584,31 +572,32 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     };
 
     return rgba;
-  }
+  };
 
-convertDate = (inputDate) => {
+  convertDate = (inputDate) => {
     return new Date(inputDate).toString();
-  }
-  
-// Utility function to convert date string
-convertToDateString = (inputDate) => {
-  const date = new Date(inputDate);
-  return date.toISOString().split('T')[0];
-}
-convertToDayjs = (dateString) => {
-  return dayjs(dateString);
-};
+  };
 
- componentDidUpdate = async(prevProps, prevState) => {
+  // Utility function to convert date string
+  convertToDateString = (inputDate) => {
+    const date = new Date(inputDate);
+    return date.toISOString().split("T")[0];
+  };
+  convertToDayjs = (dateString) => {
+    return dayjs(dateString);
+  };
 
+  componentDidUpdate = async (prevProps, prevState) => {
+    if (prevState.selectedRow !== this.state.selectedRow) {
+      this.setState({ yearFieldTable: this.state.selectedRow.year });
+      //table form student changes on click row
 
-    
-    if(prevState.selectedRow !== this.state.selectedRow) {
-    this.setState({ yearFieldTable: this.state.selectedRow.year});
-    //table form student changes on click row
-   
-      this.triggerChildFunction(this.hexToRGBA(this.props.coursesColors[this.state.selectedRow.course_code]));
-      
+      this.triggerChildFunction(
+        this.hexToRGBA(
+          this.props.coursesColors[this.state.selectedRow.course_code]
+        )
+      );
+
       const nextChanges = {
         ...this.getAppointmentChanges(),
         professorName: this.state.selectedRow.professor_name,
@@ -623,16 +612,17 @@ convertToDayjs = (dateString) => {
         units: this.state.selectedRow.unit,
         actualUnits: this.state.selectedRow.actual_unit,
       };
-      
-      this.setState({
-        appointmentChanges: nextChanges,
-      }, () => console.log(this.state.appointmentChanges, "CHECK CONTENT"));
 
-      this.setState({ yearPropChild: this.state.selectedRow.year});
-      
+      this.setState(
+        {
+          appointmentChanges: nextChanges,
+        },
+        () => console.log(this.state.appointmentChanges, "CHECK CONTENT")
+      );
 
+      this.setState({ yearPropChild: this.state.selectedRow.year });
     }
-    
+
     if (this.state.isFirstRender) {
     }
 
@@ -651,14 +641,12 @@ convertToDayjs = (dateString) => {
       this.setState({ blockPropChild: this.props.appointmentData.block });
       this.setState({ oldYear: this.props.appointmentData.year });
       this.setState({ oldBlock: this.props.appointmentData.block });
-      this.setState({appointmentChanges: {}})
+      this.setState({ appointmentChanges: {} });
 
-      console.log("DEFAULT DATA!")
-      console.log(this.props.appointmentData.day)
-      console.log(this.props.appointmentData.startDate)
-      console.log(this.props.appointmentData.endDate)
-
-      
+      console.log("DEFAULT DATA!");
+      console.log(this.props.appointmentData.day);
+      console.log(this.props.appointmentData.startDate);
+      console.log(this.props.appointmentData.endDate);
     }
 
     if (prevProps.triggerToast !== this.props.triggerToast) {
@@ -677,10 +665,10 @@ convertToDayjs = (dateString) => {
     }
 
     if (prevState.appointmentChanges !== this.state.appointmentChanges) {
-      console.log("LATEST APPT CHANGES",  this.state.appointmentChanges)
+      console.log("LATEST APPT CHANGES", this.state.appointmentChanges);
       this.props.handleChangeFields();
       const isFormValidNow = this.isFormValid();
-    
+
       // If form validity has changed, update it in the state
       if (isFormValidNow !== this.state.isFormValid) {
         this.setState({ isFormValid: isFormValidNow });
@@ -694,7 +682,7 @@ convertToDayjs = (dateString) => {
         "when no yearfield, apptdata is yearfield"
       );
     }
-  }
+  };
 
   async componentDidMount() {
     try {
@@ -747,8 +735,10 @@ convertToDayjs = (dateString) => {
   }
 
   handleRowClick = (row) => {
-      this.setState({selectedRow: row}, () => console.log(this.state.selectedRow.professor_name, "IM CLICKED ROW"))
-  }
+    this.setState({ selectedRow: row }, () =>
+      console.log(this.state.selectedRow.professor_name, "IM CLICKED ROW")
+    );
+  };
   // getDayLabel(value) {
   //   const dateObject = new Date(value);
   //   dateObject.setUTCDate(dateObject.getUTCDate() + 1); // Subtract one day
@@ -757,9 +747,9 @@ convertToDayjs = (dateString) => {
   //   return day ? day.label : date;
   // }
 
-getDayOfWeek = date => {
-    return dayjs(date).format('ddd');
-  }
+  getDayOfWeek = (date) => {
+    return dayjs(date).format("ddd");
+  };
 
   isFormValid = () => {
     const requiredFields = [
@@ -794,7 +784,9 @@ getDayOfWeek = date => {
     const { appointmentChanges } = this.state;
     const { yearField } = this.state;
     const { yearFieldTable } = this.state;
-    const filteredCourseNames = yearField ? this.props.majorCourses[yearField] : [];
+    const filteredCourseNames = yearField
+      ? this.props.majorCourses[yearField]
+      : [];
     const displayAppointmentData = {
       ...appointmentData,
       ...appointmentChanges,
@@ -821,20 +813,33 @@ getDayOfWeek = date => {
 
     const applyChanges = (isConfirm) => {
       return isNewAppointment
-        ? () => { 
-          this.commitAppointment("added", isConfirm);
-          this.props.handleDataFromChild(this.state.blockPropChild, false);
-          this.props.handleDataFromChild(this.state.yearPropChild, true);
-          this.props.handleClickFromChild("clicked");
-        }
+        ? () => {
+            this.commitAppointment("added", isConfirm);
+            this.props.handleDataFromChild(this.state.blockPropChild, false);
+            this.props.handleDataFromChild(this.state.yearPropChild, true);
+            this.props.handleClickFromChild("clicked");
+          }
         : () => {
-          console.log("AKOY NAGLAKAD", this.state.yearPropChild, this.state.blockPropChild);
-          this.commitAppointment("changed", isConfirm);
-          this.props.handleDataFromChild(this.state.blockPropChild, false, this.state.oldYear, this.state.oldBlock);
-          this.props.handleDataFromChild(this.state.yearPropChild, true, this.state.oldYear, this.state.oldBlock);
-        };
+            console.log(
+              "AKOY NAGLAKAD",
+              this.state.yearPropChild,
+              this.state.blockPropChild
+            );
+            this.commitAppointment("changed", isConfirm);
+            this.props.handleDataFromChild(
+              this.state.blockPropChild,
+              false,
+              this.state.oldYear,
+              this.state.oldBlock
+            );
+            this.props.handleDataFromChild(
+              this.state.yearPropChild,
+              true,
+              this.state.oldYear,
+              this.state.oldBlock
+            );
+          };
     };
-
 
     const textEditorProps = (field) => ({
       variant: "outlined",
@@ -849,16 +854,29 @@ getDayOfWeek = date => {
     });
     const TABLEtextEditorPropsProf = (field) => ({
       variant: "outlined",
-      // onChange: ({ target: change }) =>
-      //   this.changeAppointment({
-      //     field: [field],
-      //     changes: change.value,
-      //   }),
-      value: displayAppointmentData[field] ? displayAppointmentData[field] : this.state.selectedRow ? this.state.selectedRow.professor_name : "",
-      label: "Professor Name",
+      value: displayAppointmentData[field]
+        ? displayAppointmentData[field]
+        : this.state.selectedRow
+        ? this.state.selectedRow.professor_name
+        : "",
+
       className: classes.textField,
     });
+    const EDIT_TABLEtextEditorPropsProf = (field) => ({
+      variant: "outlined",
+      onChange: ({ target: change }) =>
+      this.changeAppointment({
+        field: [field],
+        changes: change.value,
+      }),
+      value: displayAppointmentData[field]
+        ? displayAppointmentData[field]
+        : this.state.selectedRow
+        ? this.state.selectedRow.professor_name
+        : "",
 
+      className: classes.textField,
+    });
 
     const TABLEtextEditorPropsRoom = (field) => ({
       variant: "outlined",
@@ -867,7 +885,11 @@ getDayOfWeek = date => {
           field: [field],
           changes: change.value,
         }),
-        value: displayAppointmentData[field] ? displayAppointmentData[field] : this.state.selectedRow ? this.state.selectedRow.room : "",
+      value: displayAppointmentData[field]
+        ? displayAppointmentData[field]
+        : this.state.selectedRow
+        ? this.state.selectedRow.room
+        : "",
       className: classes.textField,
     });
     const textEditorPropsSpecial = (field) => ({
@@ -889,7 +911,11 @@ getDayOfWeek = date => {
           changes: change.value,
         });
       },
-      value: displayAppointmentData[field] ? displayAppointmentData[field] : this.state.selectedRow ? this.state.selectedRow.class_type : "",
+      value: displayAppointmentData[field]
+        ? displayAppointmentData[field]
+        : this.state.selectedRow
+        ? this.state.selectedRow.class_type
+        : "",
       className: classes.textField,
     });
     const TABLEtextEditorPropsSpecialUnits = (field) => ({
@@ -900,7 +926,11 @@ getDayOfWeek = date => {
           changes: change.value,
         });
       },
-      value: displayAppointmentData[field] ? displayAppointmentData[field] : this.state.selectedRow ? this.state.selectedRow.unit : "",
+      value: displayAppointmentData[field]
+        ? displayAppointmentData[field]
+        : this.state.selectedRow
+        ? this.state.selectedRow.unit
+        : "",
       className: classes.textField,
     });
     const TABLEtextEditorPropsSpecialActUnits = (field) => ({
@@ -911,16 +941,14 @@ getDayOfWeek = date => {
           changes: change.value,
         });
       },
-      value: displayAppointmentData[field] ? displayAppointmentData[field] : this.state.selectedRow ? this.state.selectedRow.actual_unit : "",
+      value: displayAppointmentData[field]
+        ? displayAppointmentData[field]
+        : this.state.selectedRow
+        ? this.state.selectedRow.actual_unit
+        : "",
       className: classes.textField,
     });
 
-
-
-
-
-
-    
     const textEditorPropsBlockSpecial = (field) => ({
       variant: "outlined",
       onChange: ({ target: change }) => {
@@ -998,7 +1026,7 @@ getDayOfWeek = date => {
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
-    
+
     const TABLEtextEditorPropsCourseName = (field) => ({
       variant: "outlined",
       // onChange: ({ target: change }) => {
@@ -1010,7 +1038,11 @@ getDayOfWeek = date => {
       //   });
       // },
 
-      value: displayAppointmentData[field] ? `${displayAppointmentData.courseName}` : this.state.selectedRow ? `${this.state.selectedRow.course_name}` : "",
+      value: displayAppointmentData[field]
+        ? `${displayAppointmentData.courseName}`
+        : this.state.selectedRow
+        ? `${this.state.selectedRow.course_name}`
+        : "",
       // label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
@@ -1053,7 +1085,11 @@ getDayOfWeek = date => {
 
         this.setState({ yearPropChild: change.value });
       },
-      value: displayAppointmentData[field] ? displayAppointmentData[field] : this.state.selectedRow ? this.state.selectedRow.year : "",
+      value: displayAppointmentData[field]
+        ? displayAppointmentData[field]
+        : this.state.selectedRow
+        ? this.state.selectedRow.year
+        : "",
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
@@ -1077,7 +1113,11 @@ getDayOfWeek = date => {
           changes: change.value,
         });
       },
-      value: displayAppointmentData[field] ? displayAppointmentData[field] : this.state.selectedRow ? this.state.selectedRow.course_code : "",
+      value: displayAppointmentData[field]
+        ? displayAppointmentData[field]
+        : this.state.selectedRow
+        ? this.state.selectedRow.course_code
+        : "",
       className: classes.textField,
     });
 
@@ -1101,13 +1141,14 @@ getDayOfWeek = date => {
       // keyboard: true,
       value: displayAppointmentData[field],
       onChange: (date) => {
-        console.log("AKO UNG DATE", displayAppointmentData[field])
+        console.log("AKO UNG DATE", displayAppointmentData[field]);
         this.changeAppointment({
           field: [field],
           changes: date
             ? date.toDate()
             : new Date(displayAppointmentData[field]),
-        })},
+        });
+      },
       // Set minTime and maxTime depending on the field
       minTime: dayjs().hour(6).minute(0),
       maxTime: dayjs().hour(21).minute(0),
@@ -1117,7 +1158,6 @@ getDayOfWeek = date => {
     const startDatePickerProps = pickerEditorProps("startDate");
     const endDatePickerProps = pickerEditorProps("endDate");
 
-    
     const TABLEstartDatePickerProps = TABLEpickerEditorProps("startDate");
     const TABLEendDatePickerProps = TABLEpickerEditorProps("endDate");
     const cancelChanges = () => {
@@ -1127,15 +1167,19 @@ getDayOfWeek = date => {
       visibleChange();
       cancelAppointment();
     };
-    const courseNameOptions = Object.keys(this.props.majorCourses).map((category) => (
-      <optgroup key={`category-${category}`} label={`Category ${category}`}>
-        {Object.entries(this.props.majorCourses[category]).map(([name, code]) => (
-          <option key={code} value={name}>
-            {name}
-          </option>
-        ))}
-      </optgroup>
-    ));
+    const courseNameOptions = Object.keys(this.props.majorCourses).map(
+      (category) => (
+        <optgroup key={`category-${category}`} label={`Category ${category}`}>
+          {Object.entries(this.props.majorCourses[category]).map(
+            ([name, code]) => (
+              <option key={code} value={name}>
+                {name}
+              </option>
+            )
+          )}
+        </optgroup>
+      )
+    );
 
     const { yearBlock1, yearBlock2, yearBlock3, yearBlock4, yearBlock5 } =
       this.state;
@@ -1143,9 +1187,7 @@ getDayOfWeek = date => {
     // create a variable based on yearField to determine the current block options
     let currentBlocks;
 
-    if (this.props.isStudent === false){
-    
-    
+    if (this.props.isStudent === false) {
       if (!yearField) {
         currentBlocks = [];
       } else if (yearField === 1) {
@@ -1161,9 +1203,8 @@ getDayOfWeek = date => {
       } else {
         currentBlocks = [];
       }
-
-    }else{
-       if (!yearFieldTable) {
+    } else {
+      if (!yearFieldTable) {
         currentBlocks = [];
       } else if (yearFieldTable === 1) {
         currentBlocks = yearBlock1;
@@ -1178,858 +1219,784 @@ getDayOfWeek = date => {
       } else {
         currentBlocks = [];
       }
-
     }
-
-
- 
-
 
     return (
       <>
-
-<FormOverlay visible={visible} ref={this.overlayRef} isStudent = {this.props.isStudent} contents={{
-          children: (
-            <div>
-              <StyledDiv>
-                <div className={classes.header}>
-                  <IconButton
-                    className={classes.closeButton}
-                    onClick={cancelChanges}
-                    size="large"
-                  >
-                    <Close color="action" />
-                  </IconButton>
-                </div>
-                <div className={classes.content}>
-                  {/* PROFESSOR NAME FIELD */}
-                  <div
-                    className={SchedulerFacultyCSS.wrapper}
-                    style={{ margin: "0px 7px 7px 7px" }}
-                  >
-
-              
-                    <FormControl variant="outlined" className={classes.textField}>
-
-                {this.props.isStudent === false ? 
-          
-                <>
-                 <InputLabel id="professor-name-label">
-                  Professor Name
-                </InputLabel>
-                <Select
-                  MenuProps={{
-                    PaperProps: {
-                      style: {
-                        maxHeight: 48 * 4.5, // where 48 is the item height
-                        width: "20ch",
-                        overflow: "auto",
-                      },
-                    },
-                  }}
-                  label="professor-name-label"
-                  {...textEditorProps("professorName")}
-                >
-                  {this.state.professorsNames.map((name, index) => (
-                    <MenuItem key={index} value={name.full_name}>
-                      {name.full_name}
-                    </MenuItem>
-                  ))}
-                </Select>
-                </>
-          
-                :
-          
-                <TextField
-                InputProps={{
-                  readOnly: true,
-                }}
-                id="outlined-helperText"
-                label="Professor Name"
-                {...TABLEtextEditorPropsProf("professorName")}
-              />
-          
-          
-                }
-                
- 
-
-
-                
-                    </FormControl>
-
-
-                    { this.props.isStudent === false ? 
-          
-          
-                <div
-                style={{ width: "2rem", height: "2rem" }}
-                onClick={this.handleOpenProf}
-                className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`}
-              >
-                <img
-                  src={addPerson}
-                  style={{
-                    width: "1.8rem",
-                    height: "1.8rem",
-                    marginBottom: "5px",
-                  }}
-                  alt=""
-                />
-              </div>
-
-              : ""
-          
-                    }
-
-         
-
-
-              
+        <FormOverlay
+          visible={visible}
+          ref={this.overlayRef}
+          isStudent={this.props.isStudent}
+          contents={{
+            children: (
+              <div>
+                <StyledDiv>
+                  <div className={classes.header}>
+                    <IconButton
+                      className={classes.closeButton}
+                      onClick={cancelChanges}
+                      size="large"
+                    >
+                      <Close color="action" />
+                    </IconButton>
                   </div>
-
-                  <div className={SchedulerFacultyCSS["year-courseWrapper"]}>
-
-                    {
-                      this.props.isStudent === false  ?   
-
-                       <FormControl
-                        variant="outlined"
-                        className={classes.textField}
-                        sx={{ margin: "7px 7px" }}
-                      >
-                        <InputLabel id="course-category-label">Year</InputLabel>
-                        <Select
-                          label="course-category-label"
-                          {...textEditorPropsYearSpecial("year")}
-                        >
-                          <MenuItem value={1}>1st Year</MenuItem>
-                          <MenuItem value={2}>2nd Year</MenuItem>
-                          <MenuItem value={3}>3rd Year</MenuItem>
-                          <MenuItem value={4}>4th Year</MenuItem>
-                        </Select>
-                      </FormControl>
-
-
-                      : this.props.isStudent === true && !isNewAppointment ?
-
-                      <FormControl
-                      variant="outlined"
-                      className={classes.textField}
-                      sx={{ margin: "7px 7px" }}
+                  <div className={classes.content}>
+                    {/* PROFESSOR NAME FIELD */}
+                    <div
+                      className={SchedulerFacultyCSS.wrapper}
+                      style={{ margin: "0px 7px 7px 7px" }}
                     >
-                      <InputLabel id="course-category-label">Year</InputLabel>
-                      <Select
-                        label="course-category-label"
-                        {...textEditorPropsYearSpecial("year")}
-                      >
-                        <MenuItem value={1}>1st Year</MenuItem>
-                        <MenuItem value={2}>2nd Year</MenuItem>
-                        <MenuItem value={3}>3rd Year</MenuItem>
-                        <MenuItem value={4}>4th Year</MenuItem>
-                      </Select>
-                    </FormControl>
-
-
-                      :
                       <FormControl
-                      variant="outlined"
-                      className={classes.textField}
-                      sx={{ margin: "7px 7px" }}
-                    >
-                      <TextField
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                        id="outlined-helperText"
-                        label="Year"
-                      {...TABLEtextEditorPropsYearSpecial("year")}
-                      />
-                       </FormControl>
-                    }
-             
-
-                    <SketchExample
-                      defaultColor={displayAppointmentData["color"]}
-                      className={`${SchedulerFacultyCSS.ripple}`}
-                      onColorChange={this.handleColorChange}
-                      ref={this.childRef}
-                    />
-
-              
-            
-                  {this.props.isStudent === false ? 
-
-                   <FormControl
-                    variant="outlined"
-                    sx={{ margin: "7px 7px" }}
-                    className={classes.textField}
-                  >
-                    <InputLabel>Block</InputLabel>
-                    <Select 
-                    label="Block" 
-                    {...textEditorPropsBlockSpecial("block")}
-                    >
-                      {currentBlocks.map((block) => (
-                        <MenuItem key={block} value={block}>
-                          Block {block}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-
-
-
-                  : this.props.isStudent === true && isNewAppointment ?
-                  
-                  <FormControl
-                  variant="outlined"
-                  sx={{ margin: "7px 7px" }}
-                  className={classes.textField}
-                >
-                  <InputLabel>Block</InputLabel>
-                  <Select 
-                  label="Block" 
-                  {...textEditorPropsBlockSpecial("block")}
-                  >
-                    {currentBlocks.map((block) => (
-                      <MenuItem key={block} value={block}>
-                        Block {block}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-
-                :
-                  <FormControl
-                   sx={{ margin: "7px 7px" }}
-                  variant="outlined"
-                  className={classes.textField}
-                >
-                  <TextField
-                    InputProps={{
-                      readOnly: true,
-                    }}
-             
-                    label="Block"
-                    {...TABLEtextEditorPropsBlockSpecial("block")}
-                  />
-                </FormControl>
-                  
-                  
-                  }
- 
-
-                  </div>
-
-                  {/* COURSE NAME FIELD */}
-                  <div className={classes.wrapper}>
-
-                  {this.props.isStudent === false?
-                  
-                  
-                  <FormControl
-                    sx={{ margin: "4px 7px" }}
-                    variant="outlined"
-                    className={classes.textField}
-                  >
-                    <InputLabel sx={{ fontSize: "15px" }} id="course-name-label">
-                      Course Name
-                    </InputLabel>
-                    <Select
-                      MenuProps={{
-                        PaperProps: {
-                          style: {
-                            maxHeight: 48 * 4.5, // where 48 is the item height
-                            width: "20ch",
-                            overflow: "auto",
-                          },
-                        },
-                      }}
-                      label="course-name-label"
-                      {...textEditorPropsCourseName("courseName")}
-                      sx={{ fontSize: "15px" }}
-                    >
-                      {Object.keys(filteredCourseNames).map((name) => (
-                        <MenuItem
-                          sx={{ fontSize: "15px" }}
-                          key={name}
-                          value={`${name}:${filteredCourseNames[name]}`}
-                        >
-                          {name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  
-                   :
-                   
-                   <FormControl
-                   sx={{ margin: "4px 7px" }}
-                   variant="outlined"
-                   className={classes.textField}
-                 >
-                   <TextField
-                     InputProps={{
-                       readOnly: true,
-                     }}
-                  
-                     label="Course Name"
-                     {...TABLEtextEditorPropsCourseName("courseName")}
-                   />
-                 </FormControl>
-                   
-                   }
-                    
-                    
-          
-
-
-                    
-                  </div>
-
-                  <div className={classes.wrapper}>
-
-
-
-                    {this.props.isStudent === false ? 
-                    
-                    <>
-                    
-                      <FormControl
-                        variant="outlined"
-                        sx={{ margin: "0px 7px" }}
-                        className={classes.textField}
-                      >
-                        <TextField
-                          InputProps={{
-                            readOnly: true
-                          }}
-                          InputLabelProps={{ shrink: true }}
-                          label="Course Code"
-                          MenuProps={{
-                            PaperProps: {
-                              style: {
-                                maxHeight: 48 * 4.5, // where 48 is the item height
-                                width: "20ch",
-                                overflow: "auto",
-                              },
-                            },
-                          }}
-                          {...textEditorPropsReadOnly("courseCode")}
-                        ></TextField>
-                      </FormControl>
-
-
-                
-                      <TextField
-                        sx={{ margin: "0px 7px", width: "230px" }}
-                        label="Units"
-                        type = "number"
-                        InputLabelProps={{ shrink: true }}
-                        variant="outlined"
-                        {...textEditorPropsSpecial("units")}
-                      />
-                      <TextField
-
-                        sx={{ margin: "0px 7px", width: "230px" }}
-                        label="Actual Units"
-                        InputLabelProps={{ shrink: true }}
-                        variant="outlined"
-                        type = "number"
-                        {...textEditorPropsSpecial("actualUnits")}
-                      />
-                    
-                    
-                    
-                    </>
-                    
-                    :
-                    
-                    <>
-                    
-                      <FormControl
-                        variant="outlined"
-                        sx={{ margin: "0px 7px" }}
-                        className={classes.textField}
-                      >
-                        <TextField
-                          InputLabelProps={{ shrink: true }}
-                          InputProps={{
-                            readOnly: true,
-                          }}
-                          label="Course Code"
-                          MenuProps={{
-                            PaperProps: {
-                              style: {
-                                maxHeight: 48 * 4.5, // where 48 is the item height
-                                width: "20ch",
-                                overflow: "auto",
-                              },
-                            },
-                          }}
-                          {...TABLEtextEditorPropsReadOnly("courseCode")}
-                        ></TextField>
-                      </FormControl>
-
-
-                
-                      <TextField
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        sx={{ margin: "0px 7px", width: "230px" }}
-                        label="Units"
-                        InputLabelProps={{ shrink: true }}
-                        variant="outlined"
-                        {...TABLEtextEditorPropsSpecialUnits("units")}
-                      />
-                      <TextField
-                        InputProps={{
-                          readOnly:true
-                        }}
-                      
-                        sx={{ margin: "0px 7px", width: "230px" }}
-                        label="Actual Units"
-                        InputLabelProps={{ shrink: true }}
-                        variant="outlined"
-                        {...TABLEtextEditorPropsSpecialActUnits("actualUnits")}
-                      />
-                    </>
-                    
-                    }
-
-                  </div>
-
-                  {/* 3. Add a Select field that says Class type, and a Select field that says Room */}
-                  <div className={classes.wrapper}>
-
-                {this.props.isStudent === false ?
-                <FormControl
-                  sx={{ margin: "0px 7px" }}
-                  variant="outlined"
-                  className={classes.textField}
-                >
-                  <InputLabel>Class Type</InputLabel>
-                  <Select
-                    label="Class Type"
-                    {...textEditorPropsSpecial("classType")}
-                  >
-                    <MenuItem value={"F2F"}>F2F</MenuItem>
-                    <MenuItem value={"Synchronous Online"}>Sync Online</MenuItem>
-                    <MenuItem value={"Asynchronous Online"}>
-                      Async Online
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-                
-                 :
-                  <FormControl
-                  sx={{ margin: "0px 7px" }}
-                    variant="outlined"
-                    className={classes.textField}
-                  >
-                    <TextField
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                      id="outlined-helperText"
-                      label="Class Type"
-                      {...TABLEtextEditorPropsSpecial("classType")}
-                    />
-                  </FormControl>
-                 
-                 }
-              
-
-                    
-                    {this.props.isStudent === false ? 
-                    
-                    
-                    <FormControl
-                      sx={{ margin: "0px 7px" }}
-                      variant="outlined"
-                      className={classes.textField}
-                    >
-                      <InputLabel>Room</InputLabel>
-                      <Select label="Room" {...textEditorProps("room")}>
-                        {this.state.roomsNames.map((name, index) => (
-                          <MenuItem key={index} value={name.room_name}>
-                            {name.room_name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    :
-                    
-                      <FormControl
-                        sx={{ margin: "0px 7px" }}
                         variant="outlined"
                         className={classes.textField}
                       >
-                        <TextField
-                          InputProps={{
-                            readOnly: true,
-                          }}
+                       
+                        {this.props.isStudent === false ? (
+                          <>
+                            <InputLabel id="professor-name-label">
+                              Professor Name
+                            </InputLabel>
+                            <Select
+                              MenuProps={{
+                                PaperProps: {
+                                  style: {
+                                    maxHeight: 48 * 4.5, // where 48 is the item height
+                                    width: "20ch",
+                                    overflow: "auto",
+                                  },
+                                },
+                              }}
+                              label="professor-name-label"
+                              {...textEditorProps("professorName")}
+                            >
+                              {this.state.professorsNames.map((name, index) => (
+                                <MenuItem key={index} value={name.full_name}>
+                                  {name.full_name}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </>
+                        ) : this.props.isStudent === true && isNewAppointment === false ? (
+                         <TextField
+                       
                           id="outlined-helperText"
-                          label="Room"
-                          {...TABLEtextEditorPropsRoom("room")}
+                          label="Professor Name"
+                          {...EDIT_TABLEtextEditorPropsProf("professorName")}
                         />
-                      </FormControl>
+                        ) : (
+                        
+                           <TextField
                     
-                    }
-          
-          {this.props.isStudent === false ? 
-          
-          <div
-            style={{
-              width: "2rem",
-              height: "2rem",
-              margin: "0px 7px 7px 7px",
-            }}
-            onClick={this.handleOpenRoom}
-            className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`}
-          >
-            <img
-              src={addPerson}
-              style={{
-                width: "1.8rem",
-                height: "1.8rem",
-                marginBottom: "5px",
-              }}
-              alt=""
-            />
-          </div>
-          
-          :
-          
-          ""
-          }
-                  
-                  </div>
-
-                  <div className={SchedulerFacultyCSS.wrapper}>
-
-                    {this.props.isStudent === false ? 
-                    
-                     <FormControl
-                      sx={{ minWidth: 80, margin: "7px 7px" }}
-                      variant="outlined"
-                    >
-                      <InputLabel>Day</InputLabel>
-
-                      <Select
-                        label="Day"
-                        value={displayAppointmentData["day"] ? displayAppointmentData["day"] : ""}
-                        onChange={(event) =>
-                          this.changeAppointment({
-                            field: "day",
-                            changes: dayjs(event.target.value).format("YYYY-MM-DD"),
-                          })
+                            id="outlined-helperText"
+                            label="Professor Name"
+                            {...TABLEtextEditorPropsProf("professorName")}
+                          />
+                          )
                         }
-                      >
-                        {days.map((day) => (
-                          <MenuItem key={day.value} value={day.value}>
-                            {day.label} 
-                          </MenuItem>
-                        ))}
-                      </Select>
-                      
-                    </FormControl>
-                    
-                    
-                    : this.props.isStudent === true && !isNewAppointment ? 
-                    
-                    <FormControl
-                    sx={{ minWidth: 80, margin: "7px 7px" }}
-                    variant="outlined"
-                  >
-                    <InputLabel>Day</InputLabel>
+                      </FormControl>
 
-                    <Select
-                      label="Day"
-                      value={displayAppointmentData["day"] ? displayAppointmentData["day"] : ""}
-                      onChange={(event) =>
-                        this.changeAppointment({
-                          field: "day",
-                          changes: dayjs(event.target.value).format("YYYY-MM-DD"),
-                        })
-                      }
-                    >
-                      {days.map((day) => (
-                        <MenuItem key={day.value} value={day.value}>
-                          {day.label} 
-                        </MenuItem>
-                      ))}
-                    </Select>
-                    
-                  </FormControl>
-                    
-                    :
-                    
-                    <FormControl
-                    sx={{ width: "120px !important", margin: "7px 7px" }}
-                    variant="outlined"
-                    className={classes.textField}
-                  >
+                      {this.props.isStudent === false ? (
+                        <div
+                          style={{ width: "2rem", height: "2rem" }}
+                          onClick={this.handleOpenProf}
+                          className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`}
+                        >
+                          <img
+                            src={addPerson}
+                            style={{
+                              width: "1.8rem",
+                              height: "1.8rem",
+                              marginBottom: "5px",
+                            }}
+                            alt=""
+                          />
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </div>
 
-
-                    
-                    <TextField
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                      id="outlined-helperText"
-                      label="Day"
-                      value={displayAppointmentData['day'] ? this.getDayOfWeek(displayAppointmentData['day']) : ""}
-                    />
-
-                    
-                  </FormControl>
-                    
-                    }
-   
-
-                    <LocalizationProvider dateAdapter={AdapterMoment}>
-
-
-                      {this.props.isStudent === false ? 
-
-                      <>
-                      <TimePicker
-                        label="Start Time"
-                        format="HH:mm a" // Add this line
-                        renderInput={(props) => (
+                    <div className={SchedulerFacultyCSS["year-courseWrapper"]}>
+                      {this.props.isStudent === false ? (
+                        <FormControl
+                          variant="outlined"
+                          className={classes.textField}
+                          sx={{ margin: "7px 7px" }}
+                        >
+                          <InputLabel id="course-category-label">
+                            Year
+                          </InputLabel>
+                          <Select
+                            label="course-category-label"
+                            {...textEditorPropsYearSpecial("year")}
+                          >
+                            <MenuItem value={1}>1st Year</MenuItem>
+                            <MenuItem value={2}>2nd Year</MenuItem>
+                            <MenuItem value={3}>3rd Year</MenuItem>
+                            <MenuItem value={4}>4th Year</MenuItem>
+                          </Select>
+                        </FormControl>
+                      ) : this.props.isStudent === true && !isNewAppointment ? (
+                        <FormControl
+                          variant="outlined"
+                          className={classes.textField}
+                          sx={{ margin: "7px 7px" }}
+                        >
+                          <InputLabel id="course-category-label">
+                            Year
+                          </InputLabel>
+                          <Select
+                            label="course-category-label"
+                            {...textEditorPropsYearSpecial("year")}
+                          >
+                            <MenuItem value={1}>1st Year</MenuItem>
+                            <MenuItem value={2}>2nd Year</MenuItem>
+                            <MenuItem value={3}>3rd Year</MenuItem>
+                            <MenuItem value={4}>4th Year</MenuItem>
+                          </Select>
+                        </FormControl>
+                      ) : (
+                        <FormControl
+                          variant="outlined"
+                          className={classes.textField}
+                          sx={{ margin: "7px 7px" }}
+                        >
                           <TextField
-                            className={classes.picker}
-                            {...props}
-                            sx={{ margin: "7px 7px" }}
+                            InputProps={{
+                              readOnly: true,
+                            }}
+                            id="outlined-helperText"
+                            label="Year"
+                            {...TABLEtextEditorPropsYearSpecial("year")}
                           />
-                        )}
-                        {...startDatePickerProps}
-                        ampm={true}
-                        defaultValue="any"
+                        </FormControl>
+                      )}
+
+                      <SketchExample
+                        defaultColor={displayAppointmentData["color"]}
+                        className={`${SchedulerFacultyCSS.ripple}`}
+                        onColorChange={this.handleColorChange}
+                        ref={this.childRef}
                       />
-                      
-                      <TimePicker
-                        label="End Time"
-                        format="HH:mm a" // Add this line
-                        renderInput={(props) => (
+
+                      {this.props.isStudent === false ? (
+                        <FormControl
+                          variant="outlined"
+                          sx={{ margin: "7px 7px" }}
+                          className={classes.textField}
+                        >
+                          <InputLabel>Block</InputLabel>
+                          <Select
+                            label="Block"
+                            {...textEditorPropsBlockSpecial("block")}
+                          >
+                            {currentBlocks.map((block) => (
+                              <MenuItem key={block} value={block}>
+                                Block {block}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      ) : this.props.isStudent === true && isNewAppointment ? (
+                        <FormControl
+                          variant="outlined"
+                          sx={{ margin: "7px 7px" }}
+                          className={classes.textField}
+                        >
+                          <InputLabel>Block</InputLabel>
+                          <Select
+                            label="Block"
+                            {...textEditorPropsBlockSpecial("block")}
+                          >
+                            {currentBlocks.map((block) => (
+                              <MenuItem key={block} value={block}>
+                                Block {block}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      ) : (
+                        <FormControl
+                          sx={{ margin: "7px 7px" }}
+                          variant="outlined"
+                          className={classes.textField}
+                        >
                           <TextField
-                            className={classes.picker}
-                            {...props}
-                            sx={{ margin: "7px 7px" }}
+                            InputProps={{
+                              readOnly: true,
+                            }}
+                            label="Block"
+                            {...TABLEtextEditorPropsBlockSpecial("block")}
                           />
-                        )}
-                        {...endDatePickerProps}
-                        ampm={true}
-                      />
-                      </>
-                      :
-                      <>
+                        </FormControl>
+                      )}
+                    </div>
 
-
-
-                           <TimePicker
-                            readOnly
-                            label="Start Time"
-                            format="HH:mm a" // Add this line
-                            renderInput={(props) => (
-                              <TextField
-                                className={classes.picker}
-                                {...props}
-                                sx={{ margin: "7px 7px" }}
-                              />
-                            )}
-                            {...TABLEstartDatePickerProps}
-                            ampm={true}
-                            defaultValue="any"
+                    {/* COURSE NAME FIELD */}
+                    <div className={classes.wrapper}>
+                      {this.props.isStudent === false ? (
+                        <FormControl
+                          sx={{ margin: "4px 7px" }}
+                          variant="outlined"
+                          className={classes.textField}
+                        >
+                          <InputLabel
+                            sx={{ fontSize: "15px" }}
+                            id="course-name-label"
+                          >
+                            Course Name
+                          </InputLabel>
+                          <Select
+                            MenuProps={{
+                              PaperProps: {
+                                style: {
+                                  maxHeight: 48 * 4.5, // where 48 is the item height
+                                  width: "20ch",
+                                  overflow: "auto",
+                                },
+                              },
+                            }}
+                            label="course-name-label"
+                            {...textEditorPropsCourseName("courseName")}
+                            sx={{ fontSize: "15px" }}
+                          >
+                            {Object.keys(filteredCourseNames).map((name) => (
+                              <MenuItem
+                                sx={{ fontSize: "15px" }}
+                                key={name}
+                                value={`${name}:${filteredCourseNames[name]}`}
+                              >
+                                {name}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      ) : (
+                        <FormControl
+                          sx={{ margin: "4px 7px" }}
+                          variant="outlined"
+                          className={classes.textField}
+                        >
+                          <TextField
+                            InputProps={{
+                              readOnly: true,
+                            }}
+                            label="Course Name"
+                            {...TABLEtextEditorPropsCourseName("courseName")}
                           />
-                      
-                          <TimePicker
-                            readOnly
-                            label="End Time"
-                            format="HH:mm a" // Add this line
-                            renderInput={(props) => (
-                              <TextField
-                                className={classes.picker}
-                                {...props}
-                                sx={{ margin: "7px 7px" }}
-                              />
-                            )}
-                            {...TABLEendDatePickerProps}
-                            ampm={true}
+                        </FormControl>
+                      )}
+                    </div>
+
+                    <div className={classes.wrapper}>
+                      {this.props.isStudent === false ? (
+                        <>
+                          <FormControl
+                            variant="outlined"
+                            sx={{ margin: "0px 7px" }}
+                            className={classes.textField}
+                          >
+                            <TextField
+                              InputProps={{
+                                readOnly: true,
+                              }}
+                              InputLabelProps={{ shrink: true }}
+                              label="Course Code"
+                              MenuProps={{
+                                PaperProps: {
+                                  style: {
+                                    maxHeight: 48 * 4.5, // where 48 is the item height
+                                    width: "20ch",
+                                    overflow: "auto",
+                                  },
+                                },
+                              }}
+                              {...textEditorPropsReadOnly("courseCode")}
+                            ></TextField>
+                          </FormControl>
+
+                          <TextField
+                            sx={{ margin: "0px 7px", width: "230px" }}
+                            label="Units"
+                            type="number"
+                            InputLabelProps={{ shrink: true }}
+                            variant="outlined"
+                            {...textEditorPropsSpecial("units")}
+                          />
+                          <TextField
+                            sx={{ margin: "0px 7px", width: "230px" }}
+                            label="Actual Units"
+                            InputLabelProps={{ shrink: true }}
+                            variant="outlined"
+                            type="number"
+                            {...textEditorPropsSpecial("actualUnits")}
                           />
                         </>
-                      }
+                      ) : (
+                        <>
+                          <FormControl
+                            variant="outlined"
+                            sx={{ margin: "0px 7px" }}
+                            className={classes.textField}
+                          >
+                            <TextField
+                              InputLabelProps={{ shrink: true }}
+                              InputProps={{
+                                readOnly: true,
+                              }}
+                              label="Course Code"
+                              MenuProps={{
+                                PaperProps: {
+                                  style: {
+                                    maxHeight: 48 * 4.5, // where 48 is the item height
+                                    width: "20ch",
+                                    overflow: "auto",
+                                  },
+                                },
+                              }}
+                              {...TABLEtextEditorPropsReadOnly("courseCode")}
+                            ></TextField>
+                          </FormControl>
 
-                    </LocalizationProvider>
-                  </div>
+                          <TextField
+                            InputProps={{
+                              readOnly: true,
+                            }}
+                            sx={{ margin: "0px 7px", width: "230px" }}
+                            label="Units"
+                            InputLabelProps={{ shrink: true }}
+                            variant="outlined"
+                            {...TABLEtextEditorPropsSpecialUnits("units")}
+                          />
+                          <TextField
+                            InputProps={{
+                              readOnly: true,
+                            }}
+                            sx={{ margin: "0px 7px", width: "230px" }}
+                            label="Actual Units"
+                            InputLabelProps={{ shrink: true }}
+                            variant="outlined"
+                            {...TABLEtextEditorPropsSpecialActUnits(
+                              "actualUnits"
+                            )}
+                          />
+                        </>
+                      )}
+                    </div>
 
-                  <div className={SchedulerFacultyCSS.buttonWrapper}>
-                    {!isNewAppointment && (
+                    {/* 3. Add a Select field that says Class type, and a Select field that says Room */}
+                    <div className={classes.wrapper}>
+                      {this.props.isStudent === false ? (
+                        <FormControl
+                          sx={{ margin: "0px 7px" }}
+                          variant="outlined"
+                          className={classes.textField}
+                        >
+                          <InputLabel>Class Type</InputLabel>
+                          <Select
+                            label="Class Type"
+                            {...textEditorPropsSpecial("classType")}
+                          >
+                            <MenuItem value={"F2F"}>F2F</MenuItem>
+                            <MenuItem value={"Synchronous Online"}>
+                              Sync Online
+                            </MenuItem>
+                            <MenuItem value={"Asynchronous Online"}>
+                              Async Online
+                            </MenuItem>
+                          </Select>
+                        </FormControl>
+                      ) : (
+                        <FormControl
+                          sx={{ margin: "0px 7px" }}
+                          variant="outlined"
+                          className={classes.textField}
+                        >
+                          <TextField
+                            InputProps={{
+                              readOnly: true,
+                            }}
+                            id="outlined-helperText"
+                            label="Class Type"
+                            {...TABLEtextEditorPropsSpecial("classType")}
+                          />
+                        </FormControl>
+                      )}
+
+                      {this.props.isStudent === false ? (
+                        <FormControl
+                          sx={{ margin: "0px 7px" }}
+                          variant="outlined"
+                          className={classes.textField}
+                        >
+                          <InputLabel>Room</InputLabel>
+                          <Select label="Room" {...textEditorProps("room")}>
+                            {this.state.roomsNames.map((name, index) => (
+                              <MenuItem key={index} value={name.room_name}>
+                                {name.room_name}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      ) : (
+                        <FormControl
+                          sx={{ margin: "0px 7px" }}
+                          variant="outlined"
+                          className={classes.textField}
+                        >
+                          <TextField
+                            InputProps={{
+                              readOnly: true,
+                            }}
+                            id="outlined-helperText"
+                            label="Room"
+                            {...TABLEtextEditorPropsRoom("room")}
+                          />
+                        </FormControl>
+                      )}
+
+                      {this.props.isStudent === false ? (
+                        <div
+                          style={{
+                            width: "2rem",
+                            height: "2rem",
+                            margin: "0px 7px 7px 7px",
+                          }}
+                          onClick={this.handleOpenRoom}
+                          className={`${SchedulerFacultyCSS.iconWrapper} ${SchedulerFacultyCSS.ripple}`}
+                        >
+                          <img
+                            src={addPerson}
+                            style={{
+                              width: "1.8rem",
+                              height: "1.8rem",
+                              marginBottom: "5px",
+                            }}
+                            alt=""
+                          />
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+
+                    <div className={SchedulerFacultyCSS.wrapper}>
+                      {this.props.isStudent === false ? (
+                        <FormControl
+                          sx={{ minWidth: 80, margin: "7px 7px" }}
+                          variant="outlined"
+                        >
+                          <InputLabel>Day</InputLabel>
+
+                          <Select
+                            label="Day"
+                            value={
+                              displayAppointmentData["day"]
+                                ? displayAppointmentData["day"]
+                                : ""
+                            }
+                            onChange={(event) =>
+                              this.changeAppointment({
+                                field: "day",
+                                changes: dayjs(event.target.value).format(
+                                  "YYYY-MM-DD"
+                                ),
+                              })
+                            }
+                          >
+                            {days.map((day) => (
+                              <MenuItem key={day.value} value={day.value}>
+                                {day.label}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      ) : this.props.isStudent === true && !isNewAppointment ? (
+                        <FormControl
+                          sx={{ minWidth: 80, margin: "7px 7px" }}
+                          variant="outlined"
+                        >
+                          <InputLabel>Day</InputLabel>
+
+                          <Select
+                            label="Day"
+                            value={
+                              displayAppointmentData["day"]
+                                ? displayAppointmentData["day"]
+                                : ""
+                            }
+                            onChange={(event) =>
+                              this.changeAppointment({
+                                field: "day",
+                                changes: dayjs(event.target.value).format(
+                                  "YYYY-MM-DD"
+                                ),
+                              })
+                            }
+                          >
+                            {days.map((day) => (
+                              <MenuItem key={day.value} value={day.value}>
+                                {day.label}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      ) : (
+                        <FormControl
+                          sx={{ width: "120px !important", margin: "7px 7px" }}
+                          variant="outlined"
+                          className={classes.textField}
+                        >
+                          <TextField
+                            InputProps={{
+                              readOnly: true,
+                            }}
+                            id="outlined-helperText"
+                            label="Day"
+                            value={
+                              displayAppointmentData["day"]
+                                ? this.getDayOfWeek(
+                                    displayAppointmentData["day"]
+                                  )
+                                : ""
+                            }
+                          />
+                        </FormControl>
+                      )}
+
+                      <LocalizationProvider dateAdapter={AdapterMoment}>
+                        {this.props.isStudent === false ? (
+                          <>
+                            <TimePicker
+                              label="Start Time"
+                              format="HH:mm a" // Add this line
+                              renderInput={(props) => (
+                                <TextField
+                                  className={classes.picker}
+                                  {...props}
+                                  sx={{ margin: "7px 7px" }}
+                                />
+                              )}
+                              {...startDatePickerProps}
+                              ampm={true}
+                              defaultValue="any"
+                            />
+
+                            <TimePicker
+                              label="End Time"
+                              format="HH:mm a" // Add this line
+                              renderInput={(props) => (
+                                <TextField
+                                  className={classes.picker}
+                                  {...props}
+                                  sx={{ margin: "7px 7px" }}
+                                />
+                              )}
+                              {...endDatePickerProps}
+                              ampm={true}
+                            />
+                          </>
+                        ) : (
+                          <>
+                            <TimePicker
+                              readOnly
+                              label="Start Time"
+                              format="HH:mm a" // Add this line
+                              renderInput={(props) => (
+                                <TextField
+                                  className={classes.picker}
+                                  {...props}
+                                  sx={{ margin: "7px 7px" }}
+                                />
+                              )}
+                              {...TABLEstartDatePickerProps}
+                              ampm={true}
+                              defaultValue="any"
+                            />
+
+                            <TimePicker
+                              readOnly
+                              label="End Time"
+                              format="HH:mm a" // Add this line
+                              renderInput={(props) => (
+                                <TextField
+                                  className={classes.picker}
+                                  {...props}
+                                  sx={{ margin: "7px 7px" }}
+                                />
+                              )}
+                              {...TABLEendDatePickerProps}
+                              ampm={true}
+                            />
+                          </>
+                        )}
+                      </LocalizationProvider>
+                    </div>
+
+                    <div className={SchedulerFacultyCSS.buttonWrapper}>
+                      {!isNewAppointment && (
+                        <Button
+                          sx={{
+                            textTransform: "none",
+                            color: "white",
+                            borderRadius: "0.5rem",
+                            fontFamily: "Poppins",
+                            fontSize: "0.9rem",
+                            padding: "0.7rem",
+                            minWidth: "3rem",
+                            height: "100%",
+                            margin: "15px 5px",
+                            background: "#ca302e",
+                            "&:hover": {
+                              background: "#ab2927",
+                        
+                            },
+                          }}
+                          variant="contained"
+                          onClick={() => {
+                            visibleChange();
+                            this.commitAppointment("deleted");
+                          }}
+                        >
+                          <DeleteIcon />
+                        </Button>
+                      )}
                       <Button
+                        onClick={() => {
+                          
+                          applyChanges(false)();
+                          this.props.setIsNewSched(isNewAppointment);
+                        }}
+                        style={{ textTransform: "none" }}
                         sx={{
-                          textTransform: "none",
                           color: "white",
                           borderRadius: "0.5rem",
                           fontFamily: "Poppins",
                           fontSize: "0.9rem",
                           padding: "0.7rem",
-                          minWidth: "3rem",
-                          height: "100%",
-                          margin: "15px 5px",
-                          background: "#ca302e",
+                          width: "100%",
+                          margin: "15px 2px",
+
+                          backgroundColor: "#3a9b51 ",
                           "&:hover": {
-                            background: "#ab2927",
+                            background: "#2b773d",
                             // Change the hover background color here
                           },
                         }}
+                        disabled={
+                          this.props.isConflictForm
+                            ? !this.state.isFormValid
+                            : false
+                        }
                         variant="contained"
+                      >
+                        Verify
+                      </Button>
+                      <Button
                         onClick={() => {
                           visibleChange();
-                          this.commitAppointment("deleted");
+                          applyChanges(true)();
+                          // this.props.setIsNewSched(isNewAppointment)
                         }}
+                        style={{ textTransform: "none" }}
+                        sx={{
+                          color: "white",
+                          borderRadius: "0.5rem",
+                          fontFamily: "Poppins",
+                          fontSize: "0.9rem",
+                          padding: "0.7rem",
+                          width: "100%",
+                          margin: "15px 7px",
+                          backgroundColor: "#2196F3",
+                        }}
+                        disabled={this.props.isConflictForm}
+                        variant="contained"
                       >
-                        <DeleteIcon />
+                        {isNewAppointment ? "Create" : "Save"}
                       </Button>
-                    )}
-                    <Button
-                      onClick={() => {
-                        // visibleChange();
-                        applyChanges(false)();
-                        this.props.setIsNewSched(isNewAppointment);
-                      }}
-                      style={{ textTransform: "none" }}
-                      sx={{
-                        color: "white",
-                        borderRadius: "0.5rem",
-                        fontFamily: "Poppins",
-                        fontSize: "0.9rem",
-                        padding: "0.7rem",
-                        width: "100%",
-                        margin: "15px 2px",
-
-                        backgroundColor: "#3a9b51 ",
-                        "&:hover": {
-                          background: "#2b773d",
-                          // Change the hover background color here
-                        },
-                      }}
-                      disabled={this.props.isConflictForm ? !this.state.isFormValid : false}
-                      variant="contained"
-                    >
-                      Verify 
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        visibleChange();
-                        applyChanges(true)();
-                        // this.props.setIsNewSched(isNewAppointment)
-                      }}
-                      style={{ textTransform: "none" }}
-                      sx={{
-                        color: "white",
-                        borderRadius: "0.5rem",
-                        fontFamily: "Poppins",
-                        fontSize: "0.9rem",
-                        padding: "0.7rem",
-                        width: "100%",
-                        margin: "15px 7px",
-                        backgroundColor: "#2196F3",
-                      }}
-                      disabled={this.props.isConflictForm}
-                      variant="contained"
-                    >
-                      {isNewAppointment ? "Create" : "Save"}
-                    </Button>
+                    </div>
                   </div>
+                </StyledDiv>
+
+                {/* PROF MODAL */}
+                <Modal
+                  className={SchedulerFacultyCSS.profModal}
+                  open={this.state.openProf}
+                  onClose={this.handleCloseProf}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box
+                    className={SchedulerFacultyCSS.profModalBoxParent}
+                    sx={styleProf}
+                  >
+                    <ProfessorTable onCloseProp={this.handleCloseProf} />
+                  </Box>
+                </Modal>
+
+                {/* ROOM MODAL */}
+                <Modal
+                  className={SchedulerFacultyCSS.profRoom}
+                  open={this.state.openRoom}
+                  onClose={this.handleCloseRoom}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box
+                    className={SchedulerFacultyCSS.roomModalBoxParent}
+                    sx={styleRoom}
+                  >
+                    <RoomTable onCloseProp={this.handleCloseRoom} />
+                  </Box>
+                </Modal>
+              </div>
+            ),
+            otherChildren: (
+              <div className={SchedulerFacultyCSS.minorsFormContainer}>
+                <div className={SchedulerFacultyCSS.topSection}>
+                  <h2>Minor Subjects</h2>
+                  <FormControl
+                    sx={{
+                      mr: 0.6,
+                      minWidth: 115,
+                    }}
+                  >
+                    <Select
+                      value={this.state.yearTable}
+                      onChange={(event) => {
+                        this.setState({ yearTable: event.target.value });
+                      }}
+                      displayEmpty
+                      inputProps={{ "aria-label": "Without label" }}
+                      sx={{
+                        backgroundColor: "white",
+                        borderRadius: "0.5rem",
+                        fontFamily: "Poppins",
+                        fontSize: "0.9rem",
+                        padding: "0rem",
+                        fontWeight: "600",
+                      }}
+                    >
+                      <MenuItem value="">Year</MenuItem>
+                      <MenuItem value={1}>1st Year</MenuItem>
+                      <MenuItem value={2}>2nd Year</MenuItem>
+                      <MenuItem value={3}>3rd Year</MenuItem>
+                      <MenuItem value={4}>4th Year</MenuItem>
+                      <MenuItem value={5}>5th Year</MenuItem>
+                    </Select>
+                  </FormControl>
                 </div>
-              </StyledDiv>
-
-              {/* PROF MODAL */}
-              <Modal
-                className={SchedulerFacultyCSS.profModal}
-                open={this.state.openProf}
-                onClose={this.handleCloseProf}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-                <Box
-                  className={SchedulerFacultyCSS.profModalBoxParent}
-                  sx={styleProf}
-                >
-                  <ProfessorTable onCloseProp={this.handleCloseProf} />
-                </Box>
-              </Modal>
-
-              {/* ROOM MODAL */}
-              <Modal
-                className={SchedulerFacultyCSS.profRoom}
-                open={this.state.openRoom}
-                onClose={this.handleCloseRoom}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-                <Box
-                  className={SchedulerFacultyCSS.roomModalBoxParent}
-                  sx={styleRoom}
-                >
-                  <RoomTable onCloseProp={this.handleCloseRoom} />
-                </Box>
-              </Modal>
-            </div>
-          ),
-          otherChildren: (
-            <div className={SchedulerFacultyCSS.minorsFormContainer}>
-              <div className={SchedulerFacultyCSS.topSection}>
-                
-              <h2>Minor Subjects</h2>
-              <FormControl
-                sx={{
-                  mr: 0.6,
-                  minWidth: 115,
-                }}
-              >
-                <Select
-                  value={this.state.yearTable}
-                  onChange={(event) => {
-                    this.setState({yearTable: event.target.value})
-                  }}
-                  displayEmpty
-                  inputProps={{ "aria-label": "Without label" }}
-                  sx={{
-                    backgroundColor: "white",
-                    borderRadius: "0.5rem",
-                    fontFamily: "Poppins",
-                    fontSize: "0.9rem",
-                    padding: "0rem",
-                    fontWeight: "600",
-                  
-                  }}
-                >
-                  <MenuItem value="">Year</MenuItem>
-                  <MenuItem value={1}>1st Year</MenuItem>
-                  <MenuItem value={2}>2nd Year</MenuItem>
-                  <MenuItem value={3}>3rd Year</MenuItem>
-                  <MenuItem value={4}>4th Year</MenuItem>
-                  <MenuItem value={5}>5th Year</MenuItem>
-                </Select>
-              </FormControl>
+                <div className={SchedulerFacultyCSS.tableWrapper}>
+                  <TableFormStudents
+                    handleRowClick={this.handleRowClick}
+                    yearTableProp={this.state.yearTable}
+                  />
+                </div>
               </div>
-              <div className={SchedulerFacultyCSS.tableWrapper}>
-
-                
-             <TableFormStudents handleRowClick = {this.handleRowClick} yearTableProp = {this.state.yearTable}/>
-              </div>
-            
-            </div>
-          ),
-        }} />  
-
-
+            ),
+          }}
+        />
       </>
-      
     );
   }
 }
@@ -2066,7 +2033,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       isConflictForm: true,
       triggerToast: false,
       majorCourses: {},
-      coursesColors: {}
+      coursesColors: {},
     };
 
     this.toggleConfirmationVisible = this.toggleConfirmationVisible.bind(this);
@@ -2124,19 +2091,13 @@ export default class SchedulerFaculty extends React.PureComponent {
         isNewAppointment: this.state.isNewAppointment,
         majorCourses: this.state.majorCourses,
         coursesColors: this.state.coursesColors,
-        isStudent: this.props.isStudent
+        isStudent: this.props.isStudent,
       };
     });
   }
 
-
-
-
-
-  
   handleDataFromChild = (value, isYear, oldYear, oldBlock) => {
-
-    console.log("NAG SET AKO!!!")
+    console.log("NAG SET AKO!!!");
 
     if (isYear) {
       this.setState({ year: value });
@@ -2153,68 +2114,94 @@ export default class SchedulerFaculty extends React.PureComponent {
   };
 
   applyFilter = () => {
+    console.log(this.props.professorName, "I'M THE PROFESSOR");
 
-    console.log(this.props.professorName,"I'M THE PROFESSOR")
-
-    console.log(this.state.data, "I'm the data")
+    console.log(this.state.data, "I'm the data");
     //if no year and block and professor, show all data
-    if (!this.props.year && this.props.block.length === 0 && !this.props.professorName) {
-      console.log(`i ran 1 ${this.props.year} ${this.props.block} ${this.props.professorName}`);
-      this.updateNewData(this.state.data);
-    
-     //if no year and block, show professor matches 
-    } else if (!this.props.year && this.props.block.length === 0) {
-      console.log(`i ran 2 ${this.props.year} ${this.props.block} ${this.props.professorName}`);
-      const filteredData = this.state.data.filter(
-        (item) => {
-          return item.professorName === this.props.professorName
-        }
+    if (
+      !this.props.year &&
+      this.props.block.length === 0 &&
+      !this.props.professorName
+    ) {
+      console.log(
+        `i ran 1 ${this.props.year} ${this.props.block} ${this.props.professorName}`
       );
+      this.updateNewData(this.state.data);
+
+      //if no year and block, show professor matches
+    } else if (!this.props.year && this.props.block.length === 0) {
+      console.log(
+        `i ran 2 ${this.props.year} ${this.props.block} ${this.props.professorName}`
+      );
+      const filteredData = this.state.data.filter((item) => {
+        return item.professorName === this.props.professorName;
+      });
       this.updateNewData(filteredData);
 
-      //if no block and professor, show year matches 
+      //if no block and professor, show year matches
     } else if (this.props.block.length === 0 && !this.props.professorName) {
-      console.log(`i ran 3 ${this.props.year} ${this.props.block} ${this.props.professorName}`);
+      console.log(
+        `i ran 3 ${this.props.year} ${this.props.block} ${this.props.professorName}`
+      );
       const filteredData = this.state.data.filter(
         (item) => item.year === this.props.year
       );
       this.updateNewData(filteredData);
-    } else if (!this.props.year && !this.props.professorName) { //if no year and professor, show block matches
-      console.log(`i ran 4 ${this.props.year} ${this.props.block} ${this.props.professorName}`);
+    } else if (!this.props.year && !this.props.professorName) {
+      //if no year and professor, show block matches
+      console.log(
+        `i ran 4 ${this.props.year} ${this.props.block} ${this.props.professorName}`
+      );
       const filteredData = this.state.data.filter(
         (item) => item.block === this.props.block
       );
       this.updateNewData(filteredData);
-    } else if (!this.props.year) { //if there is block and professor, show block and professor matches
-      console.log(`i ran 5 ${this.props.year} ${this.props.block} ${this.props.professorName}`);
+    } else if (!this.props.year) {
+      //if there is block and professor, show block and professor matches
+      console.log(
+        `i ran 5 ${this.props.year} ${this.props.block} ${this.props.professorName}`
+      );
       const filteredData = this.state.data.filter(
-        (item) => item.block === this.props.block && item.professorName === this.props.professorName
+        (item) =>
+          item.block === this.props.block &&
+          item.professorName === this.props.professorName
       );
       this.updateNewData(filteredData);
-    } else if (this.props.block.length === 0) { //if there is year and professor, show year and professor matches
-      console.log(`i ran 6 ${this.props.year} ${this.props.block} ${this.props.professorName}`);
+    } else if (this.props.block.length === 0) {
+      //if there is year and professor, show year and professor matches
+      console.log(
+        `i ran 6 ${this.props.year} ${this.props.block} ${this.props.professorName}`
+      );
       const filteredData = this.state.data.filter(
-        (item) => item.year === this.props.year && item.professorName === this.props.professorName
+        (item) =>
+          item.year === this.props.year &&
+          item.professorName === this.props.professorName
       );
       this.updateNewData(filteredData);
-    } else if (!this.props.professorName) { //if there is year and block, show year and block matches
-      console.log(`i ran 7 ${this.props.year} ${this.props.block} ${this.props.professorName}`);
+    } else if (!this.props.professorName) {
+      //if there is year and block, show year and block matches
+      console.log(
+        `i ran 7 ${this.props.year} ${this.props.block} ${this.props.professorName}`
+      );
       const filteredData = this.state.data.filter(
-        (item) => item.year === this.props.year && item.block === this.props.block
+        (item) =>
+          item.year === this.props.year && item.block === this.props.block
       );
       this.updateNewData(filteredData);
     } else {
-
       //if there is year, block and professor, show year, block and professor matches
-      console.log(`i ran 8 ${this.props.year} ${this.props.block} ${this.props.professorName}`);
+      console.log(
+        `i ran 8 ${this.props.year} ${this.props.block} ${this.props.professorName}`
+      );
       const filteredData = this.state.data.filter(
         (item) =>
-          item.year === this.props.year && item.block === this.props.block && item.professorName === this.props.professorName
+          item.year === this.props.year &&
+          item.block === this.props.block &&
+          item.professorName === this.props.professorName
       );
       this.updateNewData(filteredData);
     }
   };
-
 
   applyFilterRoom = () => {
     if (this.props.room) {
@@ -2289,7 +2276,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       this.props.block !== prevProps.block ||
       this.props.professorName !== prevProps.professorName
     ) {
-      console.log("TUMATAKBO BAKO O HINDE")
+      console.log("TUMATAKBO BAKO O HINDE");
       this.fetchDataButtonsSched();
       this.applyFilter();
     }
@@ -2322,7 +2309,6 @@ export default class SchedulerFaculty extends React.PureComponent {
     this.updateCurrentUnits();
     this.fetchAllProfData();
 
-
     try {
       console.log("i ran major courses data");
       const response = await fetch("http://localhost:3000/grabMajorCourses");
@@ -2334,13 +2320,12 @@ export default class SchedulerFaculty extends React.PureComponent {
         acc[course.year][course.name] = course.code;
         return acc;
       }, {});
-      this.setState({ majorCourses: courseNames }, () =>   console.log(this.state.majorCourses, "AKO UNG MAJORS"));
-    
-    
+      this.setState({ majorCourses: courseNames }, () =>
+        console.log(this.state.majorCourses, "AKO UNG MAJORS")
+      );
     } catch (error) {
       console.error("Error fetching major names:", error);
     }
-
 
     try {
       console.log("i ran course color data");
@@ -2350,14 +2335,14 @@ export default class SchedulerFaculty extends React.PureComponent {
         acc[course.course_code] = course.color;
         return acc;
       }, {});
-     
-      this.setState({ coursesColors: coursesColors }, () =>   console.log(this.state.coursesColors, "AKO UNG COLORS"));
-    
-    
+
+      this.setState({ coursesColors: coursesColors }, () =>
+        console.log(this.state.coursesColors, "AKO UNG COLORS")
+      );
     } catch (error) {
       console.error("Error fetching major names:", error);
     }
-    
+
     try {
       console.log("i ran prof data");
       const response = await fetch("http://localhost:3000/grabProfessors");
@@ -2482,7 +2467,7 @@ export default class SchedulerFaculty extends React.PureComponent {
     isConfirm
   ) {
     this.setState({ isUpdatingSchedules: true });
-    console.log(isConfirm, added, changed, "confirm check")
+    console.log(isConfirm, added, changed, "confirm check");
     try {
       const requestOptions = {
         method: "PUT",
@@ -2509,9 +2494,8 @@ export default class SchedulerFaculty extends React.PureComponent {
       this.fetchAllProfData();
 
       if (added || changed) {
+        console.log("IM CHANGED!!!", this.state.year, this.state.block);
 
-        console.log("IM CHANGED!!!", this.state.year, this.state.block)
-       
         if (!conflict) {
           console.log(conflict, "nag run ako");
 
@@ -2564,24 +2548,35 @@ export default class SchedulerFaculty extends React.PureComponent {
     let conflictDescriptions = [];
 
     if (newSchedule.classType !== "F2F")
-      return { conflict: false, description: conflictDescriptions.join(', ') };
+      return { conflict: false, description: conflictDescriptions.join(", ") };
 
     for (let existing of existingSchedules) {
       let conflicts = [];
-      let isTimeConflict = this.isTimeOverlap(existing, newSchedule) && existing.day === newSchedule.day;
-      
-      if (isTimeConflict && existing.professorName === newSchedule.professorName) {
-        conflicts.push('professor');
+      let isTimeConflict =
+        this.isTimeOverlap(existing, newSchedule) &&
+        existing.day === newSchedule.day;
+
+      if (
+        isTimeConflict &&
+        existing.professorName === newSchedule.professorName
+      ) {
+        conflicts.push("professor");
       }
-      if (isTimeConflict && existing.year === newSchedule.year && existing.block === newSchedule.block) {
-        conflicts.push('year-block');
-      } 
+      if (
+        isTimeConflict &&
+        existing.year === newSchedule.year &&
+        existing.block === newSchedule.block
+      ) {
+        conflicts.push("year-block");
+      }
       if (isTimeConflict && existing.room === newSchedule.room) {
-        conflicts.push('room');
-      } 
+        conflicts.push("room");
+      }
 
       if (conflicts.length) {
-        conflictDescriptions.push(`Conflict due to same ${conflicts.join(', ')} and day-time overlap.`);
+        conflictDescriptions.push(
+          `Conflict due to same ${conflicts.join(", ")} and day-time overlap.`
+        );
       }
 
       if (conflicts.length) {
@@ -2593,14 +2588,12 @@ export default class SchedulerFaculty extends React.PureComponent {
         ) {
           continue;
         }
-        return { conflict: true, description: conflictDescriptions.join(' ') };
+        return { conflict: true, description: conflictDescriptions.join(" ") };
       }
     }
 
-    return { conflict: false, description: conflictDescriptions.join(' ') };
+    return { conflict: false, description: conflictDescriptions.join(" ") };
   }
-
-
 
   async doesUnitsExceedUpdate(newSchedule, changed) {
     try {
@@ -2723,7 +2716,7 @@ export default class SchedulerFaculty extends React.PureComponent {
 
       console.log(doesUnitsExceedCheck, "NIASDASD");
       if (doesUnitsExceedCheck) {
-         conflictDescription = `Max Units Exceeded: 
+        conflictDescription = `Max Units Exceeded: 
           ${professor.current_units} + ${parseInt(newSchedule.units)}
          > ${professor.max_units} `;
         console.log(
@@ -2766,8 +2759,7 @@ export default class SchedulerFaculty extends React.PureComponent {
   };
 
   async commitChanges({ added, changed, deleted }, isConfirm) {
-
-    console.log("TYPES!!!!!!!!", added, changed, deleted)
+    console.log("TYPES!!!!!!!!", added, changed, deleted);
     try {
       const response = await fetch("http://localhost:3000/grabProfessors");
       const professorsData = await response.json();
@@ -2912,7 +2904,19 @@ export default class SchedulerFaculty extends React.PureComponent {
         },
         () => {
           console.log(this.state.isConflict, "UPDATE SHEEEE");
-          console.log(this.state.data + "=" + added + "=" + changed  + "=" + deleted  + "=" +this.state.isConflict + "=" + isConfirm    )
+          console.log(
+            this.state.data +
+              "=" +
+              added +
+              "=" +
+              changed +
+              "=" +
+              deleted +
+              "=" +
+              this.state.isConflict +
+              "=" +
+              isConfirm
+          );
           this.updateSchedules(
             this.state.data,
             added,
@@ -2947,7 +2951,7 @@ export default class SchedulerFaculty extends React.PureComponent {
     return (
       <div className={SchedulerFacultyCSS.tooltipContainer}>
         <>
-        {}
+          {}
           <CustomPaper>
             <Scheduler
               data={newData}
@@ -2972,9 +2976,12 @@ export default class SchedulerFaculty extends React.PureComponent {
               <EditRecurrenceMenu />
 
               {/* <Appointments appointmentComponent={Appointment} /> */}
-              <Appointments appointmentComponent={(props) => <Appointment {...props} isStudent={this.props.isStudent} />} />
+              <Appointments
+                appointmentComponent={(props) => (
+                  <Appointment {...props} isStudent={this.props.isStudent} />
+                )}
+              />
 
-              
               {this.props.readOnly ? null : (
                 <AppointmentTooltip
                   showOpenButton
