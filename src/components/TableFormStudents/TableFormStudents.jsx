@@ -12,12 +12,29 @@ import {
   TableCell,
   TableBody,
   TablePagination,
+  ButtonBase
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import * as XLSX from "xlsx";
 
+
+const dataRowSX = {
+  display: "table-row",
+  ":hover": {
+    backgroundColor: "#f5f5f5",
+    cursor: "pointer",
+  },
+  '&.clicked': {
+    animation: '$blink 0.5s ease-in-out',
+  },
+  '@keyframes blink': {
+    '0%': { backgroundColor: 'transparent' },
+    '50%': { backgroundColor: '#f5f5f5' },
+    '100%': { backgroundColor: 'transparent' },
+  },
+};
 const StyledTableCellID = styled(TableCell)({
   fontWeight: "bold",
   backgroundColor: "#f7f4f4",
@@ -75,7 +92,12 @@ const TableFormStudents = forwardRef(
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(7);
 
- 
+    const [clickedRow, setClickedRow] = useState(null);
+
+    const handleClick = (id) => {
+      setClickedRow(id);
+      setTimeout(() => setClickedRow(null), 100);
+    };
 
     const fetchDataButtonsYear = () => {
       fetch(
@@ -174,12 +196,17 @@ const TableFormStudents = forwardRef(
               {data
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => (
-                  <StyledTableRow
+                   <ButtonBase
                     key={row.id}
-                    onClick={() => handleRowClick(row)}
-                    hover
-                    style={{ cursor: 'pointer' }}
+                    component={TableRow}
+                    sx={dataRowSX}
+                    onClick={() => {
+                      handleRowClick(row)
+                      handleClick(row.id)
+                    }}
+                    className={row.id === clickedRow ? 'clicked' : ''}
                   >
+            
                     <TableCell>{page * rowsPerPage + index + 1}</TableCell>
                     <TableCell>{row.professor_name}</TableCell>
                     <TableCell>{row.year}</TableCell>
@@ -189,7 +216,7 @@ const TableFormStudents = forwardRef(
                     <TableCell>{getDayLabel(row.day)}</TableCell>
                     <TableCell>{formatTime(row.start_date)}</TableCell>
                     <TableCell>{formatTime(row.end_date)}</TableCell>
-                  </StyledTableRow>
+                    </ButtonBase>
                 ))}
             </TableBody>
           </Table>
