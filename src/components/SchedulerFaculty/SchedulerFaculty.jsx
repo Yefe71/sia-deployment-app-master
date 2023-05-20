@@ -530,6 +530,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     } else {
       commitChanges({ [type]: appointment }, isConfirm);
     }
+
+    
   }
 
   async fetchDataProf() {
@@ -643,6 +645,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       this.setState({ oldBlock: this.props.appointmentData.block });
       this.setState({ appointmentChanges: {} });
 
+      
       console.log(this.props.visible, "HATFOGASDASDASDASDASDASDASDASDASD")
       console.log(this.props.appointmentData.day);
       console.log(this.props.appointmentData.startDate);
@@ -685,6 +688,17 @@ class AppointmentFormContainerBasic extends React.PureComponent {
   };
 
   async componentDidMount() {
+
+    this.props.isNewAppointment
+    ? this.setState(prevState => ({
+        selectedRow: {
+          ...prevState.selectedRow,
+          professorName: "",
+        }
+      }))
+    : "";
+
+
     try {
       const responses = await Promise.all([
         fetch(
@@ -787,11 +801,13 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     const filteredCourseNames = yearField
       ? this.props.majorCourses[yearField]
       : [];
+      
     const displayAppointmentData = {
       ...appointmentData,
       ...appointmentChanges,
     };
 
+    console.log("IM STILL HERE!!!!!!!!!!!", displayAppointmentData)
     const isFormValid = () => {
       const requiredFields = [
         "professorName",
@@ -854,11 +870,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     });
     const TABLEtextEditorPropsProf = (field) => ({
       variant: "outlined",
-      value: displayAppointmentData[field]
-        ? displayAppointmentData[field]
-        : this.state.selectedRow
-        ? this.state.selectedRow.professor_name
-        : "",
+      value: displayAppointmentData[field] ||
+        // ? displayAppointmentData[field]
+        // : this.state.selectedRow 
+        // ? this.state.selectedRow.professor_name
+         "",
 
       className: classes.textField,
     });
@@ -885,11 +901,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           field: [field],
           changes: change.value,
         }),
-      value: displayAppointmentData[field]
-        ? displayAppointmentData[field]
-        : this.state.selectedRow
-        ? this.state.selectedRow.room
-        : "",
+        value: displayAppointmentData[field] || "",
+        // ? displayAppointmentData[field]
+        // : this.state.selectedRow
+        // ? this.state.selectedRow.room
+        // : "",
       className: classes.textField,
     });
     const textEditorPropsSpecial = (field) => ({
@@ -911,11 +927,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           changes: change.value,
         });
       },
-      value: displayAppointmentData[field]
-        ? displayAppointmentData[field]
-        : this.state.selectedRow
-        ? this.state.selectedRow.class_type
-        : "",
+      value: displayAppointmentData[field] || "",
+        // ? displayAppointmentData[field]
+        // : this.state.selectedRow
+        // ? this.state.selectedRow.class_type
+        // : "",
       className: classes.textField,
     });
     const TABLEtextEditorPropsSpecialUnits = (field) => ({
@@ -926,11 +942,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           changes: change.value,
         });
       },
-      value: displayAppointmentData[field]
-        ? displayAppointmentData[field]
-        : this.state.selectedRow
-        ? this.state.selectedRow.unit
-        : "",
+      value: displayAppointmentData[field] || "",
+        // ? displayAppointmentData[field]
+        // : this.state.selectedRow
+        // ? this.state.selectedRow.unit
+        // : "",
       className: classes.textField,
     });
     const TABLEtextEditorPropsSpecialActUnits = (field) => ({
@@ -941,11 +957,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           changes: change.value,
         });
       },
-      value: displayAppointmentData[field]
-        ? displayAppointmentData[field]
-        : this.state.selectedRow
-        ? this.state.selectedRow.actual_unit
-        : "",
+      value: displayAppointmentData[field] || "",
+        // ? displayAppointmentData[field]
+        // : this.state.selectedRow
+        // ? this.state.selectedRow.actual_unit
+        // : "",
       className: classes.textField,
     });
 
@@ -1043,11 +1059,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           changes: change.value,
         });
       },
-      value: displayAppointmentData[field]
-        ? `${displayAppointmentData.courseName}`
-        : this.state.selectedRow
-        ? `${this.state.selectedRow.course_name}`
-        : "",
+      value: displayAppointmentData[field] || "",
+        // ? `${displayAppointmentData.courseName}`
+        // : this.state.selectedRow
+        // ? `${this.state.selectedRow.course_name}`
+        // : "",
       // label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
@@ -1092,11 +1108,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         this.setState({ yearPropChild: change.value });
         this.setState({ yearFieldTable: change.value });
       },
-      value: displayAppointmentData[field]
-        ? displayAppointmentData[field]
-        : this.state.selectedRow
-        ? this.state.selectedRow.year
-        : "",
+      value: displayAppointmentData[field] || "",
+        // ? displayAppointmentData[field]
+        // : this.state.selectedRow
+        // ? this.state.selectedRow.year
+        // : "",
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
@@ -1120,11 +1136,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           changes: change.value,
         });
       },
-      value: displayAppointmentData[field]
-        ? displayAppointmentData[field]
-        : this.state.selectedRow
-        ? this.state.selectedRow.course_code
-        : "",
+      value: displayAppointmentData[field] || "",
+        // ? displayAppointmentData[field]
+        // : this.state.selectedRow
+        // ? this.state.selectedRow.course_code
+        // : "",
       className: classes.textField,
     });
 
@@ -3041,19 +3057,6 @@ export default class SchedulerFaculty extends React.PureComponent {
         },
         () => {
           console.log(this.state.isConflict, "UPDATE SHEEEE");
-          console.log(
-            this.state.data +
-              "=" +
-              added +
-              "=" +
-              changed +
-              "=" +
-              deleted +
-              "=" +
-              this.state.isConflict +
-              "=" +
-              isConfirm
-          );
           this.updateSchedules(
             this.state.data,
             added,
@@ -3063,7 +3066,7 @@ export default class SchedulerFaculty extends React.PureComponent {
             isConfirm
           );
 
-          // this.setState({appointmentChanges: {}})
+         
         }
       );
     } catch (error) {
