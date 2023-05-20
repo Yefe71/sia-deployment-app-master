@@ -2725,11 +2725,20 @@ export default class SchedulerFaculty extends React.PureComponent {
       if (isTimeConflict && existing.room === newSchedule.room) {
         conflicts.push("room");
       }
+      if (
+        existing.year === newSchedule.year &&
+        existing.block === newSchedule.block &&
+        existing.courseCode === newSchedule.courseCode
+      ) {
+        let conflictExists = conflicts.includes("year-block");
+        conflicts.push(conflictExists ? "course" : "course-year-block");
+      }
 
       if (conflicts.length) {
-        conflictDescriptions.push(
-          `Conflict due to same ${conflicts.join(", ")} and day-time overlap.`
-        );
+        let conflictDescription = isTimeConflict 
+          ? `Conflict due to same ${conflicts.join(", ")} and day-time overlap.` 
+          : `Conflict due to same ${conflicts.join(", ")}.`;
+        conflictDescriptions.push(conflictDescription);
       }
 
       if (conflicts.length) {
@@ -2747,6 +2756,9 @@ export default class SchedulerFaculty extends React.PureComponent {
 
     return { conflict: false, description: conflictDescriptions.join(" ") };
   }
+
+
+
 
   async doesUnitsExceedUpdate(newSchedule, changed) {
     try {
