@@ -643,7 +643,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       this.setState({ oldBlock: this.props.appointmentData.block });
       this.setState({ appointmentChanges: {} });
 
-      console.log("DEFAULT DATA!");
+      console.log(this.props.visible, "HATFOGASDASDASDASDASDASDASDASDASD")
       console.log(this.props.appointmentData.day);
       console.log(this.props.appointmentData.startDate);
       console.log(this.props.appointmentData.endDate);
@@ -1173,6 +1173,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       });
       visibleChange();
       cancelAppointment();
+      
     };
     const courseNameOptions = Object.keys(this.props.majorCourses).map(
       (category) => (
@@ -1246,6 +1247,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                     >
                       <Close color="action" />
                     </IconButton>
+                    {`${this.props.isStudent} | ${isNewAppointment}`}
                   </div>
                   <div className={classes.content}>
                     {/* PROFESSOR NAME FIELD */}
@@ -1781,7 +1783,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                           variant="outlined"
                         >
                           <InputLabel>Day</InputLabel>
-                          {`${this.props.isStudent} | ${isNewAppointment}`}
+                      
                           <Select
                             label="Day"
                             value={
@@ -2154,15 +2156,47 @@ export default class SchedulerFaculty extends React.PureComponent {
         addedAppointment,
         isNewAppointment,
         previousAppointment,
+        newData
       } = this.state;
 
+// console.log(editingAppointment, appointment.id, editingAppointment.id, editingAppointment && appointment.id === editingAppointment.id)
+
       const currentAppointment =
-        data.filter(
+        newData.filter(
           (appointment) =>
             editingAppointment && appointment.id === editingAppointment.id
         )[0] || addedAppointment;
 
-      const cancelAppointment = () => {
+      const cancelAppointment = async () => {
+        try {
+          const response = await fetch(`http://localhost:3000/grabSchedules`);
+          const data = await response.json();
+          const rows = data.map((item) => ({
+            id: item.id,
+            color: item.color,
+            startDate: item.start_date,
+            endDate: item.end_date,
+            professorName: item.professor_name,
+            year: item.year,
+            block: item.block,
+            courseName: item.course_name,
+            courseCode: item.course_code,
+            actualUnits: item.actual_units,
+            units: item.units,
+            classType: item.class_type,
+            room: item.room,
+            day: dayjs(item.day).format("YYYY-MM-DD"),
+          }));
+          console.log(rows, "grab schedules");
+
+          this.setState({ data: rows }, () => {
+            this.setState({ newData: this.state.data }, () => this.applyFilter());
+          });
+        } catch (error) {
+          console.log(error);
+        }
+        console.log( "SHOULD BE PREVIOUS APPOINTMENT", this.state.editingAppointment)
+        
         if (isNewAppointment) {
           this.setState({
             editingAppointment: previousAppointment,
@@ -2369,7 +2403,7 @@ export default class SchedulerFaculty extends React.PureComponent {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  async componentDidUpdate(prevProps, prevState) {
     this.appointmentForm.update();
 
     if (
@@ -2389,6 +2423,9 @@ export default class SchedulerFaculty extends React.PureComponent {
       console.log("CHANGE");
       this.updateCurrentUnits();
       this.fetchAllProfData();
+
+
+      
     }
 
     if (!prevState.isConflict && this.state.isConflict) {
