@@ -1249,7 +1249,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                     </IconButton>
                   </div>
                   <div className={classes.content}>
-                    {/* PROFESSOR NAME FIELD */}
+                   
                     <div
                       className={SchedulerFacultyCSS.wrapper}
                       style={{ margin: "0px 7px 7px 7px" }}
