@@ -636,7 +636,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
 
     if (prevProps.visible !== this.props.visible) {
       this.setState({ yearField: 0 });
-      this.setState({ yearFieldTable: 0 });
+      this.setState({ yearFieldTable: this.props.appointmentData.year  });
       this.setState({ yearPropChild: this.props.appointmentData.year });
       this.setState({ blockPropChild: this.props.appointmentData.block });
       this.setState({ oldYear: this.props.appointmentData.year });
