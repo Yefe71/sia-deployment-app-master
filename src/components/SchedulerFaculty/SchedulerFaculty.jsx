@@ -1247,7 +1247,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                     >
                       <Close color="action" />
                     </IconButton>
-                    {`${this.props.isStudent} | ${isNewAppointment}`}
                   </div>
                   <div className={classes.content}>
                     {/* PROFESSOR NAME FIELD */}
