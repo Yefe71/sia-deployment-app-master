@@ -1069,6 +1069,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         });
 
         this.setState({ yearPropChild: change.value });
+        this.setState({ yearFieldTable: change.value });
       },
       value: displayAppointmentData[field] || "",
       label: field[0].toUpperCase() + field.slice(1),
@@ -1084,6 +1085,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
         });
 
         this.setState({ yearPropChild: change.value });
+        this.setState({ yearFieldTable: change.value });
       },
       value: displayAppointmentData[field]
         ? displayAppointmentData[field]
@@ -1379,7 +1381,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                         ref={this.childRef}
                       />
 
-                      {this.props.isStudent === false ? (
+                      
                         <FormControl
                           variant="outlined"
                           sx={{ margin: "7px 7px" }}
@@ -1397,39 +1399,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                             ))}
                           </Select>
                         </FormControl>
-                      ) : this.props.isStudent === true && isNewAppointment ? (
-                        <FormControl
-                          variant="outlined"
-                          sx={{ margin: "7px 7px" }}
-                          className={classes.textField}
-                        >
-                          <InputLabel>Block</InputLabel>
-                          <Select
-                            label="Block"
-                            {...textEditorPropsBlockSpecial("block")}
-                          >
-                            {currentBlocks.map((block) => (
-                              <MenuItem key={block} value={block}>
-                                Block {block}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      ) : (
-                        <FormControl
-                          sx={{ margin: "7px 7px" }}
-                          variant="outlined"
-                          className={classes.textField}
-                        >
-                          <TextField
-                            InputProps={{
-                              readOnly: true,
-                            }}
-                            label="Block"
-                            {...TABLEtextEditorPropsBlockSpecial("block")}
-                          />
-                        </FormControl>
-                      )}
+                   
                     </div>
 
                     {/* COURSE NAME FIELD */}
