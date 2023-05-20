@@ -1781,7 +1781,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                           variant="outlined"
                         >
                           <InputLabel>Day</InputLabel>
-
+                          {`${this.props.isStudent} | ${isNewAppointment}`}
                           <Select
                             label="Day"
                             value={
