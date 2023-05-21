@@ -330,18 +330,27 @@ function StudyPlanForm({onCloseProp}) {
                               sx={{ margin: "5px 7px", fontSize: "10px" }}
                               className={classes.textField}
                             >
-                              <TextField
-                                labelId="course-code-label"
-                                InputLabelProps={{ shrink: true }}
+                               <TextField
                                 sx={{ width: "250px" }}
-                                size="small"
+                                name="maxUnits"
+                                select
                                 InputProps={{
                                   style: { fontSize: "13px" },
                                 }}
+                                size="small"
+                                value={row.maxUnits}
                                 onChange={(e) => handleInputChange(e, i)}
-                                value={row.lastname}
-                                name="lastname"
-                              />
+                              >
+                                <MenuItem  style= {{ fontSize: "15px" }} value={0}>
+                                  0
+                                </MenuItem>
+                                <MenuItem style= {{ fontSize: "15px" }} value={18}>
+                                  18
+                                </MenuItem>
+                                <MenuItem style= {{ fontSize: "15px" }} value={24}>
+                                  24
+                                </MenuItem>
+                              </TextField>
                             </FormControl>
                           </TableCell>
 
@@ -436,7 +445,7 @@ function StudyPlanForm({onCloseProp}) {
                                   style: { fontSize: "13px" },
                                 }}
                                 //   label = "Class Type"
-                                value={row.lastname}
+                                value={row.maxUnits}
                               />
                             </FormControl>
 
