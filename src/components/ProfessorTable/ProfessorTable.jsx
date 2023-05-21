@@ -9,6 +9,7 @@ import {
   TableHead,
   TableRow,
   TextField,
+  TablePagination
 } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -27,7 +28,7 @@ import MenuItem from "@mui/material/MenuItem";
 import ProfessorTableCSS from "./ProfessorTable.module.css";
 import IconButton from "@mui/material/IconButton";
 import Close from "@mui/icons-material/Close";
-
+import { styled } from '@mui/material/styles';
 
 // Creating styles
 const useStyles = () =>
@@ -43,17 +44,24 @@ const useStyles = () =>
     },
   });
 
+  const StickyPagination = styled('div')({
+    position: 'sticky',
+    bottom: 0,
+    width: '100%', 
+    backgroundColor: '#e6e2e2',
+    zIndex: 1,
+    padding: "0px 0px",
+    boxSizing: 'border-box', 
+    
+
+  });
+  
+
 function ProfessorTable({onCloseProp}) {
   // Creating style object
   const classes = useStyles();
   const [deleteIndex, setDeleteIndex] = useState(null);
 
-  const [rows, setRows] = useState([
-  ]);
-
-
-  
-  const [rowsEdit, setRowsEdit] = useState([]);
 
   
   
@@ -116,16 +124,26 @@ function ProfessorTable({onCloseProp}) {
 
 
 
+    const handleChangeRowsPerPage = (event) => {
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    };
 
+    const handleChangePage = (event, newPage) => {
+      setPage(newPage);
+    };
+    const [rows, setRows] = useState([
+    ]);
 
+    const [rowsEdit, setRowsEdit] = useState([]);
 
-
-  
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
   // Initial states
-  const [open, setOpen] = React.useState(false);
-  const [isEdit, setEdit] = React.useState(false);
-  const [disable, setDisable] = React.useState(false);
-  const [showConfirm, setShowConfirm] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
+    const [isEdit, setEdit] = React.useState(false);
+    const [disable, setDisable] = React.useState(false);
+    const [showConfirm, setShowConfirm] = React.useState(false);
 
   // Function For closing the alert snackbar
   const handleClose = (event, reason) => {
@@ -213,12 +231,11 @@ function ProfessorTable({onCloseProp}) {
     setDisable(false);
     const { name, value } = e.target;
     const list = [...rowsEdit];
-    list[index][name] = value;
+    const actualIndex = page * rowsPerPage + index;
+    list[actualIndex][name] = value;
     setRowsEdit(list);
-
     console.log(typeof(e.target.value))
-    
-  };
+};
 
   const handleConfirm = (index) => {
     setShowConfirm(true);
@@ -288,7 +305,7 @@ function ProfessorTable({onCloseProp}) {
             </TableHead>
 
             <TableBody>
-              {rowsEdit.map((row, i) => {
+              {rowsEdit.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
                 return (
                   <div>
                     <TableRow>
@@ -478,7 +495,8 @@ function ProfessorTable({onCloseProp}) {
                 );
               })}
 
-{rows.map((row, i) => {
+            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, i) => {
                 return (
                   <div >
                     <TableRow>
@@ -621,7 +639,40 @@ function ProfessorTable({onCloseProp}) {
                 </div>
               )}
           </Table>
+
+           { !isEdit ?
+           <>
+          <StickyPagination>
+          <TablePagination
+              component="div"
+              count={rows.length}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              rowsPerPageOptions={[7, 25, 50, 100]}
+      
+            />
+            </StickyPagination>
+            </>
+            :
+            <>
+             <StickyPagination>
+            <TablePagination
+              component="div"
+              count={rowsEdit.length}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              rowsPerPageOptions={[7, 25, 50, 100]}
+      
+            />
+            </StickyPagination>
+            </>
+          }
         </Box>
+        
       </TableBody>
       {isEdit ? (
         <div
