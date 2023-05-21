@@ -27,7 +27,7 @@ import MenuItem from "@mui/material/MenuItem";
 import ProfessorTableCSS from "./ProfessorTable.module.css";
 import IconButton from "@mui/material/IconButton";
 import Close from "@mui/icons-material/Close";
-
+import { isEqual } from 'lodash';
 
 // Creating styles
 const useStyles = () =>
@@ -269,10 +269,10 @@ function ProfessorTable({onCloseProp}) {
     setRowsEdit(newRowsEdit);
   };
 
-  const handleRemoveRow = (index) => {
-    const newRowsEdit = [...rowsEdit];
-    newRowsEdit.splice(index, 1);
-    setRowsEdit(newRowsEdit);
+  const handleRemoveRow = (rowToRemove) => {
+    console.log(rowToRemove)
+
+    setRowsEdit(rowsEdit.filter(row => !isEqual(row, rowToRemove)));
   };
 
   const handlseRemoveClick = () => {
@@ -522,7 +522,7 @@ function ProfessorTable({onCloseProp}) {
                  <RowEdit 
                     initialRow={row} 
                     onRowChange={(updatedRow) => handleRowChange(i, updatedRow)}
-                    onRemove={handleRemoveRow}
+                    onRemove={() => handleRemoveRow(row)}
                     key={i}
                     isEdit = {isEdit} 
                     classes={classes}
