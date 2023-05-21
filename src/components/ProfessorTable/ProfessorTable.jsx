@@ -53,9 +53,7 @@ function ProfessorTable({onCloseProp}) {
 
 
   
-  const [rowsEdit, setRowsEdit] = useState([
-
-  ]);
+  const [rowsEdit, setRowsEdit] = useState([]);
 
   
   
@@ -475,7 +473,6 @@ function ProfessorTable({onCloseProp}) {
                           </div>
                         </div>
                       ) : ""}
-
                     </TableRow>
                   </div>
                 );
@@ -483,7 +480,7 @@ function ProfessorTable({onCloseProp}) {
 
 {rows.map((row, i) => {
                 return (
-                  <div>
+                  <div >
                     <TableRow>
                       {!isEdit ? (
                         <div
@@ -583,7 +580,6 @@ function ProfessorTable({onCloseProp}) {
                           </div>
                         </div>
                       ): ""}
-
                     </TableRow>
                   </div>
                 );
@@ -769,35 +765,6 @@ function ProfessorTable({onCloseProp}) {
           style={{ margin: "15px 7px 10px 0px" }}
           className={ProfessorTableCSS["add-editOptions"]}
         >
-          {/* <Button
-            style={{ textTransform: "none" }}
-            sx={{
-              background: "#1e82d4",
-              color: "#ffffff",
-              borderRadius: "0.25rem",
-              fontFamily: "Poppins",
-              fontSize: "0.7rem",
-              padding: "0rem",
-              padding: "0.7rem",
-              "&:hover": {
-                background: "#1b70b5",
-                color: "#fafafa",
-              },
-            }}
-            onClick={handleAdd}
-          >
-            <AddBoxIcon
-              className={ProfessorTableCSS.addIcon}
-              onClick={handleAdd}
-              sx={{
-                color: "#ffffff",
-                "&:hover": {
-                  color: "#ffffff",
-                },
-              }}
-            />
-            ADD
-          </Button> */}
           <Button
             align="right"
             style={{ textTransform: "none", marginLeft: "8px" }}

@@ -748,18 +748,12 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     }
   }
 
+
   handleRowClick = (row) => {
     this.setState({ selectedRow: row }, () =>
       console.log(this.state.selectedRow.professor_name, "IM CLICKED ROW")
     );
   };
-  // getDayLabel(value) {
-  //   const dateObject = new Date(value);
-  //   dateObject.setUTCDate(dateObject.getUTCDate() + 1); // Subtract one day
-  //   const date = dateObject.toISOString().split('T')[0];
-  //   const day = days.find(day => day.value === date);
-  //   return day ? day.label : date;
-  // }
 
   getDayOfWeek = (date) => {
     return dayjs(date).format("ddd");
