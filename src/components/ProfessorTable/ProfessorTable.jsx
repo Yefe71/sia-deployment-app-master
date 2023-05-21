@@ -52,6 +52,10 @@ const useStyles = () =>
     zIndex: 1,
     padding: "0px 0px",
     boxSizing: 'border-box', 
+    border: '1px solid #c4c4c4',
+    borderTop: "none",
+    minHeight: "0px !important"
+
     
 
   });
@@ -138,7 +142,7 @@ function ProfessorTable({onCloseProp}) {
     const [rowsEdit, setRowsEdit] = useState([]);
 
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(7);
   // Initial states
     const [open, setOpen] = React.useState(false);
     const [isEdit, setEdit] = React.useState(false);
@@ -262,7 +266,7 @@ function ProfessorTable({onCloseProp}) {
           onClose={handleClose}
           className={classes.snackbar}
         >
-          <Alert onClose={handleClose} severity="success">
+          <Alert sx = {{marginTop: '-5rem'}}onClose={handleClose} severity="success">
             Record saved successfully!
           </Alert>
         </Snackbar>
@@ -283,8 +287,12 @@ function ProfessorTable({onCloseProp}) {
           console.log(rows, "rows")
           
           }} className={ProfessorTableCSS.tableParent}>
+
+            <div className={ProfessorTableCSS.fieldsWrapper}>
+
+          
           <div className={ProfessorTableCSS.topItems}>
-            <div></div>
+        
             <div className={ProfessorTableCSS.fieldLabels}>
               <h3 className={ProfessorTableCSS.label1}>Last Name</h3>
               <h3 className={ProfessorTableCSS.label2}>First Name</h3>
@@ -640,40 +648,43 @@ function ProfessorTable({onCloseProp}) {
               )}
           </Table>
 
-           { !isEdit ?
-           <>
-          <StickyPagination>
-          <TablePagination
-              component="div"
-              count={rows.length}
-              page={page}
-              onPageChange={handleChangePage}
-              rowsPerPage={rowsPerPage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              rowsPerPageOptions={[7, 25, 50, 100]}
-      
-            />
-            </StickyPagination>
-            </>
-            :
-            <>
-             <StickyPagination>
-            <TablePagination
-              component="div"
-              count={rowsEdit.length}
-              page={page}
-              onPageChange={handleChangePage}
-              rowsPerPage={rowsPerPage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              rowsPerPageOptions={[7, 25, 50, 100]}
-      
-            />
-            </StickyPagination>
-            </>
-          }
+           
+    
+    </div>
         </Box>
         
       </TableBody>
+      { !isEdit ?
+       <>
+      <StickyPagination>
+      <TablePagination
+          component="div"
+          count={rows.length}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          rowsPerPageOptions={[7, 10]}
+      
+        />
+        </StickyPagination>
+        </>
+        :
+        <>
+         <StickyPagination>
+        <TablePagination
+          component="div"
+          count={rowsEdit.length}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          rowsPerPageOptions={[7, 25, 50, 100]}
+      
+        />
+        </StickyPagination>
+        </>
+      }
       {isEdit ? (
         <div
           style={{ margin: "15px 7px 10px 0px" }}

@@ -105,7 +105,7 @@ const styleProf = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   minWidth: 500,
-  height: 470,
+  height: 504,
   overflowY: "none",
 
   borderRadius: "10px",

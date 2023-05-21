@@ -143,11 +143,14 @@
         
         flex-direction: column;
        /* margin:8px !important; */
-      outline: 1px solid #c4c4c4;
+      border: 1px solid #c4c4c4;
+      border-bottom: none;
       border-radius: 5px;
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: 0px;
       height: 320px;
       overflow-y: scroll;
-      padding: 1rem 1rem 1.5rem 1rem;
+      padding: 1rem 1rem 1rem 1rem;
 
   }
 
