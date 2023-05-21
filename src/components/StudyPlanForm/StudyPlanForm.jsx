@@ -55,6 +55,8 @@ const useStyles = () =>
     boxSizing: 'border-box',
     border: '1px solid #c4c4c4',
     borderTop: "none",
+    borderBottomRightRadius: "6px",
+    borderBottomLeftRadius: "6px",
     minHeight: "0px !important",
    
       '& .MuiToolbar-root': {
