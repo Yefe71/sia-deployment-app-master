@@ -9,7 +9,8 @@ import {
   TableHead,
   TableRow,
   TextField,
-  TablePagination
+  TablePagination,
+  Toolbar
 } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -47,17 +48,31 @@ const useStyles = () =>
   const StickyPagination = styled('div')({
     position: 'sticky',
     bottom: 0,
-    width: '100%', 
+    width: '100%',
     backgroundColor: '#e6e2e2',
     zIndex: 1,
     padding: "0px 0px",
-    boxSizing: 'border-box', 
+    boxSizing: 'border-box',
     border: '1px solid #c4c4c4',
     borderTop: "none",
-    minHeight: "0px !important"
-
+    minHeight: "0px !important",
+   
+      '& .MuiToolbar-root': {
+        paddingRight: '2px',
+        minHeight: '0px',
+        height: '40px',
+        fontSize: '13px !important'
+      },
+      '&:last-child': {
+        fontSize: '13px !important',
+      },
+      '& .MuiTablePagination-selectLabel': {
+        fontSize: '13px !important',
+      },
+      '& .MuiTablePagination-displayedRows': {
+        fontSize: '13px !important',
+      },
     
-
   });
   
 
@@ -656,6 +671,7 @@ function ProfessorTable({onCloseProp}) {
       </TableBody>
       { !isEdit ?
        <>
+       
       <StickyPagination>
       <TablePagination
           component="div"
@@ -680,7 +696,7 @@ function ProfessorTable({onCloseProp}) {
           rowsPerPage={rowsPerPage}
           onRowsPerPageChange={handleChangeRowsPerPage}
           rowsPerPageOptions={[7, 25, 50, 100]}
-      
+  
         />
         </StickyPagination>
         </>
