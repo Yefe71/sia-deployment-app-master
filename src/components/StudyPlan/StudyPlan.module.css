@@ -4,7 +4,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 0rem;
+    margin-right: 0.3rem;
     margin-bottom: 0.5rem;
 }
 .topTable{
@@ -30,15 +30,36 @@
     
 }
 
-.tableWrapper{
-    position: relative;
+.tablesWrapper{
+    display: flex;
+    gap: 20px;
     width: 75vw;
+}
+
+.tableWrapperLeft{
+    position: relative;
+    flex: 1;
     height: 66vh;
-    background: #f1f1f1;
+
+    border-radius: 1rem;
+    z-index: 2;
+    overflow-y: hidden;
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 15px;
+     outline: 1px solid #d9d8d8;
+     display: flex;
+     justify-content: center;
+
+}
+.tableWrapperRight{
+    position: relative;
+    flex: 1.55;
+    height: 66vh;
+    background: white;
     border-radius: 1rem;
     z-index: 2;
     overflow-y: scroll;
-    background: #efeeee;
+   
     box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 15px;
      outline: 1px solid #d9d8d8;
 }
