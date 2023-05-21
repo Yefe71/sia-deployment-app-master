@@ -43,6 +43,214 @@ const useStyles = () =>
     },
   });
 
+
+
+  const RowEdit = ({ initialRow, onRowChange, onRemove, isEdit, classes }) => {
+    const [row, setRow] = useState(initialRow);
+  
+    const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setRow({ ...row, [name]: value });
+      onRowChange({ ...row, [name]: value });
+    };
+  
+    return (
+     <div>
+      <TableRow>
+        {isEdit ? (
+          <div className={ProfessorTableCSS.trueIsEdit}>
+            <TableCell
+              sx={{
+                padding: "0px",
+                paddingTop: "0px",
+                borderBottom: "0px",
+              }}
+            >
+              <FormControl
+                variant="outlined"
+                sx={{ margin: "5px 7px", fontSize: "10px" }}
+                className={classes.textField}
+              >
+                <TextField
+                  labelId="course-code-label"
+                  InputLabelProps={{ shrink: true }}
+                  sx={{ width: "100px" }}
+                  size="small"
+                  InputProps={{
+                    style: { fontSize: "13px" },
+                  }}
+                  onChange={handleInputChange}
+                  value={row.lastname}
+                  name="lastname"
+                />
+              </FormControl>
+            </TableCell>
+            <TableCell
+              sx={{
+                padding: "0px",
+                paddingTop: "0px",
+                borderBottom: "0px",
+              }}
+            >
+              <FormControl
+                variant="outlined"
+                sx={{ margin: "5px 7px", fontSize: "13px" }}
+                className={classes.textField}
+              >
+                <TextField
+                  labelId="course-code-label"
+                  size="small"
+                  sx={{ width: "100px", fontSize: "13px" }}
+                  InputLabelProps={{ shrink: true }}
+                  InputProps={{
+                    style: { fontSize: "13px" },
+                  }}
+                  onChange={handleInputChange}
+                  value={row.firstname}
+                  name="firstname"
+                ></TextField>
+              </FormControl>
+            </TableCell>
+
+            <TableCell
+              sx={{
+                padding: "0px",
+                paddingTop: "0px",
+                borderBottom: "0px",
+              }}
+            >
+              <FormControl
+                variant="outlined"
+                sx={{ margin: "5px 7px", fontSize: "13px" }}
+                className={classes.textField}
+              >
+                <TextField
+                  labelId="course-code-label"
+                  size="small"
+                  sx={{ width: "100px", fontSize: "13px" }}
+                  InputLabelProps={{ shrink: true }}
+                  InputProps={{
+                    style: { fontSize: "13px" },
+                  }}
+                  onChange={handleInputChange}
+                  value={row.middlename}
+                  name="middlename"
+                ></TextField>
+              </FormControl>
+            </TableCell>
+            <TableCell
+              sx={{
+                padding: "0px",
+                paddingRight: "0px",
+                paddingTop: "0px",
+                borderBottom: "0px",
+              }}
+            >
+              <FormControl
+                size="small"
+                sx={{ margin: "5px 7px", fontSize: "13px" }}
+                variant="outlined"
+              >
+                <TextField
+                  sx={{ width: "120px" }}
+                  name="employment"
+                  select
+                  InputProps={{
+                    style: { fontSize: "13px" },
+                  }}
+                  size="small"
+                  value={row.employment}
+                  onChange={handleInputChange}
+                >
+                  <MenuItem  style= {{ fontSize: "15px" }} value={"Part-time"}>
+                    Part-time
+                  </MenuItem>
+                  <MenuItem  style= {{ fontSize: "15px" }} value={"Full-time"}>
+                    Full-time
+                  </MenuItem>
+                  <MenuItem   style= {{ fontSize: "15px" }}value={"Full-pledge"}>
+                    Full-pledge
+                  </MenuItem>
+                  <MenuItem   style= {{ fontSize: "15px" }}value={"TBA"}>
+                    TBA
+                  </MenuItem>
+                </TextField>
+              </FormControl>
+            </TableCell>
+
+            <TableCell
+              sx={{
+                padding: "0px",
+                paddingBottom: "0px",
+                borderBottom: "0px",
+                paddingTop: "0px",
+              }}
+            >
+              <FormControl
+                variant="outlined"
+                sx={{ margin: "5px 7px", fontSize: "13px" }}
+                className={classes.textField}
+              >
+
+                <TextField
+                  sx={{ width: "70px" }}
+                  name="maxUnits"
+                  select
+                  InputProps={{
+                    style: { fontSize: "13px" },
+                  }}
+                  size="small"
+                  value={row.maxUnits}
+                  onChange={handleInputChange}
+                >
+                  <MenuItem  style= {{ fontSize: "15px" }} value={0}>
+                    0
+                  </MenuItem>
+                  <MenuItem style= {{ fontSize: "15px" }} value={18}>
+                    18
+                  </MenuItem>
+                  <MenuItem style= {{ fontSize: "15px" }} value={24}>
+                    24
+                  </MenuItem>
+                </TextField>
+
+
+
+              </FormControl>
+            </TableCell>
+
+
+
+
+                          
+            <div
+               onClick={onRemove}
+              style={{ width: "0.7rem", height: "0.7rem" }}
+              className={`${ProfessorTableCSS.iconWrapper} ${ProfessorTableCSS.ripple}`}
+            >
+              <DeleteOutlineIcon
+                style={{
+                  color: "#6f6f6f",
+                  width: "1.4rem",
+                  height: "1.4rem",
+                }}
+              />
+            </div>
+          </div>
+        ) : ""}
+      </TableRow>
+    </div>  
+    );
+  };
+  
+
+
+
+
+
+
+
+  
 function ProfessorTable({onCloseProp}) {
   // Creating style object
   const classes = useStyles();
@@ -51,12 +259,21 @@ function ProfessorTable({onCloseProp}) {
   const [rows, setRows] = useState([
   ]);
 
-
-  
   const [rowsEdit, setRowsEdit] = useState([]);
 
   
   
+  const handleRowChange = (index, updatedRow) => {
+    const newRowsEdit = [...rowsEdit];
+    newRowsEdit[index] = updatedRow;
+    setRowsEdit(newRowsEdit);
+  };
+
+  const handleRemoveRow = (index) => {
+    const newRowsEdit = [...rowsEdit];
+    newRowsEdit.splice(index, 1);
+    setRowsEdit(newRowsEdit);
+  };
 
   
 
@@ -236,6 +453,13 @@ function ProfessorTable({onCloseProp}) {
     setShowConfirm(false);
   };
 
+
+ 
+
+
+
+  
+
   return (
     <div className={ProfessorTableCSS.tableOnly}>
       <TableBody>
@@ -290,197 +514,20 @@ function ProfessorTable({onCloseProp}) {
             <TableBody>
               {rowsEdit.map((row, i) => {
                 return (
-                  <div>
-                    <TableRow>
-                      {isEdit ? (
-                        <div className={ProfessorTableCSS.trueIsEdit}>
-                          <TableCell
-                            sx={{
-                              padding: "0px",
-                              paddingTop: "0px",
-                              borderBottom: "0px",
-                            }}
-                          >
-                            <FormControl
-                              variant="outlined"
-                              sx={{ margin: "5px 7px", fontSize: "10px" }}
-                              className={classes.textField}
-                            >
-                              <TextField
-                                labelId="course-code-label"
-                                InputLabelProps={{ shrink: true }}
-                                sx={{ width: "100px" }}
-                                size="small"
-                                InputProps={{
-                                  style: { fontSize: "13px" },
-                                }}
-                                onChange={(e) => handleInputChange(e, i)}
-                                value={row.lastname}
-                                name="lastname"
-                              />
-                            </FormControl>
-                          </TableCell>
-                          <TableCell
-                            sx={{
-                              padding: "0px",
-                              paddingTop: "0px",
-                              borderBottom: "0px",
-                            }}
-                          >
-                            <FormControl
-                              variant="outlined"
-                              sx={{ margin: "5px 7px", fontSize: "13px" }}
-                              className={classes.textField}
-                            >
-                              <TextField
-                                labelId="course-code-label"
-                                size="small"
-                                sx={{ width: "100px", fontSize: "13px" }}
-                                InputLabelProps={{ shrink: true }}
-                                InputProps={{
-                                  style: { fontSize: "13px" },
-                                }}
-                                onChange={(e) => handleInputChange(e, i)}
-                                value={row.firstname}
-                                name="firstname"
-                              ></TextField>
-                            </FormControl>
-                          </TableCell>
-
-                          <TableCell
-                            sx={{
-                              padding: "0px",
-                              paddingTop: "0px",
-                              borderBottom: "0px",
-                            }}
-                          >
-                            <FormControl
-                              variant="outlined"
-                              sx={{ margin: "5px 7px", fontSize: "13px" }}
-                              className={classes.textField}
-                            >
-                              <TextField
-                                labelId="course-code-label"
-                                size="small"
-                                sx={{ width: "100px", fontSize: "13px" }}
-                                InputLabelProps={{ shrink: true }}
-                                InputProps={{
-                                  style: { fontSize: "13px" },
-                                }}
-                                onChange={(e) => handleInputChange(e, i)}
-                                value={row.middlename}
-                                name="middlename"
-                              ></TextField>
-                            </FormControl>
-                          </TableCell>
-                          <TableCell
-                            sx={{
-                              padding: "0px",
-                              paddingRight: "0px",
-                              paddingTop: "0px",
-                              borderBottom: "0px",
-                            }}
-                          >
-                            <FormControl
-                              size="small"
-                              sx={{ margin: "5px 7px", fontSize: "13px" }}
-                              variant="outlined"
-                            >
-                              <TextField
-                                sx={{ width: "120px" }}
-                                name="employment"
-                                select
-                                InputProps={{
-                                  style: { fontSize: "13px" },
-                                }}
-                                size="small"
-                                value={row.employment}
-                                onChange={(e) => handleInputChange(e, i)}
-                              >
-                                <MenuItem  style= {{ fontSize: "15px" }} value={"Part-time"}>
-                                  Part-time
-                                </MenuItem>
-                                <MenuItem  style= {{ fontSize: "15px" }} value={"Full-time"}>
-                                  Full-time
-                                </MenuItem>
-                                <MenuItem   style= {{ fontSize: "15px" }}value={"Full-pledge"}>
-                                  Full-pledge
-                                </MenuItem>
-                                <MenuItem   style= {{ fontSize: "15px" }}value={"TBA"}>
-                                  TBA
-                                </MenuItem>
-                              </TextField>
-                            </FormControl>
-                          </TableCell>
-
-                          <TableCell
-                            sx={{
-                              padding: "0px",
-                              paddingBottom: "0px",
-                              borderBottom: "0px",
-                              paddingTop: "0px",
-                            }}
-                          >
-                            <FormControl
-                              variant="outlined"
-                              sx={{ margin: "5px 7px", fontSize: "13px" }}
-                              className={classes.textField}
-                            >
-
-                              <TextField
-                                sx={{ width: "70px" }}
-                                name="maxUnits"
-                                select
-                                InputProps={{
-                                  style: { fontSize: "13px" },
-                                }}
-                                size="small"
-                                value={row.maxUnits}
-                                onChange={(e) => handleInputChange(e, i)}
-                              >
-                                <MenuItem  style= {{ fontSize: "15px" }} value={0}>
-                                  0
-                                </MenuItem>
-                                <MenuItem style= {{ fontSize: "15px" }} value={18}>
-                                  18
-                                </MenuItem>
-                                <MenuItem style= {{ fontSize: "15px" }} value={24}>
-                                  24
-                                </MenuItem>
-                              </TextField>
-
-
-
-                            </FormControl>
-                          </TableCell>
-
-
-
-
-                          
-                          <div
-                             onClick={() => handleConfirm(i)}
-                            style={{ width: "0.7rem", height: "0.7rem" }}
-                            className={`${ProfessorTableCSS.iconWrapper} ${ProfessorTableCSS.ripple}`}
-                          >
-                            <DeleteOutlineIcon
-                              style={{
-                                color: "#6f6f6f",
-                                width: "1.4rem",
-                                height: "1.4rem",
-                              }}
-                            />
-                          </div>
-                        </div>
-                      ) : ""}
-                    </TableRow>
-                  </div>
+                 <RowEdit 
+                    initialRow={row} 
+                    onRowChange={(updatedRow) => handleRowChange(i, updatedRow)}
+                    onRemove={() => handleRemoveRow(i)}
+                    key={i}
+                    isEdit = {isEdit} 
+                    classes={classes}
+                  />
                 );
               })}
 
 {rows.map((row, i) => {
                 return (
-                  <div >
+                  <div key={i} >
                     <TableRow>
                       {!isEdit ? (
                         <div
