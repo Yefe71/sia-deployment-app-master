@@ -275,7 +275,12 @@ function ProfessorTable({onCloseProp}) {
     setRowsEdit(newRowsEdit);
   };
 
-  
+  const handlseRemoveClick = () => {
+    const list = [...rowsEdit];
+    list.splice(deleteIndex, 1);
+    setRowsEdit(list);
+    setShowConfirm(false);
+  };
 
 
     useEffect(() => {
@@ -517,7 +522,7 @@ function ProfessorTable({onCloseProp}) {
                  <RowEdit 
                     initialRow={row} 
                     onRowChange={(updatedRow) => handleRowChange(i, updatedRow)}
-                    onRemove={() => handleRemoveRow(i)}
+                    onRemove={handleRemoveRow}
                     key={i}
                     isEdit = {isEdit} 
                     classes={classes}
