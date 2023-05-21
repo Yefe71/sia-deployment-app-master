@@ -60,7 +60,7 @@ const useStyles = () =>
       '& .MuiToolbar-root': {
         paddingRight: '2px',
         minHeight: '0px',
-        height: '40px',
+        height: '43px',
         fontSize: '13px !important'
       },
       '&:last-child': {
@@ -80,12 +80,6 @@ function ProfessorTable({onCloseProp}) {
   // Creating style object
   const classes = useStyles();
   const [deleteIndex, setDeleteIndex] = useState(null);
-
-
-  
-  
-
-  
 
 
     useEffect(() => {
