@@ -49,7 +49,7 @@ const useStyles = () =>
     position: 'sticky',
     bottom: 0,
     width: '100%',
-    backgroundColor: '#e6e2e2',
+    backgroundColor: '#f0eded',
     zIndex: 1,
     padding: "0px 0px",
     boxSizing: 'border-box',
