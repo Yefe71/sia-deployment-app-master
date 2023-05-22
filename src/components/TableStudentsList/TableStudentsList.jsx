@@ -6,12 +6,13 @@ import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
 const StickyPagination = styled('div')({
-  position: 'sticky',
+  position: 'absolute',
   bottom: 0,
   width: '100%',  // make sure it stretches to full width
   backgroundColor: '#f7f4f4',
   zIndex: 1,
-  padding: "2px 0px"
+  padding: "2px 0px",
+  marginTop: 'auto', 
 });
 
 

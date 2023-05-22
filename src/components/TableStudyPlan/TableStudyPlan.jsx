@@ -7,12 +7,14 @@ import * as XLSX from 'xlsx';
 import TableStudyPlanCSS from './TableStudyPlan.module.css'
 
 const StickyPagination = styled('div')({
-  position: 'sticky',
+  position: 'absolute',
   bottom: 0,
   width: '100%',  // make sure it stretches to full width
   backgroundColor: '#f7f4f4',
   zIndex: 1,
-  padding: "2px 0px"
+  padding: "2px 0px",
+  marginTop: 'auto', 
+
 });
 
 
@@ -58,53 +60,6 @@ const TableStudyPlan = ({standing, setDataChild, yearButton, blockButton}) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  useEffect(() => {
-    const fetchDataButtons = () => {
-      console.log(standing, 'me!!')
-      fetch(`http://localhost:3000/grabStudentsButtons?standingButton=${standing}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setData(data);
-          setDataChild(data);
-          console.log(data);
-        })
-        .catch((error) => console.log(error));
-    };
-
-    fetchDataButtons();
-  }, [standing]);
-
-  const fetchDataButtonsYear = () => {
-    fetch(
-      `http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=${blockButton}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data);
-        setDataChild(data);
-
-      })
-      .catch((error) => console.log(error));
-  };
-
-
-
-  const fetchDataButtonsBlock = () => {
-    fetch(
-      `http://localhost:3000/grabStudentsButtons?yearButton=${yearButton}&blockButton=${blockButton}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data);
-        setDataChild(data);
-
-        console.log("hoho block", data)
-
-      })
-      .catch((error) => console.log(error));
-  };
-
- 
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -116,27 +71,33 @@ const TableStudyPlan = ({standing, setDataChild, yearButton, blockButton}) => {
   };
 
 
-  useEffect(() => {
+  const fetchStudyPlans = async () => {
+    try {
+      console.log("i ran prof");
+      const response = await fetch("http://localhost:3000/grabStudyPlans");
+      const data = await response.json();
+      setData(data)
+    } catch (error) {
+      console.error("Error fetching professor names:", error);
+    }
+  }
 
-      fetchDataButtonsYear();
-      setPage(0);
-      console.log("i ran year  data");
-   
-  }, [yearButton]);
+  useEffect( () => {
 
-  useEffect(() => {
- 
-      fetchDataButtonsBlock();
-      setPage(0);
-      console.log("i ran block data");
-    
-  }, [blockButton]);
+    fetchStudyPlans()
 
-  useEffect(() => {
-    setPage(0); // Set the page state to 0
-  }, [data]); // Watch for changes in the data state
+  }, [])
+  // Helper function to format the date in YYYY-MM-DD format
+  const formatDate = (date) => {
+    const formattedDate = new Date(date).toISOString().split('T')[0];
+    return formattedDate;
+  };
 
-  
+  // Helper function to format the time in HH:MM format
+  const formatTime = (time) => {
+    const formattedTime = new Date(time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return formattedTime;
+  };
 
   return (
     <div className={TableStudyPlanCSS.studyPlanTableWrapper}>
@@ -146,13 +107,16 @@ const TableStudyPlan = ({standing, setDataChild, yearButton, blockButton}) => {
       <StyledTableHead>
         <StyledTableRow>
         <StyledTableCellID>ID</StyledTableCellID>
-          <StyledTableCellLeft>Student ID</StyledTableCellLeft>
-          <StyledTableCell>Last Name</StyledTableCell>
-          <StyledTableCell>First Name</StyledTableCell>
-          <StyledTableCell>Middle Name</StyledTableCell>
-          <StyledTableCell>Standing</StyledTableCell>
+          <StyledTableCellLeft>Professor Name</StyledTableCellLeft>
           <StyledTableCell>Year</StyledTableCell>
-          <StyledTableCellRight>Block</StyledTableCellRight>
+          <StyledTableCell>Block</StyledTableCell>
+          <StyledTableCell>Course Name</StyledTableCell>
+          <StyledTableCell>Course Code</StyledTableCell>
+          <StyledTableCell>Class Type</StyledTableCell>
+          <StyledTableCell>Room</StyledTableCell>
+          <StyledTableCell>Day</StyledTableCell>
+          <StyledTableCell>Start Time</StyledTableCell>
+          <StyledTableCellRight>End Time</StyledTableCellRight>
         </StyledTableRow>
       </StyledTableHead>
       <TableBody>
@@ -161,13 +125,16 @@ const TableStudyPlan = ({standing, setDataChild, yearButton, blockButton}) => {
           .map((row, index) => (
             <StyledTableRow key={row.id}>
               <TableCell>{page * rowsPerPage + index + 1}</TableCell>
-              <TableCell>{row.student_id}</TableCell>
-              <TableCell>{row.last_name}</TableCell>
-              <TableCell>{row.first_name}</TableCell>
-              <TableCell>{row.middle_name}</TableCell>
-              <TableCell>{row.standing}</TableCell>
+              <TableCell>{row.professor_name}</TableCell>
               <TableCell>{row.year}</TableCell>
               <TableCell>{row.block}</TableCell>
+              <TableCell>{row.course_name}</TableCell>
+              <TableCell>{row.course_code}</TableCell>
+              <TableCell>{row.class_type}</TableCell>
+              <TableCell>{row.room}</TableCell>
+              <TableCell>{formatDate(row.day)}</TableCell>
+              <TableCell>{formatTime(row.start_date)}</TableCell>
+              <TableCell>{formatTime(row.end_date)}</TableCell>
             </StyledTableRow>
         ))}
       </TableBody>
