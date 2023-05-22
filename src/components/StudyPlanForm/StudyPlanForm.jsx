@@ -244,7 +244,6 @@ function StudyPlanForm({onCloseProp}) {
     };
 
     updateFormMajorMinor();
-
   
   };
 
@@ -255,14 +254,22 @@ function StudyPlanForm({onCloseProp}) {
   };
 
   
+
+
   const handleInputChange = (e, index) => {
     setDisable(false);
+
     const { name, value } = e.target;
     const list = [...rowsEdit];
     const actualIndex = page * rowsPerPage + index;
     list[actualIndex][name] = value;
+    list[actualIndex].code =  menuItems.find((item) => item.name === value).code;
     setRowsEdit(list);
     console.log(typeof(e.target.value))
+
+
+
+    
 };
 
   const handleConfirm = (index) => {
@@ -412,6 +419,7 @@ function StudyPlanForm({onCloseProp}) {
                                 }}
                                 //   label = "Class Type"
                                 value={row.code}
+                                name="code"
                               />
                             </FormControl>
                           </TableCell>
