@@ -10,7 +10,8 @@ import {
   TableRow,
   TextField,
   TablePagination,
-  Toolbar
+  Toolbar,
+  Select
 } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -82,20 +83,39 @@ function StudyPlanForm({onCloseProp}) {
   // Creating style object
   const classes = useStyles();
   const [deleteIndex, setDeleteIndex] = useState(null);
+  const [menuItems, setMenuItems] = useState(null);
 
-
+  
     useEffect(() => {
-      const fetchProfessors = async () => {
+      const fetchMenuItemsMajorMinorCourses = async () => {
         try {
-          const response = await fetch(`http://localhost:3000/grabProfessors`);
+          const response = await fetch(`http://localhost:3000/grabMajorMinorCourses`);
+          const data = await response.json();
+          const rows = data.map((item) => ({
+            name: item.name,
+            code: item.code,
+          }));
+          setMenuItems(rows);
+
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+
+      fetchMenuItemsMajorMinorCourses();
+    }, []);
+
+    
+    useEffect(() => {
+      const fetchMajorMinorCourses = async () => {
+        try {
+          const response = await fetch(`http://localhost:3000/grabFormMajorMinor`);
           const data = await response.json();
           const rows = data.map((item) => ({
             // id: item.id,
-            lastname: item.last_name,
-            middlename: item.middle_name,
-            firstname: item.first_name,
-            employment: item.employment,
-            maxUnits: item.max_units,
+            name: item.name,
+            code: item.code,
           }));
           setRows(rows);
 
@@ -105,7 +125,7 @@ function StudyPlanForm({onCloseProp}) {
       };
 
 
-      fetchProfessors();
+      fetchMajorMinorCourses();
     }, []);
 
 
@@ -113,17 +133,13 @@ function StudyPlanForm({onCloseProp}) {
 
 
     useEffect(() => {
-      const fetchProfessors = async () => {
+      const fetchMajorMinorCourses = async () => {
         try {
-          const response = await fetch(`http://localhost:3000/grabProfessors`);
+          const response = await fetch(`http://localhost:3000/grabFormMajorMinor`);
           const data = await response.json();
           const rows = data.map((item) => ({
-            // id: item.id,
-            lastname: item.last_name,
-            middlename: item.middle_name,
-            firstname: item.first_name,
-            employment: item.employment,
-            maxUnits: item.max_units,
+            name: item.name,
+            code: item.code,
           }));
           setRowsEdit(rows);
     
@@ -133,7 +149,7 @@ function StudyPlanForm({onCloseProp}) {
       };
   
   
-      fetchProfessors();
+      fetchMajorMinorCourses();
     }, []);
   
 
@@ -176,11 +192,8 @@ function StudyPlanForm({onCloseProp}) {
       ...rowsEdit,
       {
         // id: rowsEdit.length + 1,
-        lastname: "",
-        firstname: "",
-        middlename: "",
-        employment: "",
-        maxUnits: "",
+        name: "",
+        code: "",
       },
     ]);
     
@@ -207,7 +220,7 @@ function StudyPlanForm({onCloseProp}) {
     setOpen(true);
 
 
-    const updateProfessors = async () => {
+    const updateFormMajorMinor = async () => {
      
       try {
         const requestOptions = {
@@ -216,12 +229,12 @@ function StudyPlanForm({onCloseProp}) {
           body: JSON.stringify(rowsEdit),
         };
      
-        const response = await fetch('http://localhost:3000/updateProfessors', requestOptions);
+        const response = await fetch('http://localhost:3000/updateFormMajorMinor', requestOptions);
         const data = await response.json();
         
         console.log(data, "hahah")
         if (data.success) {
-          console.log('Professors updated successfully');
+          console.log('Form updated successfully');
         } else {
           console.log('Failed to update professors');
         }
@@ -230,7 +243,7 @@ function StudyPlanForm({onCloseProp}) {
       }
     };
 
-    updateProfessors();
+    updateFormMajorMinor();
 
   
   };
@@ -329,28 +342,48 @@ function StudyPlanForm({onCloseProp}) {
                               variant="outlined"
                               sx={{ margin: "5px 7px", fontSize: "10px" }}
                               className={classes.textField}
+                              
                             >
-                               <TextField
-                                sx={{ width: "250px" }}
-                                name="maxUnits"
+                               <Select
+                             
+                                name="name"
                                 select
                                 InputProps={{
                                   style: { fontSize: "13px" },
                                 }}
+                                MenuProps={{
+                                  PaperProps: {
+                                    style: {
+                                      maxHeight: 48 * 4.5,
+                                      width: "31ch",
+                                      minWidth: "25ch",
+                                      overflow: "auto",
+                                      
+                                    },
+                                  },
+                                }}
                                 size="small"
-                                value={row.maxUnits}
+                                value={row.name}
+                                sx={{
+                                  width: "250px",
+                                  backgroundColor: "white",
+                                  borderRadius: "0.5rem",
+                         
+                                  fontSize: "0.8rem",
+                                  padding: "0rem",
+                                
+                                }}
                                 onChange={(e) => handleInputChange(e, i)}
+                     
                               >
-                                <MenuItem  style= {{ fontSize: "15px" }} value={0}>
-                                  0
-                                </MenuItem>
-                                <MenuItem style= {{ fontSize: "15px" }} value={18}>
-                                  18
-                                </MenuItem>
-                                <MenuItem style= {{ fontSize: "15px" }} value={24}>
-                                  24
-                                </MenuItem>
-                              </TextField>
+                                {menuItems.map( (course, i)  => {
+                                  
+                                  return <MenuItem key={i} style={{ fontSize: '0.8rem' }} value={course.name}>
+                                          {course.name}
+                                         </MenuItem>
+
+                                })}
+                              </Select>
                             </FormControl>
                           </TableCell>
 
@@ -363,36 +396,23 @@ function StudyPlanForm({onCloseProp}) {
                               paddingTop: "0px",
                             }}
                           >
-                            <FormControl
+                             <FormControl
                               variant="outlined"
-                              sx={{ margin: "5px 7px", fontSize: "13px" }}
+                              sx={{ margin: "5px 7px" }}
                               className={classes.textField}
                             >
-
                               <TextField
+                                labelId="class-type-label"
+                                InputLabelProps={{ shrink: true }}
+                                size="small"
                                 sx={{ width: "100px" }}
-                                name="maxUnits"
-                                select
                                 InputProps={{
+                                  readOnly: true,
                                   style: { fontSize: "13px" },
                                 }}
-                                size="small"
-                                value={row.maxUnits}
-                                onChange={(e) => handleInputChange(e, i)}
-                              >
-                                <MenuItem  style= {{ fontSize: "15px" }} value={0}>
-                                  0
-                                </MenuItem>
-                                <MenuItem style= {{ fontSize: "15px" }} value={18}>
-                                  18
-                                </MenuItem>
-                                <MenuItem style= {{ fontSize: "15px" }} value={24}>
-                                  24
-                                </MenuItem>
-                              </TextField>
-
-
-
+                                //   label = "Class Type"
+                                value={row.code}
+                              />
                             </FormControl>
                           </TableCell>
 
@@ -445,7 +465,7 @@ function StudyPlanForm({onCloseProp}) {
                                   style: { fontSize: "13px" },
                                 }}
                                 //   label = "Class Type"
-                                value={row.maxUnits}
+                                value={row.name}
                               />
                             </FormControl>
 
@@ -464,7 +484,7 @@ function StudyPlanForm({onCloseProp}) {
                                   style: { fontSize: "13px" },
                                 }}
                                 //   label = "Class Type"
-                                value={row.maxUnits}
+                                value={row.code}
                               />
                             </FormControl>
                           </div>
