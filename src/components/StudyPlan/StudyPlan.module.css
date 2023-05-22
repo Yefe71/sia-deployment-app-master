@@ -34,13 +34,12 @@
     display: flex;
     gap: 20px;
     width: 75vw;
+    justify-content: space-between;
 }
 
 .tableWrapperLeft{
     position: relative;
-    flex: 1;
     height: 66vh;
-
     border-radius: 1rem;
     z-index: 2;
     overflow-y: hidden;
@@ -49,33 +48,44 @@
      outline: 1px solid #d9d8d8;
      display: flex;
      justify-content: center;
+  
 
 }
 .tableWrapperRight{
     position: relative;
-    flex: 1.55;
     height: 66vh;
     background: white;
     border-radius: 1rem;
     z-index: 2;
     overflow-y: scroll;
-   
     box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 15px;
-     outline: 1px solid #d9d8d8;
+    outline: 1px solid #d9d8d8;
+
+    
+}
+.containerWrapperRight{
+    width: 100%;
 }
 
 
-
-
+.middle{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    margin-top: 1.5rem;
+}
 
 .topButtons{
     margin-top: -1rem;
-}.bottomButtons{
+}
+
+.bottomButtonsLeft{
 
     display: flex;
-    justify-content: center;
+    justify-content: end;
     align-items: center;
-    margin-right: 0rem;
+    margin-right: 0.6rem;
     margin-bottom: 2rem;
     margin-top: 1.5rem;
 }

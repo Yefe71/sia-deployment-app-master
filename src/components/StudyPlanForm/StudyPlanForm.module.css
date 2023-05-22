@@ -151,8 +151,8 @@
   }
 
   .fieldsWrapper{
-    scale: 1.1;
-    margin-top: 40px;
+    /* scale: 1.1; */
+    margin: 20px;
   }
   .tableParent{
   
