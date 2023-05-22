@@ -35,39 +35,43 @@ const StudyPlan = () => {
     <>
       <div className={StudyPlanCSS.topTableWrapper}>
         <div className={StudyPlanCSS.topTable}>
-          <h2>Study Plan</h2>
-          <div className={StudyPlanCSS.topButtons}>
-            <FormControl
-              sx={{
-                mr: 0.6,
-                minWidth: isSmallScreen ? 90 : 115,
-              }}
-            >
-              <Select
-                value={year}
-                onChange={handleChangeYear}
-                displayEmpty
-                inputProps={{ "aria-label": "Without label" }}
-                sx={{
-                  backgroundColor: "white",
-                  borderRadius: "0.5rem",
-                  fontFamily: "Poppins",
-                  fontSize: isSmallScreen ? "0.5rem" : "0.9rem",
-                  padding: "0rem",
-                  fontWeight: "600",
-                }}
-              >
-                <MenuItem value="">Irregular Student</MenuItem>
+      
 
-              </Select>
-            </FormControl>
-
-          </div>
         </div>
 
         <div className={StudyPlanCSS.tablesWrapper}>
 
           <div className={StudyPlanCSS.containerWrapperLeft}>
+          <div className={StudyPlanCSS.topButtonsLeft}>
+              <h2>Study Plan</h2>
+            
+              <FormControl
+                sx={{
+                  mr: 0.6,
+                  minWidth: isSmallScreen ? 90 : 115,
+                }}
+              >
+                <Select
+                  value={year}
+                  onChange={handleChangeYear}
+                  displayEmpty
+                  inputProps={{ "aria-label": "Without label" }}
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "0.5rem",
+                    fontFamily: "Poppins",
+                    fontSize: isSmallScreen ? "0.5rem" : "0.9rem",
+                    padding: "0rem",
+                    fontWeight: "600",
+                    marginBottom: "0.5rem"
+                  }}
+                >
+                  <MenuItem value="">Irregular Student</MenuItem>
+
+                </Select>
+              </FormControl>
+
+            </div>
             <div className={`${StudyPlanCSS.tableWrapperLeft}`}>
                 <StudyPlanForm/>
             </div> 
@@ -84,6 +88,7 @@ const StudyPlan = () => {
                     fontSize: "0.9rem",
                     padding: "0rem",
                     padding: "0.9rem",
+                 
                     "&:hover": {
                       backgroundColor: "#0070e7", // Change the hover background color here
                     },
@@ -98,6 +103,34 @@ const StudyPlan = () => {
           </div>
 
             <div className={StudyPlanCSS.containerWrapperRight}>
+            <div className={StudyPlanCSS.topButtonsRight}>
+              <FormControl
+                sx={{
+                  mr: 0.6,
+                  minWidth: isSmallScreen ? 90 : 115,
+                }}
+              >
+                <Select
+                  value={year}
+                  onChange={handleChangeYear}
+                  displayEmpty
+                  inputProps={{ "aria-label": "Without label" }}
+                  sx={{
+                    backgroundColor: "white",
+                    marginBottom: "0.5rem",
+                    borderRadius: "0.5rem",
+                    fontFamily: "Poppins",
+                    fontSize: isSmallScreen ? "0.5rem" : "0.9rem",
+                    padding: "0rem",
+                    fontWeight: "600",
+                  }}
+                >
+                  <MenuItem value="">Irregular Student</MenuItem>
+
+                </Select>
+              </FormControl>
+
+            </div>
             <div className={`${StudyPlanCSS.tableWrapperRight}`}>
                 <TableStudyPlan/>
             </div> 
