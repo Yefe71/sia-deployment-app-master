@@ -86,7 +86,7 @@ const StudyPlan = () => {
                   displayEmpty
                   inputProps={{ "aria-label": "Without label" }}
                   sx={{
-                    width:"28ch",
+                    width:"24ch",
                     backgroundColor: "white",
                     borderRadius: "0.5rem",
                     fontFamily: "Poppins",
@@ -99,7 +99,7 @@ const StudyPlan = () => {
                     PaperProps: {
                       style: {
                         maxHeight: 48 * 4.5,
-                        width: "32ch",
+                        width: "28ch",
                         minWidth: "25ch",
                         overflow: "auto",
                                       
