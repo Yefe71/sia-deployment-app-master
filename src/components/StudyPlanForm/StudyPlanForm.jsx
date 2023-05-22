@@ -50,7 +50,7 @@ const useStyles = () =>
     position: 'sticky',
     bottom: 0,
     width: '100%',
-    backgroundColor: '#f0eded',
+    backgroundColor: '#f7f4f4',
     zIndex: 1,
     padding: "0px 0px",
     boxSizing: 'border-box',
@@ -79,7 +79,7 @@ const useStyles = () =>
   });
   
 
-function StudyPlanForm({onCloseProp}) {
+function StudyPlanForm({selectedStudent}) {
   // Creating style object
   const classes = useStyles();
   const [deleteIndex, setDeleteIndex] = useState(null);
@@ -332,7 +332,9 @@ function StudyPlanForm({onCloseProp}) {
             </TableHead>
 
             <TableBody>
-              {rowsEdit.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
+              {rowsEdit
+              
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
                 return (
                   <div>
                     <TableRow>

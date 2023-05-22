@@ -12,9 +12,15 @@ import TableStudentsList from "../TableStudentsList/TableStudentsList";
 import TableStudyPlan from "../TableStudyPlan/TableStudyPlan";
 
 const StudyPlan = () => {
-  const [year, setYear] = React.useState("");
+  const [student, setStudent] = React.useState("");
   const [block, setBlock] = React.useState("");
 
+
+  const handleChangeStudent = (event) => {
+    setStudent(event.target.value);
+  };
+
+  
   useLayoutEffect(() => {
     const vh = Math.max(
       document.documentElement.clientHeight || 0,
@@ -26,12 +32,14 @@ const StudyPlan = () => {
     });
   }, []);
   const isSmallScreen = useMediaQuery("(max-width: 500px)");
-  const handleChangeYear = (event) => {
-    setYear(event.target.value);
-  };
-  const handleChangeBlock = (event) => {
-    setBlock(event.target.value);
-  };
+  // const handleChangeYear = (event) => {
+  //   setYear(event.target.value);
+  // };
+
+
+  // const handleChangeBlock = (event) => {
+  //   setBlock(event.target.value);
+  // };
 
 
   const [irregulars, setIrregulars] = useState(null);
@@ -81,8 +89,8 @@ const StudyPlan = () => {
                 }}
               >
                 <Select
-                  value={year}
-                  onChange={handleChangeYear}
+                  value={student}
+                  onChange={handleChangeStudent}
                   displayEmpty
                   inputProps={{ "aria-label": "Without label" }}
                   sx={{
@@ -120,7 +128,7 @@ const StudyPlan = () => {
 
             </div>
             <div className={`${StudyPlanCSS.tableWrapperLeft}`}>
-                <StudyPlanForm/>
+                <StudyPlanForm selectedStudent = {student}/>
             </div> 
             <div className={StudyPlanCSS.bottomButtonsLeft}>
               <Stack spacing={2} direction="row">
@@ -160,8 +168,6 @@ const StudyPlan = () => {
               >
                 <Select
                   style={{visibility: "hidden"}}
-                  value={year}
-                  onChange={handleChangeYear}
                   displayEmpty
                   inputProps={{ "aria-label": "Without label" }}
                   sx={{
@@ -181,7 +187,7 @@ const StudyPlan = () => {
 
             </div>
             <div className={`${StudyPlanCSS.tableWrapperRight}`}>
-                <TableStudyPlan/>
+                <TableStudyPlan selectedStudent = {student}/>
             </div> 
             <div className={StudyPlanCSS.middle}>
               <Stack spacing={2} direction="row">

@@ -2917,6 +2917,61 @@ export default class SchedulerFaculty extends React.PureComponent {
     this.props.handleYearBlockAdd(year, block);
   };
 
+
+updateMinorsData = async (oldValues, newValues) => {
+  try {
+    const dataToSend = {
+      professor_name: oldValues.professorName,
+      year: oldValues.year,
+      course_name: oldValues.courseName,
+      course_code: oldValues.courseCode,
+      unit: oldValues.units,
+      actual_unit: oldValues.actualUnits,
+      class_type: oldValues.classType,
+      room: oldValues.room,
+      day: oldValues.day,
+      start_date: oldValues.startDate,
+      end_date: oldValues.endDate,
+      new_professor_name: newValues.professorName,
+      new_year: newValues.year,
+      new_course_name: newValues.courseName,
+      new_course_code: newValues.courseCode,
+      new_unit: newValues.units,
+      new_actual_unit: newValues.actualUnits,
+      new_class_type: newValues.classType,
+      new_room: newValues.room,
+      new_day: newValues.day,
+      new_start_date: newValues.startDate,
+      new_end_date: newValues.endDate
+    };
+
+    const response = await fetch('http://localhost:3000/updateMinorsData', {
+      method: 'PUT', // or 'POST'
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(dataToSend),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log(data);
+    return data;
+
+  } catch (error) {
+    console.error(`Error: ${error}`);
+  }
+  }
+
+
+
+
+
+
+
   async commitChanges({ added, changed, deleted }, isConfirm) {
     console.log("TYPES!!!!!!!!", added, changed, deleted);
     try {
@@ -3014,8 +3069,8 @@ export default class SchedulerFaculty extends React.PureComponent {
                   return appointment;
                 }
 
-                console.log("FOUND IT", parseInt(oldAppointment[0].units));
-                console.log("FOUND IT NEW", updatedAppointment.units);
+                console.log("FOUND IT", oldAppointment[0]);
+                console.log("FOUND IT NEW", updatedAppointment);
 
                 //IF UNITS IS UNTOUCHED, Don't run unit exceed check
                 let resultUnit = this.doesUnitsExceed(
@@ -3045,7 +3100,9 @@ export default class SchedulerFaculty extends React.PureComponent {
                   console.log("NO CONFLICT 2");
                   this.setState({ isConflictForm: false });
                 }
-
+                
+                this.updateMinorsData(oldAppointment[0], updatedAppointment)
+                //update data of table form
                 return isConfirm ? updatedAppointment : null; //this one
               } else {
                 return appointment;

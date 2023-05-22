@@ -55,7 +55,7 @@ const StyleTable = styled(Table)({
     zIndex: 1,
   });
 
-const TableStudyPlan = ({standing, setDataChild, yearButton, blockButton}) => {
+const TableStudyPlan = ({standing, setDataChild, yearButton, blockButton, selectedStudent}) => {
   const [data, setData] = useState([])
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -99,6 +99,8 @@ const TableStudyPlan = ({standing, setDataChild, yearButton, blockButton}) => {
     return formattedTime;
   };
 
+
+  
   return (
     <div className={TableStudyPlanCSS.studyPlanTableWrapper}>
 
@@ -121,9 +123,12 @@ const TableStudyPlan = ({standing, setDataChild, yearButton, blockButton}) => {
       </StyledTableHead>
       <TableBody>
       {data
-          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-          .map((row, index) => (
+            .filter(row => row.student_name === selectedStudent)
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((row, index) => (
             <StyledTableRow key={row.id}>
+               {/* <h1>{row.student_name}</h1>
+              <h1>{selectedStudent}</h1> */}
               <TableCell>{page * rowsPerPage + index + 1}</TableCell>
               <TableCell>{row.professor_name}</TableCell>
               <TableCell>{row.year}</TableCell>

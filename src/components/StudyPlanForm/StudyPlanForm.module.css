@@ -168,7 +168,7 @@
       border-bottom-left-radius: 0px;
       border-bottom-right-radius: 0px;
 
-      overflow-y: hidden;
+      overflow-y: scroll;
 
     height: 49vh;
     
