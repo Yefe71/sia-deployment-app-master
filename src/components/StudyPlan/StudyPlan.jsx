@@ -1,4 +1,4 @@
-import React, {useLayoutEffect} from "react";
+import React, {useLayoutEffect, useState, useEffect} from "react";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -10,6 +10,7 @@ import TableFormStudents from "../TableFormStudents/TableFormStudents";
 import TableManageBlock from "../TableManageBlock/TableManageBlock";
 import TableStudentsList from "../TableStudentsList/TableStudentsList";
 import TableStudyPlan from "../TableStudyPlan/TableStudyPlan";
+
 const StudyPlan = () => {
   const [year, setYear] = React.useState("");
   const [block, setBlock] = React.useState("");
@@ -31,6 +32,34 @@ const StudyPlan = () => {
   const handleChangeBlock = (event) => {
     setBlock(event.target.value);
   };
+
+
+  const [irregulars, setIrregulars] = useState(null);
+  
+  useEffect(() => {
+    const fetchIrregulars = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/grabIrregulars`);
+        const data = await response.json();
+        setIrregulars(data);
+        console.log(data)
+    
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+  
+    fetchIrregulars();
+  }, []);
+  
+
+  useEffect(() => {
+    
+    console.log(irregulars, "I'M IRREGULARS")
+ 
+  }, [irregulars]);
+
   return (
     <>
       <div className={StudyPlanCSS.topTableWrapper}>
@@ -57,6 +86,7 @@ const StudyPlan = () => {
                   displayEmpty
                   inputProps={{ "aria-label": "Without label" }}
                   sx={{
+                    width:"28ch",
                     backgroundColor: "white",
                     borderRadius: "0.5rem",
                     fontFamily: "Poppins",
@@ -65,9 +95,26 @@ const StudyPlan = () => {
                     fontWeight: "600",
                     marginBottom: "0.5rem"
                   }}
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+                        maxHeight: 48 * 4.5,
+                        width: "32ch",
+                        minWidth: "25ch",
+                        overflow: "auto",
+                                      
+                      },
+                    },
+                  }}
                 >
-                  <MenuItem value="">Irregular Student</MenuItem>
-
+                  <MenuItem style={{ fontSize: '0.95rem' }} value="">Irregular Student</MenuItem>
+                  {irregulars ? irregulars.map((student) => 
+                  {
+                  return <MenuItem  style={{ fontSize: '0.95rem' }} value={`${student.last_name}, ${student.first_name} ${student.middle_name}`}>{`${student.last_name}, ${student.first_name} ${student.middle_name}`}</MenuItem>
+                   })
+                  : ""}
+                
+                   
                 </Select>
               </FormControl>
 
@@ -105,12 +152,14 @@ const StudyPlan = () => {
             <div className={StudyPlanCSS.containerWrapperRight}>
             <div className={StudyPlanCSS.topButtonsRight}>
               <FormControl
+               
                 sx={{
                   mr: 0.6,
                   minWidth: isSmallScreen ? 90 : 115,
                 }}
               >
                 <Select
+                  style={{visibility: "hidden"}}
                   value={year}
                   onChange={handleChangeYear}
                   displayEmpty
