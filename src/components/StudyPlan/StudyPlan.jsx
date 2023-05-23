@@ -19,65 +19,14 @@ const StudyPlan = () => {
   const [isFormValid, setIsFormValid] = useState(false)
   const [rowsChild, setRowsChild] = useState([])
   const [schedules, setSchedules] = useState([])
+  const [generatedSchedules, setGeneratedSchedules] = useState([])
 
   const handleChangeStudent = (event) => {
     setStudent(event.target.value);
   };
 
 
-  
 
-
-
-  
-  // const handleGenerate = () => {
-    
-  //   const filteredObjects = schedules.filter(obj => {
-  //     return rowsChild.some(course => course.code === obj.courseCode);
-  //   });
-
-  //   // Step 1: Group objects by course code
-  //   const groupedObjects = filteredObjects.reduce((groups, obj) => {
-  //     const courseCode = obj.courseCode;
-  //     if (!groups[courseCode]) {
-  //       groups[courseCode] = [];
-  //     }
-  //     groups[courseCode].push(obj);
-  //     return groups;
-  //   }, {});
-
-  //   // Step 2: Find the object with the earliest start date for each course code
-  //   const objectsWithEarliestTime = Object.values(groupedObjects).map(group => {
-  //     // Sort the group by startDate
-  //     group.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
-
-  //     // This will hold the selected schedules
-  //     const selectedSchedules = [];
-
-  //     // Iterate over each schedule in the sorted group
-  //     for(let schedule of group) {
-  //       // If there's no selected schedule yet, add the first one
-  //       if (selectedSchedules.length === 0) {
-  //         selectedSchedules.push(schedule);
-  //       } else {
-  //         // If the start of the current schedule is after the end of the last selected schedule, 
-  //         // add it to the selected schedules
-  //         const lastScheduleEnd = new Date(selectedSchedules[selectedSchedules.length - 1].endDate);
-  //         const currentScheduleStart = new Date(schedule.startDate);
-  //         if (currentScheduleStart > lastScheduleEnd) {
-  //           selectedSchedules.push(schedule);
-  //         }
-  //       }
-  //     }
-  
-  //     // Now, selectedSchedules contains the schedules with the earliest start time without any overlap
-  //     return selectedSchedules;
-  //   });
-
-  //   console.log(objectsWithEarliestTime, "EARLIEST!!!!!!")
-
-
-  // };
 const handleGenerate = () => {
 
       const filteredObjects = schedules.filter(obj => {
@@ -117,9 +66,11 @@ const handleGenerate = () => {
         console.log('\n');
     }
 
-    
-    console.log(outputSchedules)
-
+    let updatedSchedules = outputSchedules.map((obj, index) => {
+      return { ...obj, studentName: student };
+    });
+    setGeneratedSchedules(updatedSchedules)
+    // console.log(outputSchedules)
   }
   
   useLayoutEffect(() => {
@@ -136,12 +87,28 @@ const handleGenerate = () => {
 
 
   const [irregulars, setIrregulars] = useState(null);
-  
+
   useEffect(() => {
     const fetchIrregulars = async () => {
       try {
         const response = await fetch(`http://localhost:3000/grabIrregulars`);
         const data = await response.json();
+
+        const compareByLastName = (a, b) => {
+          const lastNameA = a.last_name.toUpperCase();
+          const lastNameB = b.last_name.toUpperCase();
+          if (lastNameA < lastNameB) {
+            return -1;
+          }
+          if (lastNameA > lastNameB) {
+            return 1;
+          }
+          return 0;
+        };
+
+        // Sort the array by last name
+        data.sort(compareByLastName);
+
         setIrregulars(data);
         console.log(data)
     
@@ -153,7 +120,6 @@ const handleGenerate = () => {
   
     fetchIrregulars();
   }, []);
-  
 
   useEffect(() => {
     
@@ -266,7 +232,7 @@ const handleGenerate = () => {
 
             </div>
             <div className={`${StudyPlanCSS.tableWrapperLeft}`}>
-                <StudyPlanForm setRowsChild={setRowsChild} setIsFormValid = {setIsFormValid} selectedStudent = {student}/>
+                <StudyPlanForm setRowsChild={setRowsChild} setIsFormValid = {setIsFormValid} selectedStudent = {student} />
             </div> 
             <div className={StudyPlanCSS.bottomButtonsLeft}>
               <Stack spacing={2} direction="row">
@@ -326,7 +292,7 @@ const handleGenerate = () => {
 
             </div>
             <div className={`${StudyPlanCSS.tableWrapperRight}`}>
-                <TableStudyPlan selectedStudent = {student}/>
+                <TableStudyPlan selectedStudent = {student} generatedSchedules = {generatedSchedules}/>
             </div> 
             <div className={StudyPlanCSS.middle}>
               <Stack spacing={2} direction="row">

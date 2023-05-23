@@ -55,7 +55,7 @@ const StyleTable = styled(Table)({
     zIndex: 1,
   });
 
-const TableStudyPlan = ({standing, setDataChild, yearButton, blockButton, selectedStudent}) => {
+const TableStudyPlan = ({standing, setDataChild, yearButton, blockButton, selectedStudent, generatedSchedules}) => {
   const [data, setData] = useState([])
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -82,11 +82,49 @@ const TableStudyPlan = ({standing, setDataChild, yearButton, blockButton, select
     }
   }
 
+
+  const updateStudyPlans = async () => {
+
+    const combinedData = [...data, ...generatedSchedules]
+    console.log(combinedData, "COMBINED DATA!")
+    try {
+      const requestOptions = {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(combinedData),
+      };
+
+      const response = await fetch(
+        "http://localhost:3000/updateStudyPlans",
+        requestOptions
+      );
+      const data = await response.json();
+      console.log(data, "updating scheds, should be latest");
+      if (data.success) {
+        console.log(data, "guds");
+      } else {
+        console.log(data, "error");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      console.log("done updating units");
+    }
+
+  }
+
   useEffect( () => {
 
     fetchStudyPlans()
 
   }, [])
+  useEffect( () => {
+
+    if (generatedSchedules > 0){
+      updateStudyPlans()
+    }
+
+  }, [generatedSchedules])
   // Helper function to format the date in YYYY-MM-DD format
   const formatDate = (date) => {
     const formattedDate = new Date(date).toISOString().split('T')[0];
