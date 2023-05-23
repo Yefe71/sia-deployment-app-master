@@ -1699,7 +1699,26 @@ countStudentsByYearAndBlock(students, year, block) {
                     </div>
 
                     {/* 3. Add a Select field that says Class type, and a Select field that says Room */}
+                    
+                    
+                    
                     <div className={classes.wrapper}>
+                      <FormControl
+                        sx={{ width: "270px !important", margin: "0px 7px" }}
+                        variant="outlined"
+                        
+                        className={classes.textField}
+                      >
+                        <TextField
+                           
+                           InputLabelProps={{ shrink: true }}
+                          id="outlined-helperText"
+                         
+                          type="number"
+                          label="Slots"
+                          {...textEditorPropsSpecial("maxCapacity")}
+                        />
+                      </FormControl>
                       {this.props.isStudent === false ? (
                         <FormControl
                           sx={{ margin: "0px 7px" }}
@@ -1754,7 +1773,7 @@ countStudentsByYearAndBlock(students, year, block) {
 
                       {this.props.isStudent === false ? (
                         <FormControl
-                          sx={{ margin: "0px 7px" }}
+                        sx={{ width: "320px !important", margin: "0px 7px" }}
                           variant="outlined"
                           className={classes.textField}
                         >
@@ -2263,7 +2282,8 @@ export default class SchedulerFaculty extends React.PureComponent {
             classType: item.class_type,
             room: item.room,
             day: dayjs(item.day).format("YYYY-MM-DD"),
-            currentCapacity: item.current_capacity
+            currentCapacity: item.current_capacity,
+            maxCapacity: item.max_capacity
           }));
           console.log(rows, "grab schedules");
 
@@ -2586,7 +2606,8 @@ export default class SchedulerFaculty extends React.PureComponent {
         classType: item.class_type,
         room: item.room,
         day: dayjs(item.day).format("YYYY-MM-DD"),
-        currentCapacity: item.current_capacity
+        currentCapacity: item.current_capacity,
+        maxCapacity: item.max_capacity
       }));
       console.log(rows, "grab schedules");
 
