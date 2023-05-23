@@ -26,42 +26,114 @@ const StudyPlan = () => {
 
 
   
-  const handleGenerate = () => {
+
+
+
+  
+  // const handleGenerate = () => {
     
-    const filteredObjects = schedules.filter(obj => {
-      return rowsChild.some(course => course.code === obj.courseCode);
-    });
+  //   const filteredObjects = schedules.filter(obj => {
+  //     return rowsChild.some(course => course.code === obj.courseCode);
+  //   });
+
+  //   // Step 1: Group objects by course code
+  //   const groupedObjects = filteredObjects.reduce((groups, obj) => {
+  //     const courseCode = obj.courseCode;
+  //     if (!groups[courseCode]) {
+  //       groups[courseCode] = [];
+  //     }
+  //     groups[courseCode].push(obj);
+  //     return groups;
+  //   }, {});
+
+  //   // Step 2: Find the object with the earliest start date for each course code
+  //   const objectsWithEarliestTime = Object.values(groupedObjects).map(group => {
+  //     // Sort the group by startDate
+  //     group.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+
+  //     // This will hold the selected schedules
+  //     const selectedSchedules = [];
+
+  //     // Iterate over each schedule in the sorted group
+  //     for(let schedule of group) {
+  //       // If there's no selected schedule yet, add the first one
+  //       if (selectedSchedules.length === 0) {
+  //         selectedSchedules.push(schedule);
+  //       } else {
+  //         // If the start of the current schedule is after the end of the last selected schedule, 
+  //         // add it to the selected schedules
+  //         const lastScheduleEnd = new Date(selectedSchedules[selectedSchedules.length - 1].endDate);
+  //         const currentScheduleStart = new Date(schedule.startDate);
+  //         if (currentScheduleStart > lastScheduleEnd) {
+  //           selectedSchedules.push(schedule);
+  //         }
+  //       }
+  //     }
+  
+  //     // Now, selectedSchedules contains the schedules with the earliest start time without any overlap
+  //     return selectedSchedules;
+  //   });
+
+  //   console.log(objectsWithEarliestTime, "EARLIEST!!!!!!")
 
 
-    // Step 1: Group objects by course code
-    const groupedObjects = filteredObjects.reduce((groups, obj) => {
-      const courseCode = obj.courseCode;
-      if (!groups[courseCode]) {
-        groups[courseCode] = [];
-      }
-      groups[courseCode].push(obj);
-      return groups;
-    }, {});
+  // };
+const handleGenerate = () => {
 
-    // Step 2: Find the object with the earliest start date for each course code
-    const objectsWithEarliestTime = Object.values(groupedObjects).map(group => {
-      const earliestObj = group.reduce((earliest, obj) => {
-        const startDate = new Date(obj.startDate);
-        if (!earliest || startDate < new Date(earliest.startDate)) {
-          return obj;
+      const filteredObjects = schedules.filter(obj => {
+        return rowsChild.some(course => course.code === obj.courseCode);
+      });
+
+      // Step 1: Group objects by course code
+      const groupedObjects = filteredObjects.reduce((groups, obj) => {
+        const courseCode = obj.courseCode;
+        if (!groups[courseCode]) {
+          groups[courseCode] = [];
         }
-        return earliest;
-      }, null);
-      return earliestObj;
-    });
+        groups[courseCode].push(obj);
+        return groups;
+      }, {});
+    // Helper function to check if two schedules conflict
+    function schedulesConflict(a, b) {
+      return a.day === b.day && ((a.startDate <= b.startDate && a.endDate > b.startDate) || (b.startDate <= a.startDate && b.endDate > a.startDate));
+    }
 
-    console.log(objectsWithEarliestTime);
+    // Sort schedules within each course by start date
+    for (let courseCode in groupedObjects) {
+      groupedObjects[courseCode].sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+    }
 
+    // Initially, select the first schedule of each course
+    let selectedSchedules = Object.values(groupedObjects).map(group => group[0]);
 
-    console.log(objectsWithEarliestTime, "EARLIEST!!!!!!")
+    let hasConflict = true;
+    while (hasConflict) {
+      hasConflict = false;
 
-  };
+      for (let i = 0; i < selectedSchedules.length; i++) {
+        for (let j = 0; j < selectedSchedules.length; j++) {
+          if (i !== j && schedulesConflict(selectedSchedules[i], selectedSchedules[j])) {
+            // Conflict found - replace the conflicting schedule with the next earliest that doesn't conflict
+            const conflictingCourseCode = selectedSchedules[i].courseCode;
+            const nextSchedule = groupedObjects[conflictingCourseCode].find(schedule => !selectedSchedules.some(selected => schedulesConflict(selected, schedule)));
+            if (nextSchedule) {
+              selectedSchedules[i] = nextSchedule;
+            } else {
+              // If no non-conflicting schedule can be found, remove the conflicting one
+              selectedSchedules.splice(i, 1);
+            }
 
+            // Repeat the process until no more conflicts
+            hasConflict = true;
+            break;
+          }
+        }
+        if (hasConflict) break;
+      }
+    }
+
+    console.log(selectedSchedules, "EARLIEST AND NO CONFLICTS!!!!!!");
+  }
   
   useLayoutEffect(() => {
     const vh = Math.max(
