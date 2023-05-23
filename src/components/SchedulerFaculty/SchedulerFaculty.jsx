@@ -621,6 +621,7 @@ countStudentsByYearAndBlock(students, year, block) {
         startDate: this.state.selectedRow.start_date,
         units: this.state.selectedRow.unit,
         actualUnits: this.state.selectedRow.actual_unit,
+        
       };
 
       this.setState(
@@ -2262,6 +2263,7 @@ export default class SchedulerFaculty extends React.PureComponent {
             classType: item.class_type,
             room: item.room,
             day: dayjs(item.day).format("YYYY-MM-DD"),
+            currentCapacity: item.current_capacity
           }));
           console.log(rows, "grab schedules");
 
@@ -2584,6 +2586,7 @@ export default class SchedulerFaculty extends React.PureComponent {
         classType: item.class_type,
         room: item.room,
         day: dayjs(item.day).format("YYYY-MM-DD"),
+        currentCapacity: item.current_capacity
       }));
       console.log(rows, "grab schedules");
 
