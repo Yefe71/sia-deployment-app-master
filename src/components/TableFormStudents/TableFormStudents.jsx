@@ -76,7 +76,7 @@ const StyledTableHead = styled(TableHead)({
 });
 
 const StickyPagination = styled("div")({
-  position: "sticky",
+  position: "absolute",
   bottom: 0,
   width: "100%", 
   backgroundColor: "#f7f4f4",
