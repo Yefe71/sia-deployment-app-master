@@ -10,14 +10,56 @@ import TableFormStudents from "../TableFormStudents/TableFormStudents";
 import TableManageBlock from "../TableManageBlock/TableManageBlock";
 import TableStudentsList from "../TableStudentsList/TableStudentsList";
 import TableStudyPlan from "../TableStudyPlan/TableStudyPlan";
+import dayjs from "dayjs";
+
 
 const StudyPlan = () => {
   const [student, setStudent] = React.useState("");
   const [block, setBlock] = React.useState("");
-
+  const [isFormValid, setIsFormValid] = useState(false)
+  const [rowsChild, setRowsChild] = useState([])
+  const [schedules, setSchedules] = useState([])
 
   const handleChangeStudent = (event) => {
     setStudent(event.target.value);
+  };
+
+
+  
+  const handleGenerate = () => {
+    
+    const filteredObjects = schedules.filter(obj => {
+      return rowsChild.some(course => course.code === obj.courseCode);
+    });
+
+
+    // Step 1: Group objects by course code
+    const groupedObjects = filteredObjects.reduce((groups, obj) => {
+      const courseCode = obj.courseCode;
+      if (!groups[courseCode]) {
+        groups[courseCode] = [];
+      }
+      groups[courseCode].push(obj);
+      return groups;
+    }, {});
+
+    // Step 2: Find the object with the earliest start date for each course code
+    const objectsWithEarliestTime = Object.values(groupedObjects).map(group => {
+      const earliestObj = group.reduce((earliest, obj) => {
+        const startDate = new Date(obj.startDate);
+        if (!earliest || startDate < new Date(earliest.startDate)) {
+          return obj;
+        }
+        return earliest;
+      }, null);
+      return earliestObj;
+    });
+
+    console.log(objectsWithEarliestTime);
+
+
+    console.log(objectsWithEarliestTime, "EARLIEST!!!!!!")
+
   };
 
   
@@ -32,14 +74,6 @@ const StudyPlan = () => {
     });
   }, []);
   const isSmallScreen = useMediaQuery("(max-width: 500px)");
-  // const handleChangeYear = (event) => {
-  //   setYear(event.target.value);
-  // };
-
-
-  // const handleChangeBlock = (event) => {
-  //   setBlock(event.target.value);
-  // };
 
 
   const [irregulars, setIrregulars] = useState(null);
@@ -67,6 +101,51 @@ const StudyPlan = () => {
     console.log(irregulars, "I'M IRREGULARS")
  
   }, [irregulars]);
+  useEffect(() => {
+    
+    console.log(rowsChild, "I'M ROWS CHILD")
+    console.log(schedules)
+  }, [rowsChild]);
+  
+  useEffect(() => {
+    const fetchSchedules = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/grabSchedules`);
+        const data = await response.json();
+        const rows = data.map((item) => ({
+          id: item.id,
+          color: item.color,
+          startDate: item.start_date,
+          endDate: item.end_date,
+          professorName: item.professor_name,
+          year: item.year,
+          block: item.block,
+          courseName: item.course_name,
+          courseCode: item.course_code,
+          actualUnits: item.actual_units,
+          units: item.units,
+          classType: item.class_type,
+          room: item.room,
+          day: dayjs(item.day).format("YYYY-MM-DD"),
+          currentCapacity: item.current_capacity,
+          maxCapacity: item.max_capacity
+        }));
+        console.log(rows, "grab schedules");
+
+        setSchedules(rows)
+        console.log(rows)
+      } catch (error) {
+        console.log(error);
+      } 
+    }
+
+    fetchSchedules()
+ 
+ 
+  }, []);
+
+
+  
 
   return (
     <>
@@ -128,12 +207,12 @@ const StudyPlan = () => {
 
             </div>
             <div className={`${StudyPlanCSS.tableWrapperLeft}`}>
-                <StudyPlanForm selectedStudent = {student}/>
+                <StudyPlanForm setRowsChild={setRowsChild} setIsFormValid = {setIsFormValid} selectedStudent = {student}/>
             </div> 
             <div className={StudyPlanCSS.bottomButtonsLeft}>
               <Stack spacing={2} direction="row">
                 <Button
-                  // onClick={handleOpen}
+                  onClick={handleGenerate}
                   style={{ textTransform: "none" }}
                   sx={{
                     backgroundColor: "#007bff",
@@ -149,6 +228,7 @@ const StudyPlan = () => {
                     },
                   }}
                   variant="contained"
+                  disabled = {isFormValid}
                 >
                   Generate
                 </Button>

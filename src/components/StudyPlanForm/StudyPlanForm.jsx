@@ -79,78 +79,82 @@ const useStyles = () =>
   });
   
 
-function StudyPlanForm({selectedStudent}) {
-  // Creating style object
+function StudyPlanForm({selectedStudent, setIsFormValid, setRowsChild}) {
+
   const classes = useStyles();
   const [deleteIndex, setDeleteIndex] = useState(null);
   const [menuItems, setMenuItems] = useState(null);
 
-  
-    useEffect(() => {
-      const fetchMenuItemsMajorMinorCourses = async () => {
-        try {
-          const response = await fetch(`http://localhost:3000/grabMajorMinorCourses`);
-          const data = await response.json();
-          const rows = data.map((item) => ({
-            name: item.name,
-            code: item.code,
-          }));
-          setMenuItems(rows);
+  useEffect(() => {
+    const fetchMenuItemsMajorMinorCourses = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/grabMajorMinorCourses`);
+        const data = await response.json();
+        const rows = data.map((item) => ({
+          name: item.name,
+          code: item.code,
+        }));
 
-        } catch (error) {
-          console.log(error);
-        }
-      };
+        // Sort menuItems alphabetically by name
+        rows.sort((a, b) => a.name.localeCompare(b.name));
 
+        setMenuItems(rows);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-      fetchMenuItemsMajorMinorCourses();
-    }, []);
+    fetchMenuItemsMajorMinorCourses();
+  }, []);
 
     
-    useEffect(() => {
-      const fetchMajorMinorCourses = async () => {
-        try {
-          const response = await fetch(`http://localhost:3000/grabFormMajorMinor`);
-          const data = await response.json();
-          const rows = data.map((item) => ({
-            // id: item.id,
-            name: item.name,
-            code: item.code,
-          }));
-          setRows(rows);
+ 
 
-        } catch (error) {
-          console.log(error);
-        }
-      };
-
-
-      fetchMajorMinorCourses();
-    }, []);
-
-
-
-
-
-    useEffect(() => {
-      const fetchMajorMinorCourses = async () => {
-        try {
-          const response = await fetch(`http://localhost:3000/grabFormMajorMinor`);
-          const data = await response.json();
-          const rows = data.map((item) => ({
-            name: item.name,
-            code: item.code,
-          }));
-          setRowsEdit(rows);
     
-        } catch (error) {
-          console.log(error);
-        }
-      };
+    // useEffect(() => {
+    //   const fetchMajorMinorCourses = async () => {
+    //     try {
+    //       const response = await fetch(`http://localhost:3000/grabFormMajorMinor`);
+    //       const data = await response.json();
+    //       const rows = data.map((item) => ({
+    //         // id: item.id,
+    //         name: item.name,
+    //         code: item.code,
+    //       }));
+    //       setRows(rows);
+
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   };
+
+
+    //   fetchMajorMinorCourses();
+    // }, []);
+
+
+
+
+
+    // useEffect(() => {
+    //   const fetchMajorMinorCourses = async () => {
+    //     try {
+    //       const response = await fetch(`http://localhost:3000/grabFormMajorMinor`);
+    //       const data = await response.json();
+    //       const rows = data.map((item) => ({
+    //         name: item.name,
+    //         code: item.code,
+    //       }));
+    //       setRowsEdit(rows);
+    
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   };
   
   
-      fetchMajorMinorCourses();
-    }, []);
+    //   fetchMajorMinorCourses();
+    // }, []);
   
 
 
@@ -165,7 +169,17 @@ function StudyPlanForm({selectedStudent}) {
     };
     const [rows, setRows] = useState([
     ]);
+    useEffect(() => {
 
+      if (!rows.length){
+        setIsFormValid(true)
+      }else{
+        setIsFormValid(false)
+      }
+
+
+      setRowsChild(rows)
+    }, [rows]);
     const [rowsEdit, setRowsEdit] = useState([]);
 
     const [page, setPage] = useState(0);
