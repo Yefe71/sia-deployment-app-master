@@ -20,6 +20,7 @@ const StudyPlan = () => {
   const [rowsChild, setRowsChild] = useState([])
   const [schedules, setSchedules] = useState([])
   const [generatedSchedules, setGeneratedSchedules] = useState([])
+  const [genClicked, setGenClicked] = useState(false)
 
   const handleChangeStudent = (event) => {
     setStudent(event.target.value);
@@ -70,7 +71,8 @@ const handleGenerate = () => {
       return { ...obj, studentName: student };
     });
     setGeneratedSchedules(updatedSchedules)
-    // console.log(outputSchedules)
+    setGenClicked(true) 
+    console.log(genClicked)   // console.log(outputSchedules)
   }
   
   useLayoutEffect(() => {
@@ -237,7 +239,11 @@ const handleGenerate = () => {
             <div className={StudyPlanCSS.bottomButtonsLeft}>
               <Stack spacing={2} direction="row">
                 <Button
-                  onClick={handleGenerate}
+                  onClick={ 
+                    
+                    handleGenerate
+                    
+                  }
                   style={{ textTransform: "none" }}
                   sx={{
                     backgroundColor: "#007bff",
@@ -292,7 +298,7 @@ const handleGenerate = () => {
 
             </div>
             <div className={`${StudyPlanCSS.tableWrapperRight}`}>
-                <TableStudyPlan selectedStudent = {student} generatedSchedules = {generatedSchedules}/>
+                <TableStudyPlan selectedStudent = {student} generatedSchedules = {generatedSchedules} genClicked = {genClicked} setGenClicked = {setGenClicked}/>
             </div> 
             <div className={StudyPlanCSS.middle}>
               <Stack spacing={2} direction="row">

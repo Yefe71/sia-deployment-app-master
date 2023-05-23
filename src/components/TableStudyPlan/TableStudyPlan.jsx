@@ -55,7 +55,7 @@ const StyleTable = styled(Table)({
     zIndex: 1,
   });
 
-const TableStudyPlan = ({standing, setDataChild, yearButton, blockButton, selectedStudent, generatedSchedules}) => {
+const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGenClicked}) => {
   const [data, setData] = useState([])
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -86,7 +86,10 @@ const TableStudyPlan = ({standing, setDataChild, yearButton, blockButton, select
   const updateStudyPlans = async () => {
 
     const combinedData = [...data, ...generatedSchedules]
-    console.log(combinedData, "COMBINED DATA!")
+    console.log(data, "data")
+    console.log(generatedSchedules, "generated")
+
+    console.log(combinedData, "combineData")
     try {
       const requestOptions = {
         method: "PUT",
@@ -94,6 +97,7 @@ const TableStudyPlan = ({standing, setDataChild, yearButton, blockButton, select
         body: JSON.stringify(combinedData),
       };
 
+     
       const response = await fetch(
         "http://localhost:3000/updateStudyPlans",
         requestOptions
@@ -109,6 +113,7 @@ const TableStudyPlan = ({standing, setDataChild, yearButton, blockButton, select
       console.log(error);
     } finally {
       console.log("done updating units");
+      fetchStudyPlans()
     }
 
   }
@@ -117,21 +122,29 @@ const TableStudyPlan = ({standing, setDataChild, yearButton, blockButton, select
 
     fetchStudyPlans()
 
-  }, [])
-  useEffect( () => {
+  }, [data])
 
-    if (generatedSchedules > 0){
-      updateStudyPlans()
-    }
 
-  }, [generatedSchedules])
-  // Helper function to format the date in YYYY-MM-DD format
+  
+  // useEffect( () => {
+
+ 
+  //   if (generatedSchedules.length > 0){
+  //     updateStudyPlans()
+   
+  //     if (genClicked) {
+  //       console.log('ifalse!!')
+  //       setGenClicked(false);
+  //     }
+  //   }
+
+  // }, [generatedSchedules])
+
   const formatDate = (date) => {
     const formattedDate = new Date(date).toISOString().split('T')[0];
     return formattedDate;
   };
 
-  // Helper function to format the time in HH:MM format
   const formatTime = (time) => {
     const formattedTime = new Date(time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     return formattedTime;
