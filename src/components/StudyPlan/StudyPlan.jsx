@@ -93,46 +93,33 @@ const handleGenerate = () => {
         groups[courseCode].push(obj);
         return groups;
       }, {});
-    // Helper function to check if two schedules conflict
-    function schedulesConflict(a, b) {
-      return a.day === b.day && ((a.startDate <= b.startDate && a.endDate > b.startDate) || (b.startDate <= a.startDate && b.endDate > a.startDate));
+      function schedulesConflict(a, b) {
+        return new Date(a.startDate) < new Date(b.endDate) && new Date(a.endDate) > new Date(b.startDate);
     }
 
-    // Sort schedules within each course by start date
-    for (let courseCode in groupedObjects) {
-      groupedObjects[courseCode].sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
-    }
+    let outputSchedules = [];
+    for (const course of rowsChild) {
+        const courseSchedules = schedules.filter(s => s.courseCode === course.code).sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
 
-    // Initially, select the first schedule of each course
-    let selectedSchedules = Object.values(groupedObjects).map(group => group[0]);
-
-    let hasConflict = true;
-    while (hasConflict) {
-      hasConflict = false;
-
-      for (let i = 0; i < selectedSchedules.length; i++) {
-        for (let j = 0; j < selectedSchedules.length; j++) {
-          if (i !== j && schedulesConflict(selectedSchedules[i], selectedSchedules[j])) {
-            // Conflict found - replace the conflicting schedule with the next earliest that doesn't conflict
-            const conflictingCourseCode = selectedSchedules[i].courseCode;
-            const nextSchedule = groupedObjects[conflictingCourseCode].find(schedule => !selectedSchedules.some(selected => schedulesConflict(selected, schedule)));
-            if (nextSchedule) {
-              selectedSchedules[i] = nextSchedule;
-            } else {
-              // If no non-conflicting schedule can be found, remove the conflicting one
-              selectedSchedules.splice(i, 1);
+        for (const schedule of courseSchedules) {
+            if (!outputSchedules.some(s => schedulesConflict(s, schedule))) {
+                outputSchedules.push(schedule);
+                break;
             }
-
-            // Repeat the process until no more conflicts
-            hasConflict = true;
-            break;
-          }
         }
-        if (hasConflict) break;
-      }
     }
 
-    console.log(selectedSchedules, "EARLIEST AND NO CONFLICTS!!!!!!");
+    for (const schedule of outputSchedules) {
+        console.log(`Course Name: ${schedule.courseName}`);
+        console.log(`Day: ${new Date(schedule.startDate).toLocaleDateString("en-US", { timeZone: "Asia/Shanghai" })}`);
+        console.log(`Start Date: ${new Date(schedule.startDate).toLocaleTimeString("en-US", { timeZone: "Asia/Shanghai" })}`);
+        console.log(`End Date: ${new Date(schedule.endDate).toLocaleTimeString("en-US", { timeZone: "Asia/Shanghai" })}`);
+        console.log('\n');
+    }
+
+    
+    console.log(outputSchedules)
+
   }
   
   useLayoutEffect(() => {
