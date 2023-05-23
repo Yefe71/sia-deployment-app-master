@@ -422,6 +422,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       selectedRow: null,
       yearFieldTable: null,
       isFormValid: false,
+      studentsCount: {}
     };
 
     this.getAppointmentData = () => {
@@ -555,6 +556,13 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     }
   }
 
+countStudentsByYearAndBlock(students, year, block) {
+    return students.filter(student => student.year === year && student.block === block).length;
+  }
+
+  
+ 
+
   hexToRGBA = (hex) => {
     // Remove the '#' character if present
     hex = hex.replace("#", "");
@@ -676,6 +684,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       if (isFormValidNow !== this.state.isFormValid) {
         this.setState({ isFormValid: isFormValidNow });
       }
+      
     }
 
     if (!this.state.yearField) {
@@ -959,6 +968,57 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       className: classes.textField,
     });
 
+    
+    const fetchStudentsCount = async (change, typeCount) => {
+      try {
+        const response = await fetch("http://localhost:3000/grabStudentsButtons");
+        const data = await response.json();
+
+        const years = [...new Set(data.map(student => student.year))];
+        const blocks = [...new Set(data.map(student => student.block))];
+
+        const counts = {};
+
+        for (let year of years) {
+          for (let block of blocks) {
+            const count = this.countStudentsByYearAndBlock(data, year, block);
+            if (!counts[year]) {
+              counts[year] = {};
+            }
+            counts[year][block] = count;
+          }
+        }
+
+       this.setState({studentsCount: counts}, ()=> {
+
+        if (typeCount === 'block'){
+          this.changeAppointment({
+            field: 'currentCapacity',
+            changes: !this.state.yearPropChild ? this.state.studentsCount[this.state.oldYear][change.value]
+                     :this.state.studentsCount[this.state.yearPropChild][change.value]
+          });
+
+          
+        }else if (typeCount === 'year'){
+          this.changeAppointment({
+            field: 'currentCapacity',
+            changes: !this.state.blockPropChild ? this.state.studentsCount[change.value][this.state.oldBlock]
+                     :this.state.studentsCount[change.value][this.state.blockPropChild]
+          });
+        }
+
+
+        
+       })
+     
+
+        // this.setState({ studentsCount: data });
+      } catch (error) {
+        console.error("Error fetching rooms names:", error);
+      }
+    };
+
+    
     const textEditorPropsBlockSpecial = (field) => ({
       variant: "outlined",
       onChange: ({ target: change }) => {
@@ -967,6 +1027,13 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           changes: change.value,
         });
         this.setState({ blockPropChild: change.value });
+        fetchStudentsCount(change, 'block')
+
+        console.log(this.state.studentsCount, "STUDENTS COUNT!!!!!")
+  
+
+
+        
       },
       value: displayAppointmentData[field] || "",
       className: classes.textField,
@@ -1083,6 +1150,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           changes: change.value,
         });
 
+        fetchStudentsCount(change, 'year')
         this.setState({ yearPropChild: change.value });
         this.setState({ yearFieldTable: change.value });
       },
@@ -1352,7 +1420,6 @@ class AppointmentFormContainerBasic extends React.PureComponent {
                             <MenuItem value={2}>2nd Year</MenuItem>
                             <MenuItem value={3}>3rd Year</MenuItem>
                             <MenuItem value={4}>4th Year</MenuItem>
-                            <MenuItem value={5}>5th Year</MenuItem>
                           </Select>
                         </FormControl>
                       ) : this.props.isStudent === true && !isNewAppointment ? (
