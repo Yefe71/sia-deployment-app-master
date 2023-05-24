@@ -95,7 +95,7 @@ const TableManageBlock = forwardRef(
     const [blinkStudentId, setBlinkStudentId] = useState(null);
 
     useEffect(() => {
-      console.log('i ran')
+ 
       const fetchDataButtons = async () => {
         try {
           const responses = await Promise.all([
@@ -121,7 +121,7 @@ const TableManageBlock = forwardRef(
 
           allData.forEach((data, index) => {
             // setData(data);
-            console.log("check", data)
+ 
             setDataChild(data);
             const uniqueBlocks = [
               ...new Set(data.map((student) => student.block)),
@@ -141,7 +141,7 @@ const TableManageBlock = forwardRef(
             yearBlock5
           );
         } catch (error) {
-          console.log(error);
+ 
         }
       };
 
@@ -165,10 +165,10 @@ const TableManageBlock = forwardRef(
               //   ...new Set(data.map((student) => student.block)),
               // ].sort();
 
-              // console.log('i ran buttons')
+ 
               // setBlockChild(uniqueBlocks);
     //         })
-    //         .catch((error) => console.log(error));
+ 
     //     };
 
     //     fetchDataButtons();
@@ -193,10 +193,10 @@ const TableManageBlock = forwardRef(
     //             ...new Set(data.map((student) => student.block)),
     //           ].sort();
 
-    //           console.log('i ran buttons')
+ 
     //           setBlockChild(uniqueBlocks);
     //         })
-    //         .catch((error) => console.log(error));
+ 
     //     };
 
     //     fetchDataButtons();
@@ -213,7 +213,7 @@ const TableManageBlock = forwardRef(
           setDataChild(data);
 
         })
-        .catch((error) => console.log(error));
+ 
     };
 
     useImperativeHandle(ref, () => ({
@@ -230,10 +230,10 @@ const TableManageBlock = forwardRef(
           setData(data);
           setDataChild(data);
 
-          console.log("hoho block", data)
+ 
 
         })
-        .catch((error) => console.log(error));
+ 
     };
 
     useImperativeHandle(ref, () => ({
@@ -250,13 +250,13 @@ const TableManageBlock = forwardRef(
           const uniqueBlocks = [
             ...new Set(data.map((student) => student.block)),
           ].sort();
-          console.log("FETCH DATA BLOCKS", uniqueBlocks)
+ 
        
           setBlockChild(uniqueBlocks);
        
 
         })
-        .catch((error) => console.log(error));
+ 
     };
 
     useImperativeHandle(ref, () => ({
@@ -300,7 +300,7 @@ const TableManageBlock = forwardRef(
           }, 1000);
         }
       } catch (error) {
-        console.log(error);
+ 
       }
     };
 
@@ -320,9 +320,9 @@ const TableManageBlock = forwardRef(
          
             setBlockChild(uniqueBlocks);
 
-            console.log("IM THE ONE BITHD")
+ 
           })
-          .catch((error) => console.log(error));
+ 
       }
     };
 
@@ -342,7 +342,7 @@ const TableManageBlock = forwardRef(
       } else {
         fetchData();
       }
-      console.log("i ran buttons/mount data");
+ 
     }, [refreshData]);
 
     useEffect(() => {
@@ -350,7 +350,7 @@ const TableManageBlock = forwardRef(
         isInitialMount.current = false;
       } else {
         setPage(0);
-        console.log("i ran buttons/mount data");
+ 
       }
     }, [filterRefreshData, refreshKey]);
 
@@ -362,7 +362,7 @@ const TableManageBlock = forwardRef(
       } else {
         fetchDataButtonsYear();
         setPage(0);
-        console.log("i ran year  data");
+ 
       }
     }, [yearButton]);
 
@@ -372,7 +372,7 @@ const TableManageBlock = forwardRef(
       } else {
         fetchDataButtonsBlock();
         setPage(0);
-        console.log("i ran block data");
+ 
       }
     }, [blockButton]);
 
@@ -382,7 +382,7 @@ const TableManageBlock = forwardRef(
       } else {
         fetchDataBlocks();
         setPage(0);
-        console.log("i ran unique blocks");
+ 
       }
     }, [yearButton, blockButton]);
 

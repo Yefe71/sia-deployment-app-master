@@ -110,7 +110,8 @@ const TableSchedSummary = ({selectedStudent, generatedSchedules, genClicked, set
           room: item.room,
           day: dayjs(item.day).format("YYYY-MM-DD"),
           currentCapacity: item.current_capacity,
-          maxCapacity: item.max_capacity
+          maxCapacity: item.max_capacity,
+          TBA: item.TBA
         }
       });
 
@@ -201,7 +202,7 @@ const TableSchedSummary = ({selectedStudent, generatedSchedules, genClicked, set
             .map((row, index) => (
             <StyledTableRow key={row.id}>
               <TableCell>{page * rowsPerPage + index + 1}</TableCell>
-              <TableCell>{row.professorName}</TableCell>
+              <TableCell>{row.professorName} {row.TBA ? `(${row.TBA})` : ""}</TableCell>
               <TableCell>{row.year}</TableCell>
               <TableCell>{row.block}</TableCell>
               <TableCell>{row.courseName}</TableCell>
