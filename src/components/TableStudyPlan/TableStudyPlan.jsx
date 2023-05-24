@@ -158,8 +158,6 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
     if (generatedSchedules.length > 0){
 
       updateStudyPlans()
-      console.log("I was clicked because gen scheds have length");
-      fetchStudyPlans(); // This will fetch the latest data after the update
     }
     
     setGenClicked(false);
