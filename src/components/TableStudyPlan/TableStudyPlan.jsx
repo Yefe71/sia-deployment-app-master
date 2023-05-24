@@ -55,7 +55,7 @@ const StyleTable = styled(Table)({
     zIndex: 1,
   });
 
-const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGenClicked}) => {
+const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGenClicked, filterChanged, setFilterChanged}) => {
   const [data, setData] = useState([])
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -70,75 +70,102 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
     setPage(0);
   };
 
-
   const fetchStudyPlans = async () => {
     try {
       console.log("i ran prof");
       const response = await fetch("http://localhost:3000/grabStudyPlans");
       const data = await response.json();
-      setData(data)
+  
+      // Convert to camel case
+      const convertedData = data.map(item => {
+        return {
+          professorName: item.professor_name,
+          year: item.year,
+          block: item.block,
+          courseName: item.course_name,
+          courseCode: item.course_code,
+          classType: item.class_type,
+          room: item.room,
+          day: item.day,
+          startDate: item.start_date,
+          endDate: item.end_date,
+          studentName: item.student_name
+        }
+      });
+
+      setData(convertedData);
+      console.log("I SET THE CONVERTED DATA WOOO")
+      return convertedData;  // Return the fetched data
     } catch (error) {
       console.error("Error fetching professor names:", error);
     }
   }
 
 
+
   const updateStudyPlans = async () => {
-
-    const combinedData = [...data, ...generatedSchedules]
-    console.log(data, "data")
-    console.log(generatedSchedules, "generated")
-
-    console.log(combinedData, "combineData")
     try {
+      console.log(data);
+
+      // Replace fetchedData with data from the state
+      const fetchedData = await fetchStudyPlans();
+
+      console.log('Generated schedules:', generatedSchedules);
+
+      const combinedData = [...fetchedData, ...generatedSchedules];
+      console.log(fetchedData, "fetchedData");
+      console.log(generatedSchedules, "generated");
+      console.log(combinedData, "combinedData");
+
       const requestOptions = {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(combinedData),
       };
 
-     
       const response = await fetch(
         "http://localhost:3000/updateStudyPlans",
         requestOptions
       );
-      const data = await response.json();
-      console.log(data, "updating scheds, should be latest");
-      if (data.success) {
-        console.log(data, "guds");
+      const responseData = await response.json();
+      console.log(responseData, "updated scheds, should be latest");
+    
+      if (responseData.success) {
+        console.log(responseData, "guds");
       } else {
-        console.log(data, "error");
+        console.log(responseData, "error");
       }
+
     } catch (error) {
       console.log(error);
     } finally {
       console.log("done updating units");
-      fetchStudyPlans()
     }
-
   }
 
   useEffect( () => {
 
     fetchStudyPlans()
-
-  }, [data])
+    setFilterChanged(false)
+  }, [])
 
 
   
-  // useEffect( () => {
+  useEffect( () => {
+    console.log(generatedSchedules, "I'm received genScheds");
+    console.log(generatedSchedules.length, "Length of generatedSchedules");
 
- 
-  //   if (generatedSchedules.length > 0){
-  //     updateStudyPlans()
-   
-  //     if (genClicked) {
-  //       console.log('ifalse!!')
-  //       setGenClicked(false);
-  //     }
-  //   }
+    if (generatedSchedules.length > 0){
 
-  // }, [generatedSchedules])
+      updateStudyPlans()
+      console.log("I was clicked because gen scheds have length");
+      fetchStudyPlans(); // This will fetch the latest data after the update
+    }
+    
+    setGenClicked(false);
+    console.log(genClicked, "I WAS CLICKED");
+  }, [genClicked]);
+
 
   const formatDate = (date) => {
     const formattedDate = new Date(date).toISOString().split('T')[0];
@@ -174,23 +201,21 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
       </StyledTableHead>
       <TableBody>
       {data
-            .filter(row => row.student_name === selectedStudent)
+            .filter(row => row.studentName === selectedStudent)
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((row, index) => (
             <StyledTableRow key={row.id}>
-               {/* <h1>{row.student_name}</h1>
-              <h1>{selectedStudent}</h1> */}
               <TableCell>{page * rowsPerPage + index + 1}</TableCell>
-              <TableCell>{row.professor_name}</TableCell>
+              <TableCell>{row.professorName}</TableCell>
               <TableCell>{row.year}</TableCell>
               <TableCell>{row.block}</TableCell>
-              <TableCell>{row.course_name}</TableCell>
-              <TableCell>{row.course_code}</TableCell>
-              <TableCell>{row.class_type}</TableCell>
+              <TableCell>{row.courseName}</TableCell>
+              <TableCell>{row.courseCode}</TableCell>
+              <TableCell>{row.classType}</TableCell>
               <TableCell>{row.room}</TableCell>
               <TableCell>{formatDate(row.day)}</TableCell>
-              <TableCell>{formatTime(row.start_date)}</TableCell>
-              <TableCell>{formatTime(row.end_date)}</TableCell>
+              <TableCell>{formatTime(row.startDate)}</TableCell>
+              <TableCell>{formatTime(row.endDate)}</TableCell>
             </StyledTableRow>
         ))}
       </TableBody>

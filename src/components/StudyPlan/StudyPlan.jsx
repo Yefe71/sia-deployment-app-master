@@ -11,6 +11,7 @@ import TableManageBlock from "../TableManageBlock/TableManageBlock";
 import TableStudentsList from "../TableStudentsList/TableStudentsList";
 import TableStudyPlan from "../TableStudyPlan/TableStudyPlan";
 import dayjs from "dayjs";
+import { filter } from "lodash";
 
 
 const StudyPlan = () => {
@@ -21,9 +22,11 @@ const StudyPlan = () => {
   const [schedules, setSchedules] = useState([])
   const [generatedSchedules, setGeneratedSchedules] = useState([])
   const [genClicked, setGenClicked] = useState(false)
+  const [filterChanged, setFilterChanged] = useState(false)
 
   const handleChangeStudent = (event) => {
     setStudent(event.target.value);
+    setFilterChanged(true)
   };
 
 
@@ -71,7 +74,6 @@ const handleGenerate = () => {
       return { ...obj, studentName: student };
     });
     setGeneratedSchedules(updatedSchedules)
-    setGenClicked(true) 
     console.log(genClicked)   // console.log(outputSchedules)
   }
   
@@ -112,7 +114,7 @@ const handleGenerate = () => {
         data.sort(compareByLastName);
 
         setIrregulars(data);
-        console.log(data)
+        console.log(data, "irregulars grabbed?")
     
       } catch (error) {
         console.log(error);
@@ -121,7 +123,7 @@ const handleGenerate = () => {
   
   
     fetchIrregulars();
-  }, []);
+  }, [filterChanged]);
 
   useEffect(() => {
     
@@ -239,11 +241,10 @@ const handleGenerate = () => {
             <div className={StudyPlanCSS.bottomButtonsLeft}>
               <Stack spacing={2} direction="row">
                 <Button
-                  onClick={ 
-                    
-                    handleGenerate
-                    
-                  }
+                  // onClick={handleGenerate}
+                  onClick={() => {
+                    handleGenerate()
+                    setGenClicked(true)}}
                   style={{ textTransform: "none" }}
                   sx={{
                     backgroundColor: "#007bff",
@@ -259,7 +260,7 @@ const handleGenerate = () => {
                     },
                   }}
                   variant="contained"
-                  disabled = {isFormValid}
+                  // disabled = {isFormValid}
                 >
                   Generate
                 </Button>
@@ -298,7 +299,7 @@ const handleGenerate = () => {
 
             </div>
             <div className={`${StudyPlanCSS.tableWrapperRight}`}>
-                <TableStudyPlan selectedStudent = {student} generatedSchedules = {generatedSchedules} genClicked = {genClicked} setGenClicked = {setGenClicked}/>
+                <TableStudyPlan selectedStudent = {student} generatedSchedules = {generatedSchedules} genClicked = {genClicked} setGenClicked = {setGenClicked} setFilterChanged = {setFilterChanged} filterChanged={filterChanged}/>
             </div> 
             <div className={StudyPlanCSS.middle}>
               <Stack spacing={2} direction="row">
