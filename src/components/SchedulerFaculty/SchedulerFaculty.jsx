@@ -1397,8 +1397,10 @@ countStudentsByYearAndBlock(students, year, block) {
                       </FormControl>
 
                
-
-                    <div
+                      {this.props.isStudent === false ? 
+                      
+                      
+                      <div
                         style={{ width: "2rem", height: "2rem" }}
                         className={`${SchedulerFacultyCSS.iconWrapper}`}
                       >
@@ -1408,6 +1410,12 @@ countStudentsByYearAndBlock(students, year, block) {
                           {...textEditorPropsTBA("TBA")}
                         />
                       </div>
+                      
+                      :
+                      
+                      null
+                      }
+              
 
 
 
@@ -2240,7 +2248,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       newData: [],
       currentDate: "2023-01-07",
       confirmationVisible: false,
-      editingFormVisible: true,
+      editingFormVisible: false,
       deletedAppointmentId: undefined,
       editingAppointment: undefined,
       previousAppointment: undefined,
@@ -2639,7 +2647,8 @@ export default class SchedulerFaculty extends React.PureComponent {
         room: item.room,
         day: dayjs(item.day).format("YYYY-MM-DD"),
         currentCapacity: item.current_capacity,
-        maxCapacity: item.max_capacity
+        maxCapacity: item.max_capacity,
+        TBA: item.TBA
       }));
       console.log(rows, "grab schedules");
 
