@@ -887,6 +887,7 @@ countStudentsByYearAndBlock(students, year, block) {
           changes: event.target.checked ? "TBA" : "",
         }),
       value: displayAppointmentData[field] || "",
+      checked: displayAppointmentData[field] ? true :  false,
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
