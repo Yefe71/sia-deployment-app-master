@@ -59,7 +59,7 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
   const [data, setData] = useState([])
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [version, setVersion] = useState(0);
+  const [dataUpdatedAt, setDataUpdatedAt] = useState(0);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -138,7 +138,7 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
     } catch (error) {
       console.log(error);
     } finally {
-      setVersion(version => version + 1);
+      setDataUpdatedAt(Date.now());
     }
   }
 
@@ -165,7 +165,7 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
 
     fetchUpdatedStudyPlans()
 
-  }, [selectedStudent])
+  }, [selectedStudent, dataUpdatedAt])
 
   
   useEffect( () => {
@@ -178,7 +178,7 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
     }
 
 
-  }, [generatedSchedules, version]);
+  }, [generatedSchedules, dataUpdatedAt]);
 
 
   const formatDate = (date) => {
