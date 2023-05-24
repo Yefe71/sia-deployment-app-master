@@ -20,7 +20,7 @@ import * as XLSX from 'xlsx';
 
 const StudentsPage = () => {
   const exportAsPDF = (data) => {
-    const doc = new jsPDF();
+    const doc = new jsPDF('l');
     const head = [["ID", "Student ID", "Last Name", "First Name", "Middle Name", "Standing", "Year", "Block"]];
 
     const body = data.map((row, index) => [
@@ -38,7 +38,25 @@ const StudentsPage = () => {
       head: head,
       body: body,
     });
+    doc.autoTable({
+      head: head,
+      body: body,
+      didDrawPage: function(data) {
+        // Footer
+        const str2 = "PROF. CENTENO, CRISELLE J.";
+        const pageSize = doc.internal.pageSize;
+        const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
 
+        doc.setFontSize(10);
+
+        const str2Width = doc.getStringUnitWidth(str2) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+
+
+        doc.text(str2, pageSize.width - str2Width - 10, pageHeight - 10);
+        doc.setLineWidth(0.5);
+        doc.line(pageSize.width - str2Width - 10, pageHeight - 15, pageSize.width - 10, pageHeight - 15);
+      }
+    });
     doc.save("students.pdf");
   };
   const exportAsExcel = (data) => {

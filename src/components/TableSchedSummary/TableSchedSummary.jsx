@@ -56,7 +56,7 @@ const StyleTable = styled(Table)({
     zIndex: 1,
   });
 
-const TableSchedSummary = ({selectedStudent, generatedSchedules, genClicked, setGenClicked}) => {
+const TableSchedSummary = ({selectedStudent, generatedSchedules, genClicked, setGenClicked, setDataChild}) => {
   const [data, setData] = useState([])
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -124,6 +124,7 @@ const TableSchedSummary = ({selectedStudent, generatedSchedules, genClicked, set
       console.log(filteredSchedules, "FILTERED DATA")
       
       setData(filteredSchedules)
+      setDataChild(filteredSchedules)
       console.log(convertedData, "CONVERTED!")
       // return convertedData;  // Return the fetched data
     } catch (error) {

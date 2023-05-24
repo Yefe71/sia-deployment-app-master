@@ -151,6 +151,35 @@ const RoomPlotPage = () => {
     <div className={RoomPlotCSS.tableWrapper}>
     <div ref={componentRef} className={RoomPlotCSS.printContainer}>
     <SchedulerFaculty room = {selectedRoom} isBlockClassess = {true} ref={childComponentRef} readOnly = {true} year={year} block={block} setBlockChild={setBlockChild}/>
+    <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "340px",
+          marginLeft: "125vw",
+        }}
+      >
+        <div
+          style={{
+            width: "24rem",
+            borderTop: "3px solid black",
+            marginRight: "5px",
+           
+          }}
+        ></div>
+        <div
+          style={{
+            marginTop: "15px",
+            fontFamily: "Arial",
+            fontSize: "25px",
+            fontWeight: "bold",
+          }}
+        >
+          PROF. CENTENO, CRISELLE J.
+        </div>
+        </div>
     </div>
     </div>
     <div className={RoomPlotCSS.bottomButtons}>
