@@ -1,4 +1,4 @@
-import React, {useLayoutEffect, useState, useEffect} from "react";
+import React, {useLayoutEffect, useState, useEffect, useRef} from "react";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -75,7 +75,11 @@ const handleGenerate = () => {
     });
     setGeneratedSchedules(updatedSchedules)
     console.log(genClicked)   // console.log(outputSchedules)
+
+    clearChildForm()
   }
+  
+
   
   useLayoutEffect(() => {
     const vh = Math.max(
@@ -168,8 +172,10 @@ const handleGenerate = () => {
  
  
   }, []);
-
-
+  const childRef = useRef();
+  const clearChildForm = () => {
+    childRef.current.clearForm();
+  };
   
 
   return (
@@ -232,7 +238,7 @@ const handleGenerate = () => {
 
             </div>
             <div className={`${StudyPlanCSS.tableWrapperLeft}`}>
-                <StudyPlanForm setRowsChild={setRowsChild} setIsFormValid = {setIsFormValid} selectedStudent = {student} />
+                <StudyPlanForm ref={childRef} setRowsChild={setRowsChild} setIsFormValid = {setIsFormValid} selectedStudent = {student} />
             </div> 
             <div className={StudyPlanCSS.bottomButtonsLeft}>
               <Stack spacing={2} direction="row">
@@ -240,7 +246,9 @@ const handleGenerate = () => {
                   // onClick={handleGenerate}
                   onClick={() => {
                     handleGenerate()
-                    setGenClicked(true)}}
+                    setGenClicked(true)
+                    
+                  }}
                   style={{ textTransform: "none" }}
                   sx={{
                     backgroundColor: "#007bff",
@@ -256,7 +264,7 @@ const handleGenerate = () => {
                     },
                   }}
                   variant="contained"
-                  // disabled = {isFormValid}
+                  disabled = {isFormValid}
                 >
                   Generate
                 </Button>

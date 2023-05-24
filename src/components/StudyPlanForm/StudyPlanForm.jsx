@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useImperativeHandle, forwardRef } from "react";
 import {
   Box,
   Button,
@@ -79,11 +79,15 @@ const useStyles = () =>
   });
   
 
-function StudyPlanForm({selectedStudent, setIsFormValid, setRowsChild}) {
+const StudyPlanForm = forwardRef(({selectedStudent, setIsFormValid, setRowsChild}, ref) => {
 
   const classes = useStyles();
   const [deleteIndex, setDeleteIndex] = useState(null);
   const [menuItems, setMenuItems] = useState(null);
+
+  useImperativeHandle(ref, () => ({
+    clearForm
+  }));
 
   useEffect(() => {
     const fetchMenuItemsMajorMinorCourses = async () => {
@@ -301,6 +305,11 @@ function StudyPlanForm({selectedStudent, setIsFormValid, setRowsChild}) {
   const handleNo = () => {
     setShowConfirm(false);
   };
+
+
+  const clearForm = () => {
+    setRows([]);
+  }
 
   return (
  
@@ -774,6 +783,6 @@ function StudyPlanForm({selectedStudent, setIsFormValid, setRowsChild}) {
     </div>
      
   );
-}
+});
 
 export default StudyPlanForm;

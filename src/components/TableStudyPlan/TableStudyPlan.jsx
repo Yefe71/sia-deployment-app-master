@@ -221,7 +221,7 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
       </StyledTableHead>
       <TableBody>
       {data
-            .filter(row => selectedStudent? row.studentName === selectedStudent : row)
+            .filter(row => selectedStudent? row.studentName === selectedStudent : null)
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((row, index) => (
             <StyledTableRow key={row.id}>
