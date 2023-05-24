@@ -55,7 +55,7 @@ const StyleTable = styled(Table)({
     zIndex: 1,
   });
 
-const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGenClicked, filterChanged, setFilterChanged}) => {
+const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGenClicked}) => {
   const [data, setData] = useState([])
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -93,7 +93,6 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
         }
       });
 
-      setData(convertedData);
       console.log("I SET THE CONVERTED DATA WOOO")
       return convertedData;  // Return the fetched data
     } catch (error) {
@@ -139,30 +138,47 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
     } catch (error) {
       console.log(error);
     } finally {
-      console.log("done updating units");
+
     }
   }
 
   useEffect( () => {
 
-    fetchStudyPlans()
-    setFilterChanged(false)
-  }, [])
+    const fetchUpdatedStudyPlans = async () => {
+      const updatedStudyPlans = await fetchStudyPlans();
+      console.log(updatedStudyPlans, "UPDATED STUDY PLANS")
+      setData(updatedStudyPlans)
+    }
 
+    fetchUpdatedStudyPlans()
+
+  }, [])
+  
+  useEffect( () => {
+
+    const fetchUpdatedStudyPlans = async () => {
+      const updatedStudyPlans = await fetchStudyPlans();
+      console.log(updatedStudyPlans, "UPDATED STUDY PLANS")
+      setData(updatedStudyPlans)
+    }
+
+    fetchUpdatedStudyPlans()
+
+  }, [selectedStudent])
 
   
   useEffect( () => {
-    console.log(generatedSchedules, "I'm received genScheds");
+    console.log(generatedSchedules, "I received genScheds");
     console.log(generatedSchedules.length, "Length of generatedSchedules");
 
+    
     if (generatedSchedules.length > 0){
-
       updateStudyPlans()
     }
     
     setGenClicked(false);
-    console.log(genClicked, "I WAS CLICKED");
-  }, [genClicked]);
+
+  }, [genClicked, generatedSchedules]);
 
 
   const formatDate = (date) => {
