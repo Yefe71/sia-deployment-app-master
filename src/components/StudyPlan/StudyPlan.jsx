@@ -73,6 +73,26 @@ const StudyPlan = () => {
     doc.autoTable({
       head: head,
       body: body,
+      didDrawPage: function(data) {
+        // Footer
+        const str1 = student.toUpperCase();
+        const str2 = "PROF. CENTENO, CRISELLE J.";
+        const pageSize = doc.internal.pageSize;
+        const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+
+        doc.setFontSize(10);
+
+        const str1Width = doc.getStringUnitWidth(str1) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+        const str2Width = doc.getStringUnitWidth(str2) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+
+        doc.text(str1, 10, pageHeight - 10);
+        doc.setLineWidth(0.5);
+        doc.line(10, pageHeight - 15, 10 + str1Width, pageHeight - 15);
+
+        doc.text(str2, pageSize.width - str2Width - 10, pageHeight - 10);
+        doc.setLineWidth(0.5);
+        doc.line(pageSize.width - str2Width - 10, pageHeight - 15, pageSize.width - 10, pageHeight - 15);
+      }
     });
 
     doc.save("students.pdf");
