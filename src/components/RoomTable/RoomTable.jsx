@@ -72,6 +72,7 @@ function RoomTable({onCloseProp}) {
           }));
           console.log(rows, 'grab roms')
           setRows(rows);
+          
 
         } catch (error) {
           console.log(error);

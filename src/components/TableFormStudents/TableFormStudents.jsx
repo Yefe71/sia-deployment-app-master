@@ -75,13 +75,14 @@ const StyledTableHead = styled(TableHead)({
   zIndex: 1,
 });
 
-const StickyPagination = styled("div")({
-  position: "absolute",
+const StickyPagination = styled('div')({
+  position: 'sticky',
   bottom: 0,
-  width: "100%", 
-  backgroundColor: "#f7f4f4",
+  width: '100%',  // make sure it stretches to full width
+  backgroundColor: '#f7f4f4',
   zIndex: 1,
-  padding: "1px 0px",
+  padding: "2px 0px",
+  marginTop: 'auto', 
 });
 
 const TableFormStudents = forwardRef(

@@ -55,7 +55,7 @@ const StyledTableHead = styled(TableHead)({
 });
 
 const StickyPagination = styled('div')({
-  position: 'absolute',
+  position: 'sticky',
   bottom: 0,
   width: '100%',  // make sure it stretches to full width
   backgroundColor: '#f7f4f4',
@@ -63,6 +63,7 @@ const StickyPagination = styled('div')({
   padding: "2px 0px",
   marginTop: 'auto', 
 });
+
 
 const TableManageBlock = forwardRef(
   (

@@ -6,7 +6,7 @@ import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
 const StickyPagination = styled('div')({
-  position: 'absolute',
+  position: 'sticky',
   bottom: 0,
   width: '100%',  // make sure it stretches to full width
   backgroundColor: '#f7f4f4',
