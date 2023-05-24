@@ -59,7 +59,7 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
   const [data, setData] = useState([])
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
+  const [version, setVersion] = useState(0);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -75,7 +75,7 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
       console.log("i ran prof");
       const response = await fetch("http://localhost:3000/grabStudyPlans");
       const data = await response.json();
-  
+      console.log(data, "fetch study plans")
       // Convert to camel case
       const convertedData = data.map(item => {
         return {
@@ -108,7 +108,7 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
 
       // Replace fetchedData with data from the state
       const fetchedData = await fetchStudyPlans();
-
+    
       console.log('Generated schedules:', generatedSchedules);
 
       const combinedData = [...fetchedData, ...generatedSchedules];
@@ -138,7 +138,7 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
     } catch (error) {
       console.log(error);
     } finally {
-
+      setVersion(version => version + 1);
     }
   }
 
@@ -156,6 +156,7 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
   
   useEffect( () => {
 
+    console.log("I CHANGED")
     const fetchUpdatedStudyPlans = async () => {
       const updatedStudyPlans = await fetchStudyPlans();
       console.log(updatedStudyPlans, "UPDATED STUDY PLANS")
@@ -175,10 +176,9 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
     if (generatedSchedules.length > 0){
       updateStudyPlans()
     }
-    
-    setGenClicked(false);
 
-  }, [genClicked, generatedSchedules]);
+
+  }, [generatedSchedules, version]);
 
 
   const formatDate = (date) => {
@@ -195,7 +195,7 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
   
   return (
     <div className={TableStudyPlanCSS.studyPlanTableWrapper}>
-
+      <p>{selectedStudent}</p>
     <StyleTable>
     <Table>
       <StyledTableHead>
