@@ -27,6 +27,7 @@
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.28",
     "lodash": "^4.17.21",
+    "luxon": "^3.3.0",
     "react": "^18.2.0",
     "react-color": "^2.19.3",
     "react-dom": "^18.2.0",

@@ -12,6 +12,9 @@ import TableStudentsList from "../TableStudentsList/TableStudentsList";
 import TableStudyPlan from "../TableStudyPlan/TableStudyPlan";
 import dayjs from "dayjs";
 import { filter } from "lodash";
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import * as XLSX from 'xlsx';
 
 
 const StudyPlan = () => {
@@ -23,7 +26,84 @@ const StudyPlan = () => {
   const [generatedSchedules, setGeneratedSchedules] = useState([])
   const [genClicked, setGenClicked] = useState(false)
   const [filterChanged, setFilterChanged] = useState(false)
+  const [dataChild, setDataChild] = useState([])
 
+
+  const days = [
+    { value: "2023-01-02", label: "Mon" },
+    { value: "2023-01-03", label: "Tue" },
+    { value: "2023-01-04", label: "Wed" },
+    { value: "2023-01-05", label: "Thu" },
+    { value: "2023-01-06", label: "Fri" },
+    { value: "2023-01-07", label: "Sat" },
+    { value: "2023-01-08", label: "Sun" },
+  ];
+
+
+  const formatDate = (time) => {
+    const date = new Date(time).toISOString().split('T')[0]; // Get only the date part of the time
+    const day = days.find(d => d.value === date); // Find the corresponding day in the array
+    return day ? day.label : ''; // Return the label if found, or an empty string if not
+  }
+  
+  const formatTime = (time) => {
+    const formattedTime = new Date(time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return formattedTime;
+  };
+
+
+  const exportAsPDF = (data) => {
+    const doc = new jsPDF('l'); // Set to 'l' for landscape orientation
+    const head = [["ID", "Professor Name", "Year", "Block", "Course Name", "Course Code",  "Class Type",  "Room", "Day", "Start Time", "End Time"]];
+
+    const body = data.map((row, index) => [
+      index + 1,
+      row.professorName,
+      row.year,
+      row.block,
+      row.courseName,
+      row.courseCode,
+      row.classType,
+      row.room,
+      formatDate(row.day),
+      formatTime(row.startDate),
+      formatTime(row.endDate)
+    ]);
+
+    doc.autoTable({
+      head: head,
+      body: body,
+    });
+
+    doc.save("students.pdf");
+  };
+
+  const exportAsExcel = (data) => {
+    console.log(dataChild, "datachild!")
+    const headers = ["ID", "Professor Name", "Year", "Block", "Course Name", "Course Code",  "Class Type",  "Room", "Day", "Start Time", "End Time"];
+
+    const dataArray = data.map((row, index) => [
+      index + 1,
+      row.professorName,
+      row.year,
+      row.block,
+      row.courseName,
+      row.courseCode,
+      row.classType,
+      row.room,
+      formatDate(row.day),
+      formatTime(row.startDate),
+      formatTime(row.endDate)
+    ]);
+
+    const ws = XLSX.utils.aoa_to_sheet([headers, ...dataArray]);
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Students");
+    XLSX.writeFile(wb, "students.xlsx");
+  };
+
+  
   const handleChangeStudent = (event) => {
     setStudent(event.target.value);
     setFilterChanged(true)
@@ -33,6 +113,7 @@ const StudyPlan = () => {
 
 const handleGenerate = () => {
 
+  
       const filteredObjects = schedules.filter(obj => {
         return rowsChild.some(course => course.code === obj.courseCode);
       });
@@ -303,13 +384,13 @@ const handleGenerate = () => {
 
             </div>
             <div className={`${StudyPlanCSS.tableWrapperRight}`}>
-                <TableStudyPlan selectedStudent = {student} generatedSchedules = {generatedSchedules} genClicked = {genClicked} setGenClicked = {setGenClicked} setFilterChanged = {setFilterChanged} filterChanged={filterChanged}/>
+                <TableStudyPlan selectedStudent = {student} generatedSchedules = {generatedSchedules} genClicked = {genClicked} setGenClicked = {setGenClicked} setFilterChanged = {setFilterChanged} filterChanged={filterChanged} setDataChild={setDataChild}/>
             </div> 
             <div className={StudyPlanCSS.middle}>
               <Stack spacing={2} direction="row">
                     <Button
                       style={{ textTransform: "none" }}
-                      // onClick={() => exportAsPDF(dataChild)}
+                      onClick={() => exportAsPDF(dataChild)}
                       sx={{ 
 
                         marginRight: "1rem",
@@ -334,7 +415,7 @@ const handleGenerate = () => {
                 <Stack spacing={2} direction="row">
                     <Button
                       style={{ textTransform: "none" }}
-                      // onClick={() => exportAsExcel(dataChild)}
+                      onClick={() => exportAsExcel(dataChild)}
                       sx={{ 
 
                         marginRight: "1rem",

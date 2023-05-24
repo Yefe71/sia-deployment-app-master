@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, TablePagination } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';;
+import 'jspdf-autotable';
+import TableStudyPlanCSS from './TableStudyPlan.module.css'
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
-import TableStudyPlanCSS from './TableStudyPlan.module.css'
+
 
 const StickyPagination = styled('div')({
   position: 'absolute',
@@ -16,7 +18,6 @@ const StickyPagination = styled('div')({
   marginTop: 'auto', 
 
 });
-
 
 
 const StyledTableCellID = styled(TableCell)({
@@ -55,11 +56,12 @@ const StyleTable = styled(Table)({
     zIndex: 1,
   });
 
-const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGenClicked}) => {
+const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGenClicked, setDataChild}) => {
   const [data, setData] = useState([])
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [dataUpdatedAt, setDataUpdatedAt] = useState(0);
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -106,17 +108,14 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
     try {
       console.log(data);
 
-      // Replace fetchedData with data from the state
       const fetchedData = await fetchStudyPlans();
     
       console.log('Generated schedules:', generatedSchedules);
-      // Find the names in generatedSchedules
+     
       let generatedNames = new Set(generatedSchedules.map(schedule => schedule.studentName));
 
-      // Filter out the fetchedData that have names present in generatedNames
       let filteredFetchedData = fetchedData.filter(schedule => !generatedNames.has(schedule.studentName));
 
-      // Combine the data
       const combinedData = [...filteredFetchedData, ...generatedSchedules];
 
       console.log(filteredFetchedData, "filteredFetchedData");
@@ -135,6 +134,7 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
       );
       const responseData = await response.json();
       setData(responseData);
+     
       console.log(responseData, "updated scheds, should be latest");
       if (responseData.success) {
         console.log(responseData, "guds");
@@ -149,12 +149,23 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
     }
   }
 
+  useEffect(() => {
+    const newData = data
+      .filter(row => selectedStudent ? row.studentName === selectedStudent : true)
+      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
+    setDataChild(newData);
+  }, [data, selectedStudent, page, rowsPerPage]);
+
+
+
   useEffect( () => {
 
     const fetchUpdatedStudyPlans = async () => {
       const updatedStudyPlans = await fetchStudyPlans();
       console.log(updatedStudyPlans, "UPDATED STUDY PLANS")
       setData(updatedStudyPlans)
+
     }
 
     fetchUpdatedStudyPlans()
@@ -168,6 +179,7 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
       const updatedStudyPlans = await fetchStudyPlans();
       console.log(updatedStudyPlans, "UPDATED STUDY PLANS")
       setData(updatedStudyPlans)
+
     }
 
     fetchUpdatedStudyPlans()
@@ -188,11 +200,27 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
   }, [generatedSchedules]);
 
 
-  const formatDate = (date) => {
-    const formattedDate = new Date(date).toISOString().split('T')[0];
-    return formattedDate;
-  };
+  // const formatDate = (date) => {
+  //   const formattedDate = new Date(date).toISOString().split('T')[0];
+  //   return formattedDate;
+  // };
+  const days = [
+    { value: "2023-01-02", label: "Mon" },
+    { value: "2023-01-03", label: "Tue" },
+    { value: "2023-01-04", label: "Wed" },
+    { value: "2023-01-05", label: "Thu" },
+    { value: "2023-01-06", label: "Fri" },
+    { value: "2023-01-07", label: "Sat" },
+    { value: "2023-01-08", label: "Sun" },
+  ];
 
+
+  const formatDate = (time) => {
+    const date = new Date(time).toISOString().split('T')[0]; // Get only the date part of the time
+    const day = days.find(d => d.value === date); // Find the corresponding day in the array
+    return day ? day.label : ''; // Return the label if found, or an empty string if not
+  }
+  
   const formatTime = (time) => {
     const formattedTime = new Date(time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     return formattedTime;
