@@ -110,9 +110,16 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
       const fetchedData = await fetchStudyPlans();
     
       console.log('Generated schedules:', generatedSchedules);
+      // Find the names in generatedSchedules
+      let generatedNames = new Set(generatedSchedules.map(schedule => schedule.studentName));
 
-      const combinedData = [...fetchedData, ...generatedSchedules];
-      console.log(fetchedData, "fetchedData");
+      // Filter out the fetchedData that have names present in generatedNames
+      let filteredFetchedData = fetchedData.filter(schedule => !generatedNames.has(schedule.studentName));
+
+      // Combine the data
+      const combinedData = [...filteredFetchedData, ...generatedSchedules];
+
+      console.log(filteredFetchedData, "filteredFetchedData");
       console.log(generatedSchedules, "generated");
       console.log(combinedData, "combinedData");
 
