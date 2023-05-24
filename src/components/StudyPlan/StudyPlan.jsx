@@ -90,7 +90,7 @@ const handleGenerate = () => {
   const isSmallScreen = useMediaQuery("(max-width: 500px)");
 
 
-  const [irregulars, setIrregulars] = useState(null);
+  const [irregulars, setIrregulars] = useState("");
 
   useEffect(() => {
     const fetchIrregulars = async () => {
@@ -114,7 +114,7 @@ const handleGenerate = () => {
         data.sort(compareByLastName);
 
         setIrregulars(data);
-        console.log(data, "irregulars grabbed?")
+    
     
       } catch (error) {
         console.log(error);
@@ -125,11 +125,7 @@ const handleGenerate = () => {
     fetchIrregulars();
   }, [filterChanged]);
 
-  useEffect(() => {
-    
-    console.log(irregulars, "I'M IRREGULARS")
- 
-  }, [irregulars]);
+
   useEffect(() => {
     
     console.log(rowsChild, "I'M ROWS CHILD")

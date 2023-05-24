@@ -2982,7 +2982,6 @@ export default class SchedulerFaculty extends React.PureComponent {
   }
 
   applyFilterUpdate = (year, block, added, changed, deleted) => {
-    console.log("NAG RUN RIN AKO MGA TANGA");
 
     if (!year && !block) {
       console.log(`i ran 1 ${year} ${block}`);
