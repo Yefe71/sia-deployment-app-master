@@ -220,7 +220,7 @@ const BlockClassesPage = () => {
               setBlockChild={setBlockChild}
             />
 
-<div
+          <div
               style={{
                 display: "flex",
                 flexDirection: "column",

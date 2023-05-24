@@ -61,6 +61,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import TableManageBlock from "../TableManageBlock/TableManageBlock";
 import TableFormStudents from "../TableFormStudents/TableFormStudents";
+import Checkbox from '@mui/material/Checkbox';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
 
 const tooltipStyle = {
   width: "300px !important",
@@ -273,7 +277,7 @@ const Appointment = ({ children, style, isStudent, ...restProps }) => {
           margin: "0px",
         }}
       >
-        {data.professorName}
+        {data.professorName} {data.TBA ? `(TBA)` : ""}
       </p>
       <p
         style={{
@@ -622,6 +626,7 @@ countStudentsByYearAndBlock(students, year, block) {
         units: this.state.selectedRow.unit,
         actualUnits: this.state.selectedRow.actual_unit,
         
+        
       };
 
       this.setState(
@@ -872,12 +877,22 @@ countStudentsByYearAndBlock(students, year, block) {
       label: field[0].toUpperCase() + field.slice(1),
       className: classes.textField,
     });
+
+
+    const textEditorPropsTBA = (field) => ({
+      variant: "outlined",
+      onChange: ({ target: change }) =>
+        this.changeAppointment({
+          field: [field],
+          changes: event.target.checked ? "TBA" : "",
+        }),
+      value: displayAppointmentData[field] || "",
+      label: field[0].toUpperCase() + field.slice(1),
+      className: classes.textField,
+    });
     const TABLEtextEditorPropsProf = (field) => ({
       variant: "outlined",
       value: displayAppointmentData[field] ||
-        // ? displayAppointmentData[field]
-        // : this.state.selectedRow 
-        // ? this.state.selectedRow.professor_name
          "",
 
       className: classes.textField,
@@ -998,7 +1013,6 @@ countStudentsByYearAndBlock(students, year, block) {
             changes: !this.state.yearPropChild ? this.state.studentsCount[this.state.oldYear][change.value]
                      :this.state.studentsCount[this.state.yearPropChild][change.value]
           });
-
           
         }else if (typeCount === 'year'){
           this.changeAppointment({
@@ -1382,6 +1396,21 @@ countStudentsByYearAndBlock(students, year, block) {
                         }
                       </FormControl>
 
+               
+
+                    <div
+                        style={{ width: "2rem", height: "2rem" }}
+                        className={`${SchedulerFacultyCSS.iconWrapper}`}
+                      >
+                        <div className={SchedulerFacultyCSS.label}>TBA</div>
+                         <Checkbox
+                          sx={{ '& .MuiSvgIcon-root': { fontSize: 30 } }}
+                          {...textEditorPropsTBA("TBA")}
+                        />
+                      </div>
+
+
+
                       {this.props.isStudent === false ? (
                         <div
                           style={{ width: "2rem", height: "2rem" }}
@@ -1460,6 +1489,8 @@ countStudentsByYearAndBlock(students, year, block) {
                         </FormControl>
                       )}
 
+
+                      
                       <SketchExample
                         defaultColor={displayAppointmentData["color"]}
                         className={`${SchedulerFacultyCSS.ripple}`}
@@ -2209,7 +2240,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       newData: [],
       currentDate: "2023-01-07",
       confirmationVisible: false,
-      editingFormVisible: false,
+      editingFormVisible: true,
       deletedAppointmentId: undefined,
       editingAppointment: undefined,
       previousAppointment: undefined,
@@ -2283,7 +2314,8 @@ export default class SchedulerFaculty extends React.PureComponent {
             room: item.room,
             day: dayjs(item.day).format("YYYY-MM-DD"),
             currentCapacity: item.current_capacity,
-            maxCapacity: item.max_capacity
+            maxCapacity: item.max_capacity,
+            TBA: item.TBA
           }));
           console.log(rows, "grab schedules");
 
