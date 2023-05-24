@@ -6,7 +6,7 @@ import TableStudyPlanCSS from './TableStudyPlan.module.css'
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
-
+import moment from 'moment-timezone';
 
 const StickyPagination = styled('div')({
   position: 'sticky',
@@ -216,10 +216,10 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
 
 
   const formatDate = (time) => {
-    const date = new Date(time).toISOString().split('T')[0]; // Get only the date part of the time
-    const day = days.find(d => d.value === date); // Find the corresponding day in the array
-    return day ? day.label : ''; // Return the label if found, or an empty string if not
-  }
+    const date = moment(time).tz('Asia/Shanghai').format('YYYY-MM-DD'); 
+    const day = days.find(d => d.value === date); 
+    return day ? day.label : ''; 
+}
   
   const formatTime = (time) => {
     const formattedTime = new Date(time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });

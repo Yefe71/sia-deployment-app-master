@@ -365,7 +365,7 @@ const handleGenerate = () => {
                     },
                   }}
                   variant="contained"
-                  disabled = {isFormValid}
+                  disabled = {isFormValid || !student}
                 >
                   Generate
                 </Button>
