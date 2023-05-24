@@ -1818,7 +1818,17 @@ countStudentsByYearAndBlock(students, year, block) {
                           className={classes.textField}
                         >
                           <InputLabel>Room</InputLabel>
-                          <Select label="Room" {...textEditorProps("room")}>
+                          <Select 
+                          MenuProps={{
+                              PaperProps: {
+                                style: {
+                                  maxHeight: 48 * 4.5, // where 48 is the item height
+                                  width: "12ch",
+                                  overflow: "auto",
+                                },
+                              },
+                            }}
+                            label="Room" {...textEditorProps("room")}>
                             {this.state.roomsNames.map((name, index) => (
                               <MenuItem key={index} value={name.room_name}>
                                 {name.room_name}
