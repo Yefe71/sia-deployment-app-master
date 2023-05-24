@@ -44,7 +44,7 @@ const SchedSummaryPage = () => {
 
     const body = data.map((row, index) => [
       index + 1,
-      row.professorName,
+      row.TBA? `${row.professorName} (${row.TBA})` : row.professorName,
       row.year,
       row.block,
       row.courseName,
@@ -87,7 +87,7 @@ const SchedSummaryPage = () => {
 
     const dataArray = data.map((row, index) => [
       index + 1,
-      row.professorName,
+      row.TBA? `${row.professorName} (${row.TBA})` : row.professorName,
       row.year,
       row.block,
       row.courseName,
