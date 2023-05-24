@@ -127,8 +127,8 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
         requestOptions
       );
       const responseData = await response.json();
+      setData(responseData);
       console.log(responseData, "updated scheds, should be latest");
-    
       if (responseData.success) {
         console.log(responseData, "guds");
       } else {
@@ -178,7 +178,7 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
     }
 
 
-  }, [generatedSchedules, dataUpdatedAt]);
+  }, [generatedSchedules]);
 
 
   const formatDate = (date) => {
@@ -195,7 +195,6 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
   
   return (
     <div className={TableStudyPlanCSS.studyPlanTableWrapper}>
-      <p>{selectedStudent}</p>
     <StyleTable>
     <Table>
       <StyledTableHead>
