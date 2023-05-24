@@ -8,8 +8,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 function App() {
   const [access, setAccess] = useState(true);
-  const [page, setPage] = useState("studyplan");
-  const [currentApp, setCurrentApp] = useState("student");
+  const [page, setPage] = useState("schedsummary");
+  const [currentApp, setCurrentApp] = useState("faculty");
   // const [access, setAccess] = useState(false);
   // const [page, setPage] = useState("roomplot");
   // const [currentApp, setCurrentApp] = useState("student");

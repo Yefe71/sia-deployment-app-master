@@ -52,7 +52,6 @@ function RoomTable({onCloseProp}) {
   ]);
 
 
-  
   const [rowsEdit, setRowsEdit] = useState([
 
   ]);
