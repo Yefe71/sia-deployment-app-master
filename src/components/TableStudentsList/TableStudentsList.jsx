@@ -60,12 +60,13 @@ const StyleTable = styled(Table)({
     position: 'sticky',
     top: 0,
     zIndex: 1,
+    height: 50
   });
 
 const TableStudentsList = ({standing, setDataChild, yearButton, blockButton}) => {
   const [data, setData] = useState([])
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(15);
 
   useEffect(() => {
     const fetchDataButtons = () => {
@@ -151,7 +152,7 @@ const TableStudentsList = ({standing, setDataChild, yearButton, blockButton}) =>
     <>
 
     <StyleTable>
-    <Table>
+    <Table size = "small">
       <StyledTableHead>
         <StyledTableRow>
         <StyledTableCellID>ID</StyledTableCellID>

@@ -52,6 +52,7 @@ const StyledTableHead = styled(TableHead)({
   position: "sticky",
   top: 0,
   zIndex: 1,
+  height: 60
 });
 
 const StickyPagination = styled('div')({
@@ -84,7 +85,7 @@ const TableManageBlock = forwardRef(
   ) => {
     const [data, setData] = useState([]);
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(16);
     const [refreshWholePage, setRefreshWholePage] = useState(false);
 
     const [yearBlock1, setYearBlock1] = useState([]);
@@ -390,7 +391,7 @@ const TableManageBlock = forwardRef(
     return (
       <>
         <StyleTable>
-          <Table>
+          <Table size = "small">
             <StyledTableHead>
               <StyledTableRow>
                 <StyledTableCellID>ID</StyledTableCellID>
@@ -439,7 +440,7 @@ const TableManageBlock = forwardRef(
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-          rowsPerPageOptions={[10, 25, 50, 100]}
+          rowsPerPageOptions={[16, 25, 50, 100]}
         />
         </StickyPagination>
       </>

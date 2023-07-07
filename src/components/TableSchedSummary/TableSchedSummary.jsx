@@ -53,12 +53,14 @@ const StyleTable = styled(Table)({
     position: 'sticky',
     top: 0,
     zIndex: 1,
+    height: 60
+    
   });
 
 const TableSchedSummary = ({selectedStudent, generatedSchedules, genClicked, setGenClicked, setDataChild}) => {
   const [data, setData] = useState([])
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(15);
   const [dataUpdatedAt, setDataUpdatedAt] = useState(0);
   // const [minors, setMinors] = useState([])
 
@@ -178,7 +180,7 @@ const TableSchedSummary = ({selectedStudent, generatedSchedules, genClicked, set
   return (
     <div className={TableSchedCSS.studyPlanTableWrapper}>
     <StyleTable>
-    <Table>
+    <Table size = "small">
       <StyledTableHead>
         <StyledTableRow>
         <StyledTableCellID>ID</StyledTableCellID>
@@ -209,7 +211,7 @@ const TableSchedSummary = ({selectedStudent, generatedSchedules, genClicked, set
               <TableCell>{row.courseCode}</TableCell>
               <TableCell>{row.units}</TableCell>
               <TableCell>{row.actualUnits}</TableCell>
-              <TableCell>{row.classType}</TableCell>
+              <TableCell>{row.classType === "Synchronous Online" ? "Synch Online" : row.classType}</TableCell>
               <TableCell>{row.room}</TableCell>
               <TableCell>{formatDate(row.day)}</TableCell>
               <TableCell>{formatTime(row.startDate)}</TableCell>
@@ -228,7 +230,7 @@ const TableSchedSummary = ({selectedStudent, generatedSchedules, genClicked, set
         onPageChange={handleChangePage}
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        rowsPerPageOptions={[10, 25, 50, 100]}
+        rowsPerPageOptions={[15, 25, 50, 100]}
       
       />
       </StickyPagination>
