@@ -33,6 +33,8 @@ const StyleTable = styled(Table)({
     //   border: '1px solid #ddd',
     //   padding: '8px',
     // },
+
+    
   });
   
   const StyledTableCellLeft = styled(TableCell)({
@@ -60,6 +62,7 @@ const StyleTable = styled(Table)({
     position: 'sticky',
     top: 0,
     zIndex: 1,
+    height: 50, // Adjust the height value as needed
   });
 
 const TableProfessorLoad = ({standing, setDataChild, yearButton, blockButton}) => {

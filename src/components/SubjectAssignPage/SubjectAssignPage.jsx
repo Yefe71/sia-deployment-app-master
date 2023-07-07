@@ -311,6 +311,11 @@ const handleYearBlockAdd = (year, block) => {
 
     }
  
+
+    const [summaryView, setSummaryView] = useState("tableView")
+    const handleChangeView = (event) => {
+      setSummaryView(event.target.value);
+    };
   return (
     <div className={SubjectAssignCSS.facultyAssignWrapper}>
       <div className={SubjectAssignCSS.topTableWrapper}>
@@ -501,11 +506,85 @@ const handleYearBlockAdd = (year, block) => {
         </div>
       </div>
 
-      <div className={SubjectAssignCSS.tableLoad}>
-        {/* <TableProfessorLoad/> */}
-        <ChartLoad dataChangeValue = {dataChangeValue}/>
-      </div>
 
+
+      <div className={SubjectAssignCSS.loadChartWrapper}>
+                <div className={SubjectAssignCSS.topTable}>
+
+          
+          <h2>{`Loads Summary`}</h2>
+          <div className={SubjectAssignCSS.topButtons2}>
+            <FormControl sx={{ minWidth: isSmallScreen ? 80 : 100 }}>
+              <Select
+                value={summaryView}
+                onChange={handleChangeView}
+                displayEmpty
+                inputProps={{ "aria-label": "Without label" }}
+                sx={{
+                  backgroundColor: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.5rem" : "0.9rem",
+                  padding: "0rem",
+                  fontWeight: "600",
+                }}
+              >
+                <MenuItem value={"tableView"} >
+                   Table View
+                  </MenuItem>
+                <MenuItem value={"graphView"}>
+                   Graph View
+                  </MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+      
+
+        </div>
+        <div className={summaryView === "graphView" ? `${SubjectAssignCSS.graphStyle} ${SubjectAssignCSS.tableLoadChart}` : SubjectAssignCSS.tableLoadChart}>
+
+          {
+
+          summaryView === "tableView" ?
+          
+              <TableProfessorLoad/>
+
+              :
+              <ChartLoad dataChangeValue = {dataChangeValue}/>
+
+
+          }
+       
+        </div>
+        <div className={SubjectAssignCSS.bottomButtons} style = {{visibility: "hidden"}}>
+      
+          <div className={SubjectAssignCSS.right}>
+            <Stack spacing={2} direction="row">
+              <Button
+               
+                style={{ textTransform: "none" }}
+                sx={{
+                  backgroundColor: "#007bff",
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+                  padding: "0rem",
+                  padding: "0.9rem",
+                  "&:hover": {
+                    backgroundColor: "#0070e7", // Change the hover background color here
+                  },
+                }}
+                variant="contained"
+              >
+                Assign
+              </Button>
+              
+            </Stack>
+          </div>
+        </div>
+      </div>
+   
 
     </div>
   );

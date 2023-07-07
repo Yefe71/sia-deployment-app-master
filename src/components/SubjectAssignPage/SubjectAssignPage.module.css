@@ -9,6 +9,14 @@
     margin-bottom: 0.5rem;
 }
 
+.topButtons2{
+    display: flex;
+ 
+    align-items: center;
+    margin-right:0.7rem;
+    margin-bottom: 0.5rem;
+}
+
 .topTable{
     
     display: flex;
@@ -57,9 +65,9 @@
     max-height: 90rem;
 }
 
-.tableLoad{
+.tableLoadChart{
     width: 38rem;
-    z-index: 2;
+    z-index: 2 !important;
     box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 15px;
     background: #ffffff;
     border-radius: 1rem  ;
@@ -67,19 +75,22 @@
     max-height: 90rem;
     outline: 1px solid #d9d8d8;
     overflow-y: scroll;
-   
+    box-sizing: border-box;
+}
+.loadChartWrapper{
+    display: flex;
+    flex-direction: column;
+}
+.graphStyle{
     padding-right: 1.4rem;
     padding-top: 1rem;
-    box-sizing: border-box;
+    
 }
 
 .facultyAssignWrapper{
     display: flex;
     justify-content: center;
     align-items: center;
-    /* width: 90rem;
-    max-width: 90rem; */
-    /* outline: 1px solid red; */
 }
 
 
@@ -94,6 +105,9 @@
 }
 
 .topButtons{
+    margin-top: -1rem;
+}
+.topButtons2{
     margin-top: -1rem;
 }
 
