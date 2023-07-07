@@ -394,10 +394,11 @@ const StyledDiv = styled("div")(({ theme }) => ({
   },
 }));
 
-const CustomPaper = styled(Paper)({
+const CustomPaper = styled(Paper)(({ facultyAssign }) => ({
   height: "100%",
-  minWidth: "1440px", // set a fixed width
-});
+  minWidth: facultyAssign ? "1200px" : "1440px", // set a fixed width
+}));
+
 
 class AppointmentFormContainerBasic extends React.PureComponent {
   constructor(props) {
@@ -3288,10 +3289,11 @@ updateMinorsData = async (oldValues, newValues) => {
       <div className={SchedulerFacultyCSS.tooltipContainer}>
         <>
           {}
-          <CustomPaper>
+          <CustomPaper  facultyAssign = {this.props.facultyAssign}>
             <Scheduler
               data={newData}
               height={"100%"}
+             
               firstDayOfWeek={1}
               key={this.state.schedulerKey}
             >

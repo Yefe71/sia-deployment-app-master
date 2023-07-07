@@ -19,7 +19,7 @@ const FacultyDeployment = ({setAccess, access, pageSent}) => {
         <div className={facultyDepCSS.rightContainer}>
           {page === "schedsummary" && <SchedSummaryPage/>}
           {page === "roomplot" && <RoomPlotPage/>}
-          {page === "subjassign" && <SubjectAssignPage/>}
+          {page === "subjassign" && <SubjectAssignPage facultyAssign = {true}/>}
         </div>
       </div>
     </>

@@ -16,6 +16,9 @@ import dayjs from 'dayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { OutlinedInput } from '@mui/material';
 import SchedulerFaculty from '../SchedulerFaculty/SchedulerFaculty';
+import TableManageBlock from '../TableManageBlock/TableManageBlock';
+import TableStudentsList from '../TableStudentsList/TableStudentsList';
+import TableProfessorLoad from '../TableProfessorLoad/TableProfessorLoad';
 
 const SubjectAssignPage = () => {
 
@@ -405,7 +408,7 @@ const handleYearBlockAdd = (year, block) => {
         </div>
 
         <div className={SubjectAssignCSS.tableWrapper}>
-          {/* <SchedulerFaculty isStudent = {false} handleYearBlockAdd = {handleYearBlockAdd} setIsEditConflict = {setIsEditConflict} setIsNewSched = {setIsNewSched} setYearParent={setYear} setBlockParent={setBlock}  clicked={isCreateClicked}  handleClickFromChild = {handleClickFromChild} onDataReceived={handleDataFromChild} readOnly = {false} ref={childComponentRef} selectedProfessorParent = {setSelectedProfessor} professorName = {selectedProfessor} year={year} block={block} setBlockChild={setBlockChild}/> */}
+          <SchedulerFaculty  facultyAssign = {true} isStudent = {false} handleYearBlockAdd = {handleYearBlockAdd} setIsEditConflict = {setIsEditConflict} setIsNewSched = {setIsNewSched} setYearParent={setYear} setBlockParent={setBlock}  clicked={isCreateClicked}  handleClickFromChild = {handleClickFromChild} onDataReceived={handleDataFromChild} readOnly = {false} ref={childComponentRef} selectedProfessorParent = {setSelectedProfessor} professorName = {selectedProfessor} year={year} block={block} setBlockChild={setBlockChild}/>
         </div>
 
         
@@ -487,7 +490,7 @@ const handleYearBlockAdd = (year, block) => {
       </div>
 
       <div className={SubjectAssignCSS.tableLoad}>
-        
+        <TableProfessorLoad/>
       </div>
 
 
