@@ -547,7 +547,7 @@ const handleYearBlockAdd = (year, block) => {
 
           summaryView === "tableView" ?
           
-              <TableProfessorLoad/>
+              <TableProfessorLoad dataChangeValue = {dataChangeValue}/>
 
               :
               <ChartLoad dataChangeValue = {dataChangeValue}/>

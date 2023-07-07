@@ -65,7 +65,7 @@ const StyleTable = styled(Table)({
     height: 50, // Adjust the height value as needed
   });
 
-const TableProfessorLoad = ({standing, setDataChild, yearButton, blockButton}) => {
+const TableProfessorLoad = ({dataChangeValue, standing, setDataChild, yearButton, blockButton}) => {
   const [data, setData] = useState([])
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(100);
@@ -94,7 +94,7 @@ const TableProfessorLoad = ({standing, setDataChild, yearButton, blockButton}) =
     };
   
     fetchProfessors();
-  }, []);
+  }, [dataChangeValue]);
   
 
   const handleChangePage = (event, newPage) => {

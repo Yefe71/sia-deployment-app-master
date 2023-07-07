@@ -2585,7 +2585,15 @@ export default class SchedulerFaculty extends React.PureComponent {
       this.setState({ isConflict: false });
     }
 
+
+  if(prevState.newData !== this.state.newData){
+      if (typeof this.props.dataChangeTrigger === 'function') {
+            this.props.dataChangeTrigger();
+          }
   }
+  }
+
+
 
   updateNewData(newData) {
     console.log("AKO RIN AJAJJAJAHA");
