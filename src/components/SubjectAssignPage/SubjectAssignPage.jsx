@@ -19,6 +19,7 @@ import SchedulerFaculty from '../SchedulerFaculty/SchedulerFaculty';
 import TableManageBlock from '../TableManageBlock/TableManageBlock';
 import TableStudentsList from '../TableStudentsList/TableStudentsList';
 import TableProfessorLoad from '../TableProfessorLoad/TableProfessorLoad';
+import ChartLoad from '../ChartLoad/ChartLoad';
 
 const SubjectAssignPage = () => {
 
@@ -490,7 +491,8 @@ const handleYearBlockAdd = (year, block) => {
       </div>
 
       <div className={SubjectAssignCSS.tableLoad}>
-        <TableProfessorLoad/>
+        {/* <TableProfessorLoad/> */}
+        <ChartLoad/>
       </div>
 
 
