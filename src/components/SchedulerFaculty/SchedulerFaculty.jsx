@@ -199,7 +199,7 @@ const FormOverlay = React.forwardRef(
   }
 );
 
-const Appointment = ({ children, style, isStudent, ...restProps }) => {
+const Appointment = ({ professorNames, children, style, isStudent, ...restProps }) => {
   const { data } = restProps; // Destructure data from restProps
   const contentStyle = {
     color: "white",
@@ -208,28 +208,6 @@ const Appointment = ({ children, style, isStudent, ...restProps }) => {
     margin: "0px",
   };
 
-  const [professorNames, setProfessorNames] = useState([]);
-
-
-  
-  useEffect(() => {
-    const fetchProfessorsNames = async () => {
-      try {
-        console.log("i ran prof");
-        const response = await fetch(
-          "http://localhost:3000/grabProfessorsNames"
-        );
-        const data = await response.json();
-        setProfessorNames(data);
-      } catch (error) {
-        console.error("Error fetching professor names:", error);
-      }
-      console.log("AKO YON SALARIN")
-    };
-
-    
-    fetchProfessorsNames();
-  }, []);
 
   const isMajor = professorNames
     ? professorNames.some(
@@ -2289,6 +2267,7 @@ export default class SchedulerFaculty extends React.PureComponent {
       triggerToast: false,
       majorCourses: {},
       coursesColors: {},
+      professorNames: [],
     };
 
     this.toggleConfirmationVisible = this.toggleConfirmationVisible.bind(this);
@@ -2611,8 +2590,20 @@ export default class SchedulerFaculty extends React.PureComponent {
     }
   }
   
-
+  fetchProfessorNames = async () => {
+    try {
+      console.log("I ran prof");
+      const response = await fetch("http://localhost:3000/grabProfessorsNames");
+      const data = await response.json();
+      this.setState({ professorNames: data });
+    } catch (error) {
+      console.error("Error fetching professor names:", error);
+    }
+    console.log("AKO YON SALARIN");
+  };
+  
   async componentDidMount() {
+   this.fetchProfessorNames();
     this.updateCurrentUnits();
     this.fetchAllProfData();
 
@@ -3335,7 +3326,7 @@ updateMinorsData = async (oldValues, newValues) => {
               {/* <Appointments appointmentComponent={Appointment} /> */}
               <Appointments
                 appointmentComponent={(props) => (
-                  <Appointment {...props} isStudent={this.props.isStudent} />
+                  <Appointment {...props} professorNames={this.state.professorNames} isStudent={this.props.isStudent} />
                 )}
               />
 
