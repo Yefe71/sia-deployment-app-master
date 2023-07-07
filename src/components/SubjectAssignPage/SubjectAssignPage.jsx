@@ -20,7 +20,6 @@ import SchedulerFaculty from '../SchedulerFaculty/SchedulerFaculty';
 const SubjectAssignPage = () => {
 
   const handleClick = () => {
-    // Call the function in the child component
     childComponentRef.current.openModal();
   };
 
@@ -298,7 +297,7 @@ const handleYearBlockAdd = (year, block) => {
   
     
   return (
-    <>
+    <div className={SubjectAssignCSS.facultyAssignWrapper}>
       <div className={SubjectAssignCSS.topTableWrapper}>
         <div className={SubjectAssignCSS.topTable}>
 
@@ -310,10 +309,6 @@ const handleYearBlockAdd = (year, block) => {
               onBlur={handleBlur}
               sx={{
                 mr: 0.6,
-                // width: (isFocused || (selectedValue !== "" && selectedValue !== "Professor") || isSmallScreen) ? '240px' : '125px',
-                // '&:hover': {
-                //   width: '240px',
-                // },
               width: "200px",
                 transition: 'width 0.1s ease',
               }}
@@ -408,9 +403,13 @@ const handleYearBlockAdd = (year, block) => {
       
 
         </div>
+
         <div className={SubjectAssignCSS.tableWrapper}>
-          <SchedulerFaculty isStudent = {false} handleYearBlockAdd = {handleYearBlockAdd} setIsEditConflict = {setIsEditConflict} setIsNewSched = {setIsNewSched} setYearParent={setYear} setBlockParent={setBlock}  clicked={isCreateClicked}  handleClickFromChild = {handleClickFromChild} onDataReceived={handleDataFromChild} readOnly = {false} ref={childComponentRef} selectedProfessorParent = {setSelectedProfessor} professorName = {selectedProfessor} year={year} block={block} setBlockChild={setBlockChild}/>
+          {/* <SchedulerFaculty isStudent = {false} handleYearBlockAdd = {handleYearBlockAdd} setIsEditConflict = {setIsEditConflict} setIsNewSched = {setIsNewSched} setYearParent={setYear} setBlockParent={setBlock}  clicked={isCreateClicked}  handleClickFromChild = {handleClickFromChild} onDataReceived={handleDataFromChild} readOnly = {false} ref={childComponentRef} selectedProfessorParent = {setSelectedProfessor} professorName = {selectedProfessor} year={year} block={block} setBlockChild={setBlockChild}/> */}
         </div>
+
+        
+       
         <div className={SubjectAssignCSS.bottomButtons}>
           <div className={SubjectAssignCSS.left}>
             <Stack spacing={2} direction="row">
@@ -487,8 +486,12 @@ const handleYearBlockAdd = (year, block) => {
         </div>
       </div>
 
+      <div className={SubjectAssignCSS.tableLoad}>
+        
+      </div>
 
-    </>
+
+    </div>
   );
 }
 
