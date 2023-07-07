@@ -25,20 +25,25 @@ class ChartLoad extends Component {
             enabled: false
           },
           xaxis: {
-            categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
-              'United States', 'China', 'Germany', 'Germany', 'Germany', 'Germany', 'Germany', 'Germany', 'Germany', 'Germany', 'Germany', 'Germany', 'Germany', 'Germany', 'Germany', 'Germany', 'Germany', 'Germany', 'Germany', 'Germany', 'Germany'
-            ],
-          }
+            categories: []
           },
-      series: [
-        {
-          name: "series-1",
-          data: [30, 40, 45, 50, 49, 60, 70, 91]
-        }
-      ]
+          yaxis: {
+            min: 0,
+            max: 24,
+      
+          },
+          
+          },
+          series: [
+            {
+              name: "Current Units",
+              data: [],
+
+            }
+          ]
+          
     };
   }
-
 
   componentDidMount() {
     const fetchProfessors = async () => {
@@ -50,13 +55,27 @@ class ChartLoad extends Component {
           middlename: item.middle_name,
           firstname: item.first_name,
           employment: item.employment,
-          maxUnits: item.max_units,
+          currentUnits: item.current_units,
         }));
-
-
-        console.log(rows, "AHHAHAHAHAHAHHAH ANONA")
   
-     
+        const sortedRows = rows.sort((a, b) => a.lastname.localeCompare(b.lastname));
+        
+  
+        this.setState({
+          options: {
+            ...this.state.options,
+            xaxis: {
+              ...this.state.options.xaxis,
+              categories: sortedRows.map((item) => `${item.lastname} ${item.middlename} ${item.firstname}`),
+            },
+          },
+          series: [
+            {
+              name: "Current Units",
+              data: sortedRows.map((item) => item.currentUnits),
+            },
+          ],
+        });
       } catch (error) {
         console.log(error);
       }
@@ -64,6 +83,8 @@ class ChartLoad extends Component {
   
     fetchProfessors();
   }
+  
+
   
 
 
@@ -78,7 +99,7 @@ class ChartLoad extends Component {
               series={this.state.series}
               type="bar"
               width={"580"}
-            height = {"900"}
+            height = {"1000"}
             />
           </div>
         </div>
