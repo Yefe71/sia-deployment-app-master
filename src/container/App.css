@@ -6,3 +6,7 @@ body{
 .MuiPopover-paper.Layout-popover {
     width: inherit !important;
   }
+  .apexcharts-menu-item{
+    text-align: center !important;
+    font-family: 'Poppins' !important;
+}
