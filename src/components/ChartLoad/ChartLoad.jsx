@@ -85,7 +85,47 @@ class ChartLoad extends Component {
   }
   
 
-  
+  componentDidUpdate(prevProps){
+    if(prevProps.dataChangeValue !== this.props.dataChangeValue){
+        const fetchProfessors = async () => {
+            try {
+              const response = await fetch('http://localhost:3000/grabProfessors');
+              const data = await response.json();
+              const rows = data.map((item) => ({
+                lastname: item.last_name,
+                middlename: item.middle_name,
+                firstname: item.first_name,
+                employment: item.employment,
+                currentUnits: item.current_units,
+              }));
+        
+              const sortedRows = rows.sort((a, b) => a.lastname.localeCompare(b.lastname));
+              
+        
+              this.setState({
+                options: {
+                  ...this.state.options,
+                  xaxis: {
+                    ...this.state.options.xaxis,
+                    categories: sortedRows.map((item) => `${item.lastname} ${item.middlename} ${item.firstname}`),
+                  },
+                },
+                series: [
+                  {
+                    name: "Current Units",
+                    data: sortedRows.map((item) => item.currentUnits),
+                  },
+                ],
+              });
+            } catch (error) {
+              console.log(error);
+            }
+          };
+        
+          fetchProfessors();
+        
+      }
+  }
 
 
 

@@ -23,6 +23,8 @@ import ChartLoad from '../ChartLoad/ChartLoad';
 
 const SubjectAssignPage = () => {
 
+
+
   const handleClick = () => {
     childComponentRef.current.openModal();
   };
@@ -299,7 +301,16 @@ const handleYearBlockAdd = (year, block) => {
       setIsFocused(false);
     }
   
-    
+ 
+    const [dataChangeValue, setDataChangeValue] = useState(true);
+
+
+    const dataChangeTrigger = () => {
+      
+      setDataChangeValue(!dataChangeValue)
+
+    }
+ 
   return (
     <div className={SubjectAssignCSS.facultyAssignWrapper}>
       <div className={SubjectAssignCSS.topTableWrapper}>
@@ -409,7 +420,7 @@ const handleYearBlockAdd = (year, block) => {
         </div>
 
         <div className={SubjectAssignCSS.tableWrapper}>
-          <SchedulerFaculty  facultyAssign = {true} isStudent = {false} handleYearBlockAdd = {handleYearBlockAdd} setIsEditConflict = {setIsEditConflict} setIsNewSched = {setIsNewSched} setYearParent={setYear} setBlockParent={setBlock}  clicked={isCreateClicked}  handleClickFromChild = {handleClickFromChild} onDataReceived={handleDataFromChild} readOnly = {false} ref={childComponentRef} selectedProfessorParent = {setSelectedProfessor} professorName = {selectedProfessor} year={year} block={block} setBlockChild={setBlockChild}/>
+          <SchedulerFaculty dataChangeTrigger = {dataChangeTrigger} facultyAssign = {true} isStudent = {false} handleYearBlockAdd = {handleYearBlockAdd} setIsEditConflict = {setIsEditConflict} setIsNewSched = {setIsNewSched} setYearParent={setYear} setBlockParent={setBlock}  clicked={isCreateClicked}  handleClickFromChild = {handleClickFromChild} onDataReceived={handleDataFromChild} readOnly = {false} ref={childComponentRef} selectedProfessorParent = {setSelectedProfessor} professorName = {selectedProfessor} year={year} block={block} setBlockChild={setBlockChild}/>
         </div>
 
         
@@ -492,7 +503,7 @@ const handleYearBlockAdd = (year, block) => {
 
       <div className={SubjectAssignCSS.tableLoad}>
         {/* <TableProfessorLoad/> */}
-        <ChartLoad/>
+        <ChartLoad dataChangeValue = {dataChangeValue}/>
       </div>
 
 
