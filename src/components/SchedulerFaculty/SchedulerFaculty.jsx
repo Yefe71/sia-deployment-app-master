@@ -2585,10 +2585,6 @@ export default class SchedulerFaculty extends React.PureComponent {
       this.setState({ isConflict: false });
     }
 
-    if (!prevState.newData && this.state.newData) {
-        this.props.dataChangeTrigger()
-        console.log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
-    }
   }
 
   updateNewData(newData) {
@@ -2596,9 +2592,12 @@ export default class SchedulerFaculty extends React.PureComponent {
     if (JSON.stringify(this.state.newData) !== JSON.stringify(newData)) {
       this.setState({ newData });
     }
-    this.props.dataChangeTrigger()
-     console.log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+  
+    if (typeof this.props.dataChangeTrigger === 'function') {
+      this.props.dataChangeTrigger();
+    }
   }
+  
 
   async componentDidMount() {
     this.updateCurrentUnits();
