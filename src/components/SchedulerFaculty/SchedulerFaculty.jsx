@@ -209,6 +209,9 @@ const Appointment = ({ children, style, isStudent, ...restProps }) => {
   };
 
   const [professorNames, setProfessorNames] = useState([]);
+
+
+  
   useEffect(() => {
     const fetchProfessorsNames = async () => {
       try {
@@ -221,8 +224,10 @@ const Appointment = ({ children, style, isStudent, ...restProps }) => {
       } catch (error) {
         console.error("Error fetching professor names:", error);
       }
+      console.log("AKO YON SALARIN")
     };
 
+    
     fetchProfessorsNames();
   }, []);
 
