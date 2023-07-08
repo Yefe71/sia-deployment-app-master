@@ -57,6 +57,7 @@ const StyleTable = styled(Table)({
     position: 'sticky',
     top: 0,
     zIndex: 1,
+    height: 50
   });
 
 const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGenClicked, setDataChild}) => {
