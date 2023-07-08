@@ -50,6 +50,7 @@
     background: #efeeee;
     box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 15px;
      outline: 1px solid #d9d8d8;
+     overflow-x: hidden;
 }
 
 
@@ -77,7 +78,7 @@
 }
 
 .topTableWrapper{
-    width: 100vw;
+  
     display: flex;
     flex-direction: column;
     justify-content: center;

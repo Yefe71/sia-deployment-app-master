@@ -11,7 +11,7 @@
     
     display: flex;
     justify-content: space-between;
-    width: 89rem;
+    width: 90rem;
     margin: 0;
     padding: 0;
     align-items: center;
@@ -21,7 +21,7 @@
     
     display: flex;
     justify-content: space-between;
-    width: 89rem;
+    width: 90rem;
     margin: 0;
     padding: 0;
     align-items: center;
@@ -53,7 +53,7 @@
 
 .tableWrapper{
   
-    width: 89rem;
+    width: 90rem;
     height: 39rem;
     background: #f1f1f1;
     border-radius: 1rem;

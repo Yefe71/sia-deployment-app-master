@@ -43,7 +43,7 @@
 .tableWrapper{
     
     width: 90rem;
-
+    overflow-x: hidden;
     height: 66vh;
     background: #f1f1f1;
     border-radius: 1rem  ;
@@ -53,7 +53,7 @@
 
 .tableWrapper{
 
-
+    overflow-x: hidden;
    overflow-y: scroll;
    background: #efeeee;
    box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 15px;

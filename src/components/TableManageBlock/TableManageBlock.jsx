@@ -442,7 +442,7 @@ const TableManageBlock = forwardRef(
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-          rowsPerPageOptions={[16, 25, 50, 100]}
+          rowsPerPageOptions={[16]}
         />
         </StickyPagination>
       </>

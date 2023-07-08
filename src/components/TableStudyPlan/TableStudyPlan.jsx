@@ -62,7 +62,7 @@ const StyleTable = styled(Table)({
 const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGenClicked, setDataChild}) => {
   const [data, setData] = useState([])
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(12);
   const [dataUpdatedAt, setDataUpdatedAt] = useState(0);
 
 
@@ -235,7 +235,7 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
     <div className={TableStudyPlanCSS.studyPlanTableWrapper}>
 
     <StyleTable>
-    <Table>
+    <Table size="small">
       <StyledTableHead>
         <StyledTableRow>
         <StyledTableCellID>ID</StyledTableCellID>
@@ -282,7 +282,7 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
         onPageChange={handleChangePage}
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        rowsPerPageOptions={[10, 25, 50, 100]}
+        rowsPerPageOptions={[12]}
       
       />
       </StickyPagination>
