@@ -52,7 +52,7 @@
 }
 
 .tableWrapper{
-  
+  overflow-x: hidden;
     width: 90rem;
     height: 39rem;
     background: #f1f1f1;
@@ -83,7 +83,7 @@
 .tableWrapper2{
 
 
-   overflow-y: scroll;
+   overflow-y: hidden;
    background: #efeeee;
    box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 15px;
     outline: 1px solid #d9d8d8;
