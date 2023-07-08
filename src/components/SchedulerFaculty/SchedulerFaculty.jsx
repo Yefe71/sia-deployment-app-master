@@ -173,7 +173,7 @@ const FormOverlay = React.forwardRef(
                   padding: 1,
                   paddingBottom: "0px",
                   borderRadius: "15px",
-                  height: "40rem",
+                  height: "40.3rem",
                   // transform: "translate(-50%, -50%)",
                 }}
               >
