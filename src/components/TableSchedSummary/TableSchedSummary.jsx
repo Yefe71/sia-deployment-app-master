@@ -232,7 +232,7 @@ const TableSchedSummary = ({selectedStudent, generatedSchedules, genClicked, set
         onPageChange={handleChangePage}
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        rowsPerPageOptions={[15, 25, 50, 100]}
+        rowsPerPageOptions={[15]}
       
       />
       </StickyPagination>
