@@ -16,7 +16,7 @@ import dayjs from 'dayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { OutlinedInput } from '@mui/material';
 import SchedulerFaculty from '../SchedulerFaculty/SchedulerFaculty';
-
+import * as XLSX from 'xlsx/xlsx.mjs';
 const SubjectAssignPageStudent = () => {
 
   const handleClick = () => {
@@ -295,7 +295,47 @@ const handleYearBlockAdd = (year, block) => {
     const handleBlur = () => {
       setIsFocused(false);
     }
-  
+    const ExcelDateToJSDate = (date) => {
+      let converted_date = new Date(Math.round((date - 25569) * 864e5));
+      converted_date = String(converted_date).slice(4, 15);
+      const dateArr = converted_date.split(" ");
+      let day = dateArr[1];
+      let month = dateArr[0];
+      month = "JanFebMarAprMayJunJulAugSepOctNovDec".indexOf(month) / 3 + 1;
+      if (month.toString().length <= 1) {
+        month = '0' + month;
+      }
+      let year = dateArr[2];
+      return year + '-' + month + '-' + day;
+    }
+    
+    function handleFileUpload(e) {
+      e.preventDefault();
+      if (e.target.files) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const data = e.target.result;
+          const workbook = XLSX.read(data, { type: "array" });
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          const json = XLSX.utils.sheet_to_json(worksheet);
+          
+          // Iterate over each row in the JSON array
+          json.forEach(row => {
+            // Convert the "day" value to a human-readable date format
+            row.day = ExcelDateToJSDate(row.day);
+            
+            // Convert "start_date" and "end_date" to the desired format
+            row.start_date = new Date(row.start_date).toISOString();
+            row.end_date = new Date(row.end_date).toISOString();
+          });
+    
+          console.log(json);
+        };
+        reader.readAsArrayBuffer(e.target.files[0]);
+      }
+    }
+    
     
   return (
     <>
@@ -411,12 +451,12 @@ const handleYearBlockAdd = (year, block) => {
         </div>
         <div className={SubjectAssignCSS.bottomButtons}>
           <div className={SubjectAssignCSS.left}>
-            <Stack spacing={2} direction="row">
+     <Stack spacing={2} direction="row">
               <Button
-                onClick={handleOpen}
+                // onClick={handleClick}
                 style={{ textTransform: "none" }}
                 sx={{
-                  backgroundColor: "#007bff",
+                  backgroundColor: "#e73f31",
                   color: "white",
                   borderRadius: "0.5rem",
                   fontFamily: "Poppins",
@@ -424,14 +464,45 @@ const handleYearBlockAdd = (year, block) => {
                   padding: "0rem",
                   padding: "0.9rem",
                   "&:hover": {
-                    backgroundColor: "#0070e7", // Change the hover background color here
+                    backgroundColor: "#dd3e30", // Change the hover background color here
                   },
                 }}
                 variant="contained"
               >
-                Reblock
+                Clear
               </Button>
+              
             </Stack>
+          <Stack spacing={2} direction="row">
+              <Button
+                // onClick={handleClick}
+                style={{ textTransform: "none" }}
+                sx={{
+                  backgroundColor: "#37af47",
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+                  padding: "0rem",
+                  padding: "0.9rem",
+                  "&:hover": {
+                    backgroundColor: "#33a141", // Change the hover background color here
+                  },
+                }}
+                component="label"
+                variant="contained"
+              >
+                Upload Minors CSV  
+                <input
+                  type="file"
+                  accept=".xlsx, .xls"
+                  hidden
+                  onChange={handleFileUpload}
+                />
+              </Button>
+              
+            </Stack>
+          
           </div>
           <div className={SubjectAssignCSS.middle}>
             <Stack spacing={2} direction="row">
@@ -459,6 +530,7 @@ const handleYearBlockAdd = (year, block) => {
             </Stack>
           </div>
           <div className={SubjectAssignCSS.right}>
+
             <Stack spacing={2} direction="row">
               <Button
                 onClick={handleClick}
