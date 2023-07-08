@@ -87,6 +87,19 @@ const RoomPlotPage = () => {
       setSelectedRoom(event.target.value);
     };
   
+    const [isHovered, setIsHovered] = useState(false);
+
+    const handleMouseEnter = () => {
+      setIsHovered(true);
+      console.log(isHovered)
+    };
+  
+    const handleMouseLeave = () => {
+      setIsHovered(false);
+      console.log(isHovered)
+    };
+    
+    
     
   return (
    <>
@@ -123,35 +136,13 @@ const RoomPlotPage = () => {
           </Select>
         </FormControl>
 
-        {/* <FormControl sx={{ minWidth: isSmallScreen ? 80 : 100 }}>
-          <Select
-            value={block}
-            onChange={handleChangeBlock}
-            displayEmpty
-            inputProps={{ "aria-label": "Without label" }}
-            sx={{
-              backgroundColor: "white",
-              borderRadius: "0.5rem",
-              fontFamily: "Poppins",
-              fontSize: isSmallScreen ? "0.5rem" : "0.9rem",
-              padding: "0rem",
-              fontWeight: "600",
-            }}
-          >
-            <MenuItem value="">Block</MenuItem>
-            {blockChild.map((blockNumber) => (
-              <MenuItem value={blockNumber} key={blockNumber}>
-                Block {blockNumber}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl> */}
+
       </div>
     </div>
     <div className={RoomPlotCSS.tableWrapper}>
     <div ref={componentRef} className={RoomPlotCSS.printContainer}>
     <SchedulerFaculty room = {selectedRoom} isBlockClassess = {true} ref={childComponentRef} readOnly = {true} year={year} block={block} setBlockChild={setBlockChild}/>
-    <div
+    <div className={RoomPlotCSS.signatureSection}
         style={{
           display: "flex",
           flexDirection: "column",
@@ -159,6 +150,7 @@ const RoomPlotPage = () => {
           alignItems: "center",
           marginTop: "340px",
           marginLeft: "125vw",
+          display: isHovered ? "block" : "none"
         }}
       >
         <div
@@ -210,7 +202,8 @@ const RoomPlotPage = () => {
       </Stack>
     </div>
   
-    <div className={RoomPlotCSS.middle}>
+    <div className={RoomPlotCSS.middle}       onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}>
         <ReactToPrint
           trigger={() => (
             <Stack spacing={2} direction="row">
@@ -276,62 +269,7 @@ const RoomPlotPage = () => {
     </div>
 
 
-    
-    <Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box sx={style} className={RoomPlotCSS.boxWrapper}>
-      <form onSubmit={handleSubmit}>
-        <div className={RoomPlotCSS.noStudents}>
-          <p>Number of Students</p>
-          <h3>119</h3>
-        </div>
-        <div className={RoomPlotCSS.blkCapacity}>
-          <p>Block Capacity</p>
-          <TextField
-            id="outlined-number"
-            type="number"
-            sx={{ width: "6rem" }}
-          />
-        </div>
-        <div className={RoomPlotCSS.noBlocks}>
-          <p>Number of Blocks</p>
-          <TextField
-            id="outlined-number"
-            type="number"
-            sx={{ width: "6rem" }}
-          />
-        </div>
-         
-        <Stack spacing={2} direction="row">
-          <Button
-           type="submit"
-            onClick={handleOpen}
-            style={{ textTransform: "none" }}
-            sx={{
-              marginTop: '3rem',
-              backgroundColor: "#4CAF50 ",
-              color: "white",
-              borderRadius: "0.5rem",
-              fontFamily: "Poppins",
-              fontSize: "0.9rem",
-              padding: "0rem",
-              padding: "0.9rem",
-              "&:hover": {
-                backgroundColor: "#429645 ", // Change the hover background color here
-              },
-            }}
-            variant="contained"
-          >
-            Generate
-          </Button>
-        </Stack>
-        </form>
-      </Box>
-    </Modal>
+
    </>
   )
 }

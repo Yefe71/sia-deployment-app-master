@@ -147,6 +147,18 @@ const BlockClassesPage = () => {
     };
   }, []);
 
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    console.log(isHovered)
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    console.log(isHovered)
+  };
+
   return (
     <>
       <div className={BlockClassessCSS.topTableWrapper}>
@@ -228,6 +240,7 @@ const BlockClassesPage = () => {
                 alignItems: "center",
                 marginTop: "340px",
                 marginLeft: "125vw",
+                display: isHovered ? "block" : "none"
               }}
             >
               <div
@@ -252,7 +265,8 @@ const BlockClassesPage = () => {
           </div>
         </div>
         <div className={BlockClassessCSS.bottomButtonsTop}>
-          <div className={BlockClassessCSS.middle}>
+          <div className={BlockClassessCSS.middle} onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}>
             <ReactToPrint
               trigger={() => (
                 <Stack spacing={2} direction="row">
@@ -282,31 +296,7 @@ const BlockClassesPage = () => {
               content={() => componentRef.current}
             />
 
-            {/* <Stack spacing={2} direction="row">
-                <Button
-                  style={{ textTransform: "none" }}
-                  onClick={() => exportAsExcel(dataChild)}
-                  sx={{ 
 
-                    marginRight: "1rem",
-                    backgroundColor: "#424242",
-
-                    color: "white",
-                    borderRadius: "0.5rem",
-                    fontFamily: "Poppins",
-                    fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
-                    padding: "0rem",
-                    padding: "0.9rem",
-                    "&:hover": {
-                      backgroundColor: "#313131",
-                       // Change the hover background color here
-                    },
-                  }}
-                  variant="contained"
-                >
-                  Export as Excel
-                </Button>
-              </Stack> */}
           </div>
         </div>
       </div>
@@ -325,7 +315,7 @@ const BlockClassesPage = () => {
         </div>
       </div>
       <div className={BlockClassessCSS.bottomButtons}>
-        <div className={BlockClassessCSS.middle}>
+        <div className={BlockClassessCSS.middle} >
           <Stack spacing={2} direction="row">
             <Button
               style={{ textTransform: "none" }}
