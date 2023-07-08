@@ -23,17 +23,11 @@ const StyledTableCellID = styled(TableCell)({
 });
 
 const StyleTable = styled(Table)({
-    // borderCollapse: 'collapse',
-    // '& th': {
-    //   fontWeight: 'bold',
-    //   backgroundColor: '#f2f2f2',
-    //   padding: '8px',
-    // },
-    // '& td': {
-    //   border: '1px solid #ddd',
-    //   padding: '8px',
-    // },
-  });
+  height: '34.1rem',
+   display: 'flex',
+   justifyContent: 'space-between',
+   flexDirection: 'column'
+ });
   
   const StyledTableCellLeft = styled(TableCell)({
     fontWeight: 'bold',
@@ -192,7 +186,7 @@ const TableStudentsList = ({standing, setDataChild, yearButton, blockButton}) =>
         onPageChange={handleChangePage}
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        rowsPerPageOptions={[10, 25, 50, 100]}
+        rowsPerPageOptions={[15, 25, 50, 100]}
       
       />
       </StickyPagination>

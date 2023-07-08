@@ -23,10 +23,12 @@ const StyledTableCellID = styled(TableCell)({
   fontWeight: 'bold',
   backgroundColor: '#f7f4f4',
 });
-
 const StyleTable = styled(Table)({
-
-  });
+  height: '34.7rem',
+   display: 'flex',
+   justifyContent: 'space-between',
+   flexDirection: 'column'
+ });
   
   const StyledTableCellLeft = styled(TableCell)({
     fontWeight: 'bold',

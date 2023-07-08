@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, TableHead, TableRow, TableCell, TableBody, TablePagination } from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, TablePagination, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';;
 import 'jspdf-autotable';
 import TableStudyPlanCSS from './TableStudyPlan.module.css'
@@ -26,7 +26,10 @@ const StyledTableCellID = styled(TableCell)({
 });
 
 const StyleTable = styled(Table)({
-
+   height: '32rem',
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'column'
   });
   
   const StyledTableCellLeft = styled(TableCell)({
@@ -230,6 +233,7 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
   
   return (
     <div className={TableStudyPlanCSS.studyPlanTableWrapper}>
+
     <StyleTable>
     <Table>
       <StyledTableHead>
@@ -282,6 +286,7 @@ const TableStudyPlan = ({selectedStudent, generatedSchedules, genClicked, setGen
       
       />
       </StickyPagination>
+  
     </div>
   );
 };

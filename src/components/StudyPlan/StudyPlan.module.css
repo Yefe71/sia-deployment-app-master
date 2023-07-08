@@ -44,14 +44,15 @@
 .tablesWrapper{
     display: flex;
     gap: 20px;
-    width: 85vw;
+    width: 110rem;
+  
     justify-content: space-between;
 }
 
 .tableWrapperLeft{
     position: relative;
 
-    height: 66vh;
+    height: 35.5rem;
     border-radius: 1rem;
     z-index: 2;
     overflow-y: hidden;
@@ -64,8 +65,9 @@
 
 }
 .tableWrapperRight{
+  
     position: relative;
-    height: 66vh;
+    height: 35.5rem;
     background: white;
     border-radius: 1rem;
     z-index: 2;
@@ -73,7 +75,7 @@
     box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 15px;
     outline: 1px solid #d9d8d8;
  
-    position: relative; 
+  
     
 }
 .containerWrapperRight{

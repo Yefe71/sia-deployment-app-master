@@ -305,7 +305,7 @@ const BlockClassesPage = () => {
         <div className={BlockClassessCSS.topTableBottom}>
           <h2>Class List</h2>
         </div>
-        <div className={BlockClassessCSS.tableWrapper}>
+        <div className={BlockClassessCSS.tableWrapper2}>
           <TableStudentsList
             standing={standing}
             yearButton={year}

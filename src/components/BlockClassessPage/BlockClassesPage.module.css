@@ -11,7 +11,7 @@
     
     display: flex;
     justify-content: space-between;
-    width: 75vw;
+    width: 89rem;
     margin: 0;
     padding: 0;
     align-items: center;
@@ -21,7 +21,7 @@
     
     display: flex;
     justify-content: space-between;
-    width: 75vw;
+    width: 89rem;
     margin: 0;
     padding: 0;
     align-items: center;
@@ -53,8 +53,17 @@
 
 .tableWrapper{
   
-    width: 75vw;
-    height: 65vh;
+    width: 89rem;
+    height: 39rem;
+    background: #f1f1f1;
+    border-radius: 1rem;
+    z-index: 2;
+    position: relative;
+}
+.tableWrapper2{
+  
+    width: 89rem;
+    height: 37.6rem;
     background: #f1f1f1;
     border-radius: 1rem;
     z-index: 2;
@@ -63,6 +72,15 @@
 
 
 .tableWrapper{
+
+
+   overflow-y: scroll;
+   background: #efeeee;
+   box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 15px;
+    outline: 1px solid #d9d8d8;
+
+}
+.tableWrapper2{
 
 
    overflow-y: scroll;
