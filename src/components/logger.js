@@ -5,4 +5,5 @@ function customLogger(message) {
   }
   
   console.log = customLogger;
-  
+  console.warn = customLogger;
+console.error = customLogger;

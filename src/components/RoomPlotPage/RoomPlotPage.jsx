@@ -110,7 +110,7 @@ const RoomPlotPage = () => {
         <FormControl
           sx={{
             mr: 0.6,
-            minWidth: isSmallScreen ? 90 : 120,
+            minWidth: isSmallScreen ? 90 : 136,
           }}
         >
           <Select
