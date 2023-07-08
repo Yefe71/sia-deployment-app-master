@@ -2163,7 +2163,7 @@ countStudentsByYearAndBlock(students, year, block) {
                     className={SchedulerFacultyCSS.profModalBoxParent}
                     sx={styleProf}
                   >
-                    <ProfessorTable onCloseProp={this.handleCloseProf} />
+                    <ProfessorTable dataChangeTrigger = {this.props.dataChangeTrigger} onCloseProp={this.handleCloseProf} />
                   </Box>
                 </Modal>
 
@@ -2361,6 +2361,7 @@ export default class SchedulerFaculty extends React.PureComponent {
         majorCourses: this.state.majorCourses,
         coursesColors: this.state.coursesColors,
         isStudent: this.props.isStudent,
+        dataChangeTrigger: this.props.dataChangeTrigger
       };
     });
   }

@@ -138,7 +138,7 @@ class ChartLoad extends Component {
               options={this.state.options}
               series={this.state.series}
               type="bar"
-              width={"580"}
+              width={"510"}
             height = {"1000"}
             />
           </div>

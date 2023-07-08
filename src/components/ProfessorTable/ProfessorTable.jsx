@@ -76,7 +76,7 @@ const useStyles = () =>
   });
   
 
-function ProfessorTable({onCloseProp}) {
+function ProfessorTable({onCloseProp, dataChangeTrigger}) {
   // Creating style object
   const classes = useStyles();
   const [deleteIndex, setDeleteIndex] = useState(null);
@@ -87,8 +87,8 @@ function ProfessorTable({onCloseProp}) {
         try {
           const response = await fetch(`http://localhost:3000/grabProfessors`);
           const data = await response.json();
-          const rows = data.map((item) => ({
-            // id: item.id,
+          const sortedData = data.sort((a, b) => a.last_name.localeCompare(b.last_name));
+          const rows = sortedData.map((item) => ({
             lastname: item.last_name,
             middlename: item.middle_name,
             firstname: item.first_name,
@@ -115,8 +115,8 @@ function ProfessorTable({onCloseProp}) {
         try {
           const response = await fetch(`http://localhost:3000/grabProfessors`);
           const data = await response.json();
-          const rows = data.map((item) => ({
-            // id: item.id,
+          const sortedData = data.sort((a, b) => a.last_name.localeCompare(b.last_name));
+          const rows = sortedData.map((item) => ({
             lastname: item.last_name,
             middlename: item.middle_name,
             firstname: item.first_name,
@@ -151,7 +151,7 @@ function ProfessorTable({onCloseProp}) {
     const [rowsEdit, setRowsEdit] = useState([]);
 
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(7);
+    const [rowsPerPage, setRowsPerPage] = useState(6);
   // Initial states
     const [open, setOpen] = React.useState(false);
     const [isEdit, setEdit] = React.useState(false);
@@ -200,7 +200,7 @@ function ProfessorTable({onCloseProp}) {
 
 
     setRows(rowsEdit);
- 
+    dataChangeTrigger();
     setDisable(false);
     setOpen(true);
 
@@ -689,7 +689,7 @@ function ProfessorTable({onCloseProp}) {
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-          rowsPerPageOptions={[7, 25, 50, 100]}
+          rowsPerPageOptions={[6, 25, 50, 100]}
   
         />
         </StickyPagination>
