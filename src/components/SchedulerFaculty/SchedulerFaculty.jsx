@@ -199,7 +199,7 @@ const FormOverlay = React.forwardRef(
   }
 );
 
-const Appointment = ({ professorNames, children, style, isStudent, ...restProps }) => {
+const Appointment = ({ filterClicked, professorNames, children, style, isStudent, ...restProps }) => {
   const { data } = restProps; // Destructure data from restProps
   const contentStyle = {
     color: "white",
@@ -243,6 +243,7 @@ const Appointment = ({ professorNames, children, style, isStudent, ...restProps 
       style={{
         overflowY: "scroll",
         backgroundColor: `rgba(${data.color.r}, ${data.color.g}, ${data.color.b}, ${data.color.a})`,
+        display: filterClicked ? "block" : "none",
         cursor:
           isStudent && isMajor
             ? "not-allowed"
@@ -2241,6 +2242,7 @@ export default class SchedulerFaculty extends React.PureComponent {
     this.state = {
       data: [],
       newData: [],
+      noData: [],
       currentDate: "2023-01-07",
       confirmationVisible: false,
       editingFormVisible: false,
@@ -2268,6 +2270,8 @@ export default class SchedulerFaculty extends React.PureComponent {
       majorCourses: {},
       coursesColors: {},
       professorNames: [],
+      filterClicked: false,
+      updateRan: 0
     };
 
     this.toggleConfirmationVisible = this.toggleConfirmationVisible.bind(this);
@@ -2383,11 +2387,22 @@ export default class SchedulerFaculty extends React.PureComponent {
     this.setState({ clicked: isCreateClicked });
   };
 
-  applyFilter = () => {
+  applyFilter = (updateRan) => {
     console.log(this.props.professorName, "I'M THE PROFESSOR");
 
     console.log(this.state.data, "I'm the data");
     //if no year and block and professor, show all data
+
+    this.setState({updateRan: this.state.updateRan + 1}, () => {
+      if (this.state.updateRan >= 5){
+        this.setState({filterClicked: true}, () => {
+          console.log
+         console.log("FILTER TRUE RAN!!!!!!!!!!")
+        })
+       
+      }
+    
+    })
     if (
       !this.props.year &&
       this.props.block.length === 0 &&
@@ -2471,9 +2486,20 @@ export default class SchedulerFaculty extends React.PureComponent {
       );
       this.updateNewData(filteredData);
     }
+
+    
   };
 
   applyFilterRoom = () => {
+    
+    this.setState({updateRan: this.state.updateRan + 1}, () => {
+      if (this.state.updateRan >= 5){
+        this.setState({filterClicked: true}, () => {
+          console.log
+         console.log("FILTER TRUE RAN!!!!!!!!!!")
+        })
+       
+      }})
     if (this.props.room) {
       console.log("i ran room");
       const filteredData = this.state.data.filter(
@@ -2540,7 +2566,9 @@ export default class SchedulerFaculty extends React.PureComponent {
 
   async componentDidUpdate(prevProps, prevState) {
     this.appointmentForm.update();
-
+    console.log(this.state.updateRan, "room")
+    console.log(this.state.filterClicked, "CLICKED")
+  
     if (
       this.props.year !== prevProps.year ||
       this.props.block !== prevProps.block ||
@@ -2549,7 +2577,9 @@ export default class SchedulerFaculty extends React.PureComponent {
       console.log("TUMATAKBO BAKO O HINDE");
       this.fetchDataButtonsSched();
       this.applyFilter();
+          
     }
+
     if (this.props.room !== prevProps.room) {
       this.applyFilterRoom();
     }
@@ -2558,9 +2588,6 @@ export default class SchedulerFaculty extends React.PureComponent {
       console.log("CHANGE");
       this.updateCurrentUnits();
       this.fetchAllProfData();
-
-
-      
     }
 
     if (!prevState.isConflict && this.state.isConflict) {
@@ -3294,6 +3321,10 @@ updateMinorsData = async (oldValues, newValues) => {
       block,
       year,
       clicked,
+      filterClicked,
+      noData,
+      updateRan
+      
     } = this.state;
 
     return (
@@ -3325,9 +3356,9 @@ updateMinorsData = async (oldValues, newValues) => {
               <EditRecurrenceMenu />
 
               {/* <Appointments appointmentComponent={Appointment} /> */}
-              <Appointments
+              <Appointments 
                 appointmentComponent={(props) => (
-                  <Appointment {...props} professorNames={this.state.professorNames} isStudent={this.props.isStudent} />
+                  <Appointment filterClicked = {filterClicked} {...props} professorNames={this.state.professorNames} isStudent={this.props.isStudent} />
                 )}
               />
 
