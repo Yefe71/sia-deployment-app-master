@@ -149,6 +149,7 @@ const FormOverlay = React.forwardRef(
             display: "flex",
             gap: "1rem",
             justifyContent: "center",
+            alignItems: "center"
           }}
         >
           {isStudent === false ? (
@@ -172,7 +173,7 @@ const FormOverlay = React.forwardRef(
                   padding: 1,
                   paddingBottom: "0px",
                   borderRadius: "15px",
-                  height: "36rem",
+                  height: "40rem",
                   // transform: "translate(-50%, -50%)",
                 }}
               >

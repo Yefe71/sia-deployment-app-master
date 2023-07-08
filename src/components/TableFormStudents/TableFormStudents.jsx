@@ -46,7 +46,12 @@ const StyledTableCellID = styled(TableCell)({
   backgroundColor: "#f7f4f4",
 });
 
-const StyleTable = styled(Table)({});
+const StyleTable = styled(Table)({
+  height: '33.5rem',
+   display: 'flex',
+   justifyContent: 'space-between',
+   flexDirection: 'column'
+ });
 
 const StyledTableCellLeft = styled(TableCell)({
   fontWeight: "bold",
@@ -218,7 +223,7 @@ const TableFormStudents = forwardRef(
     return (
       <>
         <StyleTable>
-          <Table>
+          <Table >
             <StyledTableHead>
               <StyledTableRow>
                 <StyledTableCellID>ID</StyledTableCellID>
@@ -236,7 +241,7 @@ const TableFormStudents = forwardRef(
             </StyledTableHead>
             <TableBody>
             {data
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => {
                 const matchingSchedule = schedules.find(schedule => 
                   schedule.year === row.year &&
@@ -271,7 +276,7 @@ const TableFormStudents = forwardRef(
                     }}
                     className={row.id === clickedRow ? 'clicked' : ''}
                   >
-                    <TableCell>{page * rowsPerPage + index + 1}</TableCell>
+                    <TableCell>{rowsPerPage + index + 1}</TableCell>
                     <TableCell>{row.professor_name}</TableCell>
                     <TableCell>{row.year}</TableCell>
                     <TableCell>{row.course_name}</TableCell>
@@ -287,7 +292,7 @@ const TableFormStudents = forwardRef(
             </TableBody>
           </Table>
         </StyleTable>
-        <StickyPagination>
+        {/* <StickyPagination>
           <TablePagination
             component="div"
             count={data.length}
@@ -297,7 +302,7 @@ const TableFormStudents = forwardRef(
             onRowsPerPageChange={handleChangeRowsPerPage}
             rowsPerPageOptions={[7, 14, 21, 28, 35]}
           />
-        </StickyPagination>
+        </StickyPagination> */}
       </>
     );
   }
