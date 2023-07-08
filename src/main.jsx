@@ -4,7 +4,7 @@ import App from './container/App'
 import './index.css'
 import { ToastContainer } from 'react-toastify'
 import { log } from 'loglevel'
-// import '../src/components/logger';
+import '../src/components/logger';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
