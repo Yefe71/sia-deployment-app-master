@@ -23,19 +23,11 @@ const StyledTableCellID = styled(TableCell)({
 });
 
 const StyleTable = styled(Table)({
-    // borderCollapse: 'collapse',
-    // '& th': {
-    //   fontWeight: 'bold',
-    //   backgroundColor: '#f2f2f2',
-    //   padding: '8px',
-    // },
-    // '& td': {
-    //   border: '1px solid #ddd',
-    //   padding: '8px',
-    // },
-
-    
-  });
+  height: '67.9rem',
+   display: 'flex',
+   justifyContent: 'space-between',
+   flexDirection: 'column'
+ });
   
   const StyledTableCellLeft = styled(TableCell)({
     fontWeight: 'bold',
