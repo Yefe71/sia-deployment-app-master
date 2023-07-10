@@ -144,10 +144,16 @@ form{
     visibility:hidden;
 
 }
-
+.custom-toast {
+    color: #fff;
+    background: rgb(95, 56, 56);
+    border-radius: 20px;
+    font-family: Poppins;
+    width: fit-content !important;
+  }
 .left{
     display: flex;
-    gap: 10px;
+    gap: 7px;
 }
 
 /* .topButtons{

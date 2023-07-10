@@ -16,7 +16,9 @@ import dayjs from 'dayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { OutlinedInput } from '@mui/material';
 import SchedulerFaculty from '../SchedulerFaculty/SchedulerFaculty';
+import ClearIcon from '@mui/icons-material/Clear';
 import * as XLSX from 'xlsx/xlsx.mjs';
+import { ToastContainer, toast } from "react-toastify";
 const SubjectAssignPageStudent = () => {
 
   const handleClick = () => {
@@ -308,30 +310,56 @@ const handleYearBlockAdd = (year, block) => {
       let year = dateArr[2];
       return year + '-' + month + '-' + day;
     }
+
+    const [file, setFile] = useState(null)
+    const [fileName, setFileName] = useState(null)
+    const [isDisabled, setIsDisabled] = useState(true)
     
     function handleFileUpload(e) {
       e.preventDefault();
       if (e.target.files) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          const data = e.target.result;
-          const workbook = XLSX.read(data, { type: "array" });
-          const sheetName = workbook.SheetNames[0];
-          const worksheet = workbook.Sheets[sheetName];
-          const json = XLSX.utils.sheet_to_json(worksheet);
-          
-          // Iterate over each row in the JSON array
-          json.forEach(row => {
-            // Convert the "day" value to a human-readable date format
-            row.day = ExcelDateToJSDate(row.day);
+          try{
+            const data = e.target.result;
+            const workbook = XLSX.read(data, { type: "array" });
+            const sheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[sheetName];
+            const json = XLSX.utils.sheet_to_json(worksheet);
             
-            // Convert "start_date" and "end_date" to the desired format
-            row.start_date = new Date(row.start_date).toISOString();
-            row.end_date = new Date(row.end_date).toISOString();
-          });
-    
-          console.log(json);
+            // Iterate over each row in the JSON array
+            json.forEach(row => {
+              // Convert the "day" value to a human-readable date format
+              row.day = ExcelDateToJSDate(row.day);
+              
+              // Convert "start_date" and "end_date" to the desired format
+              row.start_date = new Date(row.start_date).toISOString();
+              row.end_date = new Date(row.end_date).toISOString();
+            });
+            setFile(json)
+            setIsDisabled(false)
+            
+          }catch(error){
+            console.log(error)
+            toast.error(`Incorrect Format`, {
+              position: toast.POSITION.BOTTOM_CENTER,
+              className: SubjectAssignCSS["custom-toast"],
+              style: {
+                borderRadius: "10px",
+                background: "#ffffff",
+                color: "#0b0b0b",
+                fontFamily: "Roboto",
+                fontSize: "15px",
+                zIndex: 3,
+              },
+            });
+            setIsDisabled(true)
+          }
+ 
+          
+         
         };
+        setFileName(e.target.files[0].name)
         reader.readAsArrayBuffer(e.target.files[0]);
       }
     }
@@ -451,28 +479,7 @@ const handleYearBlockAdd = (year, block) => {
         </div>
         <div className={SubjectAssignCSS.bottomButtons}>
           <div className={SubjectAssignCSS.left}>
-     <Stack spacing={2} direction="row">
-              <Button
-                // onClick={handleClick}
-                style={{ textTransform: "none" }}
-                sx={{
-                  backgroundColor: "#e73f31",
-                  color: "white",
-                  borderRadius: "0.5rem",
-                  fontFamily: "Poppins",
-                  fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
-                  padding: "0rem",
-                  padding: "0.9rem",
-                  "&:hover": {
-                    backgroundColor: "#dd3e30", // Change the hover background color here
-                  },
-                }}
-                variant="contained"
-              >
-                Clear
-              </Button>
-              
-            </Stack>
+            
           <Stack spacing={2} direction="row">
               <Button
                 // onClick={handleClick}
@@ -488,11 +495,12 @@ const handleYearBlockAdd = (year, block) => {
                   "&:hover": {
                     backgroundColor: "#33a141", // Change the hover background color here
                   },
+                  // width: "14rem"
                 }}
                 component="label"
                 variant="contained"
               >
-                Upload Minors CSV  
+                {fileName ? fileName : "Upload Minors XLSX"} 
                 <input
                   type="file"
                   accept=".xlsx, .xls"
@@ -502,6 +510,33 @@ const handleYearBlockAdd = (year, block) => {
               </Button>
               
             </Stack>
+            
+            <Stack spacing={2} direction="row">
+            
+              <Button
+                onClick={handleClick}
+                style={{ textTransform: "none" }}
+                disabled = {isDisabled ? true : false}
+                sx={{
+                  backgroundColor: "#007bff",
+                  color: "white",
+                  borderRadius: "0.5rem",
+                  fontFamily: "Poppins",
+                  fontSize: isSmallScreen ? "0.6rem" : "0.9rem",
+                  padding: "0rem",
+                  padding: "0.9rem",
+                  "&:hover": {
+                    backgroundColor: "#0070e7", // Change the hover background color here
+                  },
+                }}
+                variant="contained"
+              >
+                Insert Data
+              </Button>
+              
+            </Stack>
+
+        
           
           </div>
           <div className={SubjectAssignCSS.middle}>
