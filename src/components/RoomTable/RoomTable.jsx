@@ -87,24 +87,24 @@ function RoomTable({onCloseProp}) {
 
 
 
-    useEffect(() => {
-      const fetchRooms = async () => {
-        try {
-          const response = await fetch(`http://localhost:3000/grabRooms`);
-          const data = await response.json();
-          const rows = data.map((item) => ({
-            roomname: item.room_name,
-          }));
-          setRowsEdit(rows);
+    // useEffect(() => {
+    //   const fetchRooms = async () => {
+    //     try {
+    //       const response = await fetch(`http://localhost:3000/grabRooms`);
+    //       const data = await response.json();
+    //       const rows = data.map((item) => ({
+    //         roomname: item.room_name,
+    //       }));
+    //       setRowsEdit(rows);
     
-        } catch (error) {
-          console.log(error);
-        }
-      };
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   };
   
   
-      fetchRooms();
-    }, []);
+    //   fetchRooms();
+    // }, []);
   
 
 

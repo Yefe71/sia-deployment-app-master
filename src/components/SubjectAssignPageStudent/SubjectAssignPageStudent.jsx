@@ -163,7 +163,6 @@ const SubjectAssignPageStudent = () => {
   const [blockChild, setBlockChild] = useState([])
   const [year, setYear] = useState([])
   const [professorNames, setProfessorNames] = useState([])
-  
   const [selectedProfessor, setSelectedProfessor] = useState([])
 
 
@@ -270,10 +269,41 @@ const handleYearBlockAdd = (year, block) => {
     }
   }
 
+  const [schedules, setSchedules] = useState([])
+  const fetchSchedules = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/grabSchedules`);
+      const data = await response.json();
+      const rows = data.map((item) => ({
+        id: item.id,
+        color: item.color,
+        startDate: item.start_date,
+        endDate: item.end_date,
+        professorName: item.professor_name,
+        year: item.year,
+        block: item.block,
+        courseName: item.course_name,
+        courseCode: item.course_code,
+        actualUnits: item.actual_units,
+        units: item.units,
+        classType: item.class_type,
+        room: item.room,
+        day: dayjs(item.day).format("YYYY-MM-DD"),
+        currentCapacity: item.current_capacity,
+        maxCapacity: item.max_capacity,
+        TBA: item.TBA
+      }));
+      setSchedules(rows)
+   
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect( () => {
 
     fetchProfNames()
-
+    fetchSchedules()
   }, [])
 
     useLayoutEffect(() => {
@@ -336,6 +366,7 @@ const handleYearBlockAdd = (year, block) => {
               row.start_date = new Date(row.start_date).toISOString();
               row.end_date = new Date(row.end_date).toISOString();
             });
+            console.log(json)
             setFile(json)
             setIsDisabled(false)
             
@@ -363,8 +394,21 @@ const handleYearBlockAdd = (year, block) => {
         reader.readAsArrayBuffer(e.target.files[0]);
       }
     }
+
+
+    const handleInsert = (uploadedFile) => {
+   
+     //server instructions
+     // only pass the uploaded file from frontend to backend
+     // in the backend, use sql to grab professors table and schedules table
+     // grab all the schedules that matches a professor in the professors table
+     // use the uploaded file from the front end, and append to it the filtered data from
+     // the previous step.
+
+      }
     
     
+
   return (
     <>
       <div className={SubjectAssignCSS.topTableWrapper}>
@@ -478,7 +522,7 @@ const handleYearBlockAdd = (year, block) => {
           <SchedulerFaculty isStudent = {true} handleYearBlockAdd = {handleYearBlockAdd} setIsEditConflict = {setIsEditConflict} setIsNewSched = {setIsNewSched} setYearParent={setYear} setBlockParent={setBlock}  clicked={isCreateClicked}  handleClickFromChild = {handleClickFromChild} onDataReceived={handleDataFromChild} readOnly = {false} ref={childComponentRef} selectedProfessorParent = {setSelectedProfessor} professorName = {selectedProfessor} year={year} block={block} setBlockChild={setBlockChild}/>
         </div>
         <div className={SubjectAssignCSS.bottomButtons}>
-          <div className={SubjectAssignCSS.left}>
+          <div className={SubjectAssignCSS.left} style = {{display: "none"}}>
             
           <Stack spacing={2} direction="row">
               <Button
@@ -514,7 +558,7 @@ const handleYearBlockAdd = (year, block) => {
             <Stack spacing={2} direction="row">
             
               <Button
-                onClick={handleClick}
+                onClick={handleInsert}
                 style={{ textTransform: "none" }}
                 disabled = {isDisabled ? true : false}
                 sx={{

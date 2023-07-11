@@ -1445,6 +1445,7 @@ countStudentsByYearAndBlock(students, year, block) {
                             <MenuItem value={2}>2nd Year</MenuItem>
                             <MenuItem value={3}>3rd Year</MenuItem>
                             <MenuItem value={4}>4th Year</MenuItem>
+                            <MenuItem value={5}>4th Year</MenuItem>
                           </Select>
                         </FormControl>
                       ) : this.props.isStudent === true && !isNewAppointment ? (
@@ -1762,6 +1763,9 @@ countStudentsByYearAndBlock(students, year, block) {
                             </MenuItem>
                             <MenuItem value={"Asynchronous Online"}>
                               Async Online
+                            </MenuItem>
+                            <MenuItem value={"Blended"}>
+                              Blended
                             </MenuItem>
                           </Select>
                         </FormControl>
@@ -2877,8 +2881,8 @@ export default class SchedulerFaculty extends React.PureComponent {
   doesScheduleOverlap(newSchedule, existingSchedules, isUpdate = false) {
     let conflictDescriptions = [];
 
-    if (newSchedule.classType !== "F2F")
-      return { conflict: false, description: conflictDescriptions.join(", ") };
+    // if (newSchedule.classType !== "F2F" || (newSchedule.classType !== "Blended" && newSchedule.room !== "TBA") ||  newSchedule.room !== "TBA" )
+    //   return { conflict: false, description: conflictDescriptions.join(", ") };
 
     for (let existing of existingSchedules) {
       let conflicts = [];
@@ -2900,7 +2904,12 @@ export default class SchedulerFaculty extends React.PureComponent {
         conflicts.push("year-block");
       }
       if (isTimeConflict && existing.room === newSchedule.room) {
-        conflicts.push("room");
+        
+        if (newSchedule.room !== "TBA"){
+          conflicts.push("room");
+        }
+      
+        
       }
       if (conflicts.length) {
         let conflictDescription = isTimeConflict 
